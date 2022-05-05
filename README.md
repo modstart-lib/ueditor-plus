@@ -2,6 +2,14 @@
 
 ![UEditor Plus](https://ms-assets.modstart.com/demo/UEditorPlus.jpg)
 
+
+
+## 在线演示
+
+- [https://open-demo.modstart.com/ueditor/dist-min/](https://open-demo.modstart.com/ueditor/dist-min/)
+
+
+
 ## 使用说明
 
 ### 第一步，下载浏览器
