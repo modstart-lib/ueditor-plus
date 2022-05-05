@@ -10,7 +10,6 @@ asp/upload
 node/upload
 dist/
 dist-min/
-build-to-modstart.sh
 ref/
 
 ###############
