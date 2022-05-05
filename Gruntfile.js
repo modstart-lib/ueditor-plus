@@ -41,7 +41,7 @@ module.exports = function (grunt) {
       packageJson.title +
       "\n * version: " +
       packageJson.version +
-      "\n\n";
+      "\n*/\n";
 
   //init
   (function () {
@@ -59,7 +59,7 @@ module.exports = function (grunt) {
             packageJson.title +
             "\n * version: " +
             packageJson.version +
-            "\n\n(function(){\n\n",
+            "\n*/\n(function(){\n\n",
           footer: "\n\n})();\n",
           process: function (src, s) {
             var filename = s.substr(s.indexOf("/") + 1);
@@ -77,7 +77,7 @@ module.exports = function (grunt) {
             packageJson.title +
             " parse\n * version: " +
             packageJson.version +
-            "\n\n(function(){\n\n",
+            "\n*/\n(function(){\n\n",
           footer: "\n\n})();\n"
         },
         src: Util.fetchScripts("ueditor.parse.js", Util.parseBasePath),
@@ -88,25 +88,31 @@ module.exports = function (grunt) {
         dest: distDir + "themes/default/css/ueditor.css"
       }
     },
-    // cssmin: {
-    //   options: {
-    //     banner: banner
-    //   },
-    //   files: {
-    //     expand: true,
-    //     cwd: distDir + "themes/default/css/",
-    //     src: ["*.css", "!*.min.css"],
-    //     dest: distDir + "themes/default/css/",
-    //     ext: ".min.css"
-    //   }
-    // },
+    cssmin: {
+      options: {
+        banner: banner
+      },
+      files: {
+        cwd: distDir,
+        src: [
+          '**/*.css',
+        ],
+        dest: distMinDir,
+        expand: true
+      }
+    },
     uglify: {
-      static: {
-        options: {
-          banner: banner
-        },
-        src: distDir + "/*/**.js",
-        dest: distMinDir
+      options: {
+        banner: banner
+      },
+      files: {
+        cwd: distDir,
+        src: [
+          '**/*.js',
+          '!third-party/zeroclipboard/ZeroClipboard.js',
+        ],
+        dest: distMinDir,
+        expand: true
       },
     },
     copy: {
@@ -125,6 +131,16 @@ module.exports = function (grunt) {
               "plugins/**",
             ],
             dest: distDir
+          }
+        ]
+      },
+      dist: {
+        files: [
+          {
+            cwd: distDir,
+            src: '**/*',
+            dest: distMinDir,
+            expand: true
           }
         ]
       },
@@ -190,7 +206,9 @@ module.exports = function (grunt) {
       "copy:base",
       "copy:demo",
       "replace:demo",
-      "uglify:static",
+      "copy:dist",
+      "uglify:files",
+      "cssmin:files",
       "clean"
     ];
 
