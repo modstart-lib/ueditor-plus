@@ -34,13 +34,7 @@ module.exports = function (grunt) {
       }
     },
     packageJson = grunt.file.readJSON("package.json"),
-    disDir = "dist/",
-    banner =
-      "/*!\n * " +
-      packageJson.name +
-      "\n * version: " +
-      packageJson.version +
-      "\n * build: <%= new Date() %>\n */\n\n";
+    disDir = "dist/";
 
   //init
   (function () {
@@ -58,8 +52,7 @@ module.exports = function (grunt) {
             packageJson.name +
             "\n * version: " +
             packageJson.version +
-            "\n * build: <%= new Date() %>\n */\n\n" +
-            "(function(){\n\n",
+            "\n\n(function(){\n\n",
           footer: "\n\n})();\n",
           process: function (src, s) {
             var filename = s.substr(s.indexOf("/") + 1);
@@ -77,8 +70,7 @@ module.exports = function (grunt) {
             packageJson.name +
             " parse\n * version: " +
             packageJson.version +
-            "\n * build: <%= new Date() %>\n */\n\n" +
-            "(function(){\n\n",
+            "\n\n(function(){\n\n",
           footer: "\n\n})();\n"
         },
         src: Util.fetchScripts("ueditor.parse.js", Util.parseBasePath),
