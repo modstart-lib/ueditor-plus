@@ -16,9 +16,9 @@ npm install
 npm run build
 ```
 
-### 第二步：在浏览器打开 _examples/index.html ###
+### 第二步：打开浏览器 ###
 
-进入到目录 `dist` , 使用浏览器打开文件 `_examples/index.html` 。
+进入到目录 `dist` , 使用浏览器打开文件 `index.html` 。
 
 
 
