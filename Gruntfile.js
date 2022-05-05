@@ -34,11 +34,18 @@ module.exports = function (grunt) {
       }
     },
     packageJson = grunt.file.readJSON("package.json"),
-    disDir = "dist/";
+    distDir = "dist/",
+    distMinDir = "dist-min/",
+    banner =
+      "/*!\n * " +
+      packageJson.title +
+      "\n * version: " +
+      packageJson.version +
+      "\n\n";
 
   //init
   (function () {
-    disDir = "dist/";
+    distDir = "dist/";
   })();
 
   var dateHash = (new Date()).getTime();
@@ -62,7 +69,7 @@ module.exports = function (grunt) {
           }
         },
         src: Util.fetchScripts("_examples/editor_api.js", Util.jsBasePath),
-        dest: disDir + packageJson.name + ".all.js"
+        dest: distDir + packageJson.name + ".all.js"
       },
       parse: {
         options: {
@@ -74,11 +81,11 @@ module.exports = function (grunt) {
           footer: "\n\n})();\n"
         },
         src: Util.fetchScripts("ueditor.parse.js", Util.parseBasePath),
-        dest: disDir + packageJson.name + ".parse.js"
+        dest: distDir + packageJson.name + ".parse.js"
       },
       css: {
         src: Util.fetchStyles(),
-        dest: disDir + "themes/default/css/ueditor.css"
+        dest: distDir + "themes/default/css/ueditor.css"
       }
     },
     // cssmin: {
@@ -87,36 +94,21 @@ module.exports = function (grunt) {
     //   },
     //   files: {
     //     expand: true,
-    //     cwd: disDir + "themes/default/css/",
+    //     cwd: distDir + "themes/default/css/",
     //     src: ["*.css", "!*.min.css"],
-    //     dest: disDir + "themes/default/css/",
+    //     dest: distDir + "themes/default/css/",
     //     ext: ".min.css"
     //   }
     // },
-    // uglify: {
-    //   dist: {
-    //     options: {
-    //       banner: "/*!\n * " +
-    //         packageJson.name +
-    //         "\n * version: " +
-    //         packageJson.version +
-    //         "\n * build: <%= new Date() %>\n */"
-    //     },
-    //     src: disDir + "<%= pkg.name %>.all.js",
-    //     dest: disDir + "<%= pkg.name %>.all.min.js"
-    //   },
-    //   parse: {
-    //     options: {
-    //       banner: "/*!\n * " +
-    //         packageJson.name +
-    //         " parse\n * version: " +
-    //         packageJson.version +
-    //         "\n * build: <%= new Date() %>\n */"
-    //     },
-    //     src: disDir + "<%= pkg.name %>.parse.js",
-    //     dest: disDir + "<%= pkg.name %>.parse.min.js"
-    //   }
-    // },
+    uglify: {
+      static: {
+        options: {
+          banner: banner
+        },
+        src: distDir + "/*/**.js",
+        dest: distMinDir
+      },
+    },
     copy: {
       base: {
         files: [
@@ -132,7 +124,7 @@ module.exports = function (grunt) {
               "third-party/**",
               "plugins/**",
             ],
-            dest: disDir
+            dest: distDir
           }
         ]
       },
@@ -140,7 +132,7 @@ module.exports = function (grunt) {
         files: [
           {
             src: "_examples/completeDemo.html",
-            dest: disDir + "index.html"
+            dest: distDir + "index.html"
           }
         ]
       },
@@ -150,15 +142,15 @@ module.exports = function (grunt) {
         charset: 'utf-8'
       },
       src: [
-        disDir + "**/*.html",
-        disDir + "**/*.js",
-        disDir + "**/*.css",
-        disDir + "**/*.json",
+        distDir + "**/*.html",
+        distDir + "**/*.js",
+        distDir + "**/*.css",
+        distDir + "**/*.json",
       ]
     },
     replace: {
       demo: {
-        src: disDir + "index.html",
+        src: distDir + "index.html",
         overwrite: true,
         replacements: [
           {
@@ -175,12 +167,10 @@ module.exports = function (grunt) {
     clean: {
       build: {
         src: [
-          disDir + "jsp/src",
-          disDir + "*/upload",
-          disDir + ".DS_Store",
-          disDir + "**/.DS_Store",
-          disDir + ".git",
-          disDir + "**/.git"
+          distDir + ".DS_Store",
+          distDir + "**/.DS_Store",
+          distDir + ".git",
+          distDir + "**/.git"
         ]
       }
     }
@@ -200,6 +190,7 @@ module.exports = function (grunt) {
       "copy:base",
       "copy:demo",
       "replace:demo",
+      "uglify:static",
       "clean"
     ];
 
@@ -215,7 +206,7 @@ module.exports = function (grunt) {
     var filename = "ueditor.config.js",
       file = grunt.file.read(filename);
     //写入到dist
-    if (grunt.file.write(disDir + filename, file)) {
+    if (grunt.file.write(distDir + filename, file)) {
       grunt.log.writeln("config file update success");
     } else {
       grunt.log.warn("config file update error");
