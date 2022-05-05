@@ -103,12 +103,14 @@
 }
 .edui-default .edui-editor-breadcrumb {
     margin: 2px 0 0 3px;
+  color: #666;
 }
 
 .edui-default .edui-editor-breadcrumb span {
     cursor: pointer;
-    text-decoration: underline;
-    color: blue;
+    color: #666;
+    line-height: 16px;
+    display: inline-block;
 }
 
 .edui-default .edui-toolbar .edui-for-fullscreen {

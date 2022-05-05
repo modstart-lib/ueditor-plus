@@ -15,7 +15,7 @@
     var editorOpt = {};
 
     window.onload = function(){
-        editorOpt = editor.getOpt('video');
+        editorOpt = editor.getOpt('videoConfig');
         $focus($G("videoUrl"));
         initTabs();
         initVideo();

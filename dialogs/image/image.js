@@ -12,7 +12,7 @@
     var editorOpt = {};
 
     window.onload = function () {
-        editorOpt = editor.getOpt('image');
+        editorOpt = editor.getOpt('imageConfig');
         initTabs();
         initAlign();
         initButtons();

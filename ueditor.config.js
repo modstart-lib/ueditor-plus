@@ -43,7 +43,7 @@
     UEDITOR_CORS_URL: CORS_URL,
 
     // 服务器统一请求接口路径
-    serverUrl: "./../_demo_server/handle.php",
+    serverUrl: "/ueditor/_demo_server/handle.php",
 
     //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
     toolbars: [
@@ -159,7 +159,7 @@
     }
 
     // 插入图片配置
-    , image: {
+    , imageConfig: {
       // 禁止本地上传
       disableUpload: false,
       // 禁止在线管理
@@ -178,7 +178,7 @@
     }
 
     // 插入视频配置
-    , video: {
+    , videoConfig: {
       // 禁止本地上传,
       disableUpload: false,
       // 自定义选择按钮
