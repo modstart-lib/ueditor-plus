@@ -49,7 +49,7 @@ module.exports = function (grunt) {
       js: {
         options: {
           banner: "/*!\n * " +
-            packageJson.name +
+            packageJson.title +
             "\n * version: " +
             packageJson.version +
             "\n\n(function(){\n\n",
@@ -67,7 +67,7 @@ module.exports = function (grunt) {
       parse: {
         options: {
           banner: "/*!\n * " +
-            packageJson.name +
+            packageJson.title +
             " parse\n * version: " +
             packageJson.version +
             "\n\n(function(){\n\n",

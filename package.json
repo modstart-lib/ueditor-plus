@@ -1,7 +1,7 @@
 {
-    "name": "ueditor",
-    "title": "ueditor",
-    "description": "UEditor富文本web编辑器",
+    "name": "ueditor-plus",
+    "title": "UEditorPlus",
+    "description": "基于 UEditor 的增强版富文本编辑器",
     "version": "2.0.0",
     "homepage": "http://ueditor.baidu.com/",
     "author": {
