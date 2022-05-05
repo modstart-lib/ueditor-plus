@@ -1,0 +1,395 @@
+/* toolbar icons */
+.edui-default .edui-for-undo .edui-icon:before {
+     content: "\e60f";
+}
+
+.edui-default  .edui-for-redo .edui-icon:before {
+    content: "\e60c";
+}
+
+.edui-default  .edui-for-bold .edui-icon:before {
+    content: "\e628";
+}
+
+.edui-default  .edui-for-italic .edui-icon:before {
+    content: "\e62a";
+}
+
+.edui-default  .edui-for-fontborder .edui-icon:before {
+    content: '\e62d';
+}
+.edui-default  .edui-for-underline .edui-icon:before {
+    content: "\e63e";
+}
+
+.edui-default  .edui-for-strikethrough .edui-icon:before {
+    content: "\e64a";
+}
+
+.edui-default  .edui-for-subscript .edui-icon:before {
+    content: "\ece9";
+}
+
+.edui-default  .edui-for-superscript .edui-icon:before {
+    content: "\e83e";
+}
+
+.edui-default  .edui-for-blockquote .edui-icon:before {
+    content: "\e6d8";
+}
+
+.edui-default  .edui-for-forecolor .edui-icon:before {
+    content: "\e7f8";
+}
+
+.edui-default  .edui-for-backcolor .edui-icon:before {
+    content: "\e71a";
+}
+
+.edui-default  .edui-for-inserttable .edui-icon:before {
+    content: "\e60d";
+}
+
+.edui-default  .edui-for-autotypeset .edui-icon:before {
+    content: "\e662";
+}
+
+.edui-default  .edui-for-justifyleft .edui-icon:before {
+    content: "\e7f7";
+}
+
+.edui-default  .edui-for-justifycenter .edui-icon:before {
+    content: "\e7f6";
+}
+
+.edui-default  .edui-for-justifyright .edui-icon:before {
+    content: "\e7f5";
+}
+
+.edui-default  .edui-for-justifyjustify .edui-icon:before {
+    content: "\e87c";
+}
+
+.edui-default  .edui-for-insertorderedlist .edui-icon:before {
+    content: "\e737";
+}
+
+.edui-default  .edui-for-insertunorderedlist .edui-icon:before {
+    content: "\e7f4";
+}
+
+.edui-default  .edui-for-lineheight .edui-icon:before {
+    content: "\e638";
+}
+
+.edui-default  .edui-for-rowspacingbottom .edui-icon:before {
+    content: '\eb09';
+}
+
+.edui-default  .edui-for-rowspacingtop .edui-icon:before {
+    content: '\eb0a';
+}
+
+.edui-default  .edui-for-horizontal .edui-icon:before {
+    content: "\e617";
+}
+
+.edui-default  .edui-for-link .edui-icon:before {
+    content: "\e648";
+}
+
+.edui-default  .edui-for-code .edui-icon:before {
+    background-position: -440px -40px;
+}
+
+.edui-default  .edui-for-insertimage .edui-icon:before {
+    content: "\e605";
+}
+
+.edui-default  .edui-for-insertframe .edui-icon:before {
+    content: "\e6c0";
+}
+
+.edui-default  .edui-for-emoticon .edui-icon:before {
+    content: "\e60e";
+}
+
+.edui-default  .edui-for-spechars .edui-icon:before {
+    content: "\e891";
+}
+
+.edui-default  .edui-for-help .edui-icon:before {
+    content: "\e752";
+}
+
+.edui-default  .edui-for-print .edui-icon:before {
+    content: "\e67a";
+}
+
+.edui-default  .edui-for-preview .edui-icon:before {
+    content: "\e644";
+}
+
+.edui-default  .edui-for-selectall .edui-icon:before {
+    content: '\e62f';
+}
+
+.edui-default  .edui-for-searchreplace .edui-icon:before {
+    content: "\eb6c";
+}
+
+.edui-default  .edui-for-map .edui-icon:before {
+    content: "\e649";
+}
+
+.edui-default  .edui-for-insertvideo .edui-icon:before {
+    content: "\e636";
+}
+
+.edui-default  .edui-for-time .edui-icon:before {
+    content: "\e680";
+}
+
+.edui-default  .edui-for-date .edui-icon:before {
+    content: "\e697";
+}
+
+.edui-default  .edui-for-cut .edui-icon:before {
+    background-position: -680px 0;
+}
+
+.edui-default  .edui-for-copy .edui-icon:before {
+    background-position: -700px 0;
+}
+
+.edui-default  .edui-for-paste .edui-icon:before {
+    background-position: -560px 0;
+}
+
+.edui-default  .edui-for-formatmatch .edui-icon:before {
+    content: "\e637";
+}
+
+.edui-default  .edui-for-pasteplain .edui-icon:before {
+    content: '\edfb';
+}
+
+.edui-default  .edui-for-directionalityltr .edui-icon:before {
+    content: "\e623";
+}
+
+.edui-default  .edui-for-directionalityrtl .edui-icon:before {
+    content: "\e7bc";
+}
+
+.edui-default  .edui-for-source .edui-icon:before {
+    content: "\e608";
+}
+
+.edui-default  .edui-for-removeformat .edui-icon:before {
+    content: "\e782";
+}
+
+.edui-default  .edui-for-unlink .edui-icon:before {
+    content: "\e92b";
+}
+
+.edui-default  .edui-for-touppercase .edui-icon:before {
+    content: "\e619";
+}
+
+.edui-default  .edui-for-tolowercase .edui-icon:before {
+    content: "\e61a";
+}
+
+.edui-default  .edui-for-insertrow .edui-icon:before {
+    content: "\e603";
+}
+
+.edui-default  .edui-for-insertrownext .edui-icon:before {
+    content: "\e602";
+}
+
+.edui-default  .edui-for-insertcol .edui-icon:before {
+    content: "\e601";
+}
+
+.edui-default  .edui-for-insertcolnext  .edui-icon:before {
+    content: "\e600";
+}
+
+.edui-default  .edui-for-mergeright .edui-icon:before {
+    content: "\e615";
+}
+
+.edui-default  .edui-for-mergedown .edui-icon:before {
+    content: "\e613";
+}
+
+.edui-default  .edui-for-splittorows .edui-icon:before {
+    content: "\e610";
+}
+
+.edui-default  .edui-for-splittocols .edui-icon:before {
+    content: "\e611";
+}
+
+.edui-default  .edui-for-insertparagraphbeforetable .edui-icon:before {
+    content: '\e901';
+}
+
+.edui-default  .edui-for-deleterow .edui-icon:before {
+    content: "\e609";
+}
+
+.edui-default  .edui-for-deletecol .edui-icon:before {
+    content: "\e604";
+}
+
+.edui-default  .edui-for-splittocells .edui-icon:before {
+    content: "\e612";
+}
+
+.edui-default  .edui-for-mergecells .edui-icon:before {
+    content: "\e606";
+}
+
+.edui-default  .edui-for-deletetable .edui-icon:before {
+    content: "\e60a";
+}
+
+.edui-default  .edui-for-cleardoc .edui-icon:before {
+    content: "\e61e";
+}
+
+.edui-default  .edui-for-fullscreen .edui-icon:before {
+    content: "\e675";
+}
+
+.edui-default  .edui-for-anchor .edui-icon:before {
+    content: "\e61b";
+}
+
+.edui-default  .edui-for-pagebreak .edui-icon:before {
+    content: "\e61d";
+}
+
+.edui-default  .edui-for-imagenone .edui-icon:before {
+    content: "\e61f";
+}
+
+.edui-default  .edui-for-imageleft .edui-icon:before {
+    content: "\e621";
+}
+
+.edui-default  .edui-for-wordimage .edui-icon:before {
+    content: "\e618";
+}
+
+.edui-default  .edui-for-imageright .edui-icon:before {
+    content: "\e622";
+}
+
+.edui-default  .edui-for-imagecenter .edui-icon:before {
+    content: "\e620";
+}
+
+.edui-default  .edui-for-indent .edui-icon:before {
+    content: "\e7f3";
+}
+
+.edui-default  .edui-for-outdent .edui-icon:before {
+    background-position: -540px 0;
+}
+
+.edui-default  .edui-for-table .edui-icon:before {
+    background-position: -580px -20px;
+}
+
+.edui-default  .edui-for-edittable .edui-icon:before {
+    background-position: -420px -40px;
+}
+
+.edui-default  .edui-for-template .edui-icon:before {
+    content: "\e6ad";
+}
+
+.edui-default  .edui-for-delete .edui-icon:before {
+    background-position: -360px -40px;
+}
+
+.edui-default  .edui-for-attachment .edui-icon:before {
+    content: "\e704";
+}
+
+.edui-default  .edui-for-edittd .edui-icon:before {
+    background-position: -700px -40px;
+}
+
+.edui-default  .edui-for-scrawl .edui-icon:before {
+    content: "\e70b";
+}
+
+.edui-default  .edui-for-background .edui-icon:before {
+    content: "\e624";
+}
+
+.edui-default  .edui-for-formula .edui-icon:before {
+    content: "\e616";
+}
+
+.edui-default  .edui-for-aligntd  .edui-icon:before {
+    background-position: -236px -76px;
+}
+
+.edui-default  .edui-for-insertparagraphtrue  .edui-icon:before {
+    background-position: -625px -76px;
+}
+
+.edui-default  .edui-for-insertparagraph  .edui-icon:before {
+    background-position: -602px -76px;
+}
+
+.edui-default  .edui-for-insertcaption  .edui-icon:before {
+    background-position: -336px -76px;
+}
+
+.edui-default  .edui-for-deletecaption  .edui-icon:before {
+    background-position: -362px -76px;
+}
+
+.edui-default  .edui-for-inserttitle  .edui-icon:before {
+    background-position: -286px -76px;
+}
+
+.edui-default  .edui-for-deletetitle  .edui-icon:before {
+    background-position: -311px -76px;
+}
+
+.edui-default  .edui-for-aligntable  .edui-icon:before {
+    background-position: -440px 0;
+}
+
+.edui-default  .edui-for-tablealignment-left  .edui-icon:before {
+    background-position: -460px 0;
+}
+
+.edui-default  .edui-for-tablealignment-center  .edui-icon:before {
+    background-position: -420px 0;
+}
+
+.edui-default  .edui-for-tablealignment-right  .edui-icon:before {
+    background-position: -480px 0;
+}
+
+.edui-default  .edui-for-inserttitlecol  .edui-icon:before {
+    background-position: -673px -76px;
+}
+
+.edui-default  .edui-for-deletetitlecol  .edui-icon:before {
+    background-position: -698px -76px;
+}
+
+.edui-default  .edui-for-simpleupload  .edui-icon:before {
+  content: "\edfc";
+}

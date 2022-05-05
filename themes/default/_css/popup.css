@@ -1,0 +1,68 @@
+/* 弹出菜单 */
+.edui-default .edui-popup {
+    z-index: 3000;
+    background-color: #ffffff;
+    width:auto;
+    height:auto;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin-top:1px;
+}
+
+.edui-default .edui-popup .edui-shadow {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.edui-default .edui-popup-content {
+    font-size: 13px;
+    box-shadow: 0 0 10px #0000001f;
+    transition: .25s;
+    color: #333;
+    background-color: #FFF;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.edui-default .edui-popup .edui-bordereraser {
+    background-color: transparent;
+    height: 3px;
+}
+
+.edui-default .edui-menu .edui-bordereraser {
+    height: 3px;
+}
+
+.edui-default .edui-anchor-topleft .edui-bordereraser {
+    left: 1px;
+    top: -2px;
+}
+
+.edui-default .edui-anchor-topright .edui-bordereraser {
+    right: 1px;
+    top: -2px;
+}
+
+.edui-default .edui-anchor-bottomleft .edui-bordereraser {
+    left: 0;
+    bottom: -6px;
+    height: 7px;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+}
+
+.edui-default .edui-anchor-bottomright .edui-bordereraser {
+    right: 0;
+    bottom: -6px;
+    height: 7px;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+}
+
+.edui-popup div{
+    width:auto;
+    height:auto;
+}
