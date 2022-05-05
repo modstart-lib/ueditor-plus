@@ -8,8 +8,6 @@ php/upload
 net/upload
 asp/upload
 node/upload
-dist/
-dist-min/
 ref/
 
 ###############
@@ -167,7 +165,6 @@ Desktop.ini
 # Packages
 *.egg
 *.egg-info
-dist
 eggs
 parts
 # bin
