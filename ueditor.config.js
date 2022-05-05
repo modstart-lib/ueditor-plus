@@ -9,41 +9,41 @@
  * 当升级编辑器时，可直接使用旧版配置文件替换新版配置文件,不用担心旧版配置文件中因缺少新功能所需的参数而导致脚本报错。
  **************************提示********************************/
 
-(function() {
+(function () {
   /**
-     * 编辑器资源文件根路径。它所表示的含义是：以编辑器实例化页面为当前路径，指向编辑器资源文件（即dialog等文件夹）的路径。
-     * 鉴于很多同学在使用编辑器的时候出现的种种路径问题，此处强烈建议大家使用"相对于网站根目录的相对路径"进行配置。
-     * "相对于网站根目录的相对路径"也就是以斜杠开头的形如"/myProject/ueditor/"这样的路径。
-     * 如果站点中有多个不在同一层级的页面需要实例化编辑器，且引用了同一UEditor的时候，此处的URL可能不适用于每个页面的编辑器。
-     * 因此，UEditor提供了针对不同页面的编辑器可单独配置的根路径，具体来说，在需要实例化编辑器的页面最顶部写上如下代码即可。当然，需要令此处的URL等于对应的配置。
-     * window.UEDITOR_HOME_URL = "/xxxx/xxxx/";
-     */
+   * 编辑器资源文件根路径。它所表示的含义是：以编辑器实例化页面为当前路径，指向编辑器资源文件（即dialog等文件夹）的路径。
+   * 鉴于很多同学在使用编辑器的时候出现的种种路径问题，此处强烈建议大家使用"相对于网站根目录的相对路径"进行配置。
+   * "相对于网站根目录的相对路径"也就是以斜杠开头的形如"/myProject/ueditor/"这样的路径。
+   * 如果站点中有多个不在同一层级的页面需要实例化编辑器，且引用了同一UEditor的时候，此处的URL可能不适用于每个页面的编辑器。
+   * 因此，UEditor提供了针对不同页面的编辑器可单独配置的根路径，具体来说，在需要实例化编辑器的页面最顶部写上如下代码即可。当然，需要令此处的URL等于对应的配置。
+   * window.UEDITOR_HOME_URL = "/xxxx/xxxx/";
+   */
   var URL, CORS_URL;
-  if(window.UEDITOR_HOME_URL){
+  if (window.UEDITOR_HOME_URL) {
     URL = window.UEDITOR_HOME_URL;
-  }else if(window.__msCDN){
+  } else if (window.__msCDN) {
     URL = window.__msCDN + 'asset/vendor/ueditor/';
-  }else if(window.__msRoot){
+  } else if (window.__msRoot) {
     URL = window.__msRoot + 'asset/vendor/ueditor/';
-  }else{
+  } else {
     URL = getUEBasePath();
   }
-  if(window.__msRoot){
+  if (window.__msRoot) {
     CORS_URL = window.__msRoot + 'asset/vendor/ueditor/';
-  }else {
+  } else {
     CORS_URL = getUEBasePath();
   }
 
   /**
-     * 配置项主体。注意，此处所有涉及到路径的配置别遗漏URL变量。
-     */
+   * 配置项主体。注意，此处所有涉及到路径的配置别遗漏URL变量。
+   */
   window.UEDITOR_CONFIG = {
     //为编辑器实例添加一个路径，这个不能被注释
     UEDITOR_HOME_URL: URL,
     UEDITOR_CORS_URL: CORS_URL,
 
     // 服务器统一请求接口路径
-    serverUrl: "/admin/data/ueditor",
+    serverUrl: "./../_demo_server/handle.php",
 
     //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
     toolbars: [
@@ -145,40 +145,40 @@
     ]
 
     // 自定义工具栏按钮点击，返回 true 表示已经处理点击，会阻止默认事件
-    ,toolbarCallback:function(cmd,editor){
-        // switch(cmd){
-        //   case 'insertimage':
-        //     editor.execCommand('insertHtml', '<p><img src="xxxxx" /></p>');
-        //     console.log('toolbarCallback',cmd, editor)
-        //     return true;
-        //   case 'insertvideo':
-        //     editor.execCommand('insertHtml', '<p><img src="xxxxx" /></p>');
-        //     console.log('toolbarCallback',cmd, editor)
-        //     return true;
-        // }
+    , toolbarCallback: function (cmd, editor) {
+      // switch(cmd){
+      //   case 'insertimage':
+      //     editor.execCommand('insertHtml', '<p><img src="xxxxx" /></p>');
+      //     console.log('toolbarCallback',cmd, editor)
+      //     return true;
+      //   case 'insertvideo':
+      //     editor.execCommand('insertHtml', '<p><img src="xxxxx" /></p>');
+      //     console.log('toolbarCallback',cmd, editor)
+      //     return true;
+      // }
     }
 
     // 插入图片配置
-    ,image:{
-        // 禁止本地上传
-        disableUpload: false,
-        // 禁止在线管理
-        disableOnline: false,
-        // 自定义选择按钮
-        selectCallback: null,
-        // selectCallback: function(editor,cb){
-        //     console.log('selectCallback',cb);
-        //     setTimeout(function(){
-        //       cb({
-        //         path:'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png',
-        //         name:'测试图片'
-        //       });
-        //     },1000);
-        // }
+    , image: {
+      // 禁止本地上传
+      disableUpload: false,
+      // 禁止在线管理
+      disableOnline: false,
+      // 自定义选择按钮
+      selectCallback: null,
+      // selectCallback: function(editor,cb){
+      //     console.log('selectCallback',cb);
+      //     setTimeout(function(){
+      //       cb({
+      //         path:'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png',
+      //         name:'测试图片'
+      //       });
+      //     },1000);
+      // }
     }
 
     // 插入视频配置
-    ,video:{
+    , video: {
       // 禁止本地上传,
       disableUpload: false,
       // 自定义选择按钮
@@ -187,8 +187,7 @@
       //     console.log('selectCallback',cb);
       //     setTimeout(function(){
       //       cb({
-      //         //path:'https://www.bilibili.com/video/BV1y44y1g7NR?spm_id_from=333.1007.tianma.1-1-1.click',
-      //         path:'https://blz-videos.nosdn.127.net/1/OverWatch/AnimatedShots/Overwatch_AnimatedShot_CinematicTrailer.mp4',
+      //         path:'https://www.bilibili.com/video/BV1y44y1g7NR?spm_id_from=333.1007.tianma.1-1-1.click',
       //         name:'测试视频'
       //       });
       //     },1000);
@@ -398,35 +397,35 @@
     //]
 
     //快捷菜单
-    ,shortcutMenu:[
-          "fontfamily",
-          "fontsize",
-          "bold",
-          "italic",
-          "underline",
-          "strikethrough",
-          "fontborder",
-          "forecolor",
-          // "shadowcolor",
-          // "backcolor",
-          "justifyleft",//居左对齐
-          "justifycenter",//居中对齐
-          "justifyright",//居右对齐
-          "justifyjustify",//两端对齐
-          // "textindent",//首行缩进
-          // "rowspacingtop",//段前距
-          // "rowspacingbottom",//段后距
-          // "outpadding",//两侧距离
-          "lineheight",//行间距
-          // "letterspacing" ,//字间距
-          "insertorderedlist",
-          "insertunorderedlist",
-          "superscript",
-          "subscript",
-          "link",
-          "unlink",
-          "touppercase",
-          "tolowercase"
+    , shortcutMenu: [
+      "fontfamily",
+      "fontsize",
+      "bold",
+      "italic",
+      "underline",
+      "strikethrough",
+      "fontborder",
+      "forecolor",
+      // "shadowcolor",
+      // "backcolor",
+      "justifyleft",//居左对齐
+      "justifycenter",//居中对齐
+      "justifyright",//居右对齐
+      "justifyjustify",//两端对齐
+      // "textindent",//首行缩进
+      // "rowspacingtop",//段前距
+      // "rowspacingbottom",//段后距
+      // "outpadding",//两侧距离
+      "lineheight",//行间距
+      // "letterspacing" ,//字间距
+      "insertorderedlist",
+      "insertunorderedlist",
+      "superscript",
+      "subscript",
+      "link",
+      "unlink",
+      "touppercase",
+      "tolowercase"
     ]
 
     //elementPathEnabled

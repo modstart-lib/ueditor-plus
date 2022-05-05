@@ -36,12 +36,7 @@ module.exports = function (grunt) {
     packageJson = grunt.file.readJSON("package.json"),
     distDir = "dist/",
     distMinDir = "dist-min/",
-    banner =
-      "/*!\n * " +
-      packageJson.title +
-      "\n * version: " +
-      packageJson.version +
-      "\n*/\n";
+    banner = "/*! " + packageJson.title + " v" + packageJson.version + "*/\n";
 
   //init
   (function () {
