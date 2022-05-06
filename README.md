@@ -1,32 +1,64 @@
-# UEditor Plus，让UEditor重新焕发活力
+# UEditor Plus
+
+基于 UEditor 二次开发的富文本编辑器，让UEditor重新焕发活力
 
 ![UEditor Plus](https://ms-assets.modstart.com/demo/UEditorPlus.jpg)
 
 
 
+## 功能亮点
+
+- 全新的UI外观，使用字体图标替换原有图片图标
+- 移除过时、无用的插件支持，不断完善使用体验
+- 图片、文件、视频上传配置化定制增强
+
+
+
 ## 在线演示
 
-- [https://open-demo.modstart.com/ueditor/dist-min/](https://open-demo.modstart.com/ueditor/dist-min/)
+- [https://open-demo.modstart.com/ueditor-plus/dist-min/](https://open-demo.modstart.com/ueditor-plus/dist-min/)
 
 
 
 ## 使用说明
 
-### 第一步，下载浏览器
+### 第一步，下载最新版本
 
-```shell
-git clone https://github.com/modstart-lib/ueditor.git
-npm install
-npm run build
-```
+- 国内：[https://gitee.com/modstart-lib/ueditor-plus](https://gitee.com/modstart-lib/ueditor-plus)
+- 国外：[https://github.com/modstart-lib/ueditor-plus](https://github.com/modstart-lib/ueditor-plus)
 
 ### 第二步，打开浏览器
 
-进入到目录 `dist` , 使用浏览器打开文件 `index.html` 。
+- 使用浏览器打开 `_examples/index.html` 查看
+
+
 
 ## 使用交流
 
 - QQ群：539492162
+- 使用问题或者改进建议，欢迎进群交流
+
+
+
+## 二次开发
+
+### 第一步，clone代码到本地
+
+```shell
+git clone https://gitee.com/modstart-lib/ueditor-plus.git
+```
+
+### 第二步，开始功能开发
+
+使用浏览器打开 `_examples/index.html` 页面相关内容，完成功能开发
+
+### 第三步，打包
+
+```shell
+npm install
+grunt default
+```
+
 
 ## UEditor相关链接
 
@@ -36,16 +68,19 @@ npm run build
 - UEditor API 文档：[http://ueditor.baidu.com/doc](http://ueditor.baidu.com/doc)
 
 
+
 ## 变更日志
 
-### 2.0.0
+### v2.0.0
 
-- 优化：优化界面样式
-- 新增：setWidth方法，可设置编辑器宽度
+- 优化：优化界面样式，使用字体图标
+- 新增：`setWidth`方法，可设置编辑器宽度
 - 新增：视频和图片上传参数（见 ueditor.config.js 配置文件）
 - 新增：`toolbarCallback` 属性，可以自定义响应工具栏图标点击
 - 移除：谷歌地图、图片搜索、音乐搜索、截屏
 
-## 其他项目
+
+
+## 项目推荐
 
 - [ModStart快速开发框架](https://modstart.com)

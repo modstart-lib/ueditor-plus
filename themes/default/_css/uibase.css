@@ -117,12 +117,12 @@ div.edui-box {
 }
 
 .edui-default span.edui-clickable {
-    color: #CCC;
+    color: #666;
     cursor: pointer;
     text-decoration: none;
 }
 .edui-default span.edui-clickable:hover{
-    color: #FFF;
+    color: #333;
 }
 
 .edui-default span.edui-unclickable {

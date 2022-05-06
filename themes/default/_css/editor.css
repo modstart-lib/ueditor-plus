@@ -121,8 +121,8 @@
   font-size: 13px;
   box-shadow: 0 0 10px #0000001f;
   transition: .25s;
-  color: #FFF;
-  background-color: rgba(70,79,96,.95);
+  color: #666;
+  background-color: #FFF;
   padding: 10px;
   border-radius: 5px;
 }
