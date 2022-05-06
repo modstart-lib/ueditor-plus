@@ -84,3 +84,8 @@ grunt default
 ## 项目推荐
 
 - [ModStart快速开发框架](https://modstart.com)
+
+
+## 开源协议
+
+Apache 2.0
