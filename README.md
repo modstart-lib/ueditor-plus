@@ -4,8 +4,6 @@
 
 ![UEditor Plus](https://ms-assets.modstart.com/demo/UEditorPlus.jpg)
 
-
-
 ## 功能亮点
 
 - 全新的UI外观，使用字体图标替换原有图片图标
@@ -17,7 +15,6 @@
 ## 在线演示
 
 - [https://open-demo.modstart.com/ueditor-plus/dist-min/](https://open-demo.modstart.com/ueditor-plus/dist-min/)
-
 
 
 ## 使用说明
