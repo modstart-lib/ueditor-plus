@@ -4,12 +4,15 @@
 
 ![UEditor Plus](https://ms-assets.modstart.com/demo/UEditorPlus.jpg)
 
+
+
 ## 功能亮点
 
 - 全新的UI外观，使用字体图标替换原有图片图标
 - 移除过时、无用的插件支持，不断完善使用体验
 - 图片、文件、视频上传配置化定制增强
 - 兼容现有UEditor，实现无缝切换
+
 
 
 ## 在线演示
@@ -28,6 +31,12 @@
 
 - 使用浏览器打开 `_examples/index.html` 查看
 
+
+
+## 关于Bug反馈与维护
+
+- 众所周知 UEditor 使用的人数多，目前已经累积了N个Bug，开源不易需要大家共同维护
+- 对于在实际使用中遇到的问题，如果急需解决推荐使用 [悬赏Issue](https://gitee.com/modstart-lib/ueditor-plus/reward_issues/new) ，这样让更多有能力的开发者有共同维护的动力
 
 
 ## 使用交流
@@ -57,6 +66,7 @@ grunt default
 ```
 
 
+
 ## UEditor相关链接
 
 - UEditor 官网：[http://ueditor.baidu.com](http://ueditor.baidu.com)
@@ -81,6 +91,7 @@ grunt default
 ## 项目推荐
 
 - [ModStart快速开发框架](https://modstart.com)
+
 
 
 ## 开源协议
