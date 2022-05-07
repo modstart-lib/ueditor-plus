@@ -74,9 +74,11 @@ grunt default
 - UEditor 文档：[http://fex.baidu.com/ueditor/](http://fex.baidu.com/ueditor/)
 - UEditor API 文档：[http://ueditor.baidu.com/doc](http://ueditor.baidu.com/doc)
 
-
-
 ## 变更日志
+
+#### v2.1.0 开发中
+
+- 修复：右击菜单图标和工具栏菜单冲突问题
 
 #### v2.0.0 让UEditor重新焕发活力
 

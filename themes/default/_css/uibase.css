@@ -2,7 +2,7 @@
 */
 
 :root{
-    --edui-color-active-bg: #EEE;
+    --edui-color-active-bg: rgba(200,200,200,0.3);
 }
 
 @font-face {

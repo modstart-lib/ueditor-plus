@@ -33,8 +33,13 @@
     line-height: 20px;
     text-align: center;
 }
-.edui-default .edui-menuitem .edui-menuitem-body .edui-icon:before {
-    content:'';
+
+.edui-default .edui-menuitem .edui-menuitem-body .edui-icon:before{
+    display:none;
+}
+
+.edui-default .edui-contextmenu .edui-popup-content .edui-menuitem-body .edui-icon:before{
+    display: inline-block;
 }
 
 .edui-default .edui-menuitem .edui-label {
@@ -51,6 +56,7 @@
 .edui-default .edui-state-checked .edui-menuitem-body .edui-icon:before{
     content: "\e7fc";
     font-size: 10px;
+    display:inline-block;
 }
 
 .edui-default .edui-state-disabled .edui-menuitem-label {
