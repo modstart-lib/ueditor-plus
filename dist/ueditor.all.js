@@ -19464,6 +19464,8 @@ UE.plugins["autofloat"] = function() {
     toolbarBox.style.cssText = bakCssText;
   }
 
+  me.unsetFloating = unsetFloating;
+
   function updateFloating() {
     var rect3 = getPosition(me.container);
     var offset = me.options.toolbarTopOffset || 0;

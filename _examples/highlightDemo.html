@@ -17,14 +17,17 @@
     var s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(hm, s);
   })();</script>
+  <link rel="stylesheet" href="./style.css"/>
 </head>
-<body>
-<h1>代码高亮演示</h1>
-<h2>获得编辑器实例</h2>
-<div style="width:200px">
+<body class="demo-editor-page">
+<div>
+  <h1>代码高亮演示</h1>
+  <h2>获得编辑器实例</h2>
+  <div style="width:200px">
     <pre class="brush:js;toolbar:false;">
         UE.getEditor('myEditor');
     </pre>
+  </div>
 </div>
 
 <!--style给定宽度可以影响编辑器的最终宽度-->

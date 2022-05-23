@@ -17,51 +17,54 @@
     var s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(hm, s);
   })();</script>
+  <link rel="stylesheet" href="./style.css"/>
 </head>
-<body>
-<h1>UEditor多编辑区域一个编辑器实例</h1>
-<table id="test">
+<body class="demo-editor-page wide">
+<div>
+  <h1>UEditor多编辑区域一个编辑器实例</h1>
+  <table id="test">
     <tr>
-        <td width="10%">
-            编辑区域一
-        </td>
-        <td class="content" id="content1"><script id="editor1" type="text/plain" style="width:1024px;height:200px;">内容1</script></td>
+      <td width="100">
+        编辑区域一
+      </td>
+      <td class="content" id="content1"><script id="editor1" type="text/plain" style="width:1024px;height:200px;">内容1</script></td>
     </tr>
     <tr>
-        <td>
-            编辑区域二
-        </td>
-        <td class="content" id="content2">内容2</td>
+      <td>
+        编辑区域二
+      </td>
+      <td class="content" id="content2">内容2</td>
     </tr>
     <tr>
-        <td>
-            编辑区域三
-        </td>
-        <td class="content" id="content3">内容3</td>
+      <td>
+        编辑区域三
+      </td>
+      <td class="content" id="content3">内容3</td>
     </tr>
-</table>
+  </table>
 
-<script type="text/javascript">
+  <script type="text/javascript">
     var ue = UE.getEditor('editor1');
     ue.ready(function(){
-        //阻止工具栏的点击向上冒泡
-        $(this.container).click(function(e){
-            e.stopPropagation()
-        })
+      //阻止工具栏的点击向上冒泡
+      $(this.container).click(function(e){
+        e.stopPropagation()
+      })
     });
     $('.content').click(function(e){
-        var $target = $(this);
-        var content = $target.html();
-        var currentParnet = ue.container.parentNode.parentNode;
-        var currentContent = ue.getContent();
-        $target.html('');
-        $target.append(ue.container.parentNode);
-        ue.reset();
-        setTimeout(function(){
-            ue.setContent(content);
-        },200)
-        $(currentParnet).html(currentContent);
+      var $target = $(this);
+      var content = $target.html();
+      var currentParnet = ue.container.parentNode.parentNode;
+      var currentContent = ue.getContent();
+      $target.html('');
+      $target.append(ue.container.parentNode);
+      ue.reset();
+      setTimeout(function(){
+        ue.setContent(content);
+      },200)
+      $(currentParnet).html(currentContent);
     })
-</script>
+  </script>
+</div>
 </body>
 </html>

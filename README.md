@@ -2,17 +2,17 @@
 
 基于 UEditor 二次开发的富文本编辑器，让UEditor重新焕发活力
 
-![UEditor Plus](https://ms-assets.modstart.com/demo/UEditorPlus.jpg)
+![UEditor Plus](https://ms-assets.modstart.com/demo/UEditorPlus_v2.1.0.jpeg)
 
-
+> `/dist/` 和 `/dist-min/` 目录分别为构建的非压缩和压缩版代码，可直接使用
 
 ## 功能亮点
 
 - 全新的UI外观，使用字体图标替换原有图片图标
 - 移除过时、无用的插件支持，不断完善使用体验
 - 图片、文件、视频上传配置化定制增强
+- 演示界面重构，右上角可直接查看当前演示界面代码
 - 兼容现有UEditor，实现无缝切换
-
 
 
 ## 在线演示
@@ -32,7 +32,6 @@
 - 使用浏览器打开 `_examples/index.html` 查看
 
 
-
 ## 关于Bug反馈与维护
 
 - 众所周知 UEditor 使用的人数多，目前已经累积了N个Bug，开源不易需要大家共同维护
@@ -43,7 +42,6 @@
 
 - QQ群：539492162
 - 使用问题或者改进建议，欢迎进群交流
-
 
 
 ## 二次开发
@@ -66,7 +64,6 @@ grunt default
 ```
 
 
-
 ## UEditor相关链接
 
 - UEditor 官网：[http://ueditor.baidu.com](http://ueditor.baidu.com)
@@ -80,6 +77,7 @@ grunt default
 
 - 新增：新增`unsetFloating`方法，方便动态Editor浮动工具栏处理
 - 优化：表格边框双击时间调整为200ms（解决拖拽延迟问题）
+- 优化：重新整理Demo页面也代码
 - 修复：右击菜单图标和工具栏菜单冲突问题
 
 #### v2.0.0 让UEditor重新焕发活力

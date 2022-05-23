@@ -15,35 +15,38 @@
     var s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(hm, s);
   })();</script>
+  <link rel="stylesheet" href="./style.css"/>
 </head>
-<body>
-<h1>UEditor设置宽高demo</h1>
-<h2><span style="color:red">这里的宽高都只是编辑区域的宽高，不包括工具栏的高度和状态栏的高度</span></h2>
-<h2>容器给定编辑器的宽高</h2>
+<body class="demo-editor-page">
+<div>
+  <h1>UEditor设置宽高demo</h1>
+  <h2><span style="color:red">这里的宽高都只是编辑区域的宽高，不包括工具栏的高度和状态栏的高度</span></h2>
+  <h2>容器给定编辑器的宽高</h2>
 
-<script type="text/plain" id="myEditor" style="width:500px;height:500px"></script>
+  <script type="text/plain" id="myEditor" style="width:500px;height:500px"></script>
 
-<div style="clear:both"></div>
-<h2>初始化时给定编辑器的宽高</h2>
-<script type="text/plain" id="myEditor1" ></script>
+  <div style="clear:both"></div>
+  <h2>初始化时给定编辑器的宽高</h2>
+  <script type="text/plain" id="myEditor1" ></script>
 
-<h2>没有工具栏的编辑器</h2>
-<div id="myEditor2" style="width:700px;height:300px;border:1px solid #ccc"></div>
+  <h2>没有工具栏的编辑器</h2>
+  <div id="myEditor2" style="width:700px;height:300px;border:1px solid #ccc"></div>
 
-<script type="text/javascript">
+  <script type="text/javascript">
     //根据容器的宽高
     //容器给定高度
     UE.getEditor('myEditor');
     UE.getEditor('myEditor1',{
-        initialFrameWidth : 600,
-        initialFrameHeight: 600
+      initialFrameWidth : 600,
+      initialFrameHeight: 600
     });
 
     var noToolbar = new UE.Editor();
     noToolbar.render('myEditor2',{
-        autoFloatEnabled : false
+      autoFloatEnabled : false
     })
 
-</script>
+  </script>
+</div>
 </body>
 </html>

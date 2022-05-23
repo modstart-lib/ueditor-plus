@@ -13,53 +13,55 @@
     var s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(hm, s);
   })();</script>
+  <link rel="stylesheet" href="./style.css"/>
 </head>
-<body>
-<h1>表格排序演示</h1>
-<p>
-<p>
+<body class="demo-editor-page">
+<div>
+  <h1>表格排序演示</h1>
+  <p>
+  <p>
     <strong>默认排序方法有五种:</strong><br/>
     reversecurrent : 逆序当前<br/>
     orderbyasc : 按ASCII字符升序<br/>
     reversebyasc : 按ASCII字符降序<br/>
     orderbynum : 按数值大小升序<br/>
     reversebynum : 按数值大小降序
-</p>
-<p>
+  </p>
+  <p>
     <span style="font-size: 14px; color: rgb(127, 127, 127);">表格data-sort-type属性值为reversebynum，<span style="color:#ff511a; font-weight: bold;">按照数值大小降序排序</span>，点击第一行的单元格进行排序。</span>
-</p>
-<div id="content1" class="content">
+  </p>
+  <div id="content1" class="content">
     <table data-sort="sortEnabled" width="992" class="sortEnabled" data-sort-type="reversebynum">
-        <tbody>
-        <tr class="firstRow"> <td width="165">343</td> <td width="165">352</td> <td width="165">323</td> <td width="165">234</td> <td width="165">379</td> <td width="166">782</td> </tr>
-        <tr> <td width="165">341</td> <td width="165">163</td> <td width="165">422</td> <td width="165">234</td> <td width="165">725</td> <td width="166">833</td> </tr>
-        <tr> <td width="165">221</td> <td width="165">456</td> <td width="165">335</td> <td width="165">423</td> <td width="165">445</td> <td width="166">793</td> </tr>
-        <tr> <td width="165">112</td> <td width="165">277</td> <td width="165">563</td> <td width="165">423</td> <td width="165">932</td> <td width="166">425</td> </tr>
-        <tr> <td width="165">587</td> <td width="165">175</td> <td width="165">159</td> <td width="165">734</td> <td width="165">582</td> <td width="166">458</td> </tr>
-        </tbody>
+      <tbody>
+      <tr class="firstRow"> <td width="165">343</td> <td width="165">352</td> <td width="165">323</td> <td width="165">234</td> <td width="165">379</td> <td width="166">782</td> </tr>
+      <tr> <td width="165">341</td> <td width="165">163</td> <td width="165">422</td> <td width="165">234</td> <td width="165">725</td> <td width="166">833</td> </tr>
+      <tr> <td width="165">221</td> <td width="165">456</td> <td width="165">335</td> <td width="165">423</td> <td width="165">445</td> <td width="166">793</td> </tr>
+      <tr> <td width="165">112</td> <td width="165">277</td> <td width="165">563</td> <td width="165">423</td> <td width="165">932</td> <td width="166">425</td> </tr>
+      <tr> <td width="165">587</td> <td width="165">175</td> <td width="165">159</td> <td width="165">734</td> <td width="165">582</td> <td width="166">458</td> </tr>
+      </tbody>
     </table>
-</div>
+  </div>
 
-<p>
+  <p>
     <br />
-</p>
-<p>
+  </p>
+  <p>
     <span style="font-size: 14px; color: rgb(127, 127, 127);">自定义排序，<span style="color:#ff511a; font-weight: bold;">按照个位数排序</span>，点击第一行的单元格进行排序。</span>
-</p>
-<div id="content2" class="content">
+  </p>
+  <div id="content2" class="content">
     <table data-sort="sortEnabled" width="992" class="sortEnabled">
-        <tbody>
-        <tr class="firstRow"> <td width="165">343</td> <td width="165">352</td> <td width="165">323</td> <td width="165">234</td> <td width="165">379</td> <td width="166">782</td> </tr>
-        <tr> <td width="165">341</td> <td width="165">163</td> <td width="165">422</td> <td width="165">234</td> <td width="165">725</td> <td width="166">833</td> </tr>
-        <tr> <td width="165">221</td> <td width="165">456</td> <td width="165">335</td> <td width="165">423</td> <td width="165">445</td> <td width="166">793</td> </tr>
-        <tr> <td width="165">112</td> <td width="165">277</td> <td width="165">563</td> <td width="165">423</td> <td width="165">932</td> <td width="166">425</td> </tr>
-        <tr> <td width="165">587</td> <td width="165">175</td> <td width="165">159</td> <td width="165">734</td> <td width="165">582</td> <td width="166">458</td> </tr>
-        </tbody>
+      <tbody>
+      <tr class="firstRow"> <td width="165">343</td> <td width="165">352</td> <td width="165">323</td> <td width="165">234</td> <td width="165">379</td> <td width="166">782</td> </tr>
+      <tr> <td width="165">341</td> <td width="165">163</td> <td width="165">422</td> <td width="165">234</td> <td width="165">725</td> <td width="166">833</td> </tr>
+      <tr> <td width="165">221</td> <td width="165">456</td> <td width="165">335</td> <td width="165">423</td> <td width="165">445</td> <td width="166">793</td> </tr>
+      <tr> <td width="165">112</td> <td width="165">277</td> <td width="165">563</td> <td width="165">423</td> <td width="165">932</td> <td width="166">425</td> </tr>
+      <tr> <td width="165">587</td> <td width="165">175</td> <td width="165">159</td> <td width="165">734</td> <td width="165">582</td> <td width="166">458</td> </tr>
+      </tbody>
     </table>
-</div>
+  </div>
 
 
-<script>
+  <script>
     // 语法
     // uParse(selector,[option])
     /*
@@ -76,18 +78,19 @@
      customRule 可以传入你自己的处理规则函数，函数第一个参数是容器节点
      */
     uParse('#content1',{
-        rootPath : '../'
+      rootPath : '../'
     })
     uParse('#content2',{
-        rootPath : '../',
-        tableSortCompareFn: function(td1, td2){
-            var value1 = td1.innerText||td1.textContent,
-                    value2 = td2.innerText||td2.textContent;
-            return parseInt(value1) % 10 > parseInt(value2) % 10;
-        }
+      rootPath : '../',
+      tableSortCompareFn: function(td1, td2){
+        var value1 = td1.innerText||td1.textContent,
+          value2 = td2.innerText||td2.textContent;
+        return parseInt(value1) % 10 > parseInt(value2) % 10;
+      }
     })
 
-</script>
+  </script>
 
+</div>
 </body>
 </html>

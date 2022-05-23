@@ -17,14 +17,16 @@
     var s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(hm, s);
   })();</script>
+  <link rel="stylesheet" href="./style.css"/>
 </head>
-<body>
-<p>尝试粘贴内容近来，这里边不能粘贴任何inline的样式，不能有iframe,style,script,embed等标签，表格不能嵌套</p>
+<body class="demo-editor-page">
 <div>
+  <p>尝试粘贴内容近来，这里边不能粘贴任何inline的样式，不能有iframe,style,script,embed等标签，表格不能嵌套</p>
+  <div>
     <script id="editor" type="text/plain" style="width:500px;height:500px"></script>
+  </div>
+
 </div>
-
-
 </body>
 <script type="text/javascript">
 

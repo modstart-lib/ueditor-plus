@@ -12,22 +12,24 @@
     var s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(hm, s);
   })();</script>
+  <link rel="stylesheet" href="./style.css"/>
 </head>
-
-<body>
-<div style="height: 100px"></div>
-<div id="div" style="border: 1px solid #fff">
+<body class="demo-editor-page">
+<div>
+  <div style="height: 100px"></div>
+  <div id="div" style="border: 1px solid #fff">
     <table border="1">
-        <caption>表格标题</caption>
-        <tr><th>标题</th><th>内容</th></tr>
-        <!--编辑器实例化到表格内部时，请在对应的单元格上明确标注宽度值（百分数或者直接数均可），否则有可能在工具栏浮动等功能状态下出现移位-->
-        <tr>
-            <td>中国</td><td width="100%"><textarea id="editor"></textarea></td>
-        </tr>
+      <caption>表格标题</caption>
+      <tr><th>标题</th><th>内容</th></tr>
+      <!--编辑器实例化到表格内部时，请在对应的单元格上明确标注宽度值（百分数或者直接数均可），否则有可能在工具栏浮动等功能状态下出现移位-->
+      <tr>
+        <td>中国</td><td width="100%"><textarea id="editor"></textarea></td>
+      </tr>
     </table>
-</div>
-<script type="text/javascript">
+  </div>
+  <script type="text/javascript">
     UE.getEditor('editor');
-</script>
+  </script>
+</div>
 </body>
 </html>
