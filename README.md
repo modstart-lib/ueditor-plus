@@ -17,7 +17,7 @@
 
 ## 在线演示
 
-- [https://open-demo.modstart.com/ueditor-plus/dist-min/](https://open-demo.modstart.com/ueditor-plus/dist-min/)
+- [https://open-demo.modstart.com/ueditor-plus/_examples/](https://open-demo.modstart.com/ueditor-plus/_examples/)
 
 
 ## 使用说明
