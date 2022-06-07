@@ -73,6 +73,10 @@ grunt default
 
 ## 变更日志
 
+#### v2.2.0
+
+- 优化：移除 video parse 无用插件
+
 #### v2.1.0 开发中
 
 - 新增：新增`unsetFloating`方法，方便动态Editor浮动工具栏处理
