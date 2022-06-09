@@ -1333,7 +1333,7 @@
       if (!domUtils.isEmptyBlock(this.body)) {
         return true;
       }
-      //随时添加,定义的特殊标签如果存在，不能认为是空
+      // 随时添加,定义的特殊标签如果存在，不能认为是空
       tags = ["div"];
       for (i = 0; (ci = tags[i++]); ) {
         var nodes = domUtils.getElementsByTagName(this.document, ci);
@@ -1341,6 +1341,14 @@
           if (domUtils.isCustomeNode(cn)) {
             return true;
           }
+        }
+      }
+      // 部分如媒体标签，不能认为为空
+      tags = [ "video","iframe" ]
+      for (i = 0; (ci = tags[i++]); ) {
+        var nodes = domUtils.getElementsByTagName(this.document, ci);
+        for (var n = 0, cn; (cn = nodes[n++]); ) {
+          return true;
         }
       }
       return false;
