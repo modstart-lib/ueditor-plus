@@ -284,17 +284,50 @@
         getInsertList: function () {
             var data = this.getData();
             if(data['url']) {
-                return [{
-                    src: data['url'],
-                    _src: data['url'],
-                    width: data['width'] || '',
-                    height: data['height'] || '',
-                    border: data['border'] || '',
-                    floatStyle: data['align'] || '',
-                    vspace: data['vhSpace'] || '',
-                    alt: data['title'] || '',
-                    style: "width:" + data['width'] + "px;height:" + data['height'] + "px;"
-                }];
+                var img = {
+                  src: data['url'],
+                  _src: data['url'],
+                }
+                img._propertyDelete = []
+                img.style = []
+                if(data['width']){
+                  img.width = data['width'];
+                  img.style.push('width:'+data['width']+'px');
+                }else{
+                  img._propertyDelete.push('width');
+                }
+                if(data['height']){
+                  img.height = data['height'];
+                  img.style.push('height:'+data['height']+'px');
+                }else{
+                  img._propertyDelete.push('height');
+                }
+                if(data['border']){
+                  img.border = data['border'];
+                }else{
+                  img._propertyDelete.push('border');
+                }
+                if(data['align']){
+                  img.floatStyle = data['align'];
+                }else{
+                  img._propertyDelete.push('floatStyle');
+                }
+                if(data['vhSpace']){
+                  img.vspace = data['vhSpace'];
+                }else{
+                  img._propertyDelete.push('vspace');
+                }
+                if(data['title']){
+                  img.alt = data['title'];
+                }else{
+                  img._propertyDelete.push('alt');
+                }
+                if(img.style.length> 0){
+                  img.style = img.style.join(';');
+                }else{
+                  img._propertyDelete.push('style');
+                }
+                return [img];
             } else {
                 return [];
             }

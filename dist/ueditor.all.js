@@ -3718,6 +3718,14 @@ var domUtils = (dom.domUtils = {
      */
   setAttributes: function(node, attrs) {
     for (var attr in attrs) {
+      if('_propertyDelete'===attr){
+        for(var j=0;j<attrs[attr].length;j++){
+          if(node.hasAttribute(attrs[attr][j])){
+            node.removeAttribute(attrs[attr][j]);
+          }
+        }
+        continue;
+      }
       if (attrs.hasOwnProperty(attr)) {
         var value = attrs[attr];
         switch (attr) {
@@ -8470,7 +8478,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
       if (!domUtils.isEmptyBlock(this.body)) {
         return true;
       }
-      //随时添加,定义的特殊标签如果存在，不能认为是空
+      // 随时添加,定义的特殊标签如果存在，不能认为是空
       tags = ["div"];
       for (i = 0; (ci = tags[i++]); ) {
         var nodes = domUtils.getElementsByTagName(this.document, ci);
@@ -8478,6 +8486,14 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
           if (domUtils.isCustomeNode(cn)) {
             return true;
           }
+        }
+      }
+      // 部分如媒体标签，不能认为为空
+      tags = [ "video","iframe" ]
+      for (i = 0; (ci = tags[i++]); ) {
+        var nodes = domUtils.getElementsByTagName(this.document, ci);
+        for (var n = 0, cn; (cn = nodes[n++]); ) {
+          return true;
         }
       }
       return false;
