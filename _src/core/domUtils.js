@@ -1537,6 +1537,14 @@ var domUtils = (dom.domUtils = {
      */
   setAttributes: function(node, attrs) {
     for (var attr in attrs) {
+      if('_propertyDelete'===attr){
+        for(var j=0;j<attrs[attr].length;j++){
+          if(node.hasAttribute(attrs[attr][j])){
+            node.removeAttribute(attrs[attr][j]);
+          }
+        }
+        continue;
+      }
       if (attrs.hasOwnProperty(attr)) {
         var value = attrs[attr];
         switch (attr) {

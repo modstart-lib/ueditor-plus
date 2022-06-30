@@ -6,6 +6,8 @@
 
 > `/dist/` 和 `/dist-min/` 目录分别为构建的非压缩和压缩版代码，可直接使用
 
+
+
 ## 功能亮点
 
 - 全新的UI外观，使用字体图标替换原有图片图标
@@ -15,21 +17,69 @@
 - 兼容现有UEditor，实现无缝切换
 
 
+
 ## 在线演示
 
 - [https://open-demo.modstart.com/ueditor-plus/_examples/](https://open-demo.modstart.com/ueditor-plus/_examples/)
 
 
-## 使用说明
 
-### 第一步，下载最新版本
+## 使用教程
 
-- 国内：[https://gitee.com/modstart-lib/ueditor-plus](https://gitee.com/modstart-lib/ueditor-plus)
-- 国外：[https://github.com/modstart-lib/ueditor-plus](https://github.com/modstart-lib/ueditor-plus)
+### 原生使用
 
-### 第二步，打开浏览器
+```html
+<script id="editor" type="text/plain" style="height:300px;"></script>
+<script type="text/javascript" src="/path/to/UEditorPlus/ueditor.config.js"></script>
+<script type="text/javascript" src="/path/to/UEditorPlus/ueditor.all.js"></script>
+<script>
+	var ue = UE.getEditor('editor', {
+      // ... 更多配置
+  });
+</script>
+```
 
-- 使用浏览器打开 `_examples/index.html` 查看
+### vue双向绑定
+
+① 安装UEditor插件支持
+
+```shell
+npm i vue-ueditor-wrap
+# 或
+yarn add vue-ueditor-wrap
+```
+
+② 解压 UEditorPlus 到静态资源目录，配置
+
+```html
+<template>
+	<div class="content">
+		<vue-ueditor-wrap v-model="content" 
+      editor-id="editor" 
+      :config="editorConfig" 
+      :editorDependencies="['ueditor.config.js','ueditor.all.js']"
+			style="height:500px;" />
+	</div>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				content: '<p>Hello UEditorPlus</p>',
+        editorConfig: {
+          serverUrl: '后端服务'
+          // 配置UEditorPlus的惊天资源
+          UEDITOR_HOME_URL:'/static/UEditorPlus'
+        }
+			}
+		}
+	}
+</script>
+```
+
+更多配置和使用参考：[vue-ueditor-wrap](https://hc199421.gitee.io/vue-ueditor-wrap)
+
 
 
 ## 关于Bug反馈与维护
@@ -38,10 +88,12 @@
 - 对于在实际使用中遇到的问题，如果急需解决推荐使用 [悬赏Issue](https://gitee.com/modstart-lib/ueditor-plus/reward_issues/new) ，这样让更多有能力的开发者有共同维护的动力
 
 
+
 ## 使用交流
 
 - QQ群：539492162
 - 使用问题或者改进建议，欢迎进群交流
+
 
 
 ## 二次开发
@@ -64,6 +116,7 @@ grunt default
 ```
 
 
+
 ## UEditor相关链接
 
 - UEditor 官网：[http://ueditor.baidu.com](http://ueditor.baidu.com)
@@ -71,10 +124,14 @@ grunt default
 - UEditor 文档：[http://fex.baidu.com/ueditor/](http://fex.baidu.com/ueditor/)
 - UEditor API 文档：[http://ueditor.baidu.com/doc](http://ueditor.baidu.com/doc)
 
-## 变更日志
 
-#### v2.2.0 开发中
+## 更新日志
 
+#### v2.2.0 vue示例支持，图片尺寸设定异常
+
+- 新增：Dom 操作添加 _propertyDelete 属性，方便删除属性
+- 新增：图片编辑宽高为空时自动清除图片宽度和高度
+- 新增：vue使用示例说明（需第三方库支持）
 - 修复：编辑器只包含视频，提交到服务器端的内容为空
 - 优化：移除 video parse 无用插件
 
@@ -95,9 +152,11 @@ grunt default
 
 
 
-## 项目推荐
+## 好项目推荐
 
-- [ModStart快速开发框架](https://modstart.com)
+- 快速开发框架 [ModStart](https://modstart.com)
+- 企业内容建站系统 [ModStartCMS](https://modstart.com)
+- 现代化个人博客系统 [ModStartBlog](https://modstart.com)
 
 
 
