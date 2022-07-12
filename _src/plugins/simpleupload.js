@@ -189,11 +189,11 @@ UE.plugin.register("simpleupload", function() {
           ".loadingclass{display:inline-block;cursor:default;background: url('" +
             this.options.themePath +
             this.options.theme +
-            "/images/loading.gif') no-repeat center center transparent;border:1px solid #cccccc;margin-right:1px;height: 22px;width: 22px;}\n" +
+            "/images/loading.gif') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-right:1px;height:22px;width:22px;}\n" +
             ".loaderrorclass{display:inline-block;cursor:default;background: url('" +
             this.options.themePath +
             this.options.theme +
-            "/images/loaderror.png') no-repeat center center transparent;border:1px solid #cccccc;margin-right:1px;height: 22px;width: 22px;" +
+            "/images/loaderror.png') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-right:1px;height:22px;width:22px;" +
             "}",
           this.document
         );

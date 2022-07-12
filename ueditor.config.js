@@ -110,7 +110,6 @@
         "scrawl",
         "insertvideo",
         "attachment",
-        "map",
         "insertframe",
         "insertcode",
         "pagebreak",

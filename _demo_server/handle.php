@@ -68,6 +68,7 @@ function output($data)
 }
 
 $action = @$_GET['action'];
+// var_dump($action);exit();
 switch ($action) {
     case 'image':
         // 图片文件上传
@@ -120,6 +121,25 @@ switch ($action) {
         // 涂鸦上传
         // output(['state' => '上传错误信息']);
         output(['state' => 'SUCCESS', 'url' => 'https://ms-assets.modstart.com/demo/modstart.jpg']);
+    case 'catch':
+        // 图片抓取
+        // output(['state' => '上传错误信息']);
+        $list = [];
+        $source = @$_POST['source'];
+        if (!is_array($source) || empty($source)) {
+            $source = [];
+        }
+        foreach ($source as $imgUrl) {
+            $list[] = [
+                'state' => 'SUCCESS',
+                'url' => 'https://ms-assets.modstart.com/demo/modstart.jpg',
+                'size' => 100,
+                'title' => 'title',
+                'original' => '',
+                'source' => htmlspecialchars($imgUrl),
+            ];
+        }
+        output(['state' => 'SUCCESS', 'list' => $list]);
     default:
         output($config);
 }

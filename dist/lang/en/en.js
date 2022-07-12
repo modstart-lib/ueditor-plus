@@ -17,7 +17,7 @@ UE.I18N['en'] = {
         'splittocols':'SplitToCols', 'splittocells':'SplitToCells','deletecaption':'DeleteCaption','inserttitle':'InsertTitle',
         'mergecells':'MergeCells', 'deletetable':'DeleteTable', 'cleardoc':'Clear', 'insertparagraphbeforetable':"InsertParagraphBeforeTable",
         'fontfamily':'FontFamily', 'fontsize':'FontSize', 'paragraph':'Paragraph','simpleupload':'Single Image','insertimage':'Multi Image','edittable':'Edit Table', 'edittd':'Edit Td','link':'Link',
-        'emotion':'Emotion', 'spechars':'Spechars', 'searchreplace':'SearchReplace', 'map':'BaiduMap',
+        'emotion':'Emotion', 'spechars':'Spechars', 'searchreplace':'SearchReplace',
         'insertvideo':'Video', 'help':'Help', 'justifyleft':'JustifyLeft', 'justifyright':'JustifyRight', 'justifycenter':'JustifyCenter',
         'justifyjustify':'Justify', 'forecolor':'FontColor', 'backcolor':'BackColor', 'insertorderedlist':'OL',
         'insertunorderedlist':'UL', 'fullscreen':'FullScreen', 'directionalityltr':'EnterFromLeft', 'directionalityrtl':'EnterFromRight',
@@ -505,17 +505,6 @@ UE.I18N['en'] = {
         },
         'validLink':'Supports only effective when a link is selected',
         'httpPrompt':'The hyperlink you enter should start with "http|https|ftp://"!'
-    },
-    map:{
-        'static':{
-            lang_city:"City",
-            lang_address:"Address",
-            city:{value:"Beijing"},
-            lang_search:"Search",
-            lang_dynamicmap:"Dynamic map"
-        },
-        cityMsg:"Please enter the city name!",
-        errorMsg:"Can't find the place!"
     },
     searchreplace:{
         'static':{

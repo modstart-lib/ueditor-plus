@@ -26295,11 +26295,11 @@ UE.plugin.register("autoupload", function() {
             ".loadingclass{display:inline-block;cursor:default;background: url('" +
               this.options.themePath +
               this.options.theme +
-              "/images/loading.gif') no-repeat center center transparent;border:1px solid #cccccc;margin-left:1px;height: 22px;width: 22px;}\n" +
+              "/images/loading.gif') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-left:1px;height:22px;width:22px;}\n" +
               ".loaderrorclass{display:inline-block;cursor:default;background: url('" +
               this.options.themePath +
               this.options.theme +
-              "/images/loaderror.png') no-repeat center center transparent;border:1px solid #cccccc;margin-right:1px;height: 22px;width: 22px;" +
+              "/images/loaderror.png') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-right:1px;height:22px;width:22px;" +
               "}",
             this.document
           );
@@ -26810,11 +26810,11 @@ UE.plugin.register("simpleupload", function() {
           ".loadingclass{display:inline-block;cursor:default;background: url('" +
             this.options.themePath +
             this.options.theme +
-            "/images/loading.gif') no-repeat center center transparent;border:1px solid #cccccc;margin-right:1px;height: 22px;width: 22px;}\n" +
+            "/images/loading.gif') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-right:1px;height:22px;width:22px;}\n" +
             ".loaderrorclass{display:inline-block;cursor:default;background: url('" +
             this.options.themePath +
             this.options.theme +
-            "/images/loaderror.png') no-repeat center center transparent;border:1px solid #cccccc;margin-right:1px;height: 22px;width: 22px;" +
+            "/images/loaderror.png') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-right:1px;height:22px;width:22px;" +
             "}",
           this.document
         );
@@ -30286,7 +30286,6 @@ UE.ui = baidu.editor.ui = {};
     link: "~/dialogs/link/link.html?20220503",
     spechars: "~/dialogs/spechars/spechars.html?20220503",
     searchreplace: "~/dialogs/searchreplace/searchreplace.html?20220503",
-    map: "~/dialogs/map/map.html?20220503",
     insertvideo: "~/dialogs/video/video.html?20220503",
     help: "~/dialogs/help/help.html?20220503",
     preview: "~/dialogs/preview/preview.html?20220503",
@@ -30484,7 +30483,6 @@ UE.ui = baidu.editor.ui = {};
       "anchor",
       "link",
       "insertimage",
-      "map",
       "insertframe",
       "wordimage",
       "insertvideo",
@@ -31497,9 +31495,6 @@ UE.ui = baidu.editor.ui = {};
               img.className.indexOf("edui-upload-video") != -1
             ) {
               dialogName = "insertvideoDialog";
-            }
-            if (img.src.indexOf("http://api.map.baidu.com") != -1) {
-              dialogName = "mapDialog";
             }
             if (img.getAttribute("anchorname")) {
               dialogName = "anchorDialog";

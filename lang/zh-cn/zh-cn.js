@@ -17,7 +17,7 @@ UE.I18N['zh-cn'] = {
         'splittocols':'拆分成列', 'splittocells':'完全拆分单元格','deletecaption':'删除表格标题','inserttitle':'插入标题',
         'mergecells':'合并多个单元格', 'deletetable':'删除表格', 'cleardoc':'清空文档','insertparagraphbeforetable':"表格前插入行",'insertcode':'代码语言',
         'fontfamily':'字体', 'fontsize':'字号', 'paragraph':'段落格式', 'simpleupload':'单图上传', 'insertimage':'插入图片','edittable':'表格属性','edittd':'单元格属性', 'link':'超链接',
-        'emotion':'表情', 'spechars':'特殊字符', 'searchreplace':'查询替换', 'map':'Baidu地图',
+        'emotion':'表情', 'spechars':'特殊字符', 'searchreplace':'查询替换',
         'insertvideo':'视频', 'help':'帮助', 'justifyleft':'居左对齐', 'justifyright':'居右对齐', 'justifycenter':'居中对齐',
         'justifyjustify':'两端对齐', 'forecolor':'字体颜色', 'backcolor':'背景色', 'insertorderedlist':'有序列表',
         'insertunorderedlist':'无序列表', 'fullscreen':'全屏', 'directionalityltr':'从左向右输入', 'directionalityrtl':'从右向左输入',
@@ -507,17 +507,6 @@ UE.I18N['zh-cn'] = {
         },
         'validLink':'只支持选中一个链接时生效',
         'httpPrompt':'您输入的超链接中不包含http等协议名称，默认将为您添加http://前缀'
-    },
-    'map':{
-        'static':{
-            lang_city:"城市",
-            lang_address:"地址",
-            city:{value:"北京"},
-            lang_search:"搜索",
-            lang_dynamicmap:"插入动态地图"
-        },
-        cityMsg:"请选择城市",
-        errorMsg:"抱歉，找不到该位置！"
     },
     'searchreplace':{
         'static':{

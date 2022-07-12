@@ -296,9 +296,6 @@
             ) {
               dialogName = "insertvideoDialog";
             }
-            if (img.src.indexOf("http://api.map.baidu.com") != -1) {
-              dialogName = "mapDialog";
-            }
             if (img.getAttribute("anchorname")) {
               dialogName = "anchorDialog";
               html = popup.formatHtml(
