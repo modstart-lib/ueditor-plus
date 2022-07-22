@@ -82,7 +82,7 @@ switch ($action) {
     case 'listImage':
         // 图片列表
         $list = [];
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $list[] = [
                 'url' => 'https://ms-assets.modstart.com/demo/modstart.jpg',
                 'mtime' => time(),
@@ -92,7 +92,7 @@ switch ($action) {
             "state" => "SUCCESS",
             "list" => $list,
             "start" => 0,
-            "total" => 10
+            "total" => 100
         ];
         output($result);
     case 'video':
@@ -108,7 +108,7 @@ switch ($action) {
     case 'listFile':
         // 文件列表
         $list = [];
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $list[] = [
                 'url' => 'https://ms-assets.modstart.com/demo/modstart.jpg',
                 'mtime' => time(),
@@ -118,7 +118,7 @@ switch ($action) {
             "state" => "SUCCESS",
             "list" => $list,
             "start" => 0,
-            "total" => 10
+            "total" => 100
         ];
         output($result);
     case 'crawl':
