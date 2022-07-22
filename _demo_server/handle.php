@@ -24,7 +24,11 @@ $config = [
     "snapscreenInsertAlign" => "none",
 
     // 抓取
-    "catcherLocalDomain" => ["127.0.0.1", "localhost"],
+    "catcherLocalDomain" => [
+        "127.0.0.1",
+        "localhost",
+        "ms-assets.modstart.com",
+    ],
     "catcherActionName" => "catch",
     "catcherFieldName" => "source",
     "catcherUrlPrefix" => "",
