@@ -22,13 +22,13 @@ UE.plugins["customstyle"] = function() {
         tag: "h1",
         name: "tc",
         style:
-          "font-size:32px;font-weight:bold;border-bottom:#ccc 2px solid;padding:0 4px 0 0;text-align:center;margin:0 0 20px 0;"
+          "font-size:32px;line-height:40px;font-weight:bold;border-bottom:#ccc 2px solid;padding:0 4px 0 0;text-align:center;"
       },
       {
         tag: "h1",
         name: "tl",
         style:
-          "font-size:32px;font-weight:bold;border-bottom:#ccc 2px solid;padding:0 4px 0 0;text-align:left;margin:0 0 10px 0;"
+          "font-size:32px;line-height:40px;font-weight:bold;border-bottom:#ccc 2px solid;padding:0 4px 0 0;text-align:left;"
       },
       {
         tag: "span",

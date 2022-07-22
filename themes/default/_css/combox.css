@@ -30,6 +30,10 @@
     -moz-border-radius: 2px;
 }
 
+.edui-default .edui-toolbar .edui-combox .edui-combox-body > div {
+    vertical-align: top;
+}
+
 .edui-default .edui-toolbar .edui-combox-body .edui-splitborder {
     display: none;
 }

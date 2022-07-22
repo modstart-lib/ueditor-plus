@@ -494,6 +494,10 @@ div.edui-box {
     -moz-border-radius: 2px;
 }
 
+.edui-default .edui-toolbar .edui-combox .edui-combox-body > div {
+    vertical-align: top;
+}
+
 .edui-default .edui-toolbar .edui-combox-body .edui-splitborder {
     display: none;
 }
@@ -1600,7 +1604,7 @@ div.edui-box {
     line-height: 20px;
     height: 20px;
     border: 1px solid #333;
-    padding: 3px 5px;
+    padding: 0 5px;
     cursor: pointer;
     border-radius: 3px;
 }
@@ -1781,7 +1785,7 @@ div.edui-box {
 .edui-default .edui-toolbar .edui-separator {
     width: 1px;
     height: 20px;
-    margin: 5px 0px;
+    margin: 5px 5px;
     background: #CCC;
 }
 
@@ -1790,10 +1794,11 @@ div.edui-box {
     position: absolute;
     overflow: hidden;
     bottom: 1px;
-    left: 1px;
-    width: 18px;
+    left: 5px;
+    width: 20px;
     height: 4px;
 }
+
 /*表情按钮及弹出菜单*/
 /*去除了表情的下拉箭头*/
 .edui-default .edui-for-emotion .edui-icon:before {

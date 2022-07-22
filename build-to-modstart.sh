@@ -1,3 +1,5 @@
+rm -rfv dist/
+rm -rfv dist-min/
 grunt default
 rm -rfv ../../vendor/modstart/modstart/resources/asset/src/vendor/ueditor/
 rm -rfv ../../vendor/modstart/modstart/asset/vendor/ueditor/
