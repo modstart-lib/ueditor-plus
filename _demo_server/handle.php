@@ -91,7 +91,7 @@ switch ($action) {
         $result = [
             "state" => "SUCCESS",
             "list" => $list,
-            "start" => 0,
+            "start" => intval(@$_GET['start']),
             "total" => 100
         ];
         output($result);
@@ -117,7 +117,7 @@ switch ($action) {
         $result = [
             "state" => "SUCCESS",
             "list" => $list,
-            "start" => 0,
+            "start" => intval(@$_GET['start']),
             "total" => 100
         ];
         output($result);
