@@ -129,6 +129,7 @@ grunt default
 
 #### v2.3.0
 
+- 新增：自定义菜单按钮样式类 edui-toolbar-button-custom
 - 移除：移除百度地图插件
 - 优化：文件粘贴上传Loading样式美化
 - 优化：颜色选择工具颜色条样式错位调整

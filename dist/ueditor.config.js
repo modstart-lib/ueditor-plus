@@ -139,7 +139,7 @@
         "print",
         "preview",
         "searchreplace",
-        "help"
+        "help",
       ]
     ]
 

@@ -587,6 +587,19 @@ div.edui-box {
     filter: alpha(opacity = 30);
 }
 
+.edui-default .edui-toolbar-button-custom{
+  display: inline-block !important;
+  line-height: 30px;
+  vertical-align: middle;
+  padding: 0 10px;
+  border-radius: 3px;
+  margin: 0 5px;
+}
+
+.edui-default .edui-toolbar-button-custom:hover{
+  background: #EEE;
+}
+
 /* toolbar icons */
 .edui-default .edui-for-undo .edui-icon:before {
      content: "\e60f";
