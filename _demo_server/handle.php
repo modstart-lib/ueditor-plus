@@ -27,7 +27,6 @@ $config = [
     "catcherLocalDomain" => [
         "127.0.0.1",
         "localhost",
-        "ms-assets.modstart.com",
     ],
     "catcherActionName" => "catch",
     "catcherFieldName" => "source",

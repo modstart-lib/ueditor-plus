@@ -12,6 +12,10 @@
   url('./../font/iconfont.ttf?t=1651572942270') format('truetype');
 }
 
+.edui-default {
+  accent-color: #333;
+}
+
 /* common layer */
 .edui-default .edui-box {
     border: none;

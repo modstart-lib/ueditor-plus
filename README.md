@@ -6,8 +6,6 @@
 
 > `/dist/` 和 `/dist-min/` 目录分别为构建的非压缩和压缩版代码，可直接使用
 
-
-
 ## 功能亮点
 
 - 全新的UI外观，使用字体图标替换原有图片图标
@@ -16,13 +14,9 @@
 - 演示界面重构，右上角可直接查看当前演示界面代码
 - 兼容现有UEditor，实现无缝切换
 
-
-
 ## 在线演示
 
 - [https://open-demo.modstart.com/ueditor-plus/_examples/](https://open-demo.modstart.com/ueditor-plus/_examples/)
-
-
 
 ## 使用教程
 
@@ -33,9 +27,9 @@
 <script type="text/javascript" src="/path/to/UEditorPlus/ueditor.config.js"></script>
 <script type="text/javascript" src="/path/to/UEditorPlus/ueditor.all.js"></script>
 <script>
-	var ue = UE.getEditor('editor', {
-      // ... 更多配置
-  });
+    var ue = UE.getEditor('editor', {
+        // ... 更多配置
+    });
 </script>
 ```
 
@@ -53,48 +47,41 @@ yarn add vue-ueditor-wrap
 
 ```html
 <template>
-	<div class="content">
-		<vue-ueditor-wrap v-model="content" 
-      editor-id="editor" 
-      :config="editorConfig" 
-      :editorDependencies="['ueditor.config.js','ueditor.all.js']"
-			style="height:500px;" />
-	</div>
+    <div class="content">
+        <vue-ueditor-wrap v-model="content"
+                          editor-id="editor"
+                          :config="editorConfig"
+                          :editorDependencies="['ueditor.config.js','ueditor.all.js']"
+                          style="height:500px;"/>
+    </div>
 </template>
-
 <script>
-	export default {
-		data() {
-			return {
-				content: '<p>Hello UEditorPlus</p>',
-        editorConfig: {
-          serverUrl: '后端服务'
-          // 配置UEditorPlus的惊天资源
-          UEDITOR_HOME_URL:'/static/UEditorPlus'
+    export default {
+        data() {
+            return {
+                content: '<p>Hello UEditorPlus</p>',
+                editorConfig: {
+                    serverUrl: '后端服务'
+                    // 配置UEditorPlus的惊天资源
+                    UEDITOR_HOME_URL: '/static/UEditorPlus'
+                }
+            }
         }
-			}
-		}
-	}
+    }
 </script>
 ```
 
 更多配置和使用参考：[vue-ueditor-wrap](https://hc199421.gitee.io/vue-ueditor-wrap)
 
-
-
 ## 关于Bug反馈与维护
 
 - 众所周知 UEditor 使用的人数多，目前已经累积了N个Bug，开源不易需要大家共同维护
-- 对于在实际使用中遇到的问题，如果急需解决推荐使用 [悬赏Issue](https://gitee.com/modstart-lib/ueditor-plus/reward_issues/new) ，这样让更多有能力的开发者有共同维护的动力
-
-
+- 对于在实际使用中遇到的问题，如果急需解决推荐使用 [悬赏Issue](https://gitee.com/modstart-lib/ueditor-plus/reward_issues/new)，这样让更多有能力的开发者有共同维护的动力
 
 ## 使用交流
 
 - QQ群：539492162
 - 使用问题或者改进建议，欢迎进群交流
-
-
 
 ## 二次开发
 
@@ -115,8 +102,6 @@ npm install
 grunt default
 ```
 
-
-
 ## UEditor相关链接
 
 - UEditor 官网：[http://ueditor.baidu.com](http://ueditor.baidu.com)
@@ -124,14 +109,14 @@ grunt default
 - UEditor 文档：[http://fex.baidu.com/ueditor/](http://fex.baidu.com/ueditor/)
 - UEditor API 文档：[http://ueditor.baidu.com/doc](http://ueditor.baidu.com/doc)
 
-
 ## 更新日志
 
 #### v2.3.0
 
+- 新增：自动抓取图片优化为串行抓取，避免批量接口超时问题
 - 新增：自定义菜单按钮样式类 edui-toolbar-button-custom
 - 移除：移除百度地图插件
-- 优化：文件粘贴上传Loading样式美化
+- 优化：文件粘贴上传Loading样式美化，勾选和单选基础颜色调整
 - 优化：颜色选择工具颜色条样式错位调整
 - 优化：工具栏下拉采样样式优化，页面margin导致的下拉错位
 - 优化：演示Demo中自定义标题下拉样式
@@ -159,15 +144,11 @@ grunt default
 - 新增：`toolbarCallback` 属性，可以自定义响应工具栏图标点击
 - 移除：谷歌地图、图片搜索、音乐搜索、截屏
 
-
-
 ## 好项目推荐
 
 - 快速开发框架 [ModStart](https://modstart.com)
 - 企业内容建站系统 [ModStartCMS](https://modstart.com)
 - 现代化个人博客系统 [ModStartBlog](https://modstart.com)
-
-
 
 ## 开源协议
 
