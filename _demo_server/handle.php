@@ -77,7 +77,12 @@ switch ($action) {
         // 图片文件上传
         // print_r($_FILES);
         // output(['state' => '上传错误信息']);
-        output(['state' => 'SUCCESS', 'url' => 'https://ms-assets.modstart.com/demo/modstart.jpg']);
+        sleep(2);
+        $name = isset($_POST['name']) ? $_POST['name'] : '';
+        output([
+            'state' => 'SUCCESS',
+            'url' => 'https://ms-assets.modstart.com/demo/modstart.jpg?name=' . urlencode($name),
+        ]);
     case 'listImage':
         // 图片列表
         $list = [];
