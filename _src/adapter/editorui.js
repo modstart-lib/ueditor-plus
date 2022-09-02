@@ -37,7 +37,7 @@
     help: "~/dialogs/help/help.html?20220503",
     preview: "~/dialogs/preview/preview.html?20220503",
     emotion: "~/dialogs/emotion/emotion.html?20220503",
-    wordimage: "~/dialogs/wordimage/wordimage.html?20220503",
+    wordimage: "~/dialogs/wordimage/wordimage.html?20220902",
     attachment: "~/dialogs/attachment/attachment.html?20220503",
     insertframe: "~/dialogs/insertframe/insertframe.html?20220503",
     edittip: "~/dialogs/table/edittip.html?20220503",

@@ -41,6 +41,10 @@ img {
   max-width: 100%;
 }
 
+img[word_img]{
+  cursor: pointer;
+}
+
 pre {
   margin: .5em 0;
   padding: .4em .6em;

@@ -253,6 +253,16 @@
       });
       popup.render();
       if (editor.options.imagePopup) {
+        editor.addListener("click", function(t, evt) {
+          var el = evt.target || evt.srcElement;
+          switch(el.tagName){
+            case 'IMG':
+              if (el.getAttribute("word_img")) {
+                editor.ui._dialogs.wordimageDialog && editor.ui._dialogs.wordimageDialog.open();
+              }
+              break;
+          }
+        });
         editor.addListener("mouseover", function(t, evt) {
           evt = evt || window.event;
           var el = evt.target || evt.srcElement;
