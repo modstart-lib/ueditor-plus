@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
   instants: {},
   I18N: {},
   _customizeUI: {},
-  version: "2.3.0"
+  version: "2.4.0"
 };
 var dom = (UE.dom = {});
 
@@ -30304,7 +30304,7 @@ UE.ui = baidu.editor.ui = {};
     help: "~/dialogs/help/help.html?20220503",
     preview: "~/dialogs/preview/preview.html?20220503",
     emotion: "~/dialogs/emotion/emotion.html?20220503",
-    wordimage: "~/dialogs/wordimage/wordimage.html?20220503",
+    wordimage: "~/dialogs/wordimage/wordimage.html?20220902",
     attachment: "~/dialogs/attachment/attachment.html?20220503",
     insertframe: "~/dialogs/insertframe/insertframe.html?20220503",
     edittip: "~/dialogs/table/edittip.html?20220503",
@@ -31467,6 +31467,16 @@ UE.ui = baidu.editor.ui = {};
       });
       popup.render();
       if (editor.options.imagePopup) {
+        editor.addListener("click", function(t, evt) {
+          var el = evt.target || evt.srcElement;
+          switch(el.tagName){
+            case 'IMG':
+              if (el.getAttribute("word_img")) {
+                editor.ui._dialogs.wordimageDialog && editor.ui._dialogs.wordimageDialog.open();
+              }
+              break;
+          }
+        });
         editor.addListener("mouseover", function(t, evt) {
           evt = evt || window.event;
           var el = evt.target || evt.srcElement;

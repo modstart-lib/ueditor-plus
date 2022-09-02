@@ -111,7 +111,7 @@ grunt default
 
 ## 更新日志
 
-#### v2.4.0
+#### v2.4.0 Word图片粘贴重构，功能样式优化
 
 - 新增：Word粘贴内容图片转存wordimage功能重构
 - 新增：引入第三方复制插件clipboard库
