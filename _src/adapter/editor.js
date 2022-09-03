@@ -2,7 +2,7 @@
 ///commands 全屏
 ///commandsName FullScreen
 ///commandsTitle  全屏
-(function() {
+(function () {
   var utils = baidu.editor.utils,
     uiUtils = baidu.editor.ui.uiUtils,
     UIBase = baidu.editor.ui.UIBase,
@@ -16,7 +16,7 @@
 
   EditorUI.prototype = {
     uiName: "editor",
-    initEditorUI: function() {
+    initEditorUI: function () {
       this.editor.ui = this;
       this._dialogs = {};
       this.initUIBase();
@@ -24,24 +24,24 @@
       var editor = this.editor,
         me = this;
 
-      editor.addListener("ready", function() {
+      editor.addListener("ready", function () {
         //提供getDialog方法
-        editor.getDialog = function(name) {
+        editor.getDialog = function (name) {
           return editor.ui._dialogs[name + "Dialog"];
         };
-        domUtils.on(editor.window, "scroll", function(evt) {
+        domUtils.on(editor.window, "scroll", function (evt) {
           baidu.editor.ui.Popup.postHide(evt);
         });
         //提供编辑器实时宽高(全屏时宽高不变化)
         editor.ui._actualFrameWidth = editor.options.initialFrameWidth;
 
         UE.browser.ie &&
-          UE.browser.version === 6 &&
-          editor.container.ownerDocument.execCommand(
-            "BackgroundImageCache",
-            false,
-            true
-          );
+        UE.browser.version === 6 &&
+        editor.container.ownerDocument.execCommand(
+          "BackgroundImageCache",
+          false,
+          true
+        );
 
         //display bottom-bar label based on config
         if (editor.options.elementPathEnabled) {
@@ -55,6 +55,7 @@
             setCount(editor, me);
             domUtils.un(editor.document, "click", arguments.callee);
           }
+
           domUtils.on(editor.document, "click", countFn);
           editor.ui.getDom("wordcount").innerHTML = editor.getLang(
             "wordCountTip"
@@ -83,12 +84,12 @@
         editor.fireEvent("selectionchange", false, true);
       });
 
-      editor.addListener("mousedown", function(t, evt) {
+      editor.addListener("mousedown", function (t, evt) {
         var el = evt.target || evt.srcElement;
         baidu.editor.ui.Popup.postHide(evt, el);
         baidu.editor.ui.ShortCutMenu.postHide(evt);
       });
-      editor.addListener("delcells", function() {
+      editor.addListener("delcells", function () {
         if (UE.ui["edittip"]) {
           new UE.ui["edittip"](editor);
         }
@@ -98,11 +99,11 @@
       var pastePop,
         isPaste = false,
         timer;
-      editor.addListener("afterpaste", function() {
+      editor.addListener("afterpaste", function () {
         if (editor.queryCommandState("pasteplain")) return;
         if (baidu.editor.ui.PastePicker) {
           pastePop = new baidu.editor.ui.Popup({
-            content: new baidu.editor.ui.PastePicker({ editor: editor }),
+            content: new baidu.editor.ui.PastePicker({editor: editor}),
             editor: editor,
             className: "edui-wordpastepop"
           });
@@ -111,20 +112,20 @@
         isPaste = true;
       });
 
-      editor.addListener("afterinserthtml", function() {
+      editor.addListener("afterinserthtml", function () {
         clearTimeout(timer);
-        timer = setTimeout(function() {
+        timer = setTimeout(function () {
           if (pastePop && (isPaste || editor.ui._isTransfer)) {
             if (pastePop.isHidden()) {
               var span = domUtils.createElement(editor.document, "span", {
-                style: "line-height:0px;",
-                innerHTML: "\ufeff"
-              }),
+                  style: "line-height:0px;",
+                  innerHTML: "\ufeff"
+                }),
                 range = editor.selection.getRange();
               range.insertNode(span);
               var tmp = getDomNode(span, "firstChild", "previousSibling");
               tmp &&
-                pastePop.showAnchor(tmp.nodeType == 3 ? tmp.parentNode : tmp);
+              pastePop.showAnchor(tmp.nodeType == 3 ? tmp.parentNode : tmp);
               domUtils.remove(span);
             } else {
               pastePop.show();
@@ -134,19 +135,20 @@
           }
         }, 200);
       });
-      editor.addListener("contextmenu", function(t, evt) {
+      editor.addListener("contextmenu", function (t, evt) {
         baidu.editor.ui.Popup.postHide(evt);
       });
-      editor.addListener("keydown", function(t, evt) {
+      editor.addListener("keydown", function (t, evt) {
         if (pastePop) pastePop.dispose(evt);
         var keyCode = evt.keyCode || evt.which;
         if (evt.altKey && keyCode == 90) {
           UE.ui.buttons["fullscreen"].onclick();
         }
       });
-      editor.addListener("wordcount", function(type) {
+      editor.addListener("wordcount", function (type) {
         setCount(this, me);
       });
+
       function setCount(editor, ui) {
         editor.setOpt({
           wordCount: true,
@@ -175,37 +177,37 @@
         }
       }
 
-      editor.addListener("selectionchange", function() {
+      editor.addListener("selectionchange", function () {
         if (editor.options.elementPathEnabled) {
           me[
-            (editor.queryCommandState("elementpath") == -1 ? "dis" : "en") +
-              "ableElementPath"
-          ]();
+          (editor.queryCommandState("elementpath") == -1 ? "dis" : "en") +
+          "ableElementPath"
+            ]();
         }
         if (editor.options.scaleEnabled) {
           me[
-            (editor.queryCommandState("scale") == -1 ? "dis" : "en") +
-              "ableScale"
-          ]();
+          (editor.queryCommandState("scale") == -1 ? "dis" : "en") +
+          "ableScale"
+            ]();
         }
       });
       var popup = new baidu.editor.ui.Popup({
         editor: editor,
         content: "",
         className: "edui-bubble",
-        _onEditButtonClick: function() {
+        _onEditButtonClick: function () {
           this.hide();
           editor.ui._dialogs.linkDialog.open();
         },
-        _onImgEditButtonClick: function(name) {
+        _onImgEditButtonClick: function (name) {
           this.hide();
           editor.ui._dialogs[name] && editor.ui._dialogs[name].open();
         },
-        _onImgSetFloat: function(value) {
+        _onImgSetFloat: function (value) {
           this.hide();
           editor.execCommand("imagefloat", value);
         },
-        _setIframeAlign: function(value) {
+        _setIframeAlign: function (value) {
           var frame = popup.anchorEl;
           var newFrame = frame.cloneNode(true);
           switch (value) {
@@ -224,7 +226,7 @@
           popup.anchorEl = newFrame;
           popup.showAnchor(popup.anchorEl);
         },
-        _updateIframe: function() {
+        _updateIframe: function () {
           var frame = (editor._iframe = popup.anchorEl);
           if (domUtils.hasClass(frame, "ueditor_baidumap")) {
             editor.selection.getRange().selectNode(frame).select();
@@ -235,11 +237,11 @@
             popup.hide();
           }
         },
-        _onRemoveButtonClick: function(cmdName) {
+        _onRemoveButtonClick: function (cmdName) {
           editor.execCommand(cmdName);
           this.hide();
         },
-        queryAutoHide: function(el) {
+        queryAutoHide: function (el) {
           if (el && el.ownerDocument == editor.document) {
             if (
               el.tagName.toLowerCase() == "img" ||
@@ -253,17 +255,7 @@
       });
       popup.render();
       if (editor.options.imagePopup) {
-        editor.addListener("click", function(t, evt) {
-          var el = evt.target || evt.srcElement;
-          switch(el.tagName){
-            case 'IMG':
-              if (el.getAttribute("data-word-image")) {
-                editor.ui._dialogs.wordimageDialog && editor.ui._dialogs.wordimageDialog.open();
-              }
-              break;
-          }
-        });
-        editor.addListener("mouseover", function(t, evt) {
+        editor.addListener("mouseover", function (t, evt) {
           evt = evt || window.event;
           var el = evt.target || evt.srcElement;
           if (
@@ -272,16 +264,16 @@
           ) {
             var html = popup.formatHtml(
               "<nobr>" +
-                '<span onclick=$$._setIframeAlign(-2) class="edui-clickable">' +
-                editor.getLang("default") +
-                '</span>&nbsp;&nbsp;<span onclick=$$._setIframeAlign(-1) class="edui-clickable">' +
-                editor.getLang("justifyleft") +
-                '</span>&nbsp;&nbsp;<span onclick=$$._setIframeAlign(1) class="edui-clickable">' +
-                editor.getLang("justifyright") +
-                "</span>&nbsp;&nbsp;" +
-                ' <span onclick="$$._updateIframe( this);" class="edui-clickable">' +
-                editor.getLang("modify") +
-                "</span></nobr>"
+              '<span onclick=$$._setIframeAlign(-2) class="edui-clickable">' +
+              editor.getLang("default") +
+              '</span>&nbsp;&nbsp;<span onclick=$$._setIframeAlign(-1) class="edui-clickable">' +
+              editor.getLang("justifyleft") +
+              '</span>&nbsp;&nbsp;<span onclick=$$._setIframeAlign(1) class="edui-clickable">' +
+              editor.getLang("justifyright") +
+              "</span>&nbsp;&nbsp;" +
+              ' <span onclick="$$._updateIframe( this);" class="edui-clickable">' +
+              editor.getLang("modify") +
+              "</span></nobr>"
             );
             if (html) {
               popup.getDom("content").innerHTML = html;
@@ -292,7 +284,7 @@
             }
           }
         });
-        editor.addListener("selectionchange", function(t, causeByUi) {
+        editor.addListener("selectionchange", function (t, causeByUi) {
           if (!causeByUi) return;
           var html = "",
             str = "",
@@ -310,19 +302,19 @@
               dialogName = "anchorDialog";
               html = popup.formatHtml(
                 "<nobr>" +
-                  '<span onclick=$$._onImgEditButtonClick("anchorDialog") class="edui-clickable">' +
-                  editor.getLang("modify") +
-                  "</span>&nbsp;&nbsp;" +
-                  "<span onclick=$$._onRemoveButtonClick('anchor') class=\"edui-clickable\">" +
-                  editor.getLang("delete") +
-                  "</span></nobr>"
+                '<span onclick=$$._onImgEditButtonClick("anchorDialog") class="edui-clickable">' +
+                editor.getLang("modify") +
+                "</span>&nbsp;&nbsp;" +
+                "<span onclick=$$._onRemoveButtonClick('anchor') class=\"edui-clickable\">" +
+                editor.getLang("delete") +
+                "</span></nobr>"
               );
             }
-            if (img.getAttribute("data-word-image")) {
-              //todo 放到dialog去做查询
-              editor['data-word-image'] = [img.getAttribute("data-word-image")];
-              dialogName = "wordimageDialog";
-            }
+            // if (img.getAttribute("data-word-image")) {
+            //   //todo 放到dialog去做查询
+            //   editor['data-word-image'] = [img.getAttribute("data-word-image")];
+            //   dialogName = "wordimageDialog";
+            // }
             if (
               domUtils.hasClass(img, "loadingclass") ||
               domUtils.hasClass(img, "loaderrorclass")
@@ -332,27 +324,40 @@
             if (!dialogs[dialogName]) {
               return;
             }
-            str =
-              "<nobr>" +
-              '<span onclick=$$._onImgSetFloat("none") class="edui-clickable">' +
-              editor.getLang("default") +
-              "</span>&nbsp;&nbsp;" +
-              '<span onclick=$$._onImgSetFloat("left") class="edui-clickable">' +
-              editor.getLang("justifyleft") +
-              "</span>&nbsp;&nbsp;" +
-              '<span onclick=$$._onImgSetFloat("right") class="edui-clickable">' +
-              editor.getLang("justifyright") +
-              "</span>&nbsp;&nbsp;" +
-              '<span onclick=$$._onImgSetFloat("center") class="edui-clickable">' +
-              editor.getLang("justifycenter") +
-              "</span>&nbsp;&nbsp;" +
-              "<span onclick=\"$$._onImgEditButtonClick('" +
-              dialogName +
-              '\');" class="edui-clickable">' +
-              editor.getLang("modify") +
-              "</span></nobr>";
 
-            !html && (html = popup.formatHtml(str));
+            var actions = [];
+            actions.push('<nobr />');
+            actions.push('<span onclick=$$._onImgSetFloat("none") class="edui-clickable edui-popup-action-item">' +
+              editor.getLang("default") +
+              "</span>");
+            actions.push('<span onclick=$$._onImgSetFloat("none") class="edui-clickable edui-popup-action-item">' +
+              editor.getLang("default") +
+              "</span>");
+            actions.push('<span onclick=$$._onImgSetFloat("left") class="edui-clickable edui-popup-action-item">' +
+              editor.getLang("justifyleft") +
+              "</span>");
+            actions.push('<span onclick=$$._onImgSetFloat("right") class="edui-clickable edui-popup-action-item">' +
+              editor.getLang("justifyright") +
+              "</span>");
+            actions.push('<span onclick=$$._onImgSetFloat("center") class="edui-clickable edui-popup-action-item">' +
+              editor.getLang("justifycenter") +
+              "</span>");
+            if (img.getAttribute('data-formula-image') !== null) {
+              actions.push("<span onclick=\"$$._onImgEditButtonClick('formulaDialog');\" class='edui-clickable edui-popup-action-item'>" +
+                 editor.getLang("formulaedit") + "</span>");
+            }
+            if (img.getAttribute("data-word-image")) {
+              actions.push("<span onclick=\"$$._onImgEditButtonClick('wordimageDialog');\" class='edui-clickable edui-popup-action-item'>" +
+                editor.getLang("save") +
+                "</span>");
+            } else {
+              actions.push("<span onclick=\"$$._onImgEditButtonClick('" + dialogName + '\');" class="edui-clickable edui-popup-action-item">' +
+                editor.getLang("modify") +
+                "</span>");
+            }
+            actions.push("</nobr>");
+
+            !html && (html = popup.formatHtml(actions.join("")));
           }
           if (editor.ui._dialogs.linkDialog) {
             var link = editor.queryCommandValue("link");
@@ -370,20 +375,20 @@
               }
               html += popup.formatHtml(
                 "<nobr>" +
-                  editor.getLang("anchorMsg") +
-                  ': <a target="_blank" href="' +
-                  url +
-                  '" title="' +
-                  url +
-                  '" >' +
-                  txt +
-                  "</a>" +
-                  ' <span class="edui-clickable" onclick="$$._onEditButtonClick();">' +
-                  editor.getLang("modify") +
-                  "</span>" +
-                  ' <span class="edui-clickable" onclick="$$._onRemoveButtonClick(\'unlink\');"> ' +
-                  editor.getLang("clear") +
-                  "</span></nobr>"
+                editor.getLang("anchorMsg") +
+                ': <a target="_blank" href="' +
+                url +
+                '" title="' +
+                url +
+                '" >' +
+                txt +
+                "</a>" +
+                ' <span class="edui-clickable" onclick="$$._onEditButtonClick();">' +
+                editor.getLang("modify") +
+                "</span>" +
+                ' <span class="edui-clickable" onclick="$$._onRemoveButtonClick(\'unlink\');"> ' +
+                editor.getLang("clear") +
+                "</span></nobr>"
               );
               popup.showAnchor(link);
             }
@@ -399,7 +404,7 @@
         });
       }
     },
-    _initToolbars: function() {
+    _initToolbars: function () {
       var editor = this.editor;
       var toolbars = this.toolbars || [];
       var toolbarUis = [];
@@ -463,19 +468,19 @@
 
       //接受外部定制的UI
 
-      utils.each(extraUIs, function(obj) {
+      utils.each(extraUIs, function (obj) {
         toolbarUi.add(obj.itemUI, obj.index);
       });
       this.toolbars = toolbarUis;
     },
-    getHtmlTpl: function() {
+    getHtmlTpl: function () {
       return (
         '<div id="##" class="%%">' +
         '<div id="##_toolbarbox" class="%%-toolbarbox">' +
         (this.toolbars.length
           ? '<div id="##_toolbarboxouter" class="%%-toolbarboxouter"><div class="%%-toolbarboxinner">' +
-              this.renderToolbarBoxHtml() +
-              "</div></div>"
+          this.renderToolbarBoxHtml() +
+          "</div></div>"
           : "") +
         '<div id="##_toolbarmsg" class="%%-toolbarmsg" style="display:none;">' +
         '<div id = "##_upload_dialog" class="%%-toolbarmsg-upload" onclick="$$.showWordImageDialog();">' +
@@ -499,17 +504,17 @@
         "</div>"
       );
     },
-    showWordImageDialog: function() {
+    showWordImageDialog: function () {
       this._dialogs["wordimageDialog"].open();
     },
-    renderToolbarBoxHtml: function() {
+    renderToolbarBoxHtml: function () {
       var buff = [];
       for (var i = 0; i < this.toolbars.length; i++) {
         buff.push(this.toolbars[i].renderHtml());
       }
       return buff.join("");
     },
-    setFullScreen: function(fullscreen) {
+    setFullScreen: function (fullscreen) {
       var editor = this.editor,
         container = editor.container.parentNode.parentNode;
       if (this._fullscreen != fullscreen) {
@@ -573,9 +578,9 @@
           var input = document.createElement("input");
           document.body.appendChild(input);
           editor.body.contentEditable = false;
-          setTimeout(function() {
+          setTimeout(function () {
             input.focus();
-            setTimeout(function() {
+            setTimeout(function () {
               editor.body.contentEditable = true;
               editor.fireEvent("fullscreenchanged", fullscreen);
               editor.selection.getRange().moveToBookmark(bk).select(true);
@@ -591,7 +596,7 @@
         }
       }
     },
-    _updateFullScreen: function() {
+    _updateFullScreen: function () {
       if (this._fullscreen) {
         var vpRect = uiUtils.getViewportRect();
         this.getDom().style.cssText =
@@ -609,20 +614,21 @@
         });
         this.editor.setHeight(
           vpRect.height -
-            this.getDom("toolbarbox").offsetHeight -
-            this.getDom("bottombar").offsetHeight -
-            (this.editor.options.topOffset || 0),
+          this.getDom("toolbarbox").offsetHeight -
+          this.getDom("bottombar").offsetHeight -
+          (this.editor.options.topOffset || 0),
           true
         );
         //不手动调一下，会导致全屏失效
         if (browser.gecko) {
           try {
             window.onresize();
-          } catch (e) {}
+          } catch (e) {
+          }
         }
       }
     },
-    _updateElementPath: function() {
+    _updateElementPath: function () {
       var bottom = this.getDom("elementpath"),
         list;
       if (
@@ -633,10 +639,10 @@
         for (var i = 0, ci; (ci = list[i]); i++) {
           buff[i] = this.formatHtml(
             '<span unselectable="on" onclick="$$.editor.execCommand(&quot;elementpath&quot;, &quot;' +
-              i +
-              '&quot;);">' +
-              ci +
-              "</span>"
+            i +
+            '&quot;);">' +
+            ci +
+            "</span>"
           );
         }
         bottom.innerHTML =
@@ -649,19 +655,19 @@
         bottom.style.display = "none";
       }
     },
-    disableElementPath: function() {
+    disableElementPath: function () {
       var bottom = this.getDom("elementpath");
       bottom.innerHTML = "";
       bottom.style.display = "none";
       this.elementPathEnabled = false;
     },
-    enableElementPath: function() {
+    enableElementPath: function () {
       var bottom = this.getDom("elementpath");
       bottom.style.display = "";
       this.elementPathEnabled = true;
       this._updateElementPath();
     },
-    _scale: function() {
+    _scale: function () {
       var doc = document,
         editor = this.editor,
         editorHolder = editor.container,
@@ -705,7 +711,7 @@
 
       var me = this;
       //by xuheng 全屏时关掉缩放
-      this.editor.addListener("fullscreenchanged", function(e, fullScreen) {
+      this.editor.addListener("fullscreenchanged", function (e, fullScreen) {
         if (fullScreen) {
           me.disableScale();
         } else {
@@ -722,6 +728,7 @@
           }
         }
       });
+
       function move(event) {
         clearSelection();
         var e = event || window.event;
@@ -748,9 +755,9 @@
 
           editor.setHeight(
             scalelayer.offsetHeight -
-              bottombar.offsetHeight -
-              toolbarBox.offsetHeight -
-              2,
+            bottombar.offsetHeight -
+            toolbarBox.offsetHeight -
+            2,
             true
           );
         }
@@ -768,23 +775,23 @@
         else window.getSelection().removeAllRanges();
       }
 
-      this.enableScale = function() {
+      this.enableScale = function () {
         //trace:2868
         if (editor.queryCommandState("source") == 1) return;
         scale.style.display = "";
         this.scaleEnabled = true;
         domUtils.on(scale, "mousedown", down);
       };
-      this.disableScale = function() {
+      this.disableScale = function () {
         scale.style.display = "none";
         this.scaleEnabled = false;
         domUtils.un(scale, "mousedown", down);
       };
     },
-    isFullScreen: function() {
+    isFullScreen: function () {
       return this._fullscreen;
     },
-    postRender: function() {
+    postRender: function () {
       UIBase.prototype.postRender.call(this);
       for (var i = 0; i < this.toolbars.length; i++) {
         this.toolbars[i].postRender();
@@ -792,20 +799,20 @@
       var me = this;
       var timerId,
         domUtils = baidu.editor.dom.domUtils,
-        updateFullScreenTime = function() {
+        updateFullScreenTime = function () {
           clearTimeout(timerId);
-          timerId = setTimeout(function() {
+          timerId = setTimeout(function () {
             me._updateFullScreen();
           });
         };
       domUtils.on(window, "resize", updateFullScreenTime);
 
-      me.addListener("destroy", function() {
+      me.addListener("destroy", function () {
         domUtils.un(window, "resize", updateFullScreenTime);
         clearTimeout(timerId);
       });
     },
-    showToolbarMsg: function(msg, flag) {
+    showToolbarMsg: function (msg, flag) {
       this.getDom("toolbarmsg_label").innerHTML = msg;
       this.getDom("toolbarmsg").style.display = "";
       //
@@ -814,15 +821,15 @@
         w.style.display = "none";
       }
     },
-    hideToolbarMsg: function() {
+    hideToolbarMsg: function () {
       this.getDom("toolbarmsg").style.display = "none";
     },
-    mapUrl: function(url) {
+    mapUrl: function (url) {
       return url
         ? url.replace("~/", this.editor.options.UEDITOR_CORS_URL || "")
         : "";
     },
-    triggerLayout: function() {
+    triggerLayout: function () {
       var dom = this.getDom();
       if (dom.style.zoom == "1") {
         dom.style.zoom = "100%";
@@ -835,7 +842,7 @@
 
   var instances = {};
 
-  UE.ui.Editor = function(options) {
+  UE.ui.Editor = function (options) {
     var editor = new UE.Editor(options);
     editor.options.editor = editor;
     utils.loadFile(document, {
@@ -847,15 +854,16 @@
     });
 
     var oldRender = editor.render;
-    editor.render = function(holder) {
+    editor.render = function (holder) {
       if (holder.constructor === String) {
         editor.key = holder;
         instances[holder] = editor;
       }
-      utils.domReady(function() {
+      utils.domReady(function () {
         editor.langIsReady
           ? renderUI()
           : editor.addListener("langReady", renderUI);
+
         function renderUI() {
           editor.setOpt({
             labelMap: editor.options.labelMap || editor.getLang("labelMap")
@@ -866,8 +874,8 @@
               holder = document.getElementById(holder);
             }
             holder &&
-              holder.getAttribute("name") &&
-              (editor.options.textarea = holder.getAttribute("name"));
+            holder.getAttribute("name") &&
+            (editor.options.textarea = holder.getAttribute("name"));
             if (holder && /script|textarea/gi.test(holder.tagName)) {
               var newDiv = document.createElement("div");
               holder.parentNode.insertBefore(newDiv, holder);
@@ -875,12 +883,12 @@
               editor.options.initialContent = /^[\t\r\n ]*$/.test(cont)
                 ? editor.options.initialContent
                 : cont
-                    .replace(/>[\n\r\t]+([ ]{4})+/g, ">")
-                    .replace(/[\n\r\t]+([ ]{4})+</g, "<")
-                    .replace(/>[\n\r\t]+</g, "><");
+                  .replace(/>[\n\r\t]+([ ]{4})+/g, ">")
+                  .replace(/[\n\r\t]+([ ]{4})+</g, "<")
+                  .replace(/>[\n\r\t]+</g, "><");
               holder.className && (newDiv.className = holder.className);
               holder.style.cssText &&
-                (newDiv.style.cssText = holder.style.cssText);
+              (newDiv.style.cssText = holder.style.cssText);
               if (/textarea/i.test(holder.tagName)) {
                 editor.textarea = holder;
                 editor.textarea.style.display = "none";
@@ -941,27 +949,27 @@
   };
 
   /**
-     * @file
-     * @name UE
-     * @short UE
-     * @desc UEditor的顶部命名空间
-     */
+   * @file
+   * @name UE
+   * @short UE
+   * @desc UEditor的顶部命名空间
+   */
   /**
-     * @name getEditor
-     * @since 1.2.4+
-     * @grammar UE.getEditor(id,[opt])  =>  Editor实例
-     * @desc 提供一个全局的方法得到编辑器实例
-     *
-     * * ''id''  放置编辑器的容器id, 如果容器下的编辑器已经存在，就直接返回
-     * * ''opt'' 编辑器的可选参数
-     * @example
-     *  UE.getEditor('containerId',{onready:function(){//创建一个编辑器实例
-     *      this.setContent('hello')
-     *  }});
-     *  UE.getEditor('containerId'); //返回刚创建的实例
-     *
-     */
-  UE.getEditor = function(id, opt) {
+   * @name getEditor
+   * @since 1.2.4+
+   * @grammar UE.getEditor(id,[opt])  =>  Editor实例
+   * @desc 提供一个全局的方法得到编辑器实例
+   *
+   * * ''id''  放置编辑器的容器id, 如果容器下的编辑器已经存在，就直接返回
+   * * ''opt'' 编辑器的可选参数
+   * @example
+   *  UE.getEditor('containerId',{onready:function(){//创建一个编辑器实例
+   *      this.setContent('hello')
+   *  }});
+   *  UE.getEditor('containerId'); //返回刚创建的实例
+   *
+   */
+  UE.getEditor = function (id, opt) {
     var editor = instances[id];
     if (!editor) {
       editor = instances[id] = new UE.ui.Editor(opt);
@@ -970,7 +978,7 @@
     return editor;
   };
 
-  UE.delEditor = function(id) {
+  UE.delEditor = function (id) {
     var editor;
     if ((editor = instances[id])) {
       editor.key && editor.destroy();
@@ -978,8 +986,8 @@
     }
   };
 
-  UE.registerUI = function(uiName, fn, index, editorId) {
-    utils.each(uiName.split(/\s+/), function(name) {
+  UE.registerUI = function (uiName, fn, index, editorId) {
+    utils.each(uiName.split(/\s+/), function (name) {
       baidu.editor.ui[name] = {
         id: editorId,
         execFn: fn,

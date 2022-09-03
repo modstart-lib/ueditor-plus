@@ -133,3 +133,10 @@ div.edui-box {
     color: gray;
     cursor: default;
 }
+
+.edui-default span.edui-popup-action-item {
+  margin-right: 5px;
+}
+.edui-default span.edui-popup-action-item:last-child {
+  margin-right: 0;
+}

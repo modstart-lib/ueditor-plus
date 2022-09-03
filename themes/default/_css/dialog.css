@@ -221,9 +221,16 @@
 
 /*wordImage-dialog*/
 .edui-default .edui-for-wordimage .edui-dialog-content {
-    width: 620px;
-    height: 380px;
-    overflow: hidden;
+  width: 620px;
+  height: 380px;
+  overflow: hidden;
+}
+
+/*formula-dialog*/
+.edui-default .edui-for-formula .edui-dialog-content {
+  width: 620px;
+  height: 300px;
+  overflow: hidden;
 }
 
 /*attachment-dialog*/

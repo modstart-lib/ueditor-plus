@@ -7,6 +7,14 @@
 UE.plugin.register("wordimage", function() {
   var me = this,
     images = [];
+
+  this.addListener("click", function (type, evt) {
+    var el = evt.target || evt.srcElement;
+    if ('IMG' == el.tagName && el.getAttribute('data-word-image')) {
+      me.ui._dialogs.wordimageDialog && me.ui._dialogs.wordimageDialog.open();
+    }
+  });
+
   return {
     commands: {
       wordimage: {
