@@ -14,7 +14,7 @@ UE.plugin.register("wordimage", function() {
           var images = domUtils.getElementsByTagName(me.body, "img");
           var urlList = [];
           for (var i = 0, ci; (ci = images[i++]); ) {
-            var url = ci.getAttribute("word_img");
+            var url = ci.getAttribute("data-word-image");
             url && urlList.push(url);
           }
           return urlList;
@@ -22,7 +22,7 @@ UE.plugin.register("wordimage", function() {
         queryCommandState: function() {
           images = domUtils.getElementsByTagName(me.body, "img");
           for (var i = 0, ci; (ci = images[i++]); ) {
-            if (ci.getAttribute("word_img")) {
+            if (ci.getAttribute("data-word-image")) {
               return 1;
             }
           }
@@ -42,7 +42,7 @@ UE.plugin.register("wordimage", function() {
             width: attrs.width,
             height: attrs.height,
             alt: attrs.alt,
-            word_img: attrs.src,
+            'data-word-image': attrs.src,
             src: src,
             style:
               "background:url(" +

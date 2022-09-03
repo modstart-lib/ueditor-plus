@@ -257,7 +257,7 @@
           var el = evt.target || evt.srcElement;
           switch(el.tagName){
             case 'IMG':
-              if (el.getAttribute("word_img")) {
+              if (el.getAttribute("data-word-image")) {
                 editor.ui._dialogs.wordimageDialog && editor.ui._dialogs.wordimageDialog.open();
               }
               break;
@@ -318,9 +318,9 @@
                   "</span></nobr>"
               );
             }
-            if (img.getAttribute("word_img")) {
+            if (img.getAttribute("data-word-image")) {
               //todo 放到dialog去做查询
-              editor.word_img = [img.getAttribute("word_img")];
+              editor['data-word-image'] = [img.getAttribute("data-word-image")];
               dialogName = "wordimageDialog";
             }
             if (

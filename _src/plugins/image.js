@@ -226,7 +226,7 @@ UE.commands["insertimage"] = {
       /img/i.test(img.tagName) &&
       (img.className != "edui-faked-video" ||
         img.className.indexOf("edui-upload-video") != -1) &&
-      !img.getAttribute("word_img")
+      !img.getAttribute("data-word-image")
     ) {
       var first = opt.shift();
       var floatStyle = first["floatStyle"];

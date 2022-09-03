@@ -162,7 +162,7 @@ UE.plugins["catchremoteimage"] = function () {
       };
 
     for (var i = 0, ci; (ci = imgs[i++]);) {
-      if (ci.getAttribute("word_img") || ci.getAttribute('data-catch-result')) {
+      if (ci.getAttribute("data-word-image") || ci.getAttribute('data-catch-result')) {
         continue;
       }
       if (ci.nodeName === "IMG") {
