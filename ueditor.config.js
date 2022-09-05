@@ -195,7 +195,11 @@
     }
 
     , formulaConfig: {
-      imageUrlTemplate: 'https://experiments.sparanoid.net/equation?tex={}'
+       // 魔众官方公式渲染引擎
+       imageUrlTemplate: 'https://api.tecmz.com/formula/1957169473/svg?data={}',
+       // 其他第三方公式渲染引擎
+       // imageUrlTemplate: 'https://experiments.sparanoid.net/equation?tex={}',
+       // imageUrlTemplate: 'https://latex.codecogs.com/svg.image?{}',
     }
 
     //当鼠标放在工具栏上时显示的tooltip提示,留空支持自动多语言配置，否则以配置值为准
