@@ -115,6 +115,7 @@
         "pagebreak",
         "template",
         "background",
+        "formula",
         "|",
         "horizontal",
         "date",
@@ -191,6 +192,12 @@
       //       });
       //     },1000);
       // }
+    }
+
+    , formulaConfig: {
+       // 开放公式渲染
+       imageUrlTemplate: 'https://latex.codecogs.com/svg.image?{}',
+       // 为了更稳定的公式渲染服务，推荐开通使用魔众官方公式渲染引擎 https://api.tecmz.com/module/FormulaToImage
     }
 
     //当鼠标放在工具栏上时显示的tooltip提示,留空支持自动多语言配置，否则以配置值为准

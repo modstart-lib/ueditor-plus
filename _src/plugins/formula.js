@@ -15,7 +15,7 @@ UE.plugin.register("formula", function () {
           if (img) {
             img.setAttribute("src", src);
           } else {
-            me.execCommand("insertHtml", '<img src="' + src + '" data-formula-image />');
+            me.execCommand("insertHtml", '<img src="' + src + '" data-formula-image="' + value + '" />');
           }
         },
       }

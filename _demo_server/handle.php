@@ -59,7 +59,12 @@ $config = [
     "fileManagerActionName" => "listFile",
     "fileManagerUrlPrefix" => "",
     "fileManagerListSize" => 20,
-    "fileManagerAllowFiles" => ['.zip', '.pdf', '.doc']
+    "fileManagerAllowFiles" => ['.zip', '.pdf', '.doc'],
+
+    // 公式渲染
+    "formulaConfig" => [
+        "imageUrlTemplate"=>"https://latex.codecogs.com/png.image?{}",
+    ]
 
 ];
 

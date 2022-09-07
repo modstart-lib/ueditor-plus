@@ -26,6 +26,9 @@
               try {
                 var config = isJsonp ? r : eval("(" + r.responseText + ")");
                 utils.extend(me.options, config);
+                // console.log('me.options.before',me.options);
+                // console.log('server.config',config);
+                // console.log('me.options.after',me.options);
                 me.fireEvent("serverConfigLoaded");
                 me._serverConfigLoaded = true;
               } catch (e) {

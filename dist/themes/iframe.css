@@ -41,7 +41,7 @@ img {
   max-width: 100%;
 }
 
-img[word_img]{
+img[data-word-image]{
   cursor: pointer;
 }
 
