@@ -7407,7 +7407,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
               me.options.lang +
               "/" +
               me.options.lang +
-              ".js",
+              ".js?20220907",
           tag: "script",
           type: "text/javascript",
           defer: "defer"
