@@ -63,7 +63,7 @@ $config = [
 
     // 公式渲染
     "formulaConfig" => [
-        "imageUrlTemplate"=>"https://latex.codecogs.com/png.image?{}",
+        "imageUrlTemplate"=>"https://latex.codecogs.com/svg.image?{}",
     ]
 
 ];

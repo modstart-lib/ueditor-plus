@@ -341,7 +341,7 @@
           type: "text/css",
           href:
             opt.codeMirrorCssUrl ||
-              opt.UEDITOR_HOME_URL + "third-party/codemirror/codemirror.css"
+              opt.UEDITOR_HOME_URL + "third-party/codemirror/codemirror.css?220922"
         });
       });
     }
