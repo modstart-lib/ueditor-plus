@@ -109,14 +109,29 @@ grunt default
 - UEditor 文档：[http://fex.baidu.com/ueditor/](http://fex.baidu.com/ueditor/)
 - UEditor API 文档：[http://ueditor.baidu.com/doc](http://ueditor.baidu.com/doc)
 
+## TodoList
+
+### 功能特性
+
+- [ ] 草稿功能
+- [ ] 颜色选择器支持自定义颜色 [issue](https://gitee.com/modstart-lib/ueditor-plus/issues/I5TXW7)
+- [ ] 音频上传功能 [issue](https://gitee.com/modstart-lib/ueditor-plus/issues/I5TFI7)
+- [ ] 多图上传压缩功能 [issue](https://gitee.com/modstart-lib/ueditor-plus/issues/I5KUNC)
+
+### 体验优化
+
+- [ ] 图片高度过高时操作浮窗显示问题 [issue](https://gitee.com/modstart-lib/ueditor-plus/issues/I5TXOX)
+- [ ] 编辑器焦点在图片上时，光标不能移动问题
+
 ## 更新日志
 
-#### v2.5.0
+#### v2.5.0 Latex公式编辑，源码样式优化
 
 - 新增：公式编辑器功能，提供latex语法的公式编辑器
 - 优化：Word图片转存标识调整为data-word-image
 - 优化：富文本编辑器浮层弹出按钮显示逻辑和样式优化
 - 优化：系统集成时源代码编辑行距问题优化
+- 优化：仓库新增Makefile配置文件方便快速构建
 
 #### v2.4.0 Word图片粘贴重构，功能样式优化
 
