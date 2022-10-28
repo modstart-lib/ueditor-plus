@@ -101,8 +101,7 @@
         ifr && (ifr.style.height = _height + "px");
 
         //阻止在combox上的鼠标滚轮事件, 防止用户的正常操作被误解
-        if (window.XMLHttpRequest) {
-          domUtils.on(
+        domUtils.on(
             content,
             "onmousewheel" in document.body ? "mousewheel" : "DOMMouseScroll",
             function(e) {
@@ -118,15 +117,7 @@
                 content.scrollTop -= e.detail / -3 * 60;
               }
             }
-          );
-        } else {
-          //ie6
-          domUtils.on(this.getDom(), "mousewheel", function(e) {
-            e.returnValue = false;
-
-            me.getDom("content").scrollTop -= e.wheelDelta / 120 * 60;
-          });
-        }
+        );
       }
       this.fireEvent("postRenderAfter");
       this.hide(true);
@@ -197,6 +188,12 @@
         left = sideLeft ? rect.right - popSize.width : rect.left;
         top = sideUp ? rect.top - popSize.height : rect.bottom;
       }
+      if(!sideUp){
+        if(top + popSize.height > vpRect.bottom){
+          top = vpRect.bottom - popSize.height
+        }
+      }
+      // console.log('popup.showAnchorRect', vpRect, rect, hoz, sideUp, sideLeft, left, top);
 
       var popEl = this.getDom();
       uiUtils.setViewportOffset(popEl, {
