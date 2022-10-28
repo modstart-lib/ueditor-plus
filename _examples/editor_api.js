@@ -52,6 +52,7 @@
             'plugins/wordcount.js',
             'plugins/pagebreak.js',
             'plugins/wordimage.js',
+            'plugins/autosave.js',
             'plugins/formula.js',
             'plugins/dragdrop.js',
             'plugins/undo.js',

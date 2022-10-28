@@ -113,7 +113,6 @@ grunt default
 
 ### 功能特性
 
-- [ ] 草稿功能
 - [ ] 颜色选择器支持自定义颜色 [issue](https://gitee.com/modstart-lib/ueditor-plus/issues/I5TXW7)
 - [ ] 音频上传功能 [issue](https://gitee.com/modstart-lib/ueditor-plus/issues/I5TFI7)
 - [ ] 多图上传压缩功能 [issue](https://gitee.com/modstart-lib/ueditor-plus/issues/I5KUNC)
@@ -124,6 +123,13 @@ grunt default
 - [ ] 编辑器焦点在图片上时，光标不能移动问题
 
 ## 更新日志
+
+#### v2.6.0 
+
+- 新增：自动保存功能，新增 autoSaveEnable, autoSaveRestore, autoSaveKey 配置
+- 新增：从草稿箱恢复到浏览器 auto_safe_restore 命令
+- 优化：重构 localStorage 部分代码，适配现代浏览器
+- 优化：重构完整演示 Demo 功能部分，所有测试功能重构
 
 #### v2.5.0 Latex公式编辑，源码样式优化
 
