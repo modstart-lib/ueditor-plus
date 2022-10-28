@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
   <title></title>
   <script type="text/javascript" charset="utf-8" src="../ueditor.config.js"></script>
@@ -17,16 +16,15 @@
 </head>
 <body class="demo-editor-page">
 <div>
-  <h1>UEditor简单功能</h1>
+  <h1>UEditorPlus简单功能</h1>
   <!--style给定宽度可以影响编辑器的最终宽度-->
   <script type="text/plain" id="myEditor">
         <p>这里我可以写一些输入提示</p>
-
   </script>
   <script type="text/javascript">
     UE.getEditor('myEditor', {
       //这里可以选择自己需要的工具按钮名称,此处仅选择如下五个
-      toolbars: [['FullScreen', 'Source', 'Undo', 'Redo', 'Bold', 'test']],
+      toolbars: [['fullscreen', 'source', 'undo', 'redo', 'bold']],
       //focus时自动清空初始化时的内容
       autoClearinitialContent: true,
       //关闭字数统计

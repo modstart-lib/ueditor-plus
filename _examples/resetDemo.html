@@ -6,13 +6,6 @@
     <title>重置编辑器</title>
     <script type="text/javascript" charset="utf-8" src="../ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="editor_api.js"></script>
-    <style type="text/css">
-        #simple {
-            width: 1000px;
-            border: 1px solid #ddd;
-        }
-
-    </style>
   <script>var _hmt = _hmt || [];
   (function() {
     var hm = document.createElement("script");
@@ -26,17 +19,17 @@
     <div>
       <h2>重置编辑器和销毁编辑器示例</h2>
       <div class="content" id="simple"></div>
-      <p><input type="button" onclick="simple()" value="重置编辑器内部参数"><span id="txt"></span></p>
-      <p><input id="destroy" type="button" onclick="destroy()" value="销毁编辑器"></p>
+      <p><input type="button" onclick="doSimple()" value="重置编辑器内部参数"><span id="txt"></span></p>
+      <p><input id="destroy" type="button" onclick="doDestroy()" value="销毁编辑器"></p>
       <script type="text/javascript" charset="utf-8">
         var editor = UE.getEditor('simple');
-        function simple() {
+        function doSimple() {
           if(editor){
             editor.setContent("编辑器内部变量已经被重置!");
             editor.reset();
           }
         }
-        function destroy(){
+        function doDestroy(){
           editor.destroy();
           editor = null;
           clearInterval(timer);
@@ -46,7 +39,7 @@
           button.onclick = function(){
             editor = UE.getEditor('simple');
             this.value="销毁编辑器";
-            this.onclick = destroy;
+            this.onclick = doDestroy;
             timer = setInterval( setMsg, 100 );
           }
         }

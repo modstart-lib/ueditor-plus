@@ -78,6 +78,9 @@ function output($data)
 $action = @$_GET['action'];
 // var_dump($action);exit();
 switch ($action) {
+    case 'showPost':
+        output($_POST);
+        break;
     case 'image':
         // 图片文件上传
         // print_r($_FILES);
