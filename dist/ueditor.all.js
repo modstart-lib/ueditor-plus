@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
   instants: {},
   I18N: {},
   _customizeUI: {},
-  version: "2.5.0"
+  version: "2.6.0"
 };
 var dom = (UE.dom = {});
 
@@ -10750,122 +10750,73 @@ var keymap = (UE.keymap = {
 
 
 // core/localstorage.js
-//存储媒介封装
-var LocalStorage = (UE.LocalStorage = (function() {
-  var storage = window.localStorage || getUserData() || null,
-    LOCAL_FILE = "localStorage";
+var LocalStorage = (UE.LocalStorage = (function () {
 
-  return {
-    saveLocalData: function(key, data) {
-      if (storage && data) {
-        storage.setItem(key, data);
-        return true;
-      }
-
-      return false;
-    },
-
-    getLocalData: function(key) {
-      if (storage) {
-        return storage.getItem(key);
-      }
-
-      return null;
-    },
-
-    removeItem: function(key) {
-      storage && storage.removeItem(key);
-    }
-  };
-
-  function getUserData() {
-    var container = document.createElement("div");
-    container.style.display = "none";
-
-    if (!container.addBehavior) {
-      return null;
-    }
-
-    container.addBehavior("#default#userdata");
+    var storage = window.localStorage
 
     return {
-      getItem: function(key) {
-        var result = null;
-
-        try {
-          document.body.appendChild(container);
-          container.load(LOCAL_FILE);
-          result = container.getAttribute(key);
-          document.body.removeChild(container);
-        } catch (e) {}
-
-        return result;
-      },
-
-      setItem: function(key, value) {
-        document.body.appendChild(container);
-        container.setAttribute(key, value);
-        container.save(LOCAL_FILE);
-        document.body.removeChild(container);
-      },
-
-      //// 暂时没有用到
-      //clear: function () {
-      //
-      //    var expiresTime = new Date();
-      //    expiresTime.setFullYear(expiresTime.getFullYear() - 1);
-      //    document.body.appendChild(container);
-      //    container.expires = expiresTime.toUTCString();
-      //    container.save(LOCAL_FILE);
-      //    document.body.removeChild(container);
-      //
-      //},
-
-      removeItem: function(key) {
-        document.body.appendChild(container);
-        container.removeAttribute(key);
-        container.save(LOCAL_FILE);
-        document.body.removeChild(container);
-      }
+        saveLocalData: function (key, data) {
+            // console.log('saveLocalData', key, data);
+            if (!storage) {
+                return false;
+            }
+            storage.setItem(key, data);
+            return true;
+        },
+        getLocalData: function (key) {
+            // console.log('getLocalData', key);
+            if (!storage) {
+                return null;
+            }
+            return storage.getItem(key) || null;
+        },
+        removeItem: function (key) {
+            // console.log('removeItem', key);
+            storage && storage.removeItem(key);
+        }
     };
-  }
+
 })());
 
-(function() {
-  var ROOTKEY = "ueditor_preference";
+(function () {
 
-  UE.Editor.prototype.setPreferences = function(key, value) {
-    var obj = {};
-    if (utils.isString(key)) {
-      obj[key] = value;
-    } else {
-      obj = key;
-    }
-    var data = LocalStorage.getLocalData(ROOTKEY);
-    if (data && (data = utils.str2json(data))) {
-      utils.extend(data, obj);
-    } else {
-      data = obj;
-    }
-    data && LocalStorage.saveLocalData(ROOTKEY, utils.json2str(data));
-  };
+    var ROOT_KEY = "UEditorPlusPref";
 
-  UE.Editor.prototype.getPreferences = function(key) {
-    var data = LocalStorage.getLocalData(ROOTKEY);
-    if (data && (data = utils.str2json(data))) {
-      return key ? data[key] : data;
-    }
-    return null;
-  };
+    UE.Editor.prototype.setPreferences = function (key, value) {
+        // console.log('setPreferences', key, value);
+        var obj = {};
+        if (utils.isString(key)) {
+            obj[key] = value;
+        } else {
+            obj = key;
+        }
+        var data = LocalStorage.getLocalData(ROOT_KEY);
+        if (data && (data = utils.str2json(data))) {
+            utils.extend(data, obj);
+        } else {
+            data = obj;
+        }
+        data && LocalStorage.saveLocalData(ROOT_KEY, utils.json2str(data));
+    };
 
-  UE.Editor.prototype.removePreferences = function(key) {
-    var data = LocalStorage.getLocalData(ROOTKEY);
-    if (data && (data = utils.str2json(data))) {
-      data[key] = undefined;
-      delete data[key];
-    }
-    data && LocalStorage.saveLocalData(ROOTKEY, utils.json2str(data));
-  };
+    UE.Editor.prototype.getPreferences = function (key) {
+        // console.log('getPreferences', key);
+        var data = LocalStorage.getLocalData(ROOT_KEY);
+        if (data && (data = utils.str2json(data))) {
+            return key ? data[key] : data;
+        }
+        return null;
+    };
+
+    UE.Editor.prototype.removePreferences = function (key) {
+        // console.log('removePreferences', key);
+        var data = LocalStorage.getLocalData(ROOT_KEY);
+        if (data && (data = utils.str2json(data))) {
+            data[key] = undefined;
+            delete data[key];
+        }
+        data && LocalStorage.saveLocalData(ROOT_KEY, utils.json2str(data));
+    };
 })();
 
 
@@ -15451,6 +15402,132 @@ UE.plugin.register("wordimage", function() {
       });
     }
   };
+});
+
+
+// plugins/autosave.js
+UE.plugin.register("autosave", function () {
+    var me = this, saveKey = null;
+
+    function save(editor) {
+        var saveData;
+
+        if (!editor.hasContents()) {
+            //这里不能调用命令来删除， 会造成事件死循环
+            saveKey && me.removePreferences(saveKey);
+            return;
+        }
+
+        editor._autoSaveTimer = null;
+
+        saveData = me.body.innerHTML;
+
+        if (
+            editor.fireEvent("beforeautosave", {
+                content: saveData
+            }) === false
+        ) {
+            return;
+        }
+
+        me.setPreferences(saveKey, saveData);
+
+        editor.fireEvent("afterautosave", {
+            content: saveData
+        });
+    }
+
+    return {
+        defaultOptions: {
+            autoSaveEnable: true,
+            autoSaveRestore: false,
+            autoSaveKey: null,
+        },
+        bindEvents: {
+            ready: function () {
+                saveKey = me.getOpt('autoSaveKey');
+                if (!saveKey) {
+                    var _suffix = "_DraftsData", key = null;
+
+                    if (me.key) {
+                        key = me.key + _suffix;
+                    } else {
+                        key = (me.container.parentNode.id || "ue-common") + _suffix;
+                    }
+                    saveKey = (location.protocol + location.host + location.pathname).replace(
+                        /[.:\/]/g,
+                        "_"
+                    ) + key;
+                }
+                if (me.getOpt('autoSaveRestore')) {
+                    var data = me.getPreferences(saveKey);
+                    if (data) {
+                        me.body.innerHTML = data;
+                    }
+                }
+                // console.log('saveKey', saveKey);
+            },
+            contentchange: function () {
+                if (!me.getOpt("autoSaveEnable")) {
+                    return;
+                }
+
+                if (!saveKey) {
+                    return;
+                }
+
+                if (me._autoSaveTimer) {
+                    window.clearTimeout(me._autoSaveTimer);
+                }
+
+                me._autoSaveTimer = window.setTimeout(function () {
+                    save(me);
+                }, 500);
+            }
+        },
+        commands: {
+            clear_auto_save_content: {
+                execCommand: function (cmd, name) {
+                    if (saveKey && me.getPreferences(saveKey)) {
+                        me.removePreferences(saveKey);
+                    }
+                },
+                notNeedUndo: true,
+                ignoreContentChange: true
+            },
+
+            set_auto_save_content: {
+                execCommand: function (cmd, name) {
+                    save(me);
+                },
+                notNeedUndo: true,
+                ignoreContentChange: true
+            },
+
+            get_auto_save_content: {
+                execCommand: function (cmd, name) {
+                    return me.getPreferences(saveKey) || "";
+                },
+                notNeedUndo: true,
+                ignoreContentChange: true
+            },
+
+            auto_safe_restore: {
+                execCommand: function (cmd, name) {
+                    if (saveKey) {
+                        me.body.innerHTML =
+                            me.getPreferences(saveKey) || "<p>" + domUtils.fillHtml + "</p>";
+                        me.focus(true);
+                    }
+                },
+                queryCommandState: function () {
+                    return saveKey ? (me.getPreferences(saveKey) === null ? -1 : 0) : -1;
+                },
+                notNeedUndo: true,
+                ignoreContentChange: true
+            }
+        }
+    };
 });
 
 
@@ -27650,8 +27727,7 @@ UE.ui = baidu.editor.ui = {};
         ifr && (ifr.style.height = _height + "px");
 
         //阻止在combox上的鼠标滚轮事件, 防止用户的正常操作被误解
-        if (window.XMLHttpRequest) {
-          domUtils.on(
+        domUtils.on(
             content,
             "onmousewheel" in document.body ? "mousewheel" : "DOMMouseScroll",
             function(e) {
@@ -27667,15 +27743,7 @@ UE.ui = baidu.editor.ui = {};
                 content.scrollTop -= e.detail / -3 * 60;
               }
             }
-          );
-        } else {
-          //ie6
-          domUtils.on(this.getDom(), "mousewheel", function(e) {
-            e.returnValue = false;
-
-            me.getDom("content").scrollTop -= e.wheelDelta / 120 * 60;
-          });
-        }
+        );
       }
       this.fireEvent("postRenderAfter");
       this.hide(true);
@@ -27746,6 +27814,12 @@ UE.ui = baidu.editor.ui = {};
         left = sideLeft ? rect.right - popSize.width : rect.left;
         top = sideUp ? rect.top - popSize.height : rect.bottom;
       }
+      if(!sideUp){
+        if(top + popSize.height > vpRect.bottom){
+          top = vpRect.bottom - popSize.height
+        }
+      }
+      // console.log('popup.showAnchorRect', vpRect, rect, hoz, sideUp, sideLeft, left, top);
 
       var popEl = this.getDom();
       uiUtils.setViewportOffset(popEl, {

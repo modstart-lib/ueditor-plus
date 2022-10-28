@@ -1,5 +1,5 @@
 /**
- * ueditor完整配置项
+ * ueditor plus 完整配置项
  * 可以在这里配置整个编辑器的特性
  */
 /**************************提示********************************
@@ -38,6 +38,7 @@
    * 配置项主体。注意，此处所有涉及到路径的配置别遗漏URL变量。
    */
   window.UEDITOR_CONFIG = {
+
     //为编辑器实例添加一个路径，这个不能被注释
     UEDITOR_HOME_URL: URL,
     UEDITOR_CORS_URL: CORS_URL,
@@ -199,6 +200,13 @@
        imageUrlTemplate: 'https://latex.codecogs.com/svg.image?{}',
        // 为了更稳定的公式渲染服务，推荐开通使用魔众官方公式渲染引擎 https://api.tecmz.com/module/FormulaToImage
     }
+
+    // 自动保存
+    , autoSaveEnable: true
+    // 浏览器初始化时自动恢复上一次的内容
+    , autoSaveRestore: false
+    // 自动保存Key，为空时根据网址自动计算
+    , autoSaveKey: null
 
     //当鼠标放在工具栏上时显示的tooltip提示,留空支持自动多语言配置，否则以配置值为准
     //,labelMap:{
