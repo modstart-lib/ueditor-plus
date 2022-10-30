@@ -49,99 +49,99 @@
     //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
     toolbars: [
       [
-        "fullscreen",
-        "source",
+        "fullscreen",   // 全屏
+        "source",       // 源代码
         "|",
-        "undo",
-        "redo",
+        "undo",         // 撤销
+        "redo",         // 重做
         "|",
-        "bold",
-        "italic",
-        "underline",
-        "fontborder",
-        "strikethrough",
-        "superscript",
-        "subscript",
-        "removeformat",
-        "formatmatch",
-        "autotypeset",
-        "blockquote",
-        "pasteplain",
+        "bold",         // 加粗
+        "italic",       // 斜体
+        "underline",    // 下划线
+        "fontborder",   // 字符边框
+        "strikethrough",// 删除线
+        "superscript",  // 上标
+        "subscript",    // 下标
+        "removeformat", // 清除格式
+        "formatmatch",  // 格式刷
+        "autotypeset",  // 自动排版
+        "blockquote",   // 引用
+        "pasteplain",   // 纯文本粘贴模式
         "|",
-        "forecolor",
-        "backcolor",
-        "insertorderedlist",
-        "insertunorderedlist",
-        "selectall",
-        "cleardoc",
+        "forecolor",    // 字体颜色
+        "backcolor",    // 背景色
+        "insertorderedlist",   // 有序列表
+        "insertunorderedlist", // 无序列表
+        "selectall",    // 全选
+        "cleardoc",     // 清空文档
         "|",
-        "rowspacingtop",
-        "rowspacingbottom",
-        "lineheight",
+        "rowspacingtop",// 段前距
+        "rowspacingbottom",    // 段后距
+        "lineheight",          // 行间距
         "|",
-        "customstyle",
-        "paragraph",
-        "fontfamily",
-        "fontsize",
+        "customstyle",         // 自定义标题
+        "paragraph",           // 段落格式
+        "fontfamily",          // 字体
+        "fontsize",            // 字号
         "|",
-        "directionalityltr",
-        "directionalityrtl",
-        "indent",
+        "directionalityltr",   // 从左向右输入
+        "directionalityrtl",   // 从右向左输入
+        "indent",              // 首行缩进
         "|",
-        "justifyleft",
-        "justifycenter",
+        "justifyleft",         // 居左对齐
+        "justifycenter",       // 居中对齐
         "justifyright",
-        "justifyjustify",
+        "justifyjustify",      // 两端对齐
         "|",
-        "touppercase",
-        "tolowercase",
+        "touppercase",         // 字母大写
+        "tolowercase",         // 字母小写
         "|",
-        "link",
-        "unlink",
-        "anchor",
+        "link",                // 超链接
+        "unlink",              // 取消链接
+        "anchor",              // 锚点
         "|",
-        "imagenone",
-        "imageleft",
-        "imageright",
-        "imagecenter",
+        "imagenone",           // 图片默认
+        "imageleft",           // 图片左浮动
+        "imageright",          // 图片右浮动
+        "imagecenter",         // 图片居中
         "|",
-        "simpleupload",
-        "insertimage",
-        "emotion",
-        "scrawl",
-        "insertvideo",
-        "attachment",
-        "insertframe",
-        "insertcode",
-        "pagebreak",
-        "template",
-        "background",
-        "formula",
+        "simpleupload",        // 单图上传
+        "insertimage",         // 多图上传
+        "emotion",             // 表情
+        "scrawl",              // 涂鸦
+        "insertvideo",         // 视频
+        "attachment",          // 附件
+        "insertframe",         // 插入Iframe
+        "insertcode",          // 插入代码
+        "pagebreak",           // 分页
+        "template",            // 模板
+        "background",          // 背景
+        "formula",             // 公式
         "|",
-        "horizontal",
-        "date",
-        "time",
-        "spechars",
-        "wordimage",
+        "horizontal",          // 分隔线
+        "date",                // 日期
+        "time",                // 时间
+        "spechars",            // 特殊字符
+        "wordimage",           // Word图片转存
         "|",
-        "inserttable",
-        "deletetable",
-        "insertparagraphbeforetable",
-        "insertrow",
-        "deleterow",
-        "insertcol",
-        "deletecol",
-        "mergecells",
-        "mergeright",
-        "mergedown",
-        "splittocells",
-        "splittorows",
-        "splittocols",
+        "inserttable",         // 插入表格
+        "deletetable",         // 删除表格
+        "insertparagraphbeforetable",     // 表格前插入行
+        "insertrow",           // 前插入行
+        "deleterow",           // 删除行
+        "insertcol",           // 前插入列
+        "deletecol",           // 删除列
+        "mergecells",          // 合并多个单元格
+        "mergeright",          // 右合并单元格
+        "mergedown",           // 下合并单元格
+        "splittocells",        // 完全拆分单元格
+        "splittorows",         // 拆分成行
+        "splittocols",         // 拆分成列
         "|",
-        "print",
-        "preview",
-        "searchreplace",
-        "help",
+        "print",               // 打印
+        "preview",             // 预览
+        "searchreplace",       // 查询替换
+        "help",                // 帮助
       ]
     ]
 
@@ -159,7 +159,7 @@
       // }
     }
 
-    // 插入图片配置
+    // 插入图片自定义配置
     , imageConfig: {
       // 禁止本地上传
       disableUpload: false,
@@ -195,10 +195,11 @@
       // }
     }
 
+    // 公式配置
     , formulaConfig: {
-       // 开放公式渲染
+       // 公式渲染链接模板
        imageUrlTemplate: 'https://latex.codecogs.com/svg.image?{}',
-       // 为了更稳定的公式渲染服务，推荐开通使用魔众官方公式渲染引擎 https://api.tecmz.com/module/FormulaToImage
+       // 为了更稳定的公式渲染服务，可以使用 魔众官方公式转图片渲染引擎 https://api.tecmz.com
     }
 
     // 自动保存
@@ -412,34 +413,34 @@
 
     //快捷菜单
     , shortcutMenu: [
-      "fontfamily",
-      "fontsize",
-      "bold",
-      "italic",
-      "underline",
-      "strikethrough",
-      "fontborder",
-      "forecolor",
-      // "shadowcolor",
-      // "backcolor",
-      "justifyleft",//居左对齐
-      "justifycenter",//居中对齐
-      "justifyright",//居右对齐
-      "justifyjustify",//两端对齐
-      // "textindent",//首行缩进
-      // "rowspacingtop",//段前距
-      // "rowspacingbottom",//段后距
-      // "outpadding",//两侧距离
-      "lineheight",//行间距
-      // "letterspacing" ,//字间距
-      "insertorderedlist",
-      "insertunorderedlist",
-      "superscript",
-      "subscript",
-      "link",
-      "unlink",
-      "touppercase",
-      "tolowercase"
+      "fontfamily",   // 字体
+      "fontsize",     // 字号
+      "bold",         // 加粗
+      "italic",       // 斜体
+      "underline",    // 下划线
+      "strikethrough",// 删除线
+      "fontborder",   // 字符边框
+      "forecolor",    // 字体颜色
+      // "shadowcolor", // 字体阴影
+      // "backcolor",   // 背景色
+      "justifyleft",    // 居左对齐
+      "justifycenter",  // 居中对齐
+      "justifyright",   // 居右对齐
+      "justifyjustify", // 两端对齐
+      // "textindent",  // 首行缩进
+      // "rowspacingtop",     // 段前距
+      // "rowspacingbottom",  // 段后距
+      // "outpadding",        // 两侧距离
+      "lineheight",           // 行间距
+      // "letterspacing" ,    // 字间距
+      "insertorderedlist",    // 有序列表
+      "insertunorderedlist",  // 无序列表
+      "superscript",    // 上标
+      "subscript",      // 下标
+      "link",           // 超链接
+      "unlink",         // 取消链接
+      "touppercase",    // 字母大写
+      "tolowercase"     // 字母小写
     ]
 
     //elementPathEnabled

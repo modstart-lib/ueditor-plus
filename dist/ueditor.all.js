@@ -15512,7 +15512,7 @@ UE.plugin.register("autosave", function () {
                 ignoreContentChange: true
             },
 
-            auto_safe_restore: {
+            auto_save_restore: {
                 execCommand: function (cmd, name) {
                     if (saveKey) {
                         me.body.innerHTML =
