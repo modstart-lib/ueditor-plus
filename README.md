@@ -126,7 +126,7 @@ grunt default
 #### v2.6.0 编辑器草稿功能，操作体验优化
 
 - 新增：自动保存功能，新增 autoSaveEnable, autoSaveRestore, autoSaveKey 配置
-- 新增：从草稿箱恢复到浏览器 auto_safe_restore 命令
+- 新增：从草稿箱恢复到浏览器 auto_save_restore 命令
 - 优化：重构 localStorage 部分代码，适配现代浏览器
 - 优化：重构完整演示 Demo 功能部分，所有测试功能重构
 - 修复：图片高度过高时操作浮窗显示问题 [issue](https://gitee.com/modstart-lib/ueditor-plus/issues/I5TXOX)
