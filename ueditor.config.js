@@ -259,9 +259,9 @@
     ,indentValue:'2em'
 
     // 初始化编辑器宽度,默认 1000
-    ,initialFrameWidth:1000
+    // ,initialFrameWidth:1000
     // 初始化编辑器高度,默认 320
-    ,initialFrameHeight:320
+    // ,initialFrameHeight:320
 
     // 编辑器初始化结束后,编辑区域是否是只读的，默认是false
     ,readonly : false
