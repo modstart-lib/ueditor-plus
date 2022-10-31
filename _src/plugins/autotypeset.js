@@ -17,21 +17,35 @@
 
 UE.plugins["autotypeset"] = function() {
   this.setOpt({
+    // 自动排版参数
     autotypeset: {
-      mergeEmptyline: true, //合并空行
-      removeClass: true, //去掉冗余的class
-      removeEmptyline: false, //去掉空行
-      textAlign: "left", //段落的排版方式，可以是 left,right,center,justify 去掉这个属性表示不执行排版
-      imageBlockLine: "center", //图片的浮动方式，独占一行剧中,左右浮动，默认: center,left,right,none 去掉这个属性表示不执行排版
-      pasteFilter: false, //根据规则过滤没事粘贴进来的内容
-      clearFontSize: false, //去掉所有的内嵌字号，使用编辑器默认的字号
-      clearFontFamily: false, //去掉所有的内嵌字体，使用编辑器默认的字体
-      removeEmptyNode: false, // 去掉空节点
-      //可以去掉的标签
+      // 合并空行
+      mergeEmptyline: true,
+      // 去掉冗余的class
+      removeClass: true,
+      // 去掉空行
+      removeEmptyline: false,
+      // 段落的排版方式，可以是 left,right,center,justify 去掉这个属性表示不执行排版
+      textAlign: "left",
+      // 图片的浮动方式，独占一行剧中,左右浮动，默认: center,left,right,none 去掉这个属性表示不执行排版
+      imageBlockLine: "center",
+      // 根据规则过滤没事粘贴进来的内容
+      pasteFilter: false,
+      // 去掉所有的内嵌字号，使用编辑器默认的字号
+      clearFontSize: false,
+      // 去掉所有的内嵌字体，使用编辑器默认的字体
+      clearFontFamily: false,
+      // 去掉空节点
+      removeEmptyNode: false,
+      // 可以去掉的标签
       removeTagNames: utils.extend({ div: 1 }, dtd.$removeEmpty),
-      indent: false, // 行首缩进
-      indentValue: "2em", //行首缩进的大小
+      // 行首缩进
+      indent: false,
+      // 行首缩进的大小
+      indentValue: "2em",
+      // 全角转半角
       bdc2sb: false,
+      // 半角转全角
       tobdc: false
     }
   });
