@@ -123,6 +123,11 @@ grunt default
 
 ## 更新日志
 
+#### v2.7.0
+
+- 新增：优化OSX系统编辑器字体显示问题
+
+
 #### v2.6.0 编辑器草稿功能，操作体验优化
 
 - 新增：自动保存功能，新增 autoSaveEnable, autoSaveRestore, autoSaveKey 配置
