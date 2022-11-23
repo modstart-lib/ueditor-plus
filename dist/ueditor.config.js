@@ -153,8 +153,12 @@
       //     console.log('toolbarCallback',cmd, editor)
       //     return true;
       //   case 'insertvideo':
-      //     editor.execCommand('insertHtml', '<p><img src="xxxxx" /></p>');
+      //     editor.execCommand('insertHtml', '<p><iframe src="xxxxx" /></p>');
       //     console.log('toolbarCallback',cmd, editor)
+      //     return true;
+      //   case 'attachment':
+      //     console.log('toolbarCallback',cmd, editor)
+      //     editor.execCommand('insertHtml', '<p><a href="xxx.zip">下载文件</a></p>');
       //     return true;
       // }
     }
@@ -199,7 +203,8 @@
     , formulaConfig: {
        // 公式渲染链接模板
        imageUrlTemplate: 'https://latex.codecogs.com/svg.image?{}',
-       // 为了更稳定的公式渲染服务，可以使用 魔众官方公式转图片渲染引擎 https://api.tecmz.com
+       // 为了更稳定的公式渲染服务，可以使用
+       // 魔众官方公式转图片渲染引擎 https://api.tecmz.com
     }
 
     // 自动保存
@@ -232,56 +237,66 @@
     //若实例化编辑器的页面手动修改的domain，此处需要设置为true
     //,customDomain:false
 
-    //常用配置项目
-    //,isShow : true    //默认显示编辑器
+    // 默认显示编辑器
+    //,isShow : true
 
-    //,textarea:'editorValue' // 提交表单时，服务器获取编辑器提交内容的所用的参数，多实例时可以给容器name属性，会将name给定的值最为每个实例的键值，不用每次实例化的时候都设置这个值
+    // 提交表单时，服务器获取编辑器提交内容的所用的参数，多实例时可以给容器name属性，会将name给定的值最为每个实例的键值，不用每次实例化的时候都设置这个值
+    //,textarea:'editorValue'
 
-    //,initialContent:'欢迎使用ueditor!'    //初始化编辑器的内容,也可以通过textarea/script给值，看官网例子
+    // 初始化编辑器的内容，也可以通过 textarea/script 给值
+    ,initialContent:''
 
     //,autoClearinitialContent:true //是否自动清除编辑器初始内容，注意：如果focus属性设置为true,这个也为真，那么编辑器一上来就会触发导致初始化的内容看不到了
 
-    //,focus:false //初始化时，是否让编辑器获得焦点true或false
+    // 初始化时，是否让编辑器获得焦点
+    ,focus:false
 
-    //如果自定义，最好给p标签如下的行高，要不输入中文时，会有跳动感
-    //,initialStyle:'p{line-height:1em}'//编辑器层级的基数,可以用来改变字体等
+    // 编辑区自定义样式，如果自定义，最好给 p 标签如下的行高，要不输入中文时，会有跳动感
+    ,initialStyle:'' // p{line-height:1em}
 
     //,iframeJsUrl: '' //给编辑区域的iframe引入一个js文件
     //,iframeCssUrl: URL + '/themes/iframe.css' //给编辑区域的iframe引入一个css文件
     // 给编辑器引入更多样式文件
     //,iframeCssUrlsAddition: []
 
-    //indentValue
-    //首行缩进距离,默认是2em
-    //,indentValue:'2em'
+    // 首行缩进距离,默认是 2em
+    ,indentValue:'2em'
 
-    //,initialFrameWidth:1000  //初始化编辑器宽度,默认1000
-    //,initialFrameHeight:320  //初始化编辑器高度,默认320
+    // 初始化编辑器宽度,默认 1000
+    // ,initialFrameWidth:1000
+    // 初始化编辑器高度,默认 320
+    // ,initialFrameHeight:320
 
-    //,readonly : false //编辑器初始化结束后,编辑区域是否是只读的，默认是false
+    // 编辑器初始化结束后,编辑区域是否是只读的，默认是false
+    ,readonly : false
 
-    //,autoClearEmptyNode : true //getContent时，是否删除空的inlineElement节点（包括嵌套的情况）
+    // getContent时，是否删除空的inlineElement节点（包括嵌套的情况）
+    ,autoClearEmptyNode : true
 
-    //启用拖放上传
+    // 启用拖放上传
     //,enableDragUpload: true
-    //启用粘贴上传
+    // 启用粘贴上传
     //,enablePasteUpload: true
 
-    //启用图片拉伸缩放
+    // 启用图片拉伸缩放
     //,imageScaleEnabled: true
 
-    //,fullscreen : false //是否开启初始化时即全屏，默认关闭
+    // 是否开启初始化时即全屏，默认关闭
+    ,fullscreen : false
 
     //,imagePopup:true      //图片操作的浮层开关，默认打开
 
-    //,autoSyncData:true //自动同步编辑器要提交的数据
-    //,emotionLocalization:false //是否开启表情本地化，默认关闭。若要开启请确保emotion文件夹下包含官网提供的images表情文件夹
+    // 自动同步编辑器要提交的数据
+    //,autoSyncData:true
+    // 是否开启表情本地化，默认关闭。若要开启请确保emotion文件夹下包含官网提供的images表情文件夹
+    //,emotionLocalization:false
 
-    //粘贴只保留标签，去除标签所有属性
+    // 粘贴只保留标签，去除标签所有属性
     //,retainOnlyLabelPasted: false
 
-    //,pasteplain:false  //是否默认为纯文本粘贴。false为不使用纯文本粘贴，true为使用纯文本粘贴
-    //纯文本粘贴模式下的过滤规则
+    // 是否默认为纯文本粘贴。false为不使用纯文本粘贴，true为使用纯文本粘贴
+    //,pasteplain:false
+    // 纯文本粘贴模式下的过滤规则
     //'filterTxtRules' : function(){
     //    function transP(node){
     //        node.tagName = 'p';
@@ -309,7 +324,8 @@
     //    }
     //}()
 
-    //,allHtmlEnabled:false //提交到后台的数据是否包含整个html字符串
+    // 提交到后台的数据是否包含整个html字符串
+    ,allHtmlEnabled:false
 
     //insertorderedlist
     //有序列表的下拉配置,值留空时支持多语言自动识别，若配置值，则以此值为准
@@ -344,8 +360,7 @@
 
     //,autoTransWordToList:false  //禁止word中粘贴进来的列表自动变成列表标签
 
-    //fontfamily
-    //字体设置 label留空支持多语言自动切换，若配置，则以配置值为准
+    // 字体设置 label 留空支持多语言自动切换，若配置，则以配置值为准
     //,'fontfamily':[
     //    { label:'',name:'songti',val:'宋体,SimSun'},
     //    { label:'',name:'kaiti',val:'楷体,楷体_GB2312, SimKai'},
@@ -360,27 +375,22 @@
     //    { label:'',name:'timesNewRoman',val:'times new roman'}
     //]
 
-    //fontsize
-    //字号
+    // 字号
     //,'fontsize':[10, 11, 12, 14, 16, 18, 20, 24, 36]
 
-    //paragraph
-    //段落格式 值留空时支持多语言自动识别，若配置，则以配置值为准
+    // 段落格式 值留空时支持多语言自动识别，若配置，则以配置值为准
     //,'paragraph':{'p':'', 'h1':'', 'h2':'', 'h3':'', 'h4':'', 'h5':'', 'h6':''}
 
-    //rowspacingtop
-    //段间距 值和显示的名字相同
+    // 段间距 值和显示的名字相同
     //,'rowspacingtop':['5', '10', '15', '20', '25']
 
-    //rowspacingBottom
-    //段间距 值和显示的名字相同
+    // 段间距 值和显示的名字相同
     //,'rowspacingbottom':['5', '10', '15', '20', '25']
 
-    //lineheight
     //行内间距 值和显示的名字相同
     //,'lineheight':['1', '1.5','1.75','2', '3', '4', '5']
 
-    //customstyle
+    // customstyle
     //自定义样式，不支持国际化，此处配置值即可最后显示值
     //block的元素是依据设置段落的逻辑设置的，inline的元素依据BIU的逻辑设置
     //尽量使用一些常用的标签
@@ -396,8 +406,8 @@
     //    {tag:'span',name:'hi', label:'', style:'font-style:italic;font-weight:bold;color:rgb(51, 153, 204)'}
     //]
 
-    //打开右键菜单功能
-    //,enableContextMenu: true
+    // 打开右键菜单功能
+    ,enableContextMenu: true
     //右键菜单的内容，可以参考plugins/contextmenu.js里边的默认菜单的例子，label留空支持国际化，否则以此配置为准
     //,contextMenu:[
     //    {
@@ -443,39 +453,33 @@
       "tolowercase"     // 字母小写
     ]
 
-    //elementPathEnabled
-    //是否启用元素路径，默认是显示
-    //,elementPathEnabled : true
-
-    //wordCount
-    //,wordCount:true          //是否开启字数统计
-    //,maximumWords:10000       //允许的最大字符数
-    //字数统计提示，{#count}代表当前字数，{#leave}代表还可以输入多少字符数,留空支持多语言自动切换，否则按此配置显示
+    // 是否启用元素路径，默认是显示
+    ,elementPathEnabled : true
+    // 是否开启字数统计
+    ,wordCount:true
+    // 允许的最大字符数
+    ,maximumWords:10000
+    //字数统计提示，{#count} 代表当前字数，{#leave}代表还可以输入多少字符数,留空支持多语言自动切换，否则按此配置显示
     //,wordCountMsg:''   //当前已输入 {#count} 个字符，您还可以输入{#leave} 个字符
     //超出字数限制提示  留空支持多语言自动切换，否则按此配置显示
     //,wordOverFlowMsg:''    //<span style="color:red;">你输入的字符个数已经超出最大允许值，服务器可能会拒绝保存！</span>
 
-    //tab
-    //点击tab键时移动的距离,tabSize倍数，tabNode什么字符做为单位
+    // 点击tab键时移动的距离,tabSize倍数，tabNode什么字符做为单位
     //,tabSize:4
     //,tabNode:'&nbsp;'
 
-    //removeFormat
-    //清除格式时可以删除的标签和属性
-    //removeForamtTags标签
+    // 清除格式时可以删除的标签
     //,removeFormatTags:'b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var'
-    //removeFormatAttributes属性
+    // 清除格式时可以删除的属性
     //,removeFormatAttributes:'class,style,lang,width,height,align,hspace,valign'
 
-    //undo
-    //可以最多回退的次数,默认20
-    //,maxUndoCount:20
-    //当输入的字符数超过该值时，保存一次现场
-    //,maxInputCount:1
+    // 可以最多撤销退回的次数，默认20
+    ,maxUndoCount:20
+    // 当输入的字符数超过该值时，保存一次现场
+    ,maxInputCount:1
 
-    //autoHeightEnabled
     // 是否自动长高,默认true
-    //,autoHeightEnabled:true
+    ,autoHeightEnabled:true
 
     //scaleEnabled
     //是否可以拉伸长高,默认true(当开启时，自动长高失效)
@@ -492,33 +496,44 @@
     //,toolbarTopOffset:400
 
     //设置远程图片是否抓取到本地保存
-    //,catchRemoteImageEnable: true //设置是否抓取远程图片
+    ,catchRemoteImageEnable: true //设置是否抓取远程图片
 
     //pageBreakTag
     //分页标识符,默认是_ueditor_page_break_tag_
     //,pageBreakTag:'_ueditor_page_break_tag_'
 
-    //autotypeset
-    //自动排版参数
-    //,autotypeset: {
-    //    mergeEmptyline: true,           //合并空行
-    //    removeClass: true,              //去掉冗余的class
-    //    removeEmptyline: false,         //去掉空行
-    //    textAlign:"left",               //段落的排版方式，可以是 left,right,center,justify 去掉这个属性表示不执行排版
-    //    imageBlockLine: 'center',       //图片的浮动方式，独占一行剧中,左右浮动，默认: center,left,right,none 去掉这个属性表示不执行排版
-    //    pasteFilter: false,             //根据规则过滤没事粘贴进来的内容
-    //    clearFontSize: false,           //去掉所有的内嵌字号，使用编辑器默认的字号
-    //    clearFontFamily: false,         //去掉所有的内嵌字体，使用编辑器默认的字体
-    //    removeEmptyNode: false,         // 去掉空节点
-    //    //可以去掉的标签
-    //    removeTagNames: {标签名字:1},
-    //    indent: false,                  // 行首缩进
-    //    indentValue : '2em',            //行首缩进的大小
-    //    bdc2sb: false,
-    //    tobdc: false
-    //}
+    // 自动排版参数
+    , autotypeset: {
+      // 合并空行
+      mergeEmptyline: true,
+      // 去掉冗余的class
+      removeClass: true,
+      // 去掉空行
+      removeEmptyline: false,
+      // 段落的排版方式，可以是 left,right,center,justify 去掉这个属性表示不执行排版
+      textAlign: "left",
+      // 图片的浮动方式，独占一行剧中,左右浮动，默认: center,left,right,none 去掉这个属性表示不执行排版
+      imageBlockLine: "center",
+      // 根据规则过滤没事粘贴进来的内容
+      pasteFilter: false,
+      // 去掉所有的内嵌字号，使用编辑器默认的字号
+      clearFontSize: false,
+      // 去掉所有的内嵌字体，使用编辑器默认的字体
+      clearFontFamily: false,
+      // 去掉空节点
+      removeEmptyNode: false,
+      // 可以去掉的标签
+      removeTagNames: { div: 1 },
+      // 行首缩进
+      indent: false,
+      // 行首缩进的大小
+      indentValue: "2em",
+      // 全角转半角
+      bdc2sb: false,
+      // 半角转全角
+      tobdc: false
+    }
 
-    //tableDragable
     //表格是否可以拖拽
     //,tableDragable: true
 
@@ -545,8 +560,10 @@
 
     //默认过滤规则相关配置项目
     //,disabledTableInTable:true  //禁止表格嵌套
-    //,allowDivTransToP:true      //允许进入编辑器的div标签自动变成p标签
-    //,rgb2Hex:true               //默认产出的数据中的color自动从rgb格式变成16进制格式
+    // 允许进入编辑器的 div 标签自动变成 p 标签
+    ,allowDivTransToP:true
+    // 默认产出的数据中的color自动从rgb格式变成16进制格式
+    ,rgb2Hex:true
   };
 
   function getUEBasePath(docUrl, confUrl) {

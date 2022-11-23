@@ -119,6 +119,7 @@ module.exports = function (grunt) {
               "themes/iframe.css",
               "themes/default/dialogbase.css",
               "themes/default/images/**",
+              "themes/default/exts/**",
               "themes/default/font/**",
               "dialogs/**",
               "lang/**",

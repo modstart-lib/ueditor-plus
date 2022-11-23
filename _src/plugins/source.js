@@ -59,8 +59,13 @@
         mode: "text/html",
         tabMode: "indent",
         lineNumbers: true,
-        lineWrapping: true
+        lineWrapping: true,
+        onChange: function(v){
+          editor.sync();
+          // console.log('CodeMirror.onChange',v.getValue());
+        }
       });
+      // console.log('sourceEditor',codeEditor);
       var dom = codeEditor.getWrapperElement();
       dom.style.cssText =
         'position:absolute;left:0;top:0;width:100%;height:100%;font-family:consolas,"Courier new",monospace;font-size:13px;';
@@ -341,7 +346,7 @@
           type: "text/css",
           href:
             opt.codeMirrorCssUrl ||
-              opt.UEDITOR_HOME_URL + "third-party/codemirror/codemirror.css?220922"
+              opt.UEDITOR_HOME_URL + "third-party/codemirror/codemirror.css?221123"
         });
       });
     }

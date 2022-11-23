@@ -33,6 +33,9 @@
       </p>
       <script type="text/javascript">
         var editor_a = UE.getEditor('myEditor',{initialFrameHeight:500});
+        editor_a.addListener("contentchange", function () {
+            console.log('编辑器内容发生改变',editor_a.getContent());
+        })
         //--自动切换提交地址----
         var doc=document,
           version = editor_a.options.serverUrl || editor_a.options.imageUrl || "php",
