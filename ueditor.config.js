@@ -153,8 +153,12 @@
       //     console.log('toolbarCallback',cmd, editor)
       //     return true;
       //   case 'insertvideo':
-      //     editor.execCommand('insertHtml', '<p><img src="xxxxx" /></p>');
+      //     editor.execCommand('insertHtml', '<p><iframe src="xxxxx" /></p>');
       //     console.log('toolbarCallback',cmd, editor)
+      //     return true;
+      //   case 'attachment':
+      //     console.log('toolbarCallback',cmd, editor)
+      //     editor.execCommand('insertHtml', '<p><a href="xxx.zip">下载文件</a></p>');
       //     return true;
       // }
     }

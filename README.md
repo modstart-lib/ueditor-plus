@@ -123,69 +123,7 @@ grunt default
 
 ## 更新日志
 
-#### v2.7.0
-
-- 新增：优化OSX系统编辑器字体显示问题
-
-
-#### v2.6.0 编辑器草稿功能，操作体验优化
-
-- 新增：自动保存功能，新增 autoSaveEnable, autoSaveRestore, autoSaveKey 配置
-- 新增：从草稿箱恢复到浏览器 auto_save_restore 命令
-- 优化：重构 localStorage 部分代码，适配现代浏览器
-- 优化：重构完整演示 Demo 功能部分，所有测试功能重构
-- 修复：图片高度过高时操作浮窗显示问题 [issue](https://gitee.com/modstart-lib/ueditor-plus/issues/I5TXOX)
-
-#### v2.5.0 Latex公式编辑，源码样式优化
-
-- 新增：公式编辑器功能，提供latex语法的公式编辑器
-- 优化：Word图片转存标识调整为data-word-image
-- 优化：富文本编辑器浮层弹出按钮显示逻辑和样式优化
-- 优化：系统集成时源代码编辑行距问题优化
-- 优化：仓库新增Makefile配置文件方便快速构建
-
-#### v2.4.0 Word图片粘贴重构，功能样式优化
-
-- 新增：Word粘贴内容图片转存wordimage功能重构
-- 新增：引入第三方复制插件clipboard库
-- 新增：转存图片新增默认点击事件弹出转存弹窗
-- 优化：多图上传并发数调整为1保证上传顺序
-- 优化：弹窗按钮样式错位显示优化
-- 优化：Word图片本地转存占位图优化
-- 优化：删除Flash相关无用过时组件
-
-#### v2.3.0 图片抓取重构，多处样式优化
-
-- 新增：自动抓取图片优化为串行抓取，避免批量接口超时问题
-- 新增：自定义菜单按钮样式类 edui-toolbar-button-custom
-- 移除：移除百度地图插件
-- 优化：文件粘贴上传Loading样式美化，勾选和单选基础颜色调整
-- 优化：颜色选择工具颜色条样式错位调整
-- 优化：工具栏下拉采样样式优化，页面margin导致的下拉错位
-- 优化：演示Demo中自定义标题下拉样式
-
-#### v2.2.0 vue示例支持，图片尺寸设定异常修复
-
-- 新增：Dom 操作添加 _propertyDelete 属性，方便删除属性
-- 新增：图片编辑宽高为空时自动清除图片宽度和高度
-- 新增：vue使用示例说明（需第三方库支持）
-- 修复：编辑器只包含视频，提交到服务器端的内容为空
-- 优化：移除 video parse 无用插件
-
-#### v2.1.0 演示网站重构，浮动工具和表格双击优化
-
-- 新增：新增`unsetFloating`方法，方便动态Editor浮动工具栏处理
-- 优化：表格边框双击时间调整为200ms（解决拖拽延迟问题）
-- 优化：重新整理Demo页面也代码
-- 修复：右击菜单图标和工具栏菜单冲突问题
-
-#### v2.0.0 让UEditor重新焕发活力
-
-- 优化：优化界面样式，使用字体图标
-- 新增：`setWidth`方法，可设置编辑器宽度
-- 新增：视频和图片上传参数（见 ueditor.config.js 配置文件）
-- 新增：`toolbarCallback` 属性，可以自定义响应工具栏图标点击
-- 移除：谷歌地图、图片搜索、音乐搜索、截屏
+- [https://open-doc.modstart.com/ueditor-plus/change-log.html](https://open-doc.modstart.com/ueditor-plus/change-log.html)
 
 ## 好项目推荐
 
