@@ -14,9 +14,10 @@
 - 演示界面重构，右上角可直接查看当前演示界面代码
 - 兼容现有UEditor，实现无缝切换
 
-## 在线演示
+## 相关链接
 
-- [https://open-demo.modstart.com/ueditor-plus/_examples/](https://open-demo.modstart.com/ueditor-plus/_examples/)
+- 在线演示：[https://open-demo.modstart.com/ueditor-plus/_examples/](https://open-demo.modstart.com/ueditor-plus/_examples/)
+- 使用文档： [https://open-doc.modstart.com/ueditor-plus](https://open-doc.modstart.com/ueditor-plus)
 
 ## 使用教程
 
