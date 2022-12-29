@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
   instants: {},
   I18N: {},
   _customizeUI: {},
-  version: "2.7.0"
+  version: "2.8.0"
 };
 var dom = (UE.dom = {});
 
@@ -26772,7 +26772,7 @@ UE.plugin.register("section", function() {
  * @author Jinqn
  * @date 2014-03-31
  */
-UE.plugin.register("simpleupload", function() {
+UE.plugin.register("simpleupload", function () {
   var me = this,
     isLoaded = false,
     containerBtn;
@@ -26788,11 +26788,16 @@ UE.plugin.register("simpleupload", function() {
         h +
         "px;overflow:hidden;border:0;margin:0;padding:0;position:absolute;top:0;left:0;filter:alpha(opacity=0);-moz-opacity:0;-khtml-opacity: 0;opacity: 0;cursor:pointer;";
 
-    domUtils.on(btnIframe, "load", function() {
+    domUtils.on(btnIframe, "load", function () {
       var timestrap = (+new Date()).toString(36),
         wrapper,
         btnIframeDoc,
         btnIframeBody;
+
+      var imageCompressEnable = me.getOpt('imageCompressEnable'),
+        imageMaxSize = me.getOpt('imageMaxSize'),
+        imageCompressBorder = me.getOpt('imageCompressBorder');
+      // console.log('simpleupload.compress',imageCompressEnable, imageMaxSize, imageCompressBorder);
 
       btnIframeDoc =
         btnIframe.contentDocument || btnIframe.contentWindow.document;
@@ -26841,54 +26846,26 @@ UE.plugin.register("simpleupload", function() {
       var input = btnIframeDoc.getElementById("edui_input_" + timestrap);
       var iframe = btnIframeDoc.getElementById("edui_iframe_" + timestrap);
 
-      domUtils.on(input, "change", function() {
+      domUtils.on(input, "change", function () {
         if (!input.value) return;
-        var loadingId = "loading_" + (+new Date()).toString(36);
-        var params =
-          utils.serializeParam(me.queryCommandValue("serverparam")) || "";
 
+        var loadingId = "loading_" + (+new Date()).toString(36);
+        var params = utils.serializeParam(me.queryCommandValue("serverparam")) || "";
         var imageActionUrl = me.getActionUrl(me.getOpt("imageActionName"));
         var allowFiles = me.getOpt("imageAllowFiles");
+        var targetActionUrl = utils.formatUrl(imageActionUrl + (imageActionUrl.indexOf("?") === -1 ? "?" : "&") + params);
 
         me.focus();
         me.execCommand(
           "inserthtml",
           '<img class="loadingclass" id="' +
-            loadingId +
-            '" src="' +
-            me.options.themePath +
-            me.options.theme +
-            '/images/spacer.gif">'
+          loadingId +
+          '" src="' +
+          me.options.themePath +
+          me.options.theme +
+          '/images/spacer.gif">'
         );
 
-        function callback() {
-          try {
-            var link,
-              json,
-              loader,
-              body = (iframe.contentDocument || iframe.contentWindow.document)
-                .body,
-              result = body.innerText || body.textContent || "";
-            json = new Function("return " + result)();
-            link = me.options.imageUrlPrefix + json.url;
-            if (json.state == "SUCCESS" && json.url) {
-              loader = me.document.getElementById(loadingId);
-              domUtils.removeClasses(loader, "loadingclass");
-              loader.setAttribute("src", link);
-              loader.setAttribute("_src", link);
-              loader.setAttribute("alt", json.original || "");
-              loader.removeAttribute("id");
-              me.fireEvent("contentchange");
-            } else {
-              showErrorLoader && showErrorLoader(json.state);
-            }
-          } catch (er) {
-            showErrorLoader &&
-              showErrorLoader(me.getLang("simpleupload.loadError"));
-          }
-          form.reset();
-          domUtils.un(iframe, "load", callback);
-        }
         function showErrorLoader(title) {
           if (loadingId) {
             var loader = me.document.getElementById(loadingId);
@@ -26900,39 +26877,141 @@ UE.plugin.register("simpleupload", function() {
               timeout: 4000
             });
           }
+          alert(title);
         }
 
-        /* 判断后端配置是否没有加载成功 */
+        // 判断后端配置是否没有加载成功
         if (!me.getOpt("imageActionName")) {
-          errorHandler(me.getLang("autoupload.errorLoadConfig"));
+          showErrorLoader(me.getLang("autoupload.errorLoadConfig"));
           return;
         }
+
         // 判断文件格式是否错误
-        var filename = input.value,
-          fileext = filename ? filename.substr(filename.lastIndexOf(".")) : "";
+        var filename = input.value, fileext = filename ? filename.substr(filename.lastIndexOf(".")) : "";
         if (
           !fileext ||
           (allowFiles &&
-            (allowFiles.join("") + ".").indexOf(fileext.toLowerCase() + ".") ==
-              -1)
+            (allowFiles.join("") + ".").indexOf(fileext.toLowerCase() + ".") === -1)
         ) {
           showErrorLoader(me.getLang("simpleupload.exceedTypeError"));
           return;
         }
 
-        domUtils.on(iframe, "load", callback);
-        form.action = utils.formatUrl(
-          imageActionUrl +
-            (imageActionUrl.indexOf("?") == -1 ? "?" : "&") +
-            params
-        );
-        form.submit();
+        function callback(json, cb) {
+          try {
+            var link = me.options.imageUrlPrefix + json.url;
+            if (json.state === "SUCCESS" && json.url) {
+              var loader = me.document.getElementById(loadingId);
+              domUtils.removeClasses(loader, "loadingclass");
+              loader.setAttribute("src", link);
+              loader.setAttribute("_src", link);
+              loader.setAttribute("alt", json.original || "");
+              loader.removeAttribute("id");
+              me.fireEvent("contentchange");
+            } else {
+              showErrorLoader && showErrorLoader(json.state);
+            }
+          } catch (er) {
+            showErrorLoader &&
+            showErrorLoader(me.getLang("simpleupload.loadError"));
+          }
+          form.reset();
+          cb && cb();
+        }
+
+        function uploadDirect() {
+          domUtils.on(iframe, "load", function () {
+            var body = (iframe.contentDocument || iframe.contentWindow.document).body;
+            var result = body.innerText || body.textContent || "";
+            var json;
+            try {
+              json = new Function("return " + result)();
+              if (!json) {
+                json = {state: 'ERROR:UPLOAD_RESULT_EMPTY'};
+              }
+            } catch (e) {
+              json = {state: 'ERROR:UPLOAD_FAIL'};
+            }
+            callback(json, function () {
+              domUtils.un(iframe, "load", callback);
+            });
+          });
+          form.action = targetActionUrl;
+          form.submit();
+        }
+
+        var compressSupport = false;
+        if (imageCompressEnable) {
+          compressSupport = true;
+        }
+        // 类型映射
+        var imageMimeMap = {
+          '.jpg': 'image/jpeg',
+          '.jpeg': 'image/jpeg',
+          '.png': 'image/png',
+          '.gif': 'image/gif',
+        }
+        var imageMimeType
+        if (fileext.toLowerCase() in imageMimeMap) {
+          imageMimeType = imageMimeMap[fileext.toLowerCase()]
+        } else {
+          compressSupport = false;
+        }
+        var fileBaseName = input.files[0].name;
+        if (compressSupport) {
+          var img = new Image();
+          img.onload = function () {
+            var w = img.width, h = img.height, rate;
+            if (w > imageCompressBorder) {
+              rate = w / imageCompressBorder;
+              w = imageCompressBorder;
+              h = Math.round(h / rate);
+            } else if (h > imageCompressBorder) {
+              rate = h / imageCompressBorder;
+              h = imageCompressBorder;
+              w = Math.round(w / rate);
+            }
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            canvas.setAttribute('width', w);
+            canvas.setAttribute('height', h);
+            ctx.drawImage(img, 0, 0, w, h);
+
+            canvas.toBlob(function (blob) {
+              var xhr = new XMLHttpRequest(), fd = new FormData()
+              fd.append(me.options.imageFieldName, blob, fileBaseName);
+              xhr.open("post", targetActionUrl, true);
+              xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+              xhr.addEventListener("load", function (e) {
+                try {
+                  var json = new Function("return " + utils.trim(e.target.response))();
+                  if (json.state === "SUCCESS" && json.url) {
+                    callback(json);
+                  } else {
+                    showErrorLoader(json.state);
+                  }
+                } catch (er) {
+                  showErrorLoader(me.getLang("autoupload.loadError"));
+                }
+              });
+              xhr.send(fd);
+
+            }, imageMimeType, 0.8);
+
+          };
+          img.src = URL.createObjectURL(input.files[0]);
+
+        } else {
+          // 无需压缩直接上传
+          uploadDirect();
+        }
+
       });
 
       var stateTimer;
-      me.addListener("selectionchange", function() {
+      me.addListener("selectionchange", function () {
         clearTimeout(stateTimer);
-        stateTimer = setTimeout(function() {
+        stateTimer = setTimeout(function () {
           var state = me.queryCommandState("simpleupload");
           if (state == -1) {
             input.disabled = "disabled";
@@ -26950,30 +27029,30 @@ UE.plugin.register("simpleupload", function() {
 
   return {
     bindEvents: {
-      ready: function() {
+      ready: function () {
         //设置loading的样式
         utils.cssRule(
           "loading",
           ".loadingclass{display:inline-block;cursor:default;background: url('" +
-            this.options.themePath +
-            this.options.theme +
-            "/images/loading.gif') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-right:1px;height:22px;width:22px;}\n" +
-            ".loaderrorclass{display:inline-block;cursor:default;background: url('" +
-            this.options.themePath +
-            this.options.theme +
-            "/images/loaderror.png') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-right:1px;height:22px;width:22px;" +
-            "}",
+          this.options.themePath +
+          this.options.theme +
+          "/images/loading.gif') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-right:1px;height:22px;width:22px;}\n" +
+          ".loaderrorclass{display:inline-block;cursor:default;background: url('" +
+          this.options.themePath +
+          this.options.theme +
+          "/images/loaderror.png') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-right:1px;height:22px;width:22px;" +
+          "}",
           this.document
         );
       },
       /* 初始化简单上传按钮 */
-      simpleuploadbtnready: function(type, container) {
+      simpleuploadbtnready: function (type, container) {
         containerBtn = container;
         me.afterConfigReady(initUploadBtn);
       }
     },
-    outputRule: function(root) {
-      utils.each(root.getNodesByTagName("img"), function(n) {
+    outputRule: function (root) {
+      utils.each(root.getNodesByTagName("img"), function (n) {
         if (/\b(loaderrorclass)|(bloaderrorclass)\b/.test(n.getAttr("class"))) {
           n.parentNode.removeChild(n);
         }
@@ -26981,7 +27060,7 @@ UE.plugin.register("simpleupload", function() {
     },
     commands: {
       simpleupload: {
-        queryCommandState: function() {
+        queryCommandState: function () {
           return isLoaded ? 0 : -1;
         }
       }
@@ -27933,6 +28012,13 @@ UE.ui = baidu.editor.ui = {};
     },
     _onPickNoColor: function() {
       this.fireEvent("picknocolor");
+    },
+    _onColorSelect: function(evt) {
+      var input = evt.target || evt.srcElement;
+      var color = input.value;
+      if (color) {
+        this.fireEvent("pickcolor", color);
+      }
     }
   };
   utils.inherits(ColorPicker, UIBase);
@@ -27951,7 +28037,8 @@ UE.ui = baidu.editor.ui = {};
     var html =
       '<div id="##" class="edui-colorpicker %%">' +
       '<div class="edui-colorpicker-topbar edui-clearfix">' +
-      '<div unselectable="on" id="##_preview" class="edui-colorpicker-preview"></div>' +
+      // '<div unselectable="on" id="##_preview" class="edui-colorpicker-preview"></div>' +
+      '<div id="##_preview" class="edui-colorpicker-preview"><input type="color" id="##_input" onchange="$$._onColorSelect(event,this);" /></div>' +
       '<div unselectable="on" class="edui-colorpicker-nocolor" onclick="$$._onPickNoColor(event, this);">' +
       noColorText +
       "</div>" +
@@ -27975,7 +28062,7 @@ UE.ui = baidu.editor.ui = {};
           ">";
       }
       html += i < 70
-        ? '<td style="padding: 0 2px;"><a hidefocus title="' +
+        ? '<td style="padding:2px 2px;"><a hidefocus title="' +
             COLORS[i] +
             '" onclick="return false;" href="javascript:" unselectable="on" class="edui-box edui-colorpicker-colorcell"' +
             ' data-color="#' +
@@ -27983,17 +28070,13 @@ UE.ui = baidu.editor.ui = {};
             '"' +
             ' style="background-color:#' +
             COLORS[i] +
-            ";border:solid #ccc;" +
-            (i < 10 || i >= 60
-              ? "border-width:1px;"
-              : i >= 10 && i < 20
-                ? "border-width:1px 1px 0 1px;"
-                : "border-width:0 1px 0 1px;") +
+            ";border:solid #ccc 1px;" +
             '"' +
             "></a></td>"
         : "";
     }
-    html += "</tr></table></div>";
+    html += "</tr>";
+    html += "</table></div>";
     return html;
   }
 })();
