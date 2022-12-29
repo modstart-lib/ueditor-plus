@@ -32,6 +32,13 @@
     },
     _onPickNoColor: function() {
       this.fireEvent("picknocolor");
+    },
+    _onColorSelect: function(evt) {
+      var input = evt.target || evt.srcElement;
+      var color = input.value;
+      if (color) {
+        this.fireEvent("pickcolor", color);
+      }
     }
   };
   utils.inherits(ColorPicker, UIBase);
@@ -50,7 +57,8 @@
     var html =
       '<div id="##" class="edui-colorpicker %%">' +
       '<div class="edui-colorpicker-topbar edui-clearfix">' +
-      '<div unselectable="on" id="##_preview" class="edui-colorpicker-preview"></div>' +
+      // '<div unselectable="on" id="##_preview" class="edui-colorpicker-preview"></div>' +
+      '<div id="##_preview" class="edui-colorpicker-preview"><input type="color" id="##_input" onchange="$$._onColorSelect(event,this);" /></div>' +
       '<div unselectable="on" class="edui-colorpicker-nocolor" onclick="$$._onPickNoColor(event, this);">' +
       noColorText +
       "</div>" +
@@ -74,7 +82,7 @@
           ">";
       }
       html += i < 70
-        ? '<td style="padding: 0 2px;"><a hidefocus title="' +
+        ? '<td style="padding:2px 2px;"><a hidefocus title="' +
             COLORS[i] +
             '" onclick="return false;" href="javascript:" unselectable="on" class="edui-box edui-colorpicker-colorcell"' +
             ' data-color="#' +
@@ -82,17 +90,13 @@
             '"' +
             ' style="background-color:#' +
             COLORS[i] +
-            ";border:solid #ccc;" +
-            (i < 10 || i >= 60
-              ? "border-width:1px;"
-              : i >= 10 && i < 20
-                ? "border-width:1px 1px 0 1px;"
-                : "border-width:0 1px 0 1px;") +
+            ";border:solid #ccc 1px;" +
             '"' +
             "></a></td>"
         : "";
     }
-    html += "</tr></table></div>";
+    html += "</tr>";
+    html += "</table></div>";
     return html;
   }
 })();

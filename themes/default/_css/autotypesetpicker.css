@@ -12,10 +12,22 @@
 
 .edui-default .edui-autotypesetpicker-body td {
     font-size: 12px;
-    word-wrap:break-word;
+    word-wrap: break-word;
 }
 
 .edui-default .edui-autotypesetpicker-body td input {
     margin: 3px 3px 3px 4px;
     *margin: 1px 0 0 0;
+}
+
+.edui-default .edui-autotypesetpicker-body td button {
+    border: none;
+    padding: 5px 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    border-radius: 4rem;
+    -webkit-appearance: none;
+    cursor: pointer;
+    margin-bottom: 5px;
+    background-color: #EEE;
 }
