@@ -27225,7 +27225,7 @@ UE.plugin.register("insertfile", function() {
           }
 
 
-          console.log('themePath',  );
+          //console.log('themePath',  );
           var i,
             item,
             icon,
