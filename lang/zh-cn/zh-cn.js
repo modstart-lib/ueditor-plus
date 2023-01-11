@@ -363,7 +363,7 @@ UE.I18N['zh-cn'] = {
         'numError':"请输入正确的数值，如123,400",
         'floatLeft':"左浮动",
         'floatRight':"右浮动",
-        '"default"':"默认",
+        'default':"默认",
         'block':"独占一行",
         'urlError':"输入的视频地址有误，请检查后再试！",
         'loading':" &nbsp;视频加载中，请等待……",
