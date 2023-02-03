@@ -75,6 +75,7 @@ UE.plugins["catchremoteimage"] = function () {
         var catchFailList = [];
         var catchSuccessList = [];
         var failIMG = me.options.themePath + me.options.theme + '/images/img-cracked.png';
+        var loadingIMG = me.options.themePath + me.options.theme + '/images/spacer.gif';
 
         var cj = list[0];
         switch (type) {
