@@ -63,7 +63,7 @@ yarn add vue-ueditor-wrap
                 content: '<p>Hello UEditorPlus</p>',
                 editorConfig: {
                     serverUrl: '后端服务'
-                    // 配置UEditorPlus的惊天资源
+                    // 配置 UEditorPlus 的静态资源根路径
                     UEDITOR_HOME_URL: '/static/UEditorPlus'
                 }
             }
