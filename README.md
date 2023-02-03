@@ -62,8 +62,9 @@ yarn add vue-ueditor-wrap
             return {
                 content: '<p>Hello UEditorPlus</p>',
                 editorConfig: {
+                    // 编辑器后端服务接口，参考后端规范 https://open-doc.modstart.com/ueditor-plus/backend.html
                     serverUrl: '后端服务'
-                    // 配置 UEditorPlus 的静态资源根路径
+                    // 配置 UEditorPlus 的静态资源根路径，可以是 CDN 的静态资源地址
                     UEDITOR_HOME_URL: '/static/UEditorPlus'
                 }
             }
