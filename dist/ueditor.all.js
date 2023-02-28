@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
   instants: {},
   I18N: {},
   _customizeUI: {},
-  version: "2.8.0"
+  version: "2.9.0"
 };
 var dom = (UE.dom = {});
 
@@ -26007,6 +26007,7 @@ UE.plugins["catchremoteimage"] = function () {
         var catchFailList = [];
         var catchSuccessList = [];
         var failIMG = me.options.themePath + me.options.theme + '/images/img-cracked.png';
+        var loadingIMG = me.options.themePath + me.options.theme + '/images/spacer.gif';
 
         var cj = list[0];
         switch (type) {
