@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
   instants: {},
   I18N: {},
   _customizeUI: {},
-  version: "2.9.0"
+  version: "3.0.0"
 };
 var dom = (UE.dom = {});
 
@@ -821,9 +821,9 @@ var utils = (UE.utils = {
   cssStyleToDomStyle: (function() {
     var test = document.createElement("div").style,
       cache = {
-        float: test.cssFloat != undefined
+        float: test.cssFloat !== undefined
           ? "cssFloat"
-          : test.styleFloat != undefined ? "styleFloat" : "float"
+          : test.styleFloat !== undefined ? "styleFloat" : "float"
       };
 
     return function(cssName) {
@@ -3773,7 +3773,7 @@ var domUtils = (dom.domUtils = {
      * ```
      */
   getComputedStyle: function(element, styleName) {
-    //一下的属性单独处理
+    //以下的属性单独处理
     var pros = "width height top left";
 
     if (pros.indexOf(styleName) > -1) {
@@ -3787,14 +3787,14 @@ var domUtils = (dom.domUtils = {
       );
     }
     //忽略文本节点
-    if (element.nodeType == 3) {
+    if (element.nodeType === 3) {
       element = element.parentNode;
     }
     //ie下font-size若body下定义了font-size，则从currentStyle里会取到这个font-size. 取不到实际值，故此修改.
     if (
       browser.ie &&
       browser.version < 9 &&
-      styleName == "font-size" &&
+      styleName === "font-size" &&
       !element.style.fontSize &&
       !dtd.$empty[element.tagName] &&
       !dtd.$nonChild[element.tagName]
@@ -7407,7 +7407,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
               me.options.lang +
               "/" +
               me.options.lang +
-              ".js?20220907",
+              ".js?20230319",
           tag: "script",
           type: "text/javascript",
           defer: "defer"
@@ -7684,15 +7684,19 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
         !domUtils.isBody(form);
         form = form.parentNode
       ) {
-        if (form.tagName == "FORM") {
+        if (form.tagName === "FORM") {
           me.form = form;
           if (me.options.autoSyncData) {
             domUtils.on(me.window, "blur", function() {
               setValue(form, me);
             });
+            domUtils.on(form, "submit", function() {
+              me.fireEvent("beforesubmit");
+            });
           } else {
             domUtils.on(form, "submit", function() {
               setValue(this, me);
+              me.fireEvent("beforesubmit");
             });
           }
           break;
@@ -7803,7 +7807,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
           : domUtils.findParent(
               me.iframe.parentNode,
               function(node) {
-                return node.tagName == "FORM";
+                return node.tagName === "FORM";
               },
               true
             );
@@ -8250,15 +8254,35 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
         }
         me.fireEvent("contentchange");
       });
+      domUtils.on(me.body, "click", function(e) {
+        try {
+          // 当内容最末尾为非字符时，比较难以在最后插入字符，所以在点击时，自动添加一个空的p标签
+          var node = me.body.lastChild;
+          if (!node) {
+            return;
+          }
+          var rect = node.getBoundingClientRect();
+          if (e.clientY > rect.top + rect.height) {
+            var p = document.createElement('p');
+            p.innerHTML = '<br />';
+            me.body.appendChild(p);
+            setTimeout(function () {
+              me.focus(true);
+            }, 100);
+          }
+        } catch (e) {
+          console.error('auto insert p at end', e);
+        }
+      });
       domUtils.on(doc, ["mouseup", "keydown"], function(evt) {
         //特殊键不触发selectionchange
         if (
-          evt.type == "keydown" &&
+          evt.type === "keydown" &&
           (evt.ctrlKey || evt.metaKey || evt.shiftKey || evt.altKey)
         ) {
           return;
         }
-        if (evt.button == 2) return;
+        if (evt.button === 2) return;
         me._selectionChange(250, evt);
       });
     },
@@ -8523,7 +8547,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
     setEnabled: function() {
       var me = this,
         range;
-      if (me.body.contentEditable == "false") {
+      if (me.body.contentEditable === "false") {
         me.body.contentEditable = true;
         range = me.selection.getRange();
         //有可能内容丢失了
@@ -8897,6 +8921,7 @@ UE.Editor.defaultOptions = function(editor) {
           UE.ajax.request(configUrl, {
             method: "GET",
             dataType: isJsonp ? "jsonp" : "",
+            headers: me.options.serverHeaders || {},
             onsuccess: function(r) {
               try {
                 var config = isJsonp ? r : eval("(" + r.responseText + ")");
@@ -9022,6 +9047,7 @@ UE.ajax = (function() {
         method: "POST",
         timeout: 5000,
         async: true,
+        headers: {},
         data: {}, //需要传递对象的话只能覆盖
         onsuccess: function() {},
         onerror: function() {}
@@ -9036,6 +9062,8 @@ UE.ajax = (function() {
       ? utils.extend(defaultAjaxOptions, ajaxOptions)
       : defaultAjaxOptions;
 
+    // console.log('ajaxOpts',ajaxOpts);
+
     var submitStr = json2str(ajaxOpts); // { name:"Jim",city:"Beijing" } --> "name=Jim&city=Beijing"
     //如果用户直接通过data参数传递json对象过来，则也要将此json对象转化为字符串
     if (!utils.isEmptyObject(ajaxOpts.data)) {
@@ -9043,7 +9071,7 @@ UE.ajax = (function() {
     }
     //超时检测
     var timerID = setTimeout(function() {
-      if (xhr.readyState != 4) {
+      if (xhr.readyState !== 4) {
         timeIsOut = true;
         xhr.abort();
         clearTimeout(timerID);
@@ -9053,19 +9081,24 @@ UE.ajax = (function() {
     var method = ajaxOpts.method.toUpperCase();
     var str =
       url +
-      (url.indexOf("?") == -1 ? "?" : "&") +
-      (method == "POST" ? "" : submitStr + "&noCache=" + +new Date());
+      (url.indexOf("?") === -1 ? "?" : "&") +
+      (method === "POST" ? "" : submitStr + "&noCache=" + +new Date());
     xhr.open(method, str, ajaxOpts.async);
     xhr.onreadystatechange = function() {
-      if (xhr.readyState == 4) {
-        if (!timeIsOut && xhr.status == 200) {
+      if (xhr.readyState === 4) {
+        if (!timeIsOut && xhr.status === 200) {
           ajaxOpts.onsuccess(xhr);
         } else {
           ajaxOpts.onerror(xhr);
         }
       }
     };
-    if (method == "POST") {
+    if(ajaxOpts.headers){
+      for(var key in ajaxOpts.headers){
+        xhr.setRequestHeader(key,ajaxOpts.headers[key]);
+      }
+    }
+    if (method === "POST") {
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       xhr.send(submitStr);
     } else {
@@ -9214,7 +9247,7 @@ UE.ajax = (function() {
          * ```
          */
     request: function(url, opts) {
-      if (opts && opts.dataType == "jsonp") {
+      if (opts && opts.dataType === "jsonp") {
         doJsonp(url, opts);
       } else {
         doAjax(url, opts);
@@ -12507,6 +12540,7 @@ UE.plugins["font"] = function() {
       strikethrough: "text-decoration",
       fontborder: "border"
     },
+    lang = me.getLang(),
     needCmd = { underline: 1, strikethrough: 1, fontborder: 1 },
     needSetChild = {
       forecolor: "color",
@@ -12516,16 +12550,17 @@ UE.plugins["font"] = function() {
     };
   me.setOpt({
     fontfamily: [
+      { name: "default", val: "default" },
       { name: "songti", val: "宋体,SimSun" },
       { name: "yahei", val: "微软雅黑,Microsoft YaHei" },
-      { name: "kaiti", val: "楷体,楷体_GB2312, SimKai" },
-      { name: "heiti", val: "黑体, SimHei" },
-      { name: "lishu", val: "隶书, SimLi" },
-      { name: "andaleMono", val: "andale mono" },
-      { name: "arial", val: "arial, helvetica,sans-serif" },
-      { name: "arialBlack", val: "arial black,avant garde" },
-      { name: "comicSansMs", val: "comic sans ms" },
-      { name: "impact", val: "impact,chicago" },
+      { name: "kaiti", val: "楷体,楷体_GB2312,SimKai" },
+      { name: "heiti", val: "黑体,SimHei" },
+      { name: "lishu", val: "隶书,SimLi" },
+      // { name: "andaleMono", val: "andale mono" },
+      { name: "arial", val: "arial,helvetica,sans-serif" },
+      // { name: "arialBlack", val: "arial black,avant garde" },
+      // { name: "comicSansMs", val: "comic sans ms" },
+      // { name: "impact", val: "impact,chicago" },
       { name: "timesNewRoman", val: "times new roman" }
     ],
     fontsize: [10, 11, 12, 14, 16, 18, 20, 24, 36]
@@ -12743,14 +12778,14 @@ UE.plugins["font"] = function() {
             value ||
             (this.queryCommandState(cmdName)
               ? "none"
-              : cmdName == "underline"
+              : cmdName === "underline"
                 ? "underline"
-                : cmdName == "fontborder" ? "1px solid #000" : "line-through");
+                : cmdName === "fontborder" ? "1px solid #000" : "line-through");
           var me = this,
             range = this.selection.getRange(),
             text;
 
-          if (value == "default") {
+          if (value === "default") {
             if (range.collapsed) {
               text = me.document.createTextNode("font");
               range.insertNode(text).select();
@@ -12851,9 +12886,10 @@ UE.plugins["font"] = function() {
         },
         queryCommandValue: function(cmdName) {
           var startNode = this.selection.getStart();
+          var styleVal;
 
           //trace:946
-          if (cmdName == "underline" || cmdName == "strikethrough") {
+          if (cmdName === "underline" || cmdName === "strikethrough") {
             var tmpNode = startNode,
               value;
             while (
@@ -12872,7 +12908,8 @@ UE.plugins["font"] = function() {
             }
             return "none";
           }
-          if (cmdName == "fontborder") {
+
+          else if (cmdName === "fontborder") {
             var tmp = startNode,
               val;
             while (tmp && dtd.$inline[tmp.tagName]) {
@@ -12886,9 +12923,9 @@ UE.plugins["font"] = function() {
             return "";
           }
 
-          if (cmdName == "FontSize") {
-            var styleVal = domUtils.getComputedStyle(startNode, style),
-              tmp = /^([\d\.]+)(\w+)$/.exec(styleVal);
+          else if (cmdName === "FontSize") {
+            styleVal = domUtils.getComputedStyle(startNode, style);
+            tmp = /^([\d\.]+)(\w+)$/.exec(styleVal);
 
             if (tmp) {
               return Math.floor(tmp[1]) + tmp[2];
@@ -12897,7 +12934,24 @@ UE.plugins["font"] = function() {
             return styleVal;
           }
 
-          return domUtils.getComputedStyle(startNode, style);
+          else if(cmdName === 'FontFamily'){
+            styleVal = domUtils.getComputedStyle(startNode, style)
+            // 移除左右引号
+            styleVal = styleVal.replace(/['"]/g, '');
+            let fontFamily = lang.fontfamily.default;
+            for(var v of me.options["fontfamily"] || []){
+              // console.log('FontFamily',styleVal, v.val);
+              if(v.val === styleVal){
+                fontFamily = styleVal;
+                break;
+              }
+            }
+            // console.log('FontFamily',styleVal, fontFamily);
+            return fontFamily;
+          }
+
+          value = domUtils.getComputedStyle(startNode, style);
+          return value;
         },
         queryCommandState: function(cmdName) {
           if (!needCmd[cmdName]) return 0;
@@ -15444,6 +15498,7 @@ UE.plugin.register("autosave", function () {
             return;
         }
 
+        // console.log('autosave', saveKey, saveData);
         me.setPreferences(saveKey, saveData);
 
         editor.fireEvent("afterautosave", {
@@ -15475,18 +15530,24 @@ UE.plugin.register("autosave", function () {
                 }
                 if (me.getOpt('autoSaveRestore')) {
                     var data = me.getPreferences(saveKey);
+                    // console.log('saveKey', saveKey, data);
                     if (data) {
                         me.body.innerHTML = data;
                     }
                 }
                 // console.log('saveKey', saveKey);
             },
+            beforesubmit: function(){
+                if (!me.getOpt("autoSaveEnable") || !saveKey) {
+                  return;
+                }
+                me.execCommand('clear_auto_save_content');
+            },
             contentchange: function () {
-                if (!me.getOpt("autoSaveEnable")) {
+                if(!me.isReady){
                     return;
                 }
-
-                if (!saveKey) {
+                if (!me.getOpt("autoSaveEnable") || !saveKey) {
                     return;
                 }
 
@@ -15496,7 +15557,7 @@ UE.plugin.register("autosave", function () {
 
                 me._autoSaveTimer = window.setTimeout(function () {
                     save(me);
-                }, 500);
+                }, 1000);
             }
         },
         commands: {
@@ -19434,7 +19495,8 @@ UE.plugins["autoheight"] = function() {
             domUtils.getXY(node).y + node.offsetHeight + 25,
             Math.max(options.minFrameHeight, options.initialFrameHeight)
           );
-          if (currentHeight != lastHeight) {
+          if (currentHeight !== lastHeight) {
+            me.iframe.parentNode.style.transition = 'width 0.3s, height 0.3s, easy-in-out';
             if (currentHeight !== parseInt(me.iframe.parentNode.style.height)) {
               me.iframe.parentNode.style.height = currentHeight + "px";
             }
@@ -25979,6 +26041,7 @@ UE.plugins["catchremoteimage"] = function () {
         method: "POST",
         dataType: isJsonp ? "jsonp" : "",
         timeout: 60000, //单位：毫秒，回调请求超时设置。目标用户如果网速不是很快的话此处建议设置一个较大的数值
+        headers: me.options.serverHeaders || {},
         onsuccess: callbacks["success"],
         onerror: callbacks["error"]
       };
@@ -30937,7 +31000,6 @@ UE.ui = baidu.editor.ui = {};
             if (ci.value.indexOf(value) != -1) return i;
           }
         }
-
         return -1;
       }
     });
@@ -31748,9 +31810,6 @@ UE.ui = baidu.editor.ui = {};
             actions.push('<span onclick=$$._onImgSetFloat("none") class="edui-clickable edui-popup-action-item">' +
               editor.getLang("default") +
               "</span>");
-            actions.push('<span onclick=$$._onImgSetFloat("none") class="edui-clickable edui-popup-action-item">' +
-              editor.getLang("default") +
-              "</span>");
             actions.push('<span onclick=$$._onImgSetFloat("left") class="edui-clickable edui-popup-action-item">' +
               editor.getLang("justifyleft") +
               "</span>");
@@ -32265,7 +32324,7 @@ UE.ui = baidu.editor.ui = {};
     editor.options.editor = editor;
     utils.loadFile(document, {
       href:
-        editor.options.themePath + editor.options.theme + "/css/ueditor.css?20220907",
+        editor.options.themePath + editor.options.theme + "/css/ueditor.css?20230319",
       tag: "link",
       type: "text/css",
       rel: "stylesheet"

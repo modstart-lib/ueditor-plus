@@ -914,6 +914,7 @@
                 ajax.request(url, {
                     'timeout': 100000,
                     'dataType': isJsonp ? 'jsonp':'',
+                    'headers': editor.options.serverHeaders || {},
                     'data': utils.extend({
                         start: this.listIndex,
                         size: this.listSize
@@ -922,7 +923,7 @@
                     'onsuccess': function (r) {
                         try {
                             var json = isJsonp ? r:eval('(' + r.responseText + ')');
-                            if (json.state == 'SUCCESS') {
+                            if (json.state === 'SUCCESS') {
                                 _this.pushData(json.list);
                                 _this.listIndex = parseInt(json.start) + parseInt(json.list.length);
                                 if(_this.listIndex >= json.total) {
