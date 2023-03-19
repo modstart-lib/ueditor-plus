@@ -57,7 +57,7 @@ UE.plugins["paragraph"] = function() {
           domUtils.POSITION_FOLLOWING
         )
       ) {
-        if (current.nodeType == 3 || !block(current)) {
+        if (current.nodeType === 3 || !block(current)) {
           tmpRange.setStartBefore(current);
           while (current && current !== bookmark2.end && !block(current)) {
             tmpNode = current;
@@ -74,7 +74,7 @@ UE.plugins["paragraph"] = function() {
             domUtils.setAttributes(para, attrs);
             if (
               sourceCmdName &&
-              sourceCmdName == "customstyle" &&
+              sourceCmdName === "customstyle" &&
               attrs.style
             ) {
               para.style.cssText = attrs.style;
@@ -93,10 +93,10 @@ UE.plugins["paragraph"] = function() {
           if (
             block(parent) &&
             !domUtils.isBody(para.parentNode) &&
-            utils.indexOf(notExchange, parent.tagName) == -1
+            utils.indexOf(notExchange, parent.tagName) === -1
           ) {
             //存储dir,style
-            if (!(sourceCmdName && sourceCmdName == "customstyle")) {
+            if (!(sourceCmdName && sourceCmdName === "customstyle")) {
               parent.getAttribute("dir") &&
                 para.setAttribute("dir", parent.getAttribute("dir"));
               //trace:1070
@@ -124,7 +124,7 @@ UE.plugins["paragraph"] = function() {
               domUtils.setAttributes(parent, attrs);
               if (
                 sourceCmdName &&
-                sourceCmdName == "customstyle" &&
+                sourceCmdName === "customstyle" &&
                 attrs.style
               ) {
                 parent.style.cssText = attrs.style;
@@ -135,7 +135,7 @@ UE.plugins["paragraph"] = function() {
               domUtils.remove(para.parentNode, true);
             }
           }
-          if (utils.indexOf(notExchange, parent.tagName) != -1) {
+          if (utils.indexOf(notExchange, parent.tagName) !== -1) {
             current = parent;
           } else {
             current = para;
@@ -191,13 +191,13 @@ UE.plugins["paragraph"] = function() {
       if (
         browser.gecko &&
         range.collapsed &&
-        range.startContainer.nodeType == 1
+        range.startContainer.nodeType === 1
       ) {
         var child = range.startContainer.childNodes[range.startOffset];
         if (
           child &&
-          child.nodeType == 1 &&
-          child.tagName.toLowerCase() == style
+          child.nodeType === 1 &&
+          child.tagName.toLowerCase() === style
         ) {
           range.setStart(child, 0).collapse(true);
         }

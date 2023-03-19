@@ -1516,7 +1516,7 @@
           var child = range.startContainer.childNodes[range.startOffset];
           if (
             child &&
-            child.nodeType == 1 &&
+            child.nodeType === 1 &&
             (dtd.$empty[child.tagName] || dtd.$nonChild[child.tagName])
           ) {
             node = child;

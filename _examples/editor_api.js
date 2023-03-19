@@ -87,6 +87,8 @@
             'plugins/simpleupload.js',
             'plugins/serverparam.js',
             'plugins/insertfile.js',
+            'plugins/markdown-shortcut.js',
+
             'ui/ui.js',
             'ui/uiutils.js',
             'ui/uibase.js',
@@ -113,6 +115,7 @@
             'ui/shortcutmenu.js',
             'ui/breakline.js',
             'ui/message.js',
+
             'adapter/editorui.js',
             'adapter/editor.js',
             'adapter/message.js',

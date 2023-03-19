@@ -404,6 +404,9 @@
     _initToolbars: function () {
       var editor = this.editor;
       var toolbars = this.toolbars || [];
+      toolbars.unshift([
+        'message',
+      ]);
       var toolbarUis = [];
       var extraUIs = [];
       for (var i = 0; i < toolbars.length; i++) {
@@ -416,10 +419,10 @@
           var toolbarItemUi = null;
           if (typeof toolbarItem == "string") {
             toolbarItem = toolbarItem.toLowerCase();
-            if (toolbarItem == "|") {
+            if (toolbarItem === "|") {
               toolbarItem = "Separator";
             }
-            if (toolbarItem == "||") {
+            if (toolbarItem === "||") {
               toolbarItem = "Breakline";
             }
             var ui = baidu.editor.ui[toolbarItem];
@@ -427,7 +430,7 @@
               if (utils.isFunction(ui)) {
                 toolbarItemUi = new baidu.editor.ui[toolbarItem](editor);
               } else {
-                if (ui.id && ui.id != editor.key) {
+                if (ui.id && ui.id !== editor.key) {
                   continue;
                 }
                 var itemUI = ui.execFn.call(editor, editor, toolbarItem);
@@ -445,7 +448,7 @@
               }
             }
             //fullscreen这里单独处理一下，放到首行去
-            if (toolbarItem == "fullscreen") {
+            if (toolbarItem === "fullscreen") {
               if (toolbarUis && toolbarUis[0]) {
                 toolbarUis[0].items.splice(0, 0, toolbarItemUi);
               } else {

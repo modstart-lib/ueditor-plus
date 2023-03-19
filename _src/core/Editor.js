@@ -1109,9 +1109,9 @@
         }
         me.fireEvent("contentchange");
       });
+      // 当内容最末尾为非字符时，比较难以在最后插入字符，所以在点击时，自动添加一个空的p标签
       domUtils.on(me.body, "click", function(e) {
         try {
-          // 当内容最末尾为非字符时，比较难以在最后插入字符，所以在点击时，自动添加一个空的p标签
           var node = me.body.lastChild;
           if (!node) {
             return;
