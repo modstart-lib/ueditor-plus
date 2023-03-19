@@ -217,7 +217,7 @@ UE.plugins["list"] = function() {
     var root = UE.htmlparser(html.html, true);
     if ((li = domUtils.findParentByTagName(rng.startContainer, "li", true))) {
       var list = li.parentNode,
-        tagName = list.tagName == "OL" ? "ul" : "ol";
+        tagName = list.tagName === "OL" ? "ul" : "ol";
       utils.each(root.getNodesByTagName(tagName), function(n) {
         n.tagName = list.tagName;
         n.setAttr();
@@ -231,12 +231,12 @@ UE.plugins["list"] = function() {
             type = n.parentNode.getStyle("list-style-type");
           }
           if (!type) {
-            type = list.tagName == "OL" ? "decimal" : "disc";
+            type = list.tagName === "OL" ? "decimal" : "disc";
           }
         }
         var index = utils.indexOf(listStyle[list.tagName], type);
         if (n.parentNode !== root)
-          index = index + 1 == listStyle[list.tagName].length ? 0 : index + 1;
+          index = index + 1 === listStyle[list.tagName].length ? 0 : index + 1;
         var currentStyle = listStyle[list.tagName][index];
         if (customStyle[currentStyle]) {
           n.setAttr("class", "custom_" + currentStyle);
@@ -265,8 +265,8 @@ UE.plugins["list"] = function() {
             tmpNode = newChildrens[newChildrens.length - 1];
             if (
               !tmpNode ||
-              tmpNode.type != "element" ||
-              tmpNode.tagName != "br"
+              tmpNode.type !== "element" ||
+              tmpNode.tagName !== "br"
             ) {
               var br = UE.uNode.createElement("br");
               br.parentNode = li;
@@ -286,7 +286,7 @@ UE.plugins["list"] = function() {
     utils.each(root.getNodesByTagName("li"), function(li) {
       var tmpP = UE.uNode.createElement("p");
       for (var i = 0, ci; (ci = li.children[i]); ) {
-        if (ci.type == "text" || dtd.p[ci.tagName]) {
+        if (ci.type === "text" || dtd.p[ci.tagName]) {
           tmpP.appendChild(ci);
         } else {
           if (tmpP.firstChild()) {
@@ -311,7 +311,7 @@ UE.plugins["list"] = function() {
       var lastChild = p.lastChild();
       if (
         lastChild &&
-        lastChild.type == "text" &&
+        lastChild.type === "text" &&
         /^\s*$/.test(lastChild.data)
       ) {
         p.removeChild(lastChild);
@@ -333,8 +333,8 @@ UE.plugins["list"] = function() {
         var span = container.firstChild();
         if (
           span &&
-          span.type == "element" &&
-          span.tagName == "span" &&
+          span.type === "element" &&
+          span.tagName === "span" &&
           /Wingdings|Symbol/.test(span.getStyle("font-family"))
         ) {
           for (var p in unorderlisttype) {
@@ -351,7 +351,7 @@ UE.plugins["list"] = function() {
         }
       }
       utils.each(root.getNodesByTagName("p"), function(node) {
-        if (node.getAttr("class") != "MsoListParagraph") {
+        if (node.getAttr("class") !== "MsoListParagraph") {
           return;
         }
 
@@ -361,12 +361,12 @@ UE.plugins["list"] = function() {
         node.setAttr("class", "");
 
         function appendLi(list, p, type) {
-          if (list.tagName == "ol") {
+          if (list.tagName === "ol") {
             if (browser.ie) {
               var first = p.firstChild();
               if (
-                first.type == "element" &&
-                first.tagName == "span" &&
+                first.type === "element" &&
+                first.tagName === "span" &&
                 orderlisttype[type].test(first.innerText())
               ) {
                 p.removeChild(first);
@@ -387,7 +387,7 @@ UE.plugins["list"] = function() {
           cacheNode = node;
 
         if (
-          node.parentNode.tagName != "li" &&
+          node.parentNode.tagName !== "li" &&
           (type = checkListType(node.innerText(), node))
         ) {
           var list = UE.uNode.createElement(
@@ -400,7 +400,7 @@ UE.plugins["list"] = function() {
           }
           while (
             node &&
-            node.parentNode.tagName != "li" &&
+            node.parentNode.tagName !== "li" &&
             checkListType(node.innerText(), node)
           ) {
             tmp = node.nextSibling();
@@ -437,17 +437,17 @@ UE.plugins["list"] = function() {
       if (!domUtils.inDoc(node, doc)) return;
 
       var parent = node.parentNode;
-      if (parent.tagName == node.tagName) {
+      if (parent.tagName === node.tagName) {
         var nodeStyleType =
-          getStyle(node) || (node.tagName == "OL" ? "decimal" : "disc"),
+          getStyle(node) || (node.tagName === "OL" ? "decimal" : "disc"),
           parentStyleType =
-            getStyle(parent) || (parent.tagName == "OL" ? "decimal" : "disc");
-        if (nodeStyleType == parentStyleType) {
+            getStyle(parent) || (parent.tagName === "OL" ? "decimal" : "disc");
+        if (nodeStyleType === parentStyleType) {
           var styleIndex = utils.indexOf(
             listStyle[node.tagName],
             nodeStyleType
           );
-          styleIndex = styleIndex + 1 == listStyle[node.tagName].length
+          styleIndex = styleIndex + 1 === listStyle[node.tagName].length
             ? 0
             : styleIndex + 1;
           setListStyle(node, listStyle[node.tagName][styleIndex]);
@@ -492,7 +492,7 @@ UE.plugins["list"] = function() {
         if (domUtils.hasClass(node, /custom_/)) {
           var paddingLeft = 1,
             currentStyle = getStyle(node);
-          if (node.tagName == "OL") {
+          if (node.tagName === "OL") {
             if (currentStyle) {
               switch (currentStyle) {
                 case "cn":
@@ -500,7 +500,7 @@ UE.plugins["list"] = function() {
                 case "cn2":
                   if (
                     index > 10 &&
-                    (index % 10 == 0 || (index > 10 && index < 20))
+                    (index % 10 === 0 || (index > 10 && index < 20))
                   ) {
                     paddingLeft = 2;
                   } else if (index > 20) {
@@ -552,14 +552,14 @@ UE.plugins["list"] = function() {
     var nextList = list.nextSibling;
     if (
       nextList &&
-      nextList.nodeType == 1 &&
-      nextList.tagName.toLowerCase() == tag &&
+      nextList.nodeType === 1 &&
+      nextList.tagName.toLowerCase() === tag &&
       (getStyle(nextList) ||
         domUtils.getStyle(nextList, "list-style-type") ||
         (tag == "ol" ? "decimal" : "disc")) == style
     ) {
       domUtils.moveChild(nextList, list);
-      if (nextList.childNodes.length == 0) {
+      if (nextList.childNodes.length === 0) {
         domUtils.remove(nextList);
       }
     }
@@ -569,11 +569,11 @@ UE.plugins["list"] = function() {
     var preList = list.previousSibling;
     if (
       preList &&
-      preList.nodeType == 1 &&
+      preList.nodeType === 1 &&
       preList.tagName.toLowerCase() == tag &&
       (getStyle(preList) ||
         domUtils.getStyle(preList, "list-style-type") ||
-        (tag == "ol" ? "decimal" : "disc")) == style
+        (tag == "ol" ? "decimal" : "disc")) === style
     ) {
       domUtils.moveChild(list, preList);
     }
@@ -616,7 +616,7 @@ UE.plugins["list"] = function() {
         if (filterFn(node)) {
           return null;
         }
-        if (node.nodeType == 1 && /[ou]l/i.test(node.tagName)) {
+        if (node.nodeType === 1 && /[ou]l/i.test(node.tagName)) {
           return node;
         }
         node = node.parentNode;
@@ -624,7 +624,7 @@ UE.plugins["list"] = function() {
       return null;
     }
     var keyCode = evt.keyCode || evt.which;
-    if (keyCode == 13 && !evt.shiftKey) {
+    if (keyCode === 13 && !evt.shiftKey) {
       //回车
       var rng = me.selection.getRange(),
         parent = domUtils.findParent(
@@ -635,7 +635,7 @@ UE.plugins["list"] = function() {
           true
         ),
         li = domUtils.findParentByTagName(rng.startContainer, "li", true);
-      if (parent && parent.tagName != "PRE" && !li) {
+      if (parent && parent.tagName !== "PRE" && !li) {
         var html = parent.innerHTML.replace(
           new RegExp(domUtils.fillChar, "g"),
           ""
@@ -650,12 +650,12 @@ UE.plugins["list"] = function() {
       }
       var range = me.selection.getRange(),
         start = findList(range.startContainer, function(node) {
-          return node.tagName == "TABLE";
+          return node.tagName === "TABLE";
         }),
         end = range.collapsed
           ? start
           : findList(range.endContainer, function(node) {
-              return node.tagName == "TABLE";
+              return node.tagName === "TABLE";
             });
 
       if (start && end && start === end) {
@@ -791,7 +791,7 @@ UE.plugins["list"] = function() {
         }
       }
     }
-    if (keyCode == 8) {
+    if (keyCode === 8) {
       //修中ie中li下的问题
       range = me.selection.getRange();
       if (range.collapsed && domUtils.isStartInblock(range)) {
@@ -812,7 +812,7 @@ UE.plugins["list"] = function() {
           }
 
           if (li && (pre = li.previousSibling)) {
-            if (keyCode == 46 && li.childNodes.length) {
+            if (keyCode === 46 && li.childNodes.length) {
               return;
             }
             //有可能上边的兄弟节点是个2级菜单，要追加到2级菜单的最后的li

@@ -33,21 +33,21 @@
       range.startContainer &&
       range.endContainer &&
       range.startContainer === range.endContainer &&
-      range.startOffset == range.endOffset;
+      range.startOffset === range.endOffset;
   }
 
   function selectOneNode(rng) {
     return (
       !rng.collapsed &&
-      rng.startContainer.nodeType == 1 &&
+      rng.startContainer.nodeType === 1 &&
       rng.startContainer === rng.endContainer &&
-      rng.endOffset - rng.startOffset == 1
+      rng.endOffset - rng.startOffset === 1
     );
   }
   function setEndPoint(toStart, node, offset, range) {
     //如果node是自闭合标签要处理
     if (
-      node.nodeType == 1 &&
+      node.nodeType === 1 &&
       (dtd.$empty[node.tagName] || dtd.$nonChild[node.tagName])
     ) {
       offset = domUtils.getNodeIndex(node) + (toStart ? 0 : 1);

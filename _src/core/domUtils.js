@@ -74,7 +74,7 @@ var domUtils = (dom.domUtils = {
   POSITION_IS_CONTAINED: 8,
   POSITION_CONTAINS: 16,
   //ie6使用其他的会有一段空白出现
-  fillChar: ie && browser.version == "6" ? "\ufeff" : "\u200B",
+  fillChar: ie && browser.version === "6" ? "\ufeff" : "\u200B",
   //-------------------------Node部分--------------------------------
   keys: {
     /*Backspace*/ 8: 1,
@@ -250,7 +250,7 @@ var domUtils = (dom.domUtils = {
      * ```
      */
   inDoc: function(node, doc) {
-    return domUtils.getPosition(node, doc) == 10;
+    return domUtils.getPosition(node, doc) === 10;
   },
   /**
      * 根据给定的过滤规则filterFn， 查找符合该过滤规则的node节点的第一个祖先节点，
