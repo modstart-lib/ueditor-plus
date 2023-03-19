@@ -140,6 +140,7 @@ UE.plugins["font"] = function() {
       strikethrough: "text-decoration",
       fontborder: "border"
     },
+    lang = me.getLang(),
     needCmd = { underline: 1, strikethrough: 1, fontborder: 1 },
     needSetChild = {
       forecolor: "color",
@@ -149,16 +150,17 @@ UE.plugins["font"] = function() {
     };
   me.setOpt({
     fontfamily: [
+      { name: "default", val: "default" },
       { name: "songti", val: "宋体,SimSun" },
       { name: "yahei", val: "微软雅黑,Microsoft YaHei" },
-      { name: "kaiti", val: "楷体,楷体_GB2312, SimKai" },
-      { name: "heiti", val: "黑体, SimHei" },
-      { name: "lishu", val: "隶书, SimLi" },
-      { name: "andaleMono", val: "andale mono" },
-      { name: "arial", val: "arial, helvetica,sans-serif" },
-      { name: "arialBlack", val: "arial black,avant garde" },
-      { name: "comicSansMs", val: "comic sans ms" },
-      { name: "impact", val: "impact,chicago" },
+      { name: "kaiti", val: "楷体,楷体_GB2312,SimKai" },
+      { name: "heiti", val: "黑体,SimHei" },
+      { name: "lishu", val: "隶书,SimLi" },
+      // { name: "andaleMono", val: "andale mono" },
+      { name: "arial", val: "arial,helvetica,sans-serif" },
+      // { name: "arialBlack", val: "arial black,avant garde" },
+      // { name: "comicSansMs", val: "comic sans ms" },
+      // { name: "impact", val: "impact,chicago" },
       { name: "timesNewRoman", val: "times new roman" }
     ],
     fontsize: [10, 11, 12, 14, 16, 18, 20, 24, 36]
@@ -376,14 +378,14 @@ UE.plugins["font"] = function() {
             value ||
             (this.queryCommandState(cmdName)
               ? "none"
-              : cmdName == "underline"
+              : cmdName === "underline"
                 ? "underline"
-                : cmdName == "fontborder" ? "1px solid #000" : "line-through");
+                : cmdName === "fontborder" ? "1px solid #000" : "line-through");
           var me = this,
             range = this.selection.getRange(),
             text;
 
-          if (value == "default") {
+          if (value === "default") {
             if (range.collapsed) {
               text = me.document.createTextNode("font");
               range.insertNode(text).select();
@@ -484,9 +486,10 @@ UE.plugins["font"] = function() {
         },
         queryCommandValue: function(cmdName) {
           var startNode = this.selection.getStart();
+          var styleVal;
 
           //trace:946
-          if (cmdName == "underline" || cmdName == "strikethrough") {
+          if (cmdName === "underline" || cmdName === "strikethrough") {
             var tmpNode = startNode,
               value;
             while (
@@ -505,7 +508,8 @@ UE.plugins["font"] = function() {
             }
             return "none";
           }
-          if (cmdName == "fontborder") {
+
+          else if (cmdName === "fontborder") {
             var tmp = startNode,
               val;
             while (tmp && dtd.$inline[tmp.tagName]) {
@@ -519,9 +523,9 @@ UE.plugins["font"] = function() {
             return "";
           }
 
-          if (cmdName == "FontSize") {
-            var styleVal = domUtils.getComputedStyle(startNode, style),
-              tmp = /^([\d\.]+)(\w+)$/.exec(styleVal);
+          else if (cmdName === "FontSize") {
+            styleVal = domUtils.getComputedStyle(startNode, style);
+            tmp = /^([\d\.]+)(\w+)$/.exec(styleVal);
 
             if (tmp) {
               return Math.floor(tmp[1]) + tmp[2];
@@ -530,7 +534,24 @@ UE.plugins["font"] = function() {
             return styleVal;
           }
 
-          return domUtils.getComputedStyle(startNode, style);
+          else if(cmdName === 'FontFamily'){
+            styleVal = domUtils.getComputedStyle(startNode, style)
+            // 移除左右引号
+            styleVal = styleVal.replace(/['"]/g, '');
+            let fontFamily = lang.fontfamily.default;
+            for(var v of me.options["fontfamily"] || []){
+              // console.log('FontFamily',styleVal, v.val);
+              if(v.val === styleVal){
+                fontFamily = styleVal;
+                break;
+              }
+            }
+            // console.log('FontFamily',styleVal, fontFamily);
+            return fontFamily;
+          }
+
+          value = domUtils.getComputedStyle(startNode, style);
+          return value;
         },
         queryCommandState: function(cmdName) {
           if (!needCmd[cmdName]) return 0;

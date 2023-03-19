@@ -258,6 +258,7 @@
                             start: this.listIndex,
                             size: this.listSize
                         }, editor.queryCommandValue('serverparam')),
+                    'headers': editor.options.serverHeaders || {},
                     'method': 'get',
                     'onsuccess': function (r) {
                         try {

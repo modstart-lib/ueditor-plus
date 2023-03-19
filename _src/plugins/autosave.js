@@ -22,6 +22,7 @@ UE.plugin.register("autosave", function () {
             return;
         }
 
+        // console.log('autosave', saveKey, saveData);
         me.setPreferences(saveKey, saveData);
 
         editor.fireEvent("afterautosave", {
@@ -53,18 +54,24 @@ UE.plugin.register("autosave", function () {
                 }
                 if (me.getOpt('autoSaveRestore')) {
                     var data = me.getPreferences(saveKey);
+                    // console.log('saveKey', saveKey, data);
                     if (data) {
                         me.body.innerHTML = data;
                     }
                 }
                 // console.log('saveKey', saveKey);
             },
+            beforesubmit: function(){
+                if (!me.getOpt("autoSaveEnable") || !saveKey) {
+                  return;
+                }
+                me.execCommand('clear_auto_save_content');
+            },
             contentchange: function () {
-                if (!me.getOpt("autoSaveEnable")) {
+                if(!me.isReady){
                     return;
                 }
-
-                if (!saveKey) {
+                if (!me.getOpt("autoSaveEnable") || !saveKey) {
                     return;
                 }
 
@@ -74,7 +81,7 @@ UE.plugin.register("autosave", function () {
 
                 me._autoSaveTimer = window.setTimeout(function () {
                     save(me);
-                }, 500);
+                }, 1000);
             }
         },
         commands: {

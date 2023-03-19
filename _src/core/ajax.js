@@ -69,6 +69,7 @@ UE.ajax = (function() {
         method: "POST",
         timeout: 5000,
         async: true,
+        headers: {},
         data: {}, //需要传递对象的话只能覆盖
         onsuccess: function() {},
         onerror: function() {}
@@ -83,6 +84,8 @@ UE.ajax = (function() {
       ? utils.extend(defaultAjaxOptions, ajaxOptions)
       : defaultAjaxOptions;
 
+    // console.log('ajaxOpts',ajaxOpts);
+
     var submitStr = json2str(ajaxOpts); // { name:"Jim",city:"Beijing" } --> "name=Jim&city=Beijing"
     //如果用户直接通过data参数传递json对象过来，则也要将此json对象转化为字符串
     if (!utils.isEmptyObject(ajaxOpts.data)) {
@@ -90,7 +93,7 @@ UE.ajax = (function() {
     }
     //超时检测
     var timerID = setTimeout(function() {
-      if (xhr.readyState != 4) {
+      if (xhr.readyState !== 4) {
         timeIsOut = true;
         xhr.abort();
         clearTimeout(timerID);
@@ -100,19 +103,24 @@ UE.ajax = (function() {
     var method = ajaxOpts.method.toUpperCase();
     var str =
       url +
-      (url.indexOf("?") == -1 ? "?" : "&") +
-      (method == "POST" ? "" : submitStr + "&noCache=" + +new Date());
+      (url.indexOf("?") === -1 ? "?" : "&") +
+      (method === "POST" ? "" : submitStr + "&noCache=" + +new Date());
     xhr.open(method, str, ajaxOpts.async);
     xhr.onreadystatechange = function() {
-      if (xhr.readyState == 4) {
-        if (!timeIsOut && xhr.status == 200) {
+      if (xhr.readyState === 4) {
+        if (!timeIsOut && xhr.status === 200) {
           ajaxOpts.onsuccess(xhr);
         } else {
           ajaxOpts.onerror(xhr);
         }
       }
     };
-    if (method == "POST") {
+    if(ajaxOpts.headers){
+      for(var key in ajaxOpts.headers){
+        xhr.setRequestHeader(key,ajaxOpts.headers[key]);
+      }
+    }
+    if (method === "POST") {
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       xhr.send(submitStr);
     } else {
@@ -261,7 +269,7 @@ UE.ajax = (function() {
          * ```
          */
     request: function(url, opts) {
-      if (opts && opts.dataType == "jsonp") {
+      if (opts && opts.dataType === "jsonp") {
         doJsonp(url, opts);
       } else {
         doAjax(url, opts);

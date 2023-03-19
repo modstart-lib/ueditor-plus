@@ -26,15 +26,16 @@ var Formula = {
   },
   render: function () {
     var content = $.trim($('#editor').val());
+    var $preview = $('#preview');
     if (!content) {
-      $('#preview').hide();
+      $preview.hide();
       return;
     }
     content = encodeURIComponent(content);
     var formulaConfig = editor.getOpt('formulaConfig');
     var src = formulaConfig.imageUrlTemplate.replace(/\{\}/, content);
     $('#previewImage').attr('src', src);
-    $('#preview').show();
+    $preview.show();
   },
   initValue: function () {
     var img = editor.selection.getRange().getClosedNode();

@@ -22,6 +22,7 @@
           UE.ajax.request(configUrl, {
             method: "GET",
             dataType: isJsonp ? "jsonp" : "",
+            headers: me.options.serverHeaders || {},
             onsuccess: function(r) {
               try {
                 var config = isJsonp ? r : eval("(" + r.responseText + ")");

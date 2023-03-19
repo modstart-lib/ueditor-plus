@@ -330,9 +330,6 @@
             actions.push('<span onclick=$$._onImgSetFloat("none") class="edui-clickable edui-popup-action-item">' +
               editor.getLang("default") +
               "</span>");
-            actions.push('<span onclick=$$._onImgSetFloat("none") class="edui-clickable edui-popup-action-item">' +
-              editor.getLang("default") +
-              "</span>");
             actions.push('<span onclick=$$._onImgSetFloat("left") class="edui-clickable edui-popup-action-item">' +
               editor.getLang("justifyleft") +
               "</span>");
@@ -847,7 +844,7 @@
     editor.options.editor = editor;
     utils.loadFile(document, {
       href:
-        editor.options.themePath + editor.options.theme + "/_css/ueditor.css?20220907",
+        editor.options.themePath + editor.options.theme + "/_css/ueditor.css?20230319",
       tag: "link",
       type: "text/css",
       rel: "stylesheet"

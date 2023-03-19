@@ -262,7 +262,7 @@
               me.options.lang +
               "/" +
               me.options.lang +
-              ".js?20220907",
+              ".js?20230319",
           tag: "script",
           type: "text/javascript",
           defer: "defer"
@@ -539,15 +539,19 @@
         !domUtils.isBody(form);
         form = form.parentNode
       ) {
-        if (form.tagName == "FORM") {
+        if (form.tagName === "FORM") {
           me.form = form;
           if (me.options.autoSyncData) {
             domUtils.on(me.window, "blur", function() {
               setValue(form, me);
             });
+            domUtils.on(form, "submit", function() {
+              me.fireEvent("beforesubmit");
+            });
           } else {
             domUtils.on(form, "submit", function() {
               setValue(this, me);
+              me.fireEvent("beforesubmit");
             });
           }
           break;
@@ -658,7 +662,7 @@
           : domUtils.findParent(
               me.iframe.parentNode,
               function(node) {
-                return node.tagName == "FORM";
+                return node.tagName === "FORM";
               },
               true
             );

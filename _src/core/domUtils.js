@@ -1592,7 +1592,7 @@ var domUtils = (dom.domUtils = {
      * ```
      */
   getComputedStyle: function(element, styleName) {
-    //一下的属性单独处理
+    //以下的属性单独处理
     var pros = "width height top left";
 
     if (pros.indexOf(styleName) > -1) {
@@ -1606,14 +1606,14 @@ var domUtils = (dom.domUtils = {
       );
     }
     //忽略文本节点
-    if (element.nodeType == 3) {
+    if (element.nodeType === 3) {
       element = element.parentNode;
     }
     //ie下font-size若body下定义了font-size，则从currentStyle里会取到这个font-size. 取不到实际值，故此修改.
     if (
       browser.ie &&
       browser.version < 9 &&
-      styleName == "font-size" &&
+      styleName === "font-size" &&
       !element.style.fontSize &&
       !dtd.$empty[element.tagName] &&
       !dtd.$nonChild[element.tagName]
