@@ -1109,15 +1109,35 @@
         }
         me.fireEvent("contentchange");
       });
+      domUtils.on(me.body, "click", function(e) {
+        try {
+          // 当内容最末尾为非字符时，比较难以在最后插入字符，所以在点击时，自动添加一个空的p标签
+          var node = me.body.lastChild;
+          if (!node) {
+            return;
+          }
+          var rect = node.getBoundingClientRect();
+          if (e.clientY > rect.top + rect.height) {
+            var p = document.createElement('p');
+            p.innerHTML = '<br />';
+            me.body.appendChild(p);
+            setTimeout(function () {
+              me.focus(true);
+            }, 100);
+          }
+        } catch (e) {
+          console.error('auto insert p at end', e);
+        }
+      });
       domUtils.on(doc, ["mouseup", "keydown"], function(evt) {
         //特殊键不触发selectionchange
         if (
-          evt.type == "keydown" &&
+          evt.type === "keydown" &&
           (evt.ctrlKey || evt.metaKey || evt.shiftKey || evt.altKey)
         ) {
           return;
         }
-        if (evt.button == 2) return;
+        if (evt.button === 2) return;
         me._selectionChange(250, evt);
       });
     },
@@ -1382,7 +1402,7 @@
     setEnabled: function() {
       var me = this,
         range;
-      if (me.body.contentEditable == "false") {
+      if (me.body.contentEditable === "false") {
         me.body.contentEditable = true;
         range = me.selection.getRange();
         //有可能内容丢失了
