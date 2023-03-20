@@ -57,6 +57,10 @@ UE.plugin.register("autosave", function () {
                     // console.log('saveKey', saveKey, data);
                     if (data) {
                         me.body.innerHTML = data;
+                        me.fireEvent('showmessage',{
+                          type:'info',
+                          content:me.getLang('autosave').autoRestoreTip
+                        })
                     }
                 }
                 // console.log('saveKey', saveKey);

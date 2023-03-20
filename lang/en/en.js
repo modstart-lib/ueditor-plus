@@ -26,6 +26,9 @@ UE.I18N['en'] = {
         'lineheight':'LineHeight','edittip':'EditTip','customstyle':'CustomStyle', 'scrawl':'Scrawl', 'autotypeset':'AutoTypeset',
         'touppercase':'UpperCase', 'tolowercase':'LowerCase','template':'Template','background':'Background','inserttable':'InsertTable',
     },
+    'autosave': {
+        'autoRestoreTip': 'Has been recovered from draft'
+    },
     'insertorderedlist':{
         'num':'1,2,3...',
         'num1':'1),2),3)...',

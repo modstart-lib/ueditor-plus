@@ -27,6 +27,9 @@ UE.I18N['zh-cn'] = {
         'touppercase':'字母大写', 'tolowercase':'字母小写','background':'背景','template':'模板','scrawl':'涂鸦',
         'inserttable':'插入表格',
     },
+    'autosave': {
+        'autoRestoreTip': '已自动从草稿箱恢复'
+    },
     'insertorderedlist':{
         'num':'1,2,3...',
         'num1':'1),2),3)...',

@@ -404,9 +404,11 @@
     _initToolbars: function () {
       var editor = this.editor;
       var toolbars = this.toolbars || [];
-      toolbars.unshift([
-        'message',
-      ]);
+      if(toolbars[0]){
+        toolbars[0].unshift(
+          'message'
+        );
+      }
       var toolbarUis = [];
       var extraUIs = [];
       for (var i = 0; i < toolbars.length; i++) {
