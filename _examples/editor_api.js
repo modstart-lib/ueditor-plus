@@ -107,6 +107,7 @@
             'ui/cellalignpicker.js',
             'ui/pastepicker.js',
             'ui/toolbar.js',
+            'ui/quick-operate.js',
             'ui/menu.js',
             'ui/combox.js',
             'ui/dialog.js',
