@@ -538,8 +538,10 @@ UE.plugins["font"] = function() {
             styleVal = domUtils.getComputedStyle(startNode, style)
             // 移除左右引号
             styleVal = styleVal.replace(/['"]/g, '');
-            let fontFamily = lang.fontfamily.default;
-            for(var v of me.options["fontfamily"] || []){
+            var fontFamily = lang.fontfamily.default;
+            var fontList = me.options["fontfamily"] || [];
+            for(var i=0;i<fontList.length;i++){
+              var v = fontList[i];
               // console.log('FontFamily',styleVal, v.val);
               if(v.val === styleVal){
                 fontFamily = styleVal;

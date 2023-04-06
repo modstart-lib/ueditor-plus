@@ -4,7 +4,8 @@ prepare:
 build:
 	rm -rfv ./dist/; \
 	rm -rfv ./dist-min/; \
-	grunt default --force
+	grunt default --force; \
+	uglifyjs -o dist-min/ueditor.all.js dist/ueditor.all.js;
 
 build_for_modstart: build
 	rm -rfv     ../../vendor/modstart/modstart/asset/vendor/ueditor/; \

@@ -28,7 +28,9 @@
   } else {
     URL = getUEBasePath();
   }
-  if (window.__msRoot) {
+  if(window.UEDITOR_CORS_URL){
+    CORS_URL = window.UEDITOR_CORS_URL;
+  }else if (window.__msRoot) {
     CORS_URL = window.__msRoot + 'asset/vendor/ueditor/';
   } else {
     CORS_URL = getUEBasePath();
@@ -39,13 +41,14 @@
    */
   window.UEDITOR_CONFIG = {
 
-    //为编辑器实例添加一个路径，这个不能被注释
+    // 为编辑器实例添加一个路径，这个不能被注释
     UEDITOR_HOME_URL: URL,
+    // 需要能跨域的静态资源请求，主要用户弹窗页面等静态资源
     UEDITOR_CORS_URL: CORS_URL,
 
     // 服务器统一请求接口路径
     serverUrl: "/ueditor-plus/_demo_server/handle.php",
-    // 服务器统一请求头信息，会在加载配置、
+    // 服务器统一请求头信息，会在所有请求中带上该信息
     serverHeaders: {
       // 'Authorization': 'Bearer xxx'
     },

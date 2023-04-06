@@ -1,17 +1,17 @@
 UE.plugins["markdown-shortcut"] = function () {
 
-  let me = this;
+  var me = this;
   const uiUtils = UE.ui.uiUtils;
 
   const getCleanHtml = function (node) {
-    let html = node.innerHTML
+    var html = node.innerHTML
     html = html.replace(/[\u200b]*/g, '')
     return html
   }
 
-  let shortCuts = [];
-  for (let i = 1; i <= 6; i++) {
-    let command = 'h' + i;
+  var shortCuts = [];
+  for (var i = 1; i <= 6; i++) {
+    var command = 'h' + i;
     const regExp = new RegExp('^\\t?' + Array(i + 1).join('#') + '(\\s|&nbsp;)');
     shortCuts.push({
       tagName: ['P'],
@@ -22,13 +22,13 @@ UE.plugins["markdown-shortcut"] = function () {
         me.__hasEnterExecCommand = true;
         me.execCommand('paragraph', command);
         setTimeout(function () {
-          let range = me.selection.getRange();
-          let node = range.startContainer;
+          var range = me.selection.getRange();
+          var node = range.startContainer;
           // safari 下不会自动选中Hx标签
           if (node.tagName !== 'H' + i) {
             node = node.parentNode
           }
-          let html = getCleanHtml(node)
+          var html = getCleanHtml(node)
           html = html.replace(regExp, '');
           if (!html) {
             html = domUtils.fillChar;
@@ -42,7 +42,7 @@ UE.plugins["markdown-shortcut"] = function () {
 
   me.on("ready", function () {
 
-    // let quickOperate = null
+    // var quickOperate = null
     // domUtils.on(me.body, "mouseover", function (evt) {
     //   const node = evt.target
     //   const rect = node.getBoundingClientRect();
@@ -64,17 +64,17 @@ UE.plugins["markdown-shortcut"] = function () {
     // });
 
     domUtils.on(me.body, "keyup", function (e) {
-      let range = me.selection.getRange();
+      var range = me.selection.getRange();
       if (range.endOffset !== range.startOffset) {
         return;
       }
-      let key = e.key;
-      let offset = range.startOffset;
+      var key = e.key;
+      var offset = range.startOffset;
       const node = range.startContainer.parentNode;
-      let html = getCleanHtml(node);
-      let tagName = node.tagName;
+      var html = getCleanHtml(node);
+      var tagName = node.tagName;
       // console.log('keyup', [node, range, tagName, key, offset, html]);
-      for (let s of shortCuts) {
+      for (var s of shortCuts) {
         if (!s.tagName.includes(tagName)) {
           continue;
         }
@@ -84,7 +84,7 @@ UE.plugins["markdown-shortcut"] = function () {
         if (!s.offset.includes(offset)) {
           continue;
         }
-        for (let m of s.match) {
+        for (var m of s.match) {
           let match = html.match(m);
           // console.log('keyup', [html, m, match]);
           if (match) {

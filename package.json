@@ -32,6 +32,7 @@
         "grunt-transcoding": "~0.1.1"
     },
     "devDependencies": {
-        "grunt": "~0.4.1"
+        "grunt": "~0.4.1",
+        "uglify-js": "^3.17.4"
     }
 }

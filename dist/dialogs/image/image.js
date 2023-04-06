@@ -425,6 +425,7 @@
                 duplicate: true,
                 fileSingleSizeLimit: imageMaxSize,    // 默认 2 M
                 threads: 1,
+                headers: editor.getOpt('serverHeaders') || {},
                 compress: editor.getOpt('imageCompressEnable') ? {
                     width: imageCompressBorder,
                     height: imageCompressBorder,
