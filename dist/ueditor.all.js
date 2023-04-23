@@ -2942,7 +2942,7 @@ var domUtils = (dom.domUtils = {
      * 为元素element绑定原生DOM事件，type为事件类型，handler为处理函数
      * @method on
      * @param { Node } element 需要绑定事件的节点对象
-     * @param { Array } type 绑定的事件类型数组
+     * @param {string} type 绑定的事件类型数组
      * @param { Function } handler 事件处理器
      * @example
      * ```javascript
@@ -8255,7 +8255,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
         me.fireEvent("contentchange");
       });
       // 当内容最末尾为非字符时，比较难以在最后插入字符，所以在点击时，自动添加一个空的p标签
-      domUtils.on(me.body, "click", function(e) {
+      domUtils.on(me.body, "dblclick", function(e) {
         try {
           var node = me.body.lastChild;
           if (!node) {
@@ -14452,26 +14452,27 @@ UE.plugins["insertcode"] = function() {
     bash: "Bash/Shell",
     cpp: "C/C++",
     css: "Css",
-    cf: "CodeFunction",
+    // cf: "CodeFunction",
     "c#": "C#",
     delphi: "Delphi",
-    diff: "Diff",
+    // diff: "Diff",
     erlang: "Erlang",
     groovy: "Groovy",
     html: "Html",
     java: "Java",
-    jfx: "JavaFx",
+    // jfx: "JavaFx",
     js: "Javascript",
     pl: "Perl",
-    php: "Php",
-    plain: "Plain Text",
+    php: "PHP",
+    plain: "Text",
     ps: "PowerShell",
     python: "Python",
     ruby: "Ruby",
     scala: "Scala",
-    sql: "Sql",
-    vb: "Vb",
-    xml: "Xml"
+    sql: "SQL",
+    vb: "VB",
+    xml: "XML",
+    mind: "Mind",
   });
 
   /**
@@ -27335,81 +27336,60 @@ UE.plugin.register("insertfile", function() {
 // plugins/markdown-shortcut.js
 UE.plugins["markdown-shortcut"] = function () {
 
-  var me = this;
-  const uiUtils = UE.ui.uiUtils;
+  if (!UE.browser.chrome) {
+    return;
+  }
+
+  const me = this;
 
   const getCleanHtml = function (node) {
-    var html = node.innerHTML
+    let html = node.innerHTML
     html = html.replace(/[\u200b]*/g, '')
     return html
   }
 
-  var shortCuts = [];
-  for (var i = 1; i <= 6; i++) {
-    var command = 'h' + i;
+  let shortCuts = [];
+  // 注册 H1-H6 快捷键
+  for (let i = 1; i <= 6; i++) {
     const regExp = new RegExp('^\\t?' + Array(i + 1).join('#') + '(\\s|&nbsp;)');
-    shortCuts.push({
-      tagName: ['P'],
-      key: [' '],
-      offset: [i + 1, i + 2],
-      match: [regExp],
-      callback: function (param) {
-        me.__hasEnterExecCommand = true;
-        me.execCommand('paragraph', command);
-        setTimeout(function () {
-          var range = me.selection.getRange();
-          var node = range.startContainer;
-          // safari 下不会自动选中Hx标签
-          if (node.tagName !== 'H' + i) {
-            node = node.parentNode
-          }
-          var html = getCleanHtml(node)
+    (function (command) {
+      shortCuts.push({
+        name: 'Head' + i,
+        tagName: ['P'],
+        key: [' '],
+        offset: [i + 1, i + 2],
+        match: [regExp],
+        callback: function (param) {
+          me.__hasEnterExecCommand = true;
+          me.execCommand('paragraph', command);
+          let range = me.selection.getRange();
+          let node = range.startContainer;
+          let html = getCleanHtml(node)
           html = html.replace(regExp, '');
           if (!html) {
             html = domUtils.fillChar;
           }
           node.innerHTML = html;
           me.__hasEnterExecCommand = false;
-        }, 0);
-      }
-    })
+        }
+      })
+    })('h' + i);
   }
 
   me.on("ready", function () {
 
-    // var quickOperate = null
-    // domUtils.on(me.body, "mouseover", function (evt) {
-    //   const node = evt.target
-    //   const rect = node.getBoundingClientRect();
-    //   const offset = uiUtils.getClientRect(node)
-    //   offset.left = offset.left - 60
-    //   console.log('mouseover', rect, node, offset);
-    //   // var offset = uiUtils.getViewportOffsetByEvent(evt);
-    //   if (quickOperate) {
-    //     quickOperate.destroy();
-    //   }
-    //   quickOperate = new UE.ui.QuickOperate({
-    //     // items: contextItems,
-    //     className: "edui-quick-operate",
-    //     editor: me
-    //   });
-    //   // console.log('quickOperate', quickOperate);
-    //   quickOperate.render();
-    //   quickOperate.showAt(offset);
-    // });
-
-    domUtils.on(me.body, "keyup", function (e) {
-      var range = me.selection.getRange();
+    domUtils.on(me.body, 'keyup', function (e) {
+      let range = me.selection.getRange();
       if (range.endOffset !== range.startOffset) {
         return;
       }
-      var key = e.key;
-      var offset = range.startOffset;
+      let key = e.key;
+      let offset = range.startOffset;
       const node = range.startContainer.parentNode;
-      var html = getCleanHtml(node);
-      var tagName = node.tagName;
+      let html = getCleanHtml(node);
+      let tagName = node.tagName;
       // console.log('keyup', [node, range, tagName, key, offset, html]);
-      for (var s of shortCuts) {
+      for (let s of shortCuts) {
         if (!s.tagName.includes(tagName)) {
           continue;
         }
@@ -27419,9 +27399,9 @@ UE.plugins["markdown-shortcut"] = function () {
         if (!s.offset.includes(offset)) {
           continue;
         }
-        for (var m of s.match) {
+        for (let m of s.match) {
           let match = html.match(m);
-          // console.log('keyup', [html, m, match]);
+          // console.log('keyup', [html, m, match, s.name]);
           if (match) {
             s.callback({
               node: node,
@@ -27431,6 +27411,65 @@ UE.plugins["markdown-shortcut"] = function () {
         }
       }
     });
+
+  });
+
+};
+
+
+// plugins/quick-operate.js
+UE.plugins["quick-operate"] = function () {
+
+  if (!UE.browser.chrome) {
+    return;
+  }
+  return;
+
+  let me = this;
+  const uiUtils = UE.ui.uiUtils;
+
+  me.on("ready", function () {
+    let quickOperate = new UE.ui.QuickOperate({
+      // items: contextItems,
+      className: "edui-quick-operate",
+      editor: me
+    });
+    quickOperate.render();
+
+    let quickOperateNode = {
+      root: null,
+      target: null,
+    }
+    domUtils.on(quickOperate.el, 'mouseenter', function (evt) {
+      quickOperateNode.root && quickOperateNode.root.classList && quickOperateNode.root.classList.add('edui-quick-operate-active');
+    });
+    domUtils.on(quickOperate.el, 'mouseleave', function (evt) {
+      quickOperateNode.root && quickOperateNode.root.classList && quickOperateNode.root.classList.remove('edui-quick-operate-active');
+    });
+    domUtils.on(me.body, "mouseout", function (evt) {
+      // quickOperate.hide();
+    });
+    domUtils.on(me.body, "mouseover", function (evt) {
+      const node = evt.target
+      let rootNode = node;
+      for (; rootNode.parentNode && rootNode.parentNode.tagName !== 'BODY';) {
+        rootNode = rootNode.parentNode;
+      }
+      quickOperateNode.root = rootNode
+      quickOperateNode.target = node
+      // me.body.querySelectorAll('& > *').forEach(item => {
+      //   item.classList.remove('edui-quick-operate-active');
+      // });
+      // rootNode.classList.add('edui-quick-operate-active');
+      const rect = node.getBoundingClientRect();
+      const offset = uiUtils.getClientRect(node)
+      offset.left = offset.left - 55
+      // console.log('mouseover', rect, node, offset);
+      // let offset = uiUtils.getViewportOffsetByEvent(evt);
+      // console.log('quickOperate', quickOperate);
+      quickOperate.showAt(offset);
+    });
+
   });
 
 };
@@ -27727,6 +27766,7 @@ UE.ui = baidu.editor.ui = {};
     UIBase = (baidu.editor.ui.UIBase = function() {});
 
   UIBase.prototype = {
+    el: null,
     className: "",
     uiName: "",
     initOptions: function(options) {
@@ -27769,6 +27809,7 @@ UE.ui = baidu.editor.ui = {};
         domUtils.addClass(holder, theme);
         holder.appendChild(el);
       }
+      this.el = el;
       this.postRender();
     },
     getDom: function(name) {
@@ -29383,7 +29424,19 @@ UE.ui = baidu.editor.ui = {};
       //       buff[i] = item.renderHtml();
       //     }
       //     return '<div class="%%-body">' + buff.join("") + "</div>";
-      return '<div></div>'
+      return [
+        '<div class="edui-quick-operate">',
+        ' <div class="edui-quick-operate-status">',
+        '   <div class="edui-quick-operate-icon"><i class="icon icon-image"></i></div>',
+        '   <div class="edui-quick-operate-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-icon="DragOutlined"><path d="M8.25 6.5a1.75 1.75 0 1 0 0-3.5 1.75 1.75 0 0 0 0 3.5Zm0 7.25a1.75 1.75 0 1 0 0-3.5 1.75 1.75 0 0 0 0 3.5Zm1.75 5.5a1.75 1.75 0 1 1-3.5 0 1.75 1.75 0 0 1 3.5 0ZM14.753 6.5a1.75 1.75 0 1 0 0-3.5 1.75 1.75 0 0 0 0 3.5ZM16.5 12a1.75 1.75 0 1 1-3.5 0 1.75 1.75 0 0 1 3.5 0Zm-1.747 9a1.75 1.75 0 1 0 0-3.5 1.75 1.75 0 0 0 0 3.5Z" fill="currentColor"></path></svg></div>',
+        ' </div>',
+        ' <div class="edui-quick-operate-menu">',
+        '   <div class="item"><i class="icon icon-image"></i> 删除</div>',
+        '   <div class="item"><i class="icon icon-image"></i> 左对齐</div>',
+        '   <div class="item"><i class="icon icon-image"></i> 右对齐</div>',
+        ' </div>',
+        '</div>',
+      ].join('')
     },
     //   _Popup_postRender: Popup.prototype.postRender,
     //   postRender: function() {
@@ -32400,7 +32453,7 @@ UE.ui = baidu.editor.ui = {};
           var bk = editor.selection.getRange().createBookmark();
         }
         if (fullscreen) {
-          while (container.tagName != "BODY") {
+          while (container.tagName !== "BODY") {
             var position = baidu.editor.dom.domUtils.getComputedStyle(
               container,
               "position"
@@ -32433,7 +32486,7 @@ UE.ui = baidu.editor.ui = {};
           editor.iframe.parentNode.style.width = "";
           this._updateFullScreen();
         } else {
-          while (container.tagName != "BODY") {
+          while (container.tagName !== "BODY") {
             container.style.position = nodeStack.shift();
             container = container.parentNode;
           }
@@ -32476,9 +32529,9 @@ UE.ui = baidu.editor.ui = {};
       if (this._fullscreen) {
         var vpRect = uiUtils.getViewportRect();
         this.getDom().style.cssText =
-          "border:0;position:absolute;left:0;top:" +
+          "border:0;position:absolute;left:0;top:var(--ueditor-top-offset," +
           (this.editor.options.topOffset || 0) +
-          "px;width:" +
+          "px);width:" +
           vpRect.width +
           "px;height:" +
           vpRect.height +
@@ -32486,7 +32539,7 @@ UE.ui = baidu.editor.ui = {};
           (this.getDom().style.zIndex * 1 + 100);
         uiUtils.setViewportOffset(this.getDom(), {
           left: 0,
-          top: this.editor.options.topOffset || 0
+          // top: this.editor.options.topOffset || 0
         });
         this.editor.setHeight(
           vpRect.height -

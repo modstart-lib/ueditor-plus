@@ -2009,3 +2009,84 @@ div.edui-box {
 .edui-default  .edui-pastecontainer .edui-button  .edui-state-hover .edui-plaintxticon{
     background-position: -72px -34px;
 }
+.edui-quick-operate {
+    position: relative;
+    margin: -10px;
+    /*width: 40px;*/
+    height: 40px;
+    background: #FFF;
+    width: 50px !important;
+    border-radius: 4px;
+}
+
+.edui-quick-operate:hover .edui-quick-operate-menu {
+    display: block;
+}
+
+.edui-quick-operate-status {
+    display: flex;
+}
+
+.edui-quick-operate-icon {
+    display: inline-block;
+    line-height: 30px !important;
+    width: 30px !important;
+    text-align: center;
+    cursor: pointer;
+    color: #2A57FE;
+}
+
+.edui-quick-operate-icon:last-child {
+    width: 20px !important;
+    font-size: 0;
+    color: #999;
+}
+
+.edui-quick-operate-icon:last-child svg {
+    vertical-align: middle;
+}
+
+.edui-quick-operate-menu {
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #CCC;
+    position: absolute;
+    left: 50px;
+    top: 0;
+    background: #FFF;
+    width: 100px !important;
+    display: none;
+}
+
+.edui-quick-operate-menu .item {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.edui-quick-operate-menu .item:hover {
+    background: #F5F5F5;
+}
+
+.edui-quick-operate-menu .item i {
+    display: inline-block;
+    width: 2em;
+}
+
+.edui-quick-operate .icon {
+    font-family: "edui-iconfont";
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+}
+
+.edui-quick-operate .icon.icon-image:before {
+    content: "\e605";
+}
+
+.edui-quick-operate .icon.icon-list:before {
+    content: "\e87c";
+}
+.edui-quick-operate .icon.icon-trash:before {
+    content: "\e87c";
+}
