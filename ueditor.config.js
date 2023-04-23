@@ -430,8 +430,8 @@
 
     //快捷菜单
     , shortcutMenu: [
-      "fontfamily",   // 字体
-      "fontsize",     // 字号
+      // "fontfamily",   // 字体
+      // "fontsize",     // 字号
       "bold",         // 加粗
       "italic",       // 斜体
       "underline",    // 下划线
@@ -456,8 +456,8 @@
       "subscript",      // 下标
       "link",           // 超链接
       "unlink",         // 取消链接
-      "touppercase",    // 字母大写
-      "tolowercase"     // 字母小写
+      // "touppercase",    // 字母大写
+      // "tolowercase"     // 字母小写
     ]
 
     // 是否启用元素路径，默认是显示

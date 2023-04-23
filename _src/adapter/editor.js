@@ -526,7 +526,7 @@
           var bk = editor.selection.getRange().createBookmark();
         }
         if (fullscreen) {
-          while (container.tagName != "BODY") {
+          while (container.tagName !== "BODY") {
             var position = baidu.editor.dom.domUtils.getComputedStyle(
               container,
               "position"
@@ -559,7 +559,7 @@
           editor.iframe.parentNode.style.width = "";
           this._updateFullScreen();
         } else {
-          while (container.tagName != "BODY") {
+          while (container.tagName !== "BODY") {
             container.style.position = nodeStack.shift();
             container = container.parentNode;
           }
@@ -602,9 +602,9 @@
       if (this._fullscreen) {
         var vpRect = uiUtils.getViewportRect();
         this.getDom().style.cssText =
-          "border:0;position:absolute;left:0;top:" +
+          "border:0;position:absolute;left:0;top:var(--ueditor-top-offset," +
           (this.editor.options.topOffset || 0) +
-          "px;width:" +
+          "px);width:" +
           vpRect.width +
           "px;height:" +
           vpRect.height +
@@ -612,7 +612,7 @@
           (this.getDom().style.zIndex * 1 + 100);
         uiUtils.setViewportOffset(this.getDom(), {
           left: 0,
-          top: this.editor.options.topOffset || 0
+          // top: this.editor.options.topOffset || 0
         });
         this.editor.setHeight(
           vpRect.height -
