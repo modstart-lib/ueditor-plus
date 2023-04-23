@@ -5,6 +5,7 @@
     UIBase = (baidu.editor.ui.UIBase = function() {});
 
   UIBase.prototype = {
+    el: null,
     className: "",
     uiName: "",
     initOptions: function(options) {
@@ -47,6 +48,7 @@
         domUtils.addClass(holder, theme);
         holder.appendChild(el);
       }
+      this.el = el;
       this.postRender();
     },
     getDom: function(name) {

@@ -761,7 +761,7 @@ var domUtils = (dom.domUtils = {
      * 为元素element绑定原生DOM事件，type为事件类型，handler为处理函数
      * @method on
      * @param { Node } element 需要绑定事件的节点对象
-     * @param { Array } type 绑定的事件类型数组
+     * @param {string} type 绑定的事件类型数组
      * @param { Function } handler 事件处理器
      * @example
      * ```javascript

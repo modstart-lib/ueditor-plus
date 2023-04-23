@@ -88,6 +88,7 @@
             'plugins/serverparam.js',
             'plugins/insertfile.js',
             'plugins/markdown-shortcut.js',
+            'plugins/quick-operate.js',
 
             'ui/ui.js',
             'ui/uiutils.js',
