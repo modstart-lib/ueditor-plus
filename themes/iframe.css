@@ -53,6 +53,10 @@ pre {
     line-height: 1.5;
 }
 
+/*交互操作*/
+img {
+    cursor: pointer;
+}
 
 .edui-quick-operate-active {
     background: #E6ECFF;

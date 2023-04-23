@@ -76,3 +76,6 @@
 .edui-quick-operate .icon.icon-list:before {
     content: "\e87c";
 }
+.edui-quick-operate .icon.icon-trash:before {
+    content: "\e87c";
+}
