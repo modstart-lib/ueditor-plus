@@ -13334,14 +13334,17 @@ UE.plugins["removeformat"] = function() {
                 }
               } else {
                 //trace:939  不能把list上的样式去掉
+                // 清除格式时，默认移除Table、List上的样式
                 if (
-                  !dtd.$tableContent[current.tagName] &&
-                  !dtd.$list[current.tagName]
+                  true
+                  // !dtd.$tableContent[current.tagName] && !dtd.$list[current.tagName]
                 ) {
                   domUtils.removeAttributes(current, removeFormatAttributes);
                   if (isRedundantSpan(current)) {
                     domUtils.remove(current, true);
                   }
+                }else{
+                  // console.log('current.ignore',current);
                 }
               }
             }
