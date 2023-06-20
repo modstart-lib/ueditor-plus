@@ -159,8 +159,11 @@ UE.plugins["undo"] = function() {
       clearTimeout(saveSceneTimer);
       var currentScene = this.getScene(notSetCursor),
         lastScene = this.list[this.index];
-      if (lastScene && lastScene.content != currentScene.content) {
-        me.trigger("contentchange");
+      if (!lastScene || ( lastScene && lastScene.content != currentScene.content )) {
+        // 使用异步避免直接在事件中取值滞后一个字符
+        setTimeout(function(){
+          me.trigger("contentchange");
+        },0);
       }
       //内容相同位置相同不存
       if (
@@ -278,7 +281,7 @@ UE.plugins["undo"] = function() {
         isCollapsed = false;
         return;
       }
-      if (me.undoManger.list.length == 0) {
+      if (me.undoManger.list.length === 0) {
         me.undoManger.save(true);
       }
       clearTimeout(saveSceneTimer);
