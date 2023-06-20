@@ -83,7 +83,7 @@
   <link rel="stylesheet" href="./style.css"/>
 </head>
 <body class="demo-editor-page">
-<div>
+<div style="max-width:1024px;">
   <div class="main">
     <h1>目录大纲demo</h1>
     <div class="left">
@@ -103,7 +103,9 @@
 </body>
 <script type="text/javascript">
     //实例化编辑器
-    var ue = UE.getEditor('editor');
+    var ue = UE.getEditor('editor',{
+      autoHeightEnabled:false
+    });
 
     ue.ready(function(){
         ue.addListener('updateSections', resetHandler);

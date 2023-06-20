@@ -2064,6 +2064,7 @@ var domUtils = (dom.domUtils = {
      * @param    {Number}    offsetTop    距离上方的偏移量
      */
   scrollToView: function(node, win, offsetTop) {
+    offsetTop = offsetTop || 0
     var getViewPaneSize = function() {
       var doc = win.document,
         mode = doc.compatMode == "CSS1Compat";
@@ -2094,9 +2095,13 @@ var domUtils = (dom.domUtils = {
     var elementPosition = domUtils.getXY(node);
     offset += elementPosition.y;
     var currentScroll = getScrollPosition(win).y;
+    // console.log({currentScroll,winHeight,offset,y:elementPosition.y});
     // offset += 50;
     if (offset > currentScroll || offset < currentScroll - winHeight) {
-      win.scrollTo(0, offset + (offset < 0 ? -20 : 20));
+      win.scrollTo({
+        top:offset + (offset < 0 ? -20 : 20),
+        behavior: "smooth"
+      });
     }
   },
   /**
