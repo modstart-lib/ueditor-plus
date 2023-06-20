@@ -82,6 +82,7 @@ function createCopyButton(id, dataFrom) {
   if (url.startsWith("file:////")) {
     url = url.substring(8);
   }
+  url = decodeURI( url );
   g(id).setAttribute("data-clipboard-text", url);
   var clipboard = new Clipboard('[data-clipboard-text]')
   clipboard.on('success', function (e) {
