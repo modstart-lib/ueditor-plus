@@ -90,6 +90,9 @@
     initItems: function() {
       if (utils.isArray(this.items)) {
         for (var i = 0, len = this.items.length; i < len; i++) {
+          if('string' !== typeof this.items[i]){
+            continue;
+          }
           var item = this.items[i].toLowerCase();
 
           if (UI[item]) {
