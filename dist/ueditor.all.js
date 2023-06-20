@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
   instants: {},
   I18N: {},
   _customizeUI: {},
-  version: "3.1.0"
+  version: "3.2.0"
 };
 var dom = (UE.dom = {});
 
@@ -4245,6 +4245,7 @@ var domUtils = (dom.domUtils = {
      * @param    {Number}    offsetTop    距离上方的偏移量
      */
   scrollToView: function(node, win, offsetTop) {
+    offsetTop = offsetTop || 0
     var getViewPaneSize = function() {
       var doc = win.document,
         mode = doc.compatMode == "CSS1Compat";
@@ -4275,9 +4276,13 @@ var domUtils = (dom.domUtils = {
     var elementPosition = domUtils.getXY(node);
     offset += elementPosition.y;
     var currentScroll = getScrollPosition(win).y;
+    // console.log({currentScroll,winHeight,offset,y:elementPosition.y});
     // offset += 50;
     if (offset > currentScroll || offset < currentScroll - winHeight) {
-      win.scrollTo(0, offset + (offset < 0 ? -20 : 20));
+      win.scrollTo({
+        top:offset + (offset < 0 ? -20 : 20),
+        behavior: "smooth"
+      });
     }
   },
   /**
@@ -6425,6 +6430,8 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
          */
     scrollToView: function(win, offset) {
       win = win ? window : domUtils.getWindow(this.document);
+      offset = offset || (win.innerHeight - 100);
+      console.log('xxx',win, offset);
       var me = this,
         span = me.document.createElement("span");
       //trace:717
@@ -15873,8 +15880,11 @@ UE.plugins["undo"] = function() {
       clearTimeout(saveSceneTimer);
       var currentScene = this.getScene(notSetCursor),
         lastScene = this.list[this.index];
-      if (lastScene && lastScene.content != currentScene.content) {
-        me.trigger("contentchange");
+      if (!lastScene || ( lastScene && lastScene.content != currentScene.content )) {
+        // 使用异步避免直接在事件中取值滞后一个字符
+        setTimeout(function(){
+          me.trigger("contentchange");
+        },0);
       }
       //内容相同位置相同不存
       if (
@@ -15992,7 +16002,7 @@ UE.plugins["undo"] = function() {
         isCollapsed = false;
         return;
       }
-      if (me.undoManger.list.length == 0) {
+      if (me.undoManger.list.length === 0) {
         me.undoManger.save(true);
       }
       clearTimeout(saveSceneTimer);
@@ -30714,6 +30724,9 @@ UE.ui = baidu.editor.ui = {};
     initItems: function() {
       if (utils.isArray(this.items)) {
         for (var i = 0, len = this.items.length; i < len; i++) {
+          if('string' !== typeof this.items[i]){
+            continue;
+          }
           var item = this.items[i].toLowerCase();
 
           if (UI[item]) {

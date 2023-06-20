@@ -32,6 +32,8 @@
     CORS_URL = window.UEDITOR_CORS_URL;
   }else if (window.__msRoot) {
     CORS_URL = window.__msRoot + 'asset/vendor/ueditor/';
+  }else if (window.UEDITOR_HOME_URL) {
+    CORS_URL = window.UEDITOR_HOME_URL;
   } else {
     CORS_URL = getUEBasePath();
   }
