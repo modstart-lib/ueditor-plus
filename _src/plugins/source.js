@@ -62,6 +62,7 @@
         lineWrapping: true,
         onChange: function(v){
           editor.sync();
+          editor.fireEvent("contentchange");
           // console.log('CodeMirror.onChange',v.getValue());
         }
       });

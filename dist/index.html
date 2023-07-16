@@ -114,6 +114,9 @@
 
   <script type="text/javascript">
     var ue = UE.getEditor('editor');
+    ue.on('contentchange',function(){
+      console.log('contentchange', ue.getContent());
+    });
     function isFocus(e) {
       alert(UE.getEditor('editor').isFocus());
       UE.dom.domUtils.preventDefault(e)
