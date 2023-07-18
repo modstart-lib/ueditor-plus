@@ -3,6 +3,9 @@
 
 :root{
     --edui-color-active-bg: rgba(200,200,200,0.3);
+    --edui-color-border: #EEEEEE;
+    --edui-bg-toolbar: #FFFFFF;
+    --edui-color-muted: #CCCCCC;
 }
 
 @font-face {

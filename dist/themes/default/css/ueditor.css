@@ -3,6 +3,9 @@
 
 :root{
     --edui-color-active-bg: rgba(200,200,200,0.3);
+    --edui-color-border: #EEEEEE;
+    --edui-bg-toolbar: #FFFFFF;
+    --edui-color-muted: #CCCCCC;
 }
 
 @font-face {
@@ -161,7 +164,7 @@ div.edui-box {
 }
 /*UI工具栏、编辑区域、底部*/
 .edui-default .edui-editor {
-    border: 1px solid #d4d4d4;
+    border: 1px solid var(--edui-color-border);
     background-color: white;
     position: relative;
     overflow: visible;
@@ -184,8 +187,8 @@ div.edui-box {
 }
 
 .edui-default .edui-editor-toolbarboxouter {
-    border-bottom: 1px solid #d4d4d4;
-    background-color: #fafafa;
+    border-bottom: 1px solid var(--edui-color-border);
+    background-color: var(--edui-bg-toolbar);
     /*background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);*/
     /*background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));*/
     /*background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);*/
@@ -240,10 +243,12 @@ div.edui-box {
 
 .edui-default .edui-editor-bottomContainer td {
     white-space: nowrap;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--edui-color-border);
     line-height: 20px;
     font-size: 12px;
     font-family: Arial, Helvetica, Tahoma, Verdana, Sans-Serif;
+    padding:0 5px;
+    color:var(--edui-color-muted);
 }
 
 .edui-default .edui-editor-wordcount {
@@ -264,12 +269,12 @@ div.edui-box {
 }
 .edui-default .edui-editor-breadcrumb {
     margin: 2px 0 0 3px;
-  color: #666;
+    color: var(--edui-color-muted);
 }
 
 .edui-default .edui-editor-breadcrumb span {
     cursor: pointer;
-    color: #666;
+    color: var(--edui-color-muted);
     line-height: 16px;
     display: inline-block;
 }
@@ -498,7 +503,7 @@ div.edui-box {
 }
 
 .edui-default .edui-toolbar .edui-combox .edui-combox-body {
-    border: 1px solid #CCC;
+    border: 1px solid var(--edui-color-border);
     background-color: white;
     border-radius: 2px;
     -webkit-border-radius: 2px;
@@ -514,7 +519,7 @@ div.edui-box {
 }
 
 .edui-default .edui-toolbar .edui-combox-body .edui-arrow {
-    border-left: 1px solid #CCC;
+    border-left: 1px solid var(--edui-color-border);
 }
 
 .edui-default .edui-toolbar .edui-state-hover .edui-combox-body {
@@ -586,9 +591,9 @@ div.edui-box {
 }
 
 .edui-default .edui-toolbar .edui-button .edui-state-active .edui-button-wrap {
-    background-color: #ffffff;
+    background-color: #F0F0EE;
     padding: 0;
-    border: 1px solid gray;
+    border: 1px solid var(--edui-color-border);
 }
 .edui-default .edui-toolbar .edui-state-disabled .edui-label {
     color: #ccc;
@@ -1028,22 +1033,23 @@ div.edui-box {
 }
 
 .edui-default .edui-toolbar .edui-splitborder {
-    width: 1px;
+    /*width: 1px;*/
+    width: 0px;
     height: 30px;
 }
 
 .edui-default .edui-toolbar .edui-state-hover .edui-splitborder {
-    width: 1px;
+    /*width: 1px;*/
     border-left: 0px solid #dcac6c;
 }
 
 .edui-default .edui-toolbar .edui-state-active .edui-splitborder {
     width: 0;
-    border-left: 1px solid #EEE;
+    /*border-left: 1px solid #EEE;*/
 }
 
 .edui-default .edui-toolbar .edui-state-opened .edui-splitborder {
-    width: 1px;
+    /*width: 1px;*/
     border: 0;
 }
 
@@ -1845,7 +1851,7 @@ div.edui-box {
     width: 1px;
     height: 20px;
     margin: 5px 5px;
-    background: #CCC;
+    background: var(--edui-color-border);
 }
 
 /*颜色按钮 */
@@ -1930,11 +1936,13 @@ div.edui-box {
 /*弹出菜单*/
 .edui-default .edui-shortcutmenu {
     padding: 2px;
-    width: 300px;
+    /*width: 300px;*/
+    white-space: nowrap;
     height: auto;
     background-color: #fff;
-    border: 1px solid #ccc;
+    /*border: 1px solid var(--edui-color-border);*/
     border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 /*粘贴弹出菜单*/

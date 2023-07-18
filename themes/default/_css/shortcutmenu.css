@@ -1,9 +1,11 @@
 /*弹出菜单*/
 .edui-default .edui-shortcutmenu {
     padding: 2px;
-    width: 300px;
+    /*width: 300px;*/
+    white-space: nowrap;
     height: auto;
     background-color: #fff;
-    border: 1px solid #ccc;
+    /*border: 1px solid var(--edui-color-border);*/
     border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }

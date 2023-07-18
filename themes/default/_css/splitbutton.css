@@ -19,22 +19,23 @@
 }
 
 .edui-default .edui-toolbar .edui-splitborder {
-    width: 1px;
+    /*width: 1px;*/
+    width: 0px;
     height: 30px;
 }
 
 .edui-default .edui-toolbar .edui-state-hover .edui-splitborder {
-    width: 1px;
+    /*width: 1px;*/
     border-left: 0px solid #dcac6c;
 }
 
 .edui-default .edui-toolbar .edui-state-active .edui-splitborder {
     width: 0;
-    border-left: 1px solid #EEE;
+    /*border-left: 1px solid #EEE;*/
 }
 
 .edui-default .edui-toolbar .edui-state-opened .edui-splitborder {
-    width: 1px;
+    /*width: 1px;*/
     border: 0;
 }
 

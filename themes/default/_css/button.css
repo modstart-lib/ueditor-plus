@@ -39,9 +39,9 @@
 }
 
 .edui-default .edui-toolbar .edui-button .edui-state-active .edui-button-wrap {
-    background-color: #ffffff;
+    background-color: #F0F0EE;
     padding: 0;
-    border: 1px solid gray;
+    border: 1px solid var(--edui-color-border);
 }
 .edui-default .edui-toolbar .edui-state-disabled .edui-label {
     color: #ccc;

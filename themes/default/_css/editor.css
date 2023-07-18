@@ -1,6 +1,6 @@
 /*UI工具栏、编辑区域、底部*/
 .edui-default .edui-editor {
-    border: 1px solid #d4d4d4;
+    border: 1px solid var(--edui-color-border);
     background-color: white;
     position: relative;
     overflow: visible;
@@ -23,8 +23,8 @@
 }
 
 .edui-default .edui-editor-toolbarboxouter {
-    border-bottom: 1px solid #d4d4d4;
-    background-color: #fafafa;
+    border-bottom: 1px solid var(--edui-color-border);
+    background-color: var(--edui-bg-toolbar);
     /*background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);*/
     /*background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));*/
     /*background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);*/
@@ -79,10 +79,12 @@
 
 .edui-default .edui-editor-bottomContainer td {
     white-space: nowrap;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--edui-color-border);
     line-height: 20px;
     font-size: 12px;
     font-family: Arial, Helvetica, Tahoma, Verdana, Sans-Serif;
+    padding:0 5px;
+    color:var(--edui-color-muted);
 }
 
 .edui-default .edui-editor-wordcount {
@@ -103,12 +105,12 @@
 }
 .edui-default .edui-editor-breadcrumb {
     margin: 2px 0 0 3px;
-  color: #666;
+    color: var(--edui-color-muted);
 }
 
 .edui-default .edui-editor-breadcrumb span {
     cursor: pointer;
-    color: #666;
+    color: var(--edui-color-muted);
     line-height: 16px;
     display: inline-block;
 }

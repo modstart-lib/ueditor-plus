@@ -442,22 +442,22 @@
       "forecolor",    // 字体颜色
       // "shadowcolor", // 字体阴影
       "backcolor",   // 背景色
-      "justifyleft",    // 居左对齐
-      "justifycenter",  // 居中对齐
-      "justifyright",   // 居右对齐
-      "justifyjustify", // 两端对齐
+      // "justifyleft",    // 居左对齐
+      // "justifycenter",  // 居中对齐
+      // "justifyright",   // 居右对齐
+      // "justifyjustify", // 两端对齐
       // "textindent",  // 首行缩进
       // "rowspacingtop",     // 段前距
       // "rowspacingbottom",  // 段后距
       // "outpadding",        // 两侧距离
-      "lineheight",           // 行间距
+      // "lineheight",           // 行间距
       // "letterspacing" ,    // 字间距
-      "insertorderedlist",    // 有序列表
-      "insertunorderedlist",  // 无序列表
-      "superscript",    // 上标
-      "subscript",      // 下标
-      "link",           // 超链接
-      "unlink",         // 取消链接
+      // "insertorderedlist",    // 有序列表
+      // "insertunorderedlist",  // 无序列表
+      // "superscript",    // 上标
+      // "subscript",      // 下标
+      // "link",           // 超链接
+      // "unlink",         // 取消链接
       // "touppercase",    // 字母大写
       // "tolowercase"     // 字母小写
     ]

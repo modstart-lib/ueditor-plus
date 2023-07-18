@@ -23,7 +23,7 @@
 }
 
 .edui-default .edui-toolbar .edui-combox .edui-combox-body {
-    border: 1px solid #CCC;
+    border: 1px solid var(--edui-color-border);
     background-color: white;
     border-radius: 2px;
     -webkit-border-radius: 2px;
@@ -39,7 +39,7 @@
 }
 
 .edui-default .edui-toolbar .edui-combox-body .edui-arrow {
-    border-left: 1px solid #CCC;
+    border-left: 1px solid var(--edui-color-border);
 }
 
 .edui-default .edui-toolbar .edui-state-hover .edui-combox-body {

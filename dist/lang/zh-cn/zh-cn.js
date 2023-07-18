@@ -89,7 +89,7 @@ UE.I18N['zh-cn'] = {
     },
     'elementPathTip':"元素路径",
     'wordCountTip':"字数统计",
-    'wordCountMsg':'当前已输入{#count}个字符, 您还可以输入{#leave}个字符。 ',
+    'wordCountMsg':'{#count} / {#leave}',
     'wordOverFlowMsg':'<span style="color:red;">字数超出最大允许值，服务器可能拒绝保存！</span>',
     'ok':"确认",
     'cancel':"取消",
