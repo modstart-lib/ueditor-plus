@@ -849,7 +849,7 @@
     editor.options.editor = editor;
     utils.loadFile(document, {
       href:
-        editor.options.themePath + editor.options.theme + "/_css/ueditor.css?20230319",
+        editor.options.themePath + editor.options.theme + "/_css/ueditor.css?20230719",
       tag: "link",
       type: "text/css",
       rel: "stylesheet"
