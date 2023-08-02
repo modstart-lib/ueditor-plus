@@ -49,7 +49,6 @@ UE.plugin.register("simpleupload", function () {
         UE.api.requestAction(me,me.getOpt("imageActionName"),{
           data:formData
         }).then(res=>{
-          console.log('res',res);
           if('SUCCESS'===res.data.state && res.data.url){
             const loader = me.document.getElementById(loadingId);
             domUtils.removeClasses(loader, "loadingclass");
