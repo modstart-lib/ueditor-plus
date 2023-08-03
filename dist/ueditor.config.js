@@ -49,7 +49,7 @@
     UEDITOR_CORS_URL: CORS_URL,
 
     // 是否开启Debug模式
-    debug: true,
+    debug: false,
 
     // 服务器统一请求接口路径
     serverUrl: "/ueditor-plus/_demo_server/handle.php",
