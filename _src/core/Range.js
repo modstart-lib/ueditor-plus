@@ -1686,7 +1686,7 @@
     scrollToView: function(win, offset) {
       win = win ? window : domUtils.getWindow(this.document);
       offset = offset || (win.innerHeight - 100);
-      console.log('xxx',win, offset);
+      // console.log('xxx',win, offset);
       var me = this,
         span = me.document.createElement("span");
       //trace:717

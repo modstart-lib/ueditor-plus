@@ -36,7 +36,7 @@ UE.plugin.register("autoupload", function() {
       });
     };
 
-    if (filetype == "image") {
+    if (filetype === "image") {
       loadingHtml =
         '<img class="loadingclass" id="' +
         loadingId +
@@ -101,35 +101,67 @@ UE.plugin.register("autoupload", function() {
       return;
     }
 
-    /* 创建Ajax并提交 */
-    var xhr = new XMLHttpRequest(),
-      fd = new FormData(),
-      params = utils.serializeParam(me.queryCommandValue("serverparam")) || "",
-      url = utils.formatUrl(
-        actionUrl + (actionUrl.indexOf("?") == -1 ? "?" : "&") + params
-      );
-
-    fd.append(
-      fieldName,
-      file,
-      file.name || "blob." + file.type.substr("image/".length)
-    );
-    fd.append("type", "ajax");
-    xhr.open("post", url, true);
-    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-    xhr.addEventListener("load", function(e) {
-      try {
-        var json = new Function("return " + utils.trim(e.target.response))();
-        if (json.state == "SUCCESS" && json.url) {
-          successHandler(json);
-        } else {
-          errorHandler(json.state);
-        }
-      } catch (er) {
+    var upload = function(file) {
+      const formData = new FormData();
+      formData.append(fieldName, file);
+      UE.api.requestAction(me, me.getOpt(filetype + "ActionName"), {
+        data:formData
+      }).then(function(res){
+        successHandler(res.data);
+      }).catch(function(err){
         errorHandler(me.getLang("autoupload.loadError"));
-      }
-    });
-    xhr.send(fd);
+      });
+    };
+
+    var imageCompressEnable = me.getOpt('imageCompressEnable'),
+      imageMaxSize = me.getOpt('imageMaxSize'),
+      imageCompressBorder = me.getOpt('imageCompressBorder');
+    if('image'===filetype && imageCompressEnable){
+      UE.image.compress(file,{
+        maxSizeMB: imageMaxSize/1024/1024,
+        maxWidthOrHeight: imageCompressBorder
+      }).then(function(compressedFile){
+        if(me.options.debug){
+          console.log('AutoUpload.CompressImage', (compressedFile.size / file.size * 100).toFixed(2) + '%');
+        }
+        upload(compressedFile);
+      }).catch(function(err){
+        console.error('AutoUpload.CompressImage.error', err)
+        upload(file);
+      });
+    }else{
+      upload(file);
+    }
+
+    /* 创建Ajax并提交 */
+    // var xhr = new XMLHttpRequest(),
+    //   fd = new FormData(),
+    //   params = utils.serializeParam(me.queryCommandValue("serverparam")) || "",
+    //   url = utils.formatUrl(
+    //     actionUrl + (actionUrl.indexOf("?") == -1 ? "?" : "&") + params
+    //   );
+    //
+    // fd.append(
+    //   fieldName,
+    //   file,
+    //   file.name || "blob." + file.type.substr("image/".length)
+    // );
+    // fd.append("type", "ajax");
+    // xhr.open("post", url, true);
+    // xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    // xhr.addEventListener("load", function(e) {
+    //   try {
+    //     var json = new Function("return " + utils.trim(e.target.response))();
+    //     if (json.state == "SUCCESS" && json.url) {
+    //       successHandler(json);
+    //     } else {
+    //       errorHandler(json.state);
+    //     }
+    //   } catch (er) {
+    //     errorHandler(me.getLang("autoupload.loadError"));
+    //   }
+    // });
+    // xhr.send(fd);
   }
 
   function getPasteImage(e) {

@@ -48,7 +48,7 @@ UE.plugin.register("simpleupload", function () {
         formData.append(me.getOpt('imageFieldName'), file);
         UE.api.requestAction(me,me.getOpt("imageActionName"),{
           data:formData
-        }).then(res=>{
+        }).then(function(res){
           if('SUCCESS'===res.data.state && res.data.url){
             const loader = me.document.getElementById(loadingId);
             domUtils.removeClasses(loader, "loadingclass");
@@ -62,12 +62,13 @@ UE.plugin.register("simpleupload", function () {
             UE.dialog.removeLoadingPlaceholder(me, loadingId);
             UE.dialog.tipError(me, res.data.state);
           }
-        }).catch(err=>{
+        }).catch(function(err){
           UE.dialog.removeLoadingPlaceholder(me, loadingId);
           UE.dialog.tipError(me, err);
         });
       };
       var file = input.files[0];
+      // console.log('file',file);
       var imageCompressEnable = me.getOpt('imageCompressEnable'),
         imageMaxSize = me.getOpt('imageMaxSize'),
         imageCompressBorder = me.getOpt('imageCompressBorder');
@@ -81,8 +82,8 @@ UE.plugin.register("simpleupload", function () {
           }
           upload(compressedFile);
         }).catch(function(err){
-          UE.dialog.removeLoadingPlaceholder(me, loadingId);
-          UE.dialog.tipError(me, err);
+          console.error('SimpleUpload.CompressImage.error', err);
+          upload(file);
         });
       }else{
         upload(file);
