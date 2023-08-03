@@ -608,7 +608,7 @@
 
             function setState(val, files) {
 
-                if (val != state) {
+                if (val !== state) {
 
                     var stats = uploader.getStats();
 
