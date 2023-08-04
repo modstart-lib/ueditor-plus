@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
   instants: {},
   I18N: {},
   _customizeUI: {},
-  version: "3.3.0"
+  version: "3.4.0-beta"
 };
 var dom = (UE.dom = {});
 
@@ -26511,7 +26511,7 @@ UE.plugin.register("autoupload", function() {
 
     var upload = function(file) {
       const formData = new FormData();
-      formData.append(fieldName, file);
+      formData.append(fieldName, file, file.name);
       UE.api.requestAction(me, me.getOpt(filetype + "ActionName"), {
         data:formData
       }).then(function(res){
@@ -27025,7 +27025,7 @@ UE.plugin.register("simpleupload", function () {
 
       var upload = function(file){
         const formData = new FormData();
-        formData.append(me.getOpt('imageFieldName'), file);
+        formData.append(me.getOpt('imageFieldName'), file, file.name);
         UE.api.requestAction(me,me.getOpt("imageActionName"),{
           data:formData
         }).then(function(res){

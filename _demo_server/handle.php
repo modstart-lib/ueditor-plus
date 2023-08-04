@@ -71,6 +71,11 @@ $config = [
 function output($data)
 {
     header('Content-Type: application/json');
+    $data['_all'] = [
+        'POST'=>$_POST,
+        'FILES'=>$_FILES,
+        'GET'=>$_GET,
+    ];
     echo json_encode($data);
     exit();
 }

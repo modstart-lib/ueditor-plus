@@ -45,7 +45,7 @@ UE.plugin.register("simpleupload", function () {
 
       var upload = function(file){
         const formData = new FormData();
-        formData.append(me.getOpt('imageFieldName'), file);
+        formData.append(me.getOpt('imageFieldName'), file, file.name);
         UE.api.requestAction(me,me.getOpt("imageActionName"),{
           data:formData
         }).then(function(res){

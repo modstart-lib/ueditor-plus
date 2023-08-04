@@ -103,7 +103,7 @@ UE.plugin.register("autoupload", function() {
 
     var upload = function(file) {
       const formData = new FormData();
-      formData.append(fieldName, file);
+      formData.append(fieldName, file, file.name);
       UE.api.requestAction(me, me.getOpt(filetype + "ActionName"), {
         data:formData
       }).then(function(res){
