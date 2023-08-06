@@ -17,13 +17,8 @@ wordImage.init = function (opt, callbacks) {
 
 function addUploadButtonListener() {
   g('saveFile').addEventListener('change', function () {
-    if (this.files.length !== 1) {
-      alert('请选择1个文件')
-      return;
-    }
     $('.image-tip').html('正在转存，请稍后...');
-    var file = this.files[0];
-    uploader.addFile(file);
+    uploader.addFile(this.files);
     uploader.upload();
   });
 }
@@ -75,6 +70,13 @@ function showLocalPath(id) {
 
   path = path.substring(0, path.lastIndexOf(separater) + 1);
   g(id).value = path;
+  //增提醒用户选择哪些文件
+  var names = [];
+  for (let i = 0, len = images.length; i < len; i++) {
+    var img = images[i];
+    names.push(img.substring(img.lastIndexOf(separater) + 1, img.length));
+  }
+  $('.image-tip').html('请选择:' + names.join("、") + "共" + images.length + '个文件');
 }
 
 function createCopyButton(id, dataFrom) {
