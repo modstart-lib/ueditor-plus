@@ -428,7 +428,7 @@
 
         container.style.zIndex = options.zIndex;
         var additionCssHtml = [];
-        for(var i in options.iframeCssUrlsAddition){
+        for(var i of options.iframeCssUrlsAddition){
             additionCssHtml.push("<link rel='stylesheet' type='text/css' href='" + utils.unhtml(options.iframeCssUrlsAddition[i]) + "'/>")
         }
         var html =
