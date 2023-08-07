@@ -97,7 +97,7 @@
 <div class="wrapper">
   <div class="image-info">
     <div class="input">
-      <input type="text" id="fileUrl"/>
+      <input type="text" id="fileUrl" multiple=true/>
     </div>
     <div class="copy">
       <div id="copyButton">复制路径</div>
@@ -191,10 +191,7 @@
             url: res.url,
             title: '',
           });
-          if ($('#fileUrl').val().indexOf(file.name) >= 0) {
-            $('#fileUrl').val(res.url);
-            $('.image-tip').html('<span style="color:#139213;">转存成功，请提交确认</span>');
-          }
+          $('.image-tip').html('<span style="color:#139213;">图片'+imageUrls.length+'('+file.name+')'+'转存成功</span>');
         } else {
           $('.image-tip').html('上传失败:' + JSON.stringify(res))
         }
@@ -204,6 +201,9 @@
     } else {
       $('.image-tip').html('上传失败:' + JSON.stringify(res))
     }
+  });
+  uploader.on('uploadFinished', function () {
+    $('.image-tip').html('<span style="color:#139213;">转存成功，请提交确认</span>');
   });
   utils.domReady(function () {
     var options = {};
