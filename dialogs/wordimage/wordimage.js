@@ -72,11 +72,11 @@ function showLocalPath(id) {
   g(id).value = path;
   //增提醒用户选择哪些文件
   var names = [];
-  for (let i = 0, len = images.length; i < len; i++) {
+  for (var i = 0, len = images.length; i < len; i++) {
     var img = images[i];
     names.push(img.substring(img.lastIndexOf(separater) + 1, img.length));
   }
-  $('.image-tip').html('请选择:' + names.join("、") + "共" + images.length + '个文件');
+  $('.image-tip').html('<span style="color:#ff0000;">请选择:' + names.join("、") + "共" + images.length + '个文件</span>');
 }
 
 function createCopyButton(id, dataFrom) {
