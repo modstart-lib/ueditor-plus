@@ -511,6 +511,11 @@
                     if (json.state == 'SUCCESS') {
                         _this.fileList.push(json);
                         $file.append('<span class="success"></span>');
+                        // 触发上传附件事件
+                        editor.fireEvent("uploadsuccess", {
+                            res: json,
+                            type: 'file'
+                        });
                     } else {
                         $file.find('.error').text(json.state).show();
                     }
