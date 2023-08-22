@@ -214,9 +214,9 @@
     // 公式配置
     , formulaConfig: {
        // 公式渲染链接模板
-       imageUrlTemplate: 'https://latexeasy.com/image.svg?{}',
+       imageUrlTemplate: 'https://r.latexeasy.com/image.svg?{}',
        // 编辑器模式 plain live
-       editorMode: 'plain',
+       editorMode: 'live',
        // 编辑器地址
        editorLiveServer: 'https://latexeasy.com',
     }
