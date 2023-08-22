@@ -4737,7 +4737,16 @@ var domUtils = (dom.domUtils = {
     }
     return true;
   },
-  fillHtml: browser.ie11below ? "&nbsp;" : "<br/>"
+  fillHtml: browser.ie11below ? "&nbsp;" : "<br/>",
+  loadScript : function (url, cb) {
+    var script;
+    script = document.createElement('script');
+    script.src = url;
+    script.onload = function(){
+      cb && cb({isNew: true})
+    };
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
 });
 var fillCharReg = new RegExp(domUtils.fillChar, "g");
 
@@ -31007,7 +31016,7 @@ UE.ui = baidu.editor.ui = {};
     preview: "~/dialogs/preview/preview.html?20220503",
     emotion: "~/dialogs/emotion/emotion.html?20220503",
     wordimage: "~/dialogs/wordimage/wordimage.html?20220902",
-    formula: "~/dialogs/formula/formula.html?20220902",
+    formula: "~/dialogs/formula/formula.html?20230822",
     attachment: "~/dialogs/attachment/attachment.html?20220503",
     insertframe: "~/dialogs/insertframe/insertframe.html?20220503",
     edittip: "~/dialogs/table/edittip.html?20220503",

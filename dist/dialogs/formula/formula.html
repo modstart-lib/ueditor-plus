@@ -6,9 +6,9 @@
   <script type="text/javascript" src="../internal.js?20220503"></script>
   <style type="text/css">
     .wrapper {
-      width: 600px;
-      padding: 10px;
-      height: 352px;
+      box-sizing: border-box;
+      width: 800px;
+      height: 390px;
       overflow: hidden;
       position: relative;
       border-bottom: 1px solid #d7d7d7
@@ -16,6 +16,7 @@
 
     .editor-wrap {
       display: flex;
+      margin:10px;
     }
 
     .editor-wrap #editor {
@@ -29,7 +30,7 @@
     }
 
     .input-tip {
-      margin-top: 10px;
+      margin:10px;
     }
 
     .input-tip a {
@@ -39,9 +40,9 @@
     .editor-preview {
       background: #FFF;
       border-radius: 3px;
-      margin-top: 10px;
       border: 1px solid #EEE;
-      display:none;
+      display: none;
+      margin:10px;
     }
 
     .editor-preview .title {
@@ -54,29 +55,40 @@
     }
 
     .editor-preview .body .image {
-      max-width:100%;
-      max-height:100px;
+      max-width: 100%;
+      max-height: 100px;
     }
   </style>
 </head>
 <body>
 <div class="wrapper">
-  <div class="editor-wrap">
-    <textarea id="editor"></textarea>
+
+  <div id="modeLive" style="display:none;">
+    <iframe id="liveEditor"
+            frameborder="0"
+            style="width:800px;height:390px;border: 0;outline: none;"
+    ></iframe>
   </div>
-  <div class="input-tip">
-    基于 latex 语法，<a href="javascript:;" id="inputDemo">点击输入示例</a>。
-  </div>
-  <div class="editor-preview" id="preview">
-    <div class="title">预览</div>
-    <div class="body">
-      <img class="image" id="previewImage" />
+
+  <div id="modePlain" style="display:none;">
+    <div class="editor-wrap">
+      <textarea id="editor"></textarea>
+    </div>
+    <div class="input-tip">
+      基于 latex 语法，<a href="javascript:;" id="inputDemo">点击输入示例</a>。
+    </div>
+    <div class="editor-preview" id="preview">
+      <div class="title">预览</div>
+      <div class="body">
+        <img class="image" id="previewImage"/>
+      </div>
     </div>
   </div>
+
 </div>
 <script src="../../third-party/jquery-1.10.2.js?20220503"></script>
 <script type="text/javascript" src="../../third-party/clipboard/clipboard.js?20220503"></script>
-<script type="text/javascript" src="formula.js?20220903"></script>
+<script type="text/javascript" src="formula.js?20230822"></script>
 <script type="text/javascript">
   utils.domReady(function () {
     Formula.init();

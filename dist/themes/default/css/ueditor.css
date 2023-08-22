@@ -1469,8 +1469,8 @@ div.edui-box {
 
 /*formula-dialog*/
 .edui-default .edui-for-formula .edui-dialog-content {
-  width: 620px;
-  height: 300px;
+  width: 800px;
+  height: 400px;
   overflow: hidden;
 }
 

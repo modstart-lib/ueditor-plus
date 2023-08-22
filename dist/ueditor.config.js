@@ -214,9 +214,11 @@
     // 公式配置
     , formulaConfig: {
        // 公式渲染链接模板
-       imageUrlTemplate: 'https://latex.codecogs.com/svg.image?{}',
-       // 为了更稳定的公式渲染服务，可以使用
-       // 魔众官方公式转图片渲染引擎 https://api.tecmz.com
+       imageUrlTemplate: 'https://latexeasy.com/image.svg?{}',
+       // 编辑器模式 plain live
+       editorMode: 'plain',
+       // 编辑器地址
+       editorLiveServer: 'https://latexeasy.com',
     }
 
     // 自动保存
