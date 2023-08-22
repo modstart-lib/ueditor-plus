@@ -63,7 +63,9 @@ $config = [
 
     // 公式渲染
     "formulaConfig" => [
-        "imageUrlTemplate"=>"https://latex.codecogs.com/svg.image?{}",
+        "imageUrlTemplate" => "https://latexeasy.com/image.svg?{}",
+        'editorMode' => 'live',
+        'editorLiveServer' => 'https://latexeasy.com',
     ]
 
 ];
@@ -72,9 +74,9 @@ function output($data)
 {
     header('Content-Type: application/json');
     $data['_all'] = [
-        'POST'=>$_POST,
-        'FILES'=>$_FILES,
-        'GET'=>$_GET,
+        'POST' => $_POST,
+        'FILES' => $_FILES,
+        'GET' => $_GET,
     ];
     echo json_encode($data);
     exit();

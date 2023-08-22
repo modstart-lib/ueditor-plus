@@ -2556,6 +2556,15 @@ var domUtils = (dom.domUtils = {
     }
     return true;
   },
-  fillHtml: browser.ie11below ? "&nbsp;" : "<br/>"
+  fillHtml: browser.ie11below ? "&nbsp;" : "<br/>",
+  loadScript : function (url, cb) {
+    var script;
+    script = document.createElement('script');
+    script.src = url;
+    script.onload = function(){
+      cb && cb({isNew: true})
+    };
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
 });
 var fillCharReg = new RegExp(domUtils.fillChar, "g");

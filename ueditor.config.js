@@ -215,6 +215,10 @@
     , formulaConfig: {
        // 公式渲染链接模板
        imageUrlTemplate: 'https://latexeasy.com/image.svg?{}',
+       // 编辑器模式 plain live
+       editorMode: 'plain',
+       // 编辑器地址
+       editorLiveServer: 'https://latexeasy.com',
     }
 
     // 自动保存
