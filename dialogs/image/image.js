@@ -769,6 +769,11 @@
                     if (json.state == 'SUCCESS') {
                         _this.imageList.push(json);
                         $file.append('<span class="success"></span>');
+                        // 触发上传图片事件
+                        editor.fireEvent("uploadsuccess", {
+                            res: json,
+                            type: 'image'
+                        });
                     } else {
                         $file.find('.error').text(json.state).show();
                     }

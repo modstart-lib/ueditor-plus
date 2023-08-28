@@ -511,6 +511,11 @@
                     if (json.state == 'SUCCESS') {
                         _this.fileList.push(json);
                         $file.append('<span class="success"></span>');
+                        // 触发上传附件事件
+                        editor.fireEvent("uploadsuccess", {
+                            res: json,
+                            type: 'file'
+                        });
                     } else {
                         $file.find('.error').text(json.state).show();
                     }
@@ -693,7 +698,7 @@
                     } else {
                         var ic = document.createElement('i'),
                             textSpan = document.createElement('span');
-                        textSpan.innerHTML = list[i].url.substr(list[i].url.lastIndexOf('/') + 1);
+                        textSpan.innerHTML = list[i].original || list[i].url.substr(list[i].url.lastIndexOf('/') + 1);
                         preview = document.createElement('div');
                         preview.appendChild(ic);
                         preview.appendChild(textSpan);

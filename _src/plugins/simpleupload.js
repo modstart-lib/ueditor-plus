@@ -58,6 +58,11 @@ UE.plugin.register("simpleupload", function () {
             loader.setAttribute("alt", res.data.original || "");
             loader.removeAttribute("id");
             me.fireEvent("contentchange");
+            // 触发上传图片事件
+            me.fireEvent("uploadsuccess", {
+              res: res.data,
+              type: 'image'
+            });
           }else{
             UE.dialog.removeLoadingPlaceholder(me, loadingId);
             UE.dialog.tipError(me, res.data.state);
