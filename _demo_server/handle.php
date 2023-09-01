@@ -63,7 +63,7 @@ $config = [
 
     // 公式渲染
     "formulaConfig" => [
-        "imageUrlTemplate" => "https://latexeasy.com/image.svg?{}",
+        "imageUrlTemplate" => "https://r.latexeasy.com/image.svg?{}",
         'editorMode' => 'live',
         'editorLiveServer' => 'https://latexeasy.com',
     ]
