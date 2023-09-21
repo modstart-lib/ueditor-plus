@@ -195,6 +195,11 @@
         } else {
           $('.image-tip').html('上传失败:' + JSON.stringify(res))
         }
+        // 触发上传附件事件
+        editor.fireEvent("uploadsuccess", {
+          res: res,
+          type: 'image'
+        });
       } else {
         $('.image-tip').html('上传失败:' + JSON.stringify(res))
       }

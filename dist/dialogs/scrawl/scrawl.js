@@ -646,6 +646,11 @@ function exec(scrawlObj) {
                             imgObj.alt = responseObj.original || '';
                             editor.execCommand("insertImage", imgObj);
                             dialog.close();
+                            // 触发上传涂鸦事件
+                            editor.fireEvent("uploadsuccess", {
+                                res: responseObj,
+                                type: 'scrawl'
+                            });
                         } else {
                             alert(responseObj.state);
                         }
