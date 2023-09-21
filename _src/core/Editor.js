@@ -262,7 +262,7 @@
               me.options.lang +
               "/" +
               me.options.lang +
-              ".js?20230319",
+              ".js?20230921",
           tag: "script",
           type: "text/javascript",
           defer: "defer"
