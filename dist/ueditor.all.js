@@ -32891,7 +32891,7 @@ UE.ui = baidu.editor.ui = {};
     editor.options.editor = editor;
     utils.loadFile(document, {
       href:
-        editor.options.themePath + editor.options.theme + "/css/ueditor.css?20230822",
+        editor.options.themePath + editor.options.theme + "/css/ueditor.css?20230921",
       tag: "link",
       type: "text/css",
       rel: "stylesheet"
