@@ -764,6 +764,10 @@ div.edui-box {
     content: "\e636";
 }
 
+.edui-default  .edui-for-insertaudio .edui-icon:before {
+    content: "\e77b";
+}
+
 .edui-default  .edui-for-time .edui-icon:before {
     content: "\e680";
 }
@@ -1246,8 +1250,8 @@ div.edui-box {
 
 }
 
-.edui-dialog div{
-    width:auto;
+.edui-dialog div {
+    width: auto;
 }
 
 .edui-default .edui-dialog-wrap {
@@ -1302,8 +1306,9 @@ div.edui-box {
     background: #FFF;
     position: relative;
     cursor: move;
-    border-radius:5px 5px 0 0;
+    border-radius: 5px 5px 0 0;
 }
+
 .edui-default .edui-dialog-caption {
     font-weight: bold;
     font-size: 14px;
@@ -1313,12 +1318,13 @@ div.edui-box {
 
 .edui-default .edui-dialog-draghandle {
     height: 30px;
+    padding: 5px;
 }
 
 .edui-default .edui-dialog-closebutton {
     position: absolute !important;
-    right: 5px;
-    top: 3px;
+    right: 10px;
+    top: 10px;
 }
 
 .edui-default .edui-dialog-closebutton .edui-button-body {
@@ -1327,22 +1333,23 @@ div.edui-box {
     cursor: pointer;
 }
 
-.edui-default .edui-dialog-closebutton .edui-button-body .edui-icon{
+.edui-default .edui-dialog-closebutton .edui-button-body .edui-icon {
     width: 20px;
     height: 20px;
     font-family: 'edui-iconfont';
     line-height: 20px;
     font-size: 20px;
     text-align: center;
-    color:#999;
+    color: #999;
     vertical-align: top;
 }
-.edui-default .edui-dialog-closebutton .edui-button-body .edui-icon:before{
+
+.edui-default .edui-dialog-closebutton .edui-button-body .edui-icon:before {
     content: "\e6a7";
 }
 
-.edui-default .edui-dialog-closebutton .edui-state-hover .edui-button-body .edui-icon{
-    color:#333;
+.edui-default .edui-dialog-closebutton .edui-state-hover .edui-button-body .edui-icon {
+    color: #333;
 }
 
 .edui-default .edui-dialog-buttons {
@@ -1354,7 +1361,7 @@ div.edui-box {
     margin-right: 10px;
 }
 
-.edui-default .edui-dialog-buttons .edui-button .edui-button-body .edui-icon{
+.edui-default .edui-dialog-buttons .edui-button .edui-button-body .edui-icon {
     display: none !important;
 }
 
@@ -1367,7 +1374,7 @@ div.edui-box {
     text-align: center;
     background-color: #F8F8F8;
     border: 1px solid #EEE;
-    padding:0 15px;
+    padding: 0 15px;
 }
 
 .edui-default .edui-dialog-buttons .edui-button .edui-state-hover .edui-button-body {
@@ -1383,7 +1390,7 @@ div.edui-box {
 
 .edui-default .edui-dialog-modalmask {
     opacity: 0.3;
-    filter: alpha(opacity = 30);
+    filter: alpha(opacity=30);
     background-color: #ccc;
     position: absolute;
     /*z-index: 1999;*/
@@ -1408,7 +1415,7 @@ div.edui-box {
     width: 100%;
     height: 100%;
     opacity: 0;
-    filter: alpha(opacity = 0);
+    filter: alpha(opacity=0);
 }
 
 /*link-dialog*/
@@ -1417,6 +1424,7 @@ div.edui-box {
     height: 200px;
     overflow: hidden;
 }
+
 /*background-dialog*/
 .edui-default .edui-for-background .edui-dialog-content {
     width: 440px;
@@ -1462,16 +1470,16 @@ div.edui-box {
 
 /*wordImage-dialog*/
 .edui-default .edui-for-wordimage .edui-dialog-content {
-  width: 620px;
-  height: 380px;
-  overflow: hidden;
+    width: 620px;
+    height: 380px;
+    overflow: hidden;
 }
 
 /*formula-dialog*/
 .edui-default .edui-for-formula .edui-dialog-content {
-  width: 800px;
-  height: 400px;
-  overflow: hidden;
+    width: 800px;
+    height: 400px;
+    overflow: hidden;
 }
 
 /*attachment-dialog*/
@@ -1490,6 +1498,12 @@ div.edui-box {
 
 /*video-dialog*/
 .edui-default .edui-for-insertvideo .edui-dialog-content {
+    width: 590px;
+    height: 420px;
+}
+
+/*audio-dialog*/
+.edui-default .edui-for-insertaudio .edui-dialog-content {
     width: 590px;
     height: 420px;
 }
@@ -1516,7 +1530,7 @@ div.edui-box {
 /*edittable-dialog*/
 .edui-default .edui-for-edittable .edui-dialog-content {
     width: 540px;
-    _width:590px;
+    _width: 590px;
     height: 335px;
 }
 

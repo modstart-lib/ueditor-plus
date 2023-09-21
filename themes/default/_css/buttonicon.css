@@ -146,6 +146,10 @@
     content: "\e636";
 }
 
+.edui-default  .edui-for-insertaudio .edui-icon:before {
+    content: "\e77b";
+}
+
 .edui-default  .edui-for-time .edui-icon:before {
     content: "\e680";
 }
