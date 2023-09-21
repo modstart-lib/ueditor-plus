@@ -1,0 +1,147 @@
+/*基础UI构建
+*/
+
+:root {
+    --edui-color-active-bg: rgba(200, 200, 200, 0.3);
+    --edui-color-border: #EEEEEE;
+    --edui-bg-toolbar: #FFFFFF;
+    --edui-color-muted: #CCCCCC;
+}
+
+@font-face {
+    font-family: "edui-iconfont"; /* Project id 2897874 */
+    src: data-uri('./../font/iconfont.woff2?t=1651572942270') format('woff2'),
+    data-uri('./../font/iconfont.woff?t=1651572942270') format('woff'),
+    data-uri('./../font/iconfont.ttf?t=1651572942270') format('truetype');
+}
+
+.edui-default {
+    accent-color: #333;
+}
+
+/* common layer */
+.edui-default .edui-box {
+    border: none;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    line-height: 30px;
+}
+
+.edui-default a.edui-box {
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+
+.edui-default a.edui-box:hover {
+    text-decoration: none;
+}
+
+.edui-default a.edui-box:active {
+    text-decoration: none;
+}
+
+.edui-default table.edui-box {
+    border-collapse: collapse;
+}
+
+.edui-default ul.edui-box {
+    list-style-type: none;
+}
+
+div.edui-box {
+    position: relative;
+    display: -moz-inline-box !important;
+    display: inline-block !important;
+    vertical-align: middle;
+}
+
+.edui-default .edui-clearfix {
+    zoom: 1
+}
+
+.edui-default .edui-clearfix:after {
+    content: '\20';
+    display: block;
+    clear: both;
+}
+
+* html div.edui-box {
+    display: inline !important;
+}
+
+*:first-child + html div.edui-box {
+    display: inline !important;
+}
+
+/* control layout */
+.edui-default .edui-button-body, .edui-splitbutton-body, .edui-menubutton-body, .edui-combox-body {
+    position: relative;
+}
+
+.edui-default .edui-popup {
+    position: absolute;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+.edui-default .edui-popup .edui-shadow {
+    position: absolute;
+    z-index: -1;
+}
+
+.edui-default .edui-popup .edui-bordereraser {
+    position: absolute;
+    overflow: hidden;
+}
+
+.edui-default .edui-tablepicker .edui-canvas {
+    position: relative;
+}
+
+.edui-default .edui-tablepicker .edui-canvas .edui-overlay {
+    position: absolute;
+}
+
+.edui-default .edui-dialog-modalmask, .edui-dialog-dragmask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.edui-default .edui-toolbar {
+    position: relative;
+}
+
+/*
+ * default theme
+ */
+.edui-default .edui-label {
+    cursor: pointer;
+}
+
+.edui-default span.edui-clickable {
+    color: #666;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.edui-default span.edui-clickable:hover {
+    color: #333;
+}
+
+.edui-default span.edui-unclickable {
+    color: gray;
+    cursor: default;
+}
+
+.edui-default span.edui-popup-action-item {
+    margin-right: 5px;
+}
+
+.edui-default span.edui-popup-action-item:last-child {
+    margin-right: 0;
+}
