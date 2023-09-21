@@ -772,6 +772,11 @@
                             'original':json.original
                         });
                         $file.append('<span class="success"></span>');
+                        // 触发上传视频事件
+                        editor.fireEvent("uploadsuccess", {
+                            res: json,
+                            type: 'video'
+                        });
                     } else {
                         $file.find('.error').text(json.state).show();
                     }
