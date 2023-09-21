@@ -121,7 +121,7 @@ module.exports = function (grunt) {
               "themes/default/dialogbase.css",
               "themes/default/images/**",
               "themes/default/exts/**",
-              "themes/default/font/**",
+              // "themes/default/font/**",
               "dialogs/**",
               "lang/**",
               "third-party/**",

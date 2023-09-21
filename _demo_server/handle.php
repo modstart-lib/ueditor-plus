@@ -41,6 +41,13 @@ $config = [
     "videoMaxSize" => 1024 * 1024 * 100,
     "videoAllowFiles" => ['.mp4'],
 
+    // 上传音频配置
+    "audioActionName" => "audio",
+    "audioFieldName" => "file",
+    "audioUrlPrefix" => "",
+    "audioMaxSize" => 1024 * 1024 * 100,
+    "audioAllowFiles" => ['.mp3'],
+
     // 上传文件配置
     "fileActionName" => "file",
     "fileFieldName" => "file",
@@ -60,13 +67,6 @@ $config = [
     "fileManagerUrlPrefix" => "",
     "fileManagerListSize" => 20,
     "fileManagerAllowFiles" => ['.zip', '.pdf', '.doc'],
-
-    // 公式渲染
-    "formulaConfig" => [
-        "imageUrlTemplate" => "https://latexeasy.com/image.svg?{}",
-        'editorMode' => 'live',
-        'editorLiveServer' => 'https://latexeasy.com',
-    ]
 
 ];
 
@@ -119,6 +119,11 @@ switch ($action) {
         // print_r($_FILES);
         // output(['state' => '上传错误信息']);
         output(['state' => 'SUCCESS', 'url' => 'https://ms-assets.modstart.com/demo/modstart.mp4']);
+    case 'audio':
+        // 上传音频
+        // print_r($_FILES);
+        // output(['state' => '上传错误信息']);
+        output(['state' => 'SUCCESS', 'url' => 'https://ms-assets.modstart.com/demo/music.mp3']);
     case 'file':
         // 上传文件
         // print_r($_FILES);
