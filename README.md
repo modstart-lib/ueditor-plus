@@ -24,6 +24,7 @@
 ### 原生使用
 
 ```html
+
 <script id="editor" type="text/plain" style="height:300px;"></script>
 <script type="text/javascript" src="/path/to/UEditorPlus/ueditor.config.js"></script>
 <script type="text/javascript" src="/path/to/UEditorPlus/ueditor.all.js"></script>
@@ -47,6 +48,7 @@ yarn add vue-ueditor-wrap
 ② 解压 UEditorPlus 到静态资源目录，配置
 
 ```html
+
 <template>
     <div class="content">
         <vue-ueditor-wrap v-model="content"
@@ -111,18 +113,6 @@ grunt default
 - UEditor API 文档：[http://ueditor.baidu.com/doc](http://ueditor.baidu.com/doc)
 - UEditor 文档：[http://fex.baidu.com/ueditor/](http://fex.baidu.com/ueditor/)
 - UEditor API 文档：[http://ueditor.baidu.com/doc](http://ueditor.baidu.com/doc)
-
-## TodoList
-
-### 功能特性
-
-- [ ] 颜色选择器支持自定义颜色 [issue](https://gitee.com/modstart-lib/ueditor-plus/issues/I5TXW7)
-- [ ] 音频上传功能 [issue](https://gitee.com/modstart-lib/ueditor-plus/issues/I5TFI7)
-- [ ] 多图上传压缩功能 [issue](https://gitee.com/modstart-lib/ueditor-plus/issues/I5KUNC)
-
-### 体验优化
-
-- [ ] 编辑器焦点在图片上时，光标不能移动问题
 
 ## 更新日志
 
