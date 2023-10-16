@@ -4,6 +4,10 @@
     "description": "基于 UEditor 的增强版富文本编辑器",
     "version": "2.0.0",
     "homepage": "http://ueditor.baidu.com/",
+    "script": {
+        "clean": "rm -fr dist dist-min",
+        "build": "grunt default"
+    },
     "author": {
         "name": "f-cube @ FEX",
         "url": "http://fex.baidu.com"
@@ -23,6 +27,7 @@
     },
     "dependencies": {
         "grunt": "~0.4.1",
+        "grunt-cli": "^1.4.3",
         "grunt-contrib-clean": "~0.5.0",
         "grunt-contrib-concat": "~0.3.0",
         "grunt-contrib-copy": "~0.4.0",
