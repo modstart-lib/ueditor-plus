@@ -4,7 +4,7 @@
     "description": "基于 UEditor 的增强版富文本编辑器",
     "version": "2.0.0",
     "homepage": "http://ueditor.baidu.com/",
-    "script": {
+    "scripts": {
         "clean": "rm -fr dist dist-min",
         "build": "grunt default"
     },
@@ -26,18 +26,14 @@
         "url": "https://github.com/fex-team/ueditor/issues"
     },
     "dependencies": {
-        "grunt": "~0.4.1",
+        "grunt": "~1.6.1",
         "grunt-cli": "^1.4.3",
-        "grunt-contrib-clean": "~0.5.0",
-        "grunt-contrib-concat": "~0.3.0",
-        "grunt-contrib-copy": "~0.4.0",
-        "grunt-contrib-cssmin": "~0.6.0",
-        "grunt-contrib-uglify": "^1.0.1",
-        "grunt-text-replace": "~0.3.9",
+        "grunt-contrib-clean": "~2.0.1",
+        "grunt-contrib-concat": "~2.1.0",
+        "grunt-contrib-copy": "~1.0.0",
+        "grunt-contrib-cssmin": "~5.0.0",
+        "grunt-contrib-uglify": "^5.2.2",
+        "grunt-text-replace": "~0.4.0",
         "grunt-transcoding": "~0.1.1"
-    },
-    "devDependencies": {
-        "grunt": "~0.4.1",
-        "uglify-js": "^3.17.4"
     }
 }
