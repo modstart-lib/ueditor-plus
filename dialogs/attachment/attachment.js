@@ -163,6 +163,7 @@
                 swf: '../../third-party/webuploader/Uploader.swf',
                 server: actionUrl,
                 fileVal: editor.getOpt('fileFieldName'),
+                headers: editor.getOpt('serverHeaders') || {},
                 duplicate: true,
                 fileSingleSizeLimit: fileMaxSize,
                 compress: false

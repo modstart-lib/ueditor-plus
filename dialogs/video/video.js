@@ -424,6 +424,7 @@
                 swf: '../../third-party/webuploader/Uploader.swf',
                 server: actionUrl,
                 fileVal: editor.getOpt('videoFieldName'),
+                headers: editor.getOpt('serverHeaders') || {},
                 duplicate: true,
                 fileSingleSizeLimit: fileMaxSize,
                 compress: false
