@@ -142,9 +142,9 @@ UE.plugins["catchremoteimage"] = function () {
   }
 
   function catchRemoteImage() {
-    if (catchRemoteImageCatching) {
-      return;
-    }
+    // if (catchRemoteImageCatching) {
+    //   return;
+    // }
     catchRemoteImageCatching = true;
 
     var loadingIMG = me.options.themePath + me.options.theme + '/images/spacer.gif',
