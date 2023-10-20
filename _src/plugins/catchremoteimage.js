@@ -148,7 +148,7 @@ UE.plugins["catchremoteimage"] = function () {
     catchRemoteImageCatching = true;
 
     var loadingIMG = me.options.themePath + me.options.theme + '/images/spacer.gif',
-      imgs = me.document.querySelectorAll('[style*="url"],img'),
+      imgs = me.document.querySelectorAll('[style*="url"],img,video,audio'),
       test = function (src, urls) {
         if (src.indexOf(location.host) !== -1 || /(^\.)|(^\/)/.test(src)) {
           return true;
@@ -167,7 +167,7 @@ UE.plugins["catchremoteimage"] = function () {
       if (ci.getAttribute("data-word-image") || ci.getAttribute('data-catch-result')) {
         continue;
       }
-      if (ci.nodeName === "IMG") {
+      if (["IMG", "VIDEO", "AUDIO"].includes(ci.nodeName)) {
         var src = ci.getAttribute("_src") || ci.src || "";
         if (/^(https?|ftp):/i.test(src) && !test(src, catcherLocalDomain)) {
           catchElement('image', ci, src);
