@@ -104,8 +104,8 @@ module.exports = function (grunt) {
         cwd: distDir,
         src: [
           '**/*.js',
-          '!third-party/zeroclipboard/ZeroClipboard.js',
-          '!ueditor.all.js',
+          // '!third-party/zeroclipboard/ZeroClipboard.js',
+          // '!ueditor.all.js',
         ],
         dest: distMinDir,
         expand: true

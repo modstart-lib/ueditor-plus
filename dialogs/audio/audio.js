@@ -378,6 +378,7 @@
                 swf: '../../third-party/webuploader/Uploader.swf',
                 server: actionUrl,
                 fileVal: editor.getOpt('audioFieldName'),
+                headers: editor.getOpt('serverHeaders') || {},
                 duplicate: true,
                 fileSingleSizeLimit: fileMaxSize,
                 compress: false
