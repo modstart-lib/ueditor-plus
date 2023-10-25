@@ -1000,17 +1000,20 @@ div.edui-box {
     width: 13px;
     cursor: pointer;
 }
+
 .edui-default .edui-toolbar .edui-splitbutton-body .edui-arrow:before,
 .edui-default .edui-toolbar .edui-menubutton-body .edui-arrow:before {
     content: "\e9f0";
     font-family: "edui-iconfont";
     font-size: 8px;
+    vertical-align: middle;
 }
 
 .edui-default .edui-toolbar .edui-splitbutton .edui-splitbutton-body,
 .edui-default .edui-toolbar .edui-menubutton .edui-menubutton-body {
     padding: 1px;
     border-radius: 3px;
+    display: flex;
 }
 
 .edui-default .edui-toolbar .edui-splitborder {
@@ -1057,7 +1060,7 @@ div.edui-box {
 
 .edui-default .edui-state-disabled .edui-arrow {
     opacity: 0.3;
-    _filter: alpha(opacity = 30);
+    _filter: alpha(opacity=30);
 }
 
 .edui-default .edui-toolbar .edui-splitbutton .edui-state-opened .edui-splitbutton-body,
@@ -1082,7 +1085,7 @@ div.edui-box {
 .edui-default .edui-for-rowspacingbottom .edui-popup-body .edui-icon,
 .edui-default .edui-for-insertunorderedlist .edui-popup-body .edui-icon {
     /*background-position: 0 -40px;*/
-    background-image: none  ;
+    background-image: none;
 }
 
 /* 弹出菜单 */

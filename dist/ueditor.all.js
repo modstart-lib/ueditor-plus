@@ -9355,35 +9355,35 @@ UE.image = (function(){
 
 // core/dialog.js
 UE.dialog = (function () {
-  return {
-    loadingPlaceholder: function (me) {
-      var loadingId = "loading_" + (+new Date()).toString(36);
-      me.focus();
-      me.execCommand(
-        "inserthtml",
-        '<img class="loadingclass" id="' +
-        loadingId +
-        '" src="' +
-        me.options.themePath +
-        me.options.theme +
-        '/images/spacer.gif">'
-      );
-      return loadingId;
-    },
-    removeLoadingPlaceholder: function (me, loadingId) {
-      var loader = me.document.getElementById(loadingId);
-      if (loader) {
-        domUtils.remove(loader, false);
-      }
-    },
-    tipError: function (me, title) {
-      me.fireEvent("showmessage", {
-        content: title,
-        type: "error",
-        timeout: 4000
-      });
+    return {
+        loadingPlaceholder: function (me) {
+            var loadingId = "loading_" + (+new Date()).toString(36);
+            me.focus();
+            me.execCommand(
+                "inserthtml",
+                '<img class="uep-loading" id="' +
+                loadingId +
+                '" src="' +
+                me.options.themePath +
+                me.options.theme +
+                '/images/spacer.gif">'
+            );
+            return loadingId;
+        },
+        removeLoadingPlaceholder: function (me, loadingId) {
+            var loader = me.document.getElementById(loadingId);
+            if (loader) {
+                domUtils.remove(loader, false);
+            }
+        },
+        tipError: function (me, title) {
+            me.fireEvent("showmessage", {
+                content: title,
+                type: "error",
+                timeout: 4000
+            });
+        }
     }
-  }
 })();
 
 
@@ -16726,1056 +16726,1067 @@ UE.plugins["pasteplain"] = function() {
  * @since 1.2.6.1
  */
 
-UE.plugins["list"] = function() {
-  var me = this,
-    notExchange = {
-      TD: 1,
-      PRE: 1,
-      BLOCKQUOTE: 1
-    };
-  var customStyle = {
-    cn: "cn-1-",
-    cn1: "cn-2-",
-    cn2: "cn-3-",
-    num: "num-1-",
-    num1: "num-2-",
-    num2: "num-3-",
-    dash: "dash",
-    dot: "dot"
-  };
-
-  me.setOpt({
-    autoTransWordToList: false,
-    insertorderedlist: {
-      num: "",
-      num1: "",
-      num2: "",
-      cn: "",
-      cn1: "",
-      cn2: "",
-      decimal: "",
-      "lower-alpha": "",
-      "lower-roman": "",
-      "upper-alpha": "",
-      "upper-roman": ""
-    },
-    insertunorderedlist: {
-      circle: "",
-      disc: "",
-      square: "",
-      dash: "",
-      dot: ""
-    },
-    listDefaultPaddingLeft: "30",
-    listiconpath: "http://bs.baidu.com/listicon/",
-    maxListLevel: -1, //-1不限制
-    disablePInList: false
-  });
-  function listToArray(list) {
-    var arr = [];
-    for (var p in list) {
-      arr.push(p);
-    }
-    return arr;
-  }
-  var listStyle = {
-    OL: listToArray(me.options.insertorderedlist),
-    UL: listToArray(me.options.insertunorderedlist)
-  };
-  var liiconpath = me.options.listiconpath;
-
-  //根据用户配置，调整customStyle
-  for (var s in customStyle) {
-    if (
-      !me.options.insertorderedlist.hasOwnProperty(s) &&
-      !me.options.insertunorderedlist.hasOwnProperty(s)
-    ) {
-      delete customStyle[s];
-    }
-  }
-
-  me.ready(function() {
-    var customCss = [];
-    for (var p in customStyle) {
-      if (p == "dash" || p == "dot") {
-        customCss.push(
-          "li.list-" +
-            customStyle[p] +
-            "{background-image:url(" +
-            liiconpath +
-            customStyle[p] +
-            ".gif)}"
-        );
-        customCss.push(
-          "ul.custom_" +
-            p +
-            "{list-style:none;}ul.custom_" +
-            p +
-            " li{background-position:0 3px;background-repeat:no-repeat}"
-        );
-      } else {
-        for (var i = 0; i < 99; i++) {
-          customCss.push(
-            "li.list-" +
-              customStyle[p] +
-              i +
-              "{background-image:url(" +
-              liiconpath +
-              "list-" +
-              customStyle[p] +
-              i +
-              ".gif)}"
-          );
-        }
-        customCss.push(
-          "ol.custom_" +
-            p +
-            "{list-style:none;}ol.custom_" +
-            p +
-            " li{background-position:0 3px;background-repeat:no-repeat}"
-        );
-      }
-      switch (p) {
-        case "cn":
-          customCss.push("li.list-" + p + "-paddingleft-1{padding-left:25px}");
-          customCss.push("li.list-" + p + "-paddingleft-2{padding-left:40px}");
-          customCss.push("li.list-" + p + "-paddingleft-3{padding-left:55px}");
-          break;
-        case "cn1":
-          customCss.push("li.list-" + p + "-paddingleft-1{padding-left:30px}");
-          customCss.push("li.list-" + p + "-paddingleft-2{padding-left:40px}");
-          customCss.push("li.list-" + p + "-paddingleft-3{padding-left:55px}");
-          break;
-        case "cn2":
-          customCss.push("li.list-" + p + "-paddingleft-1{padding-left:40px}");
-          customCss.push("li.list-" + p + "-paddingleft-2{padding-left:55px}");
-          customCss.push("li.list-" + p + "-paddingleft-3{padding-left:68px}");
-          break;
-        case "num":
-        case "num1":
-          customCss.push("li.list-" + p + "-paddingleft-1{padding-left:25px}");
-          break;
-        case "num2":
-          customCss.push("li.list-" + p + "-paddingleft-1{padding-left:35px}");
-          customCss.push("li.list-" + p + "-paddingleft-2{padding-left:40px}");
-          break;
-        case "dash":
-          customCss.push("li.list-" + p + "-paddingleft{padding-left:35px}");
-          break;
-        case "dot":
-          customCss.push("li.list-" + p + "-paddingleft{padding-left:20px}");
-      }
-    }
-    customCss.push(".list-paddingleft-1{padding-left:0}");
-    customCss.push(
-      ".list-paddingleft-2{padding-left:" +
-        me.options.listDefaultPaddingLeft +
-        "px}"
-    );
-    customCss.push(
-      ".list-paddingleft-3{padding-left:" +
-        me.options.listDefaultPaddingLeft * 2 +
-        "px}"
-    );
-    //如果不给宽度会在自定应样式里出现滚动条
-    utils.cssRule(
-      "list",
-      "ol,ul{margin:0;pading:0;" +
-        (browser.ie ? "" : "width:95%") +
-        "}li{clear:both;}" +
-        customCss.join("\n"),
-      me.document
-    );
-  });
-  //单独处理剪切的问题
-  me.ready(function() {
-    domUtils.on(me.body, "cut", function() {
-      setTimeout(function() {
-        var rng = me.selection.getRange(),
-          li;
-        //trace:3416
-        if (!rng.collapsed) {
-          if (
-            (li = domUtils.findParentByTagName(rng.startContainer, "li", true))
-          ) {
-            if (!li.nextSibling && domUtils.isEmptyBlock(li)) {
-              var pn = li.parentNode,
-                node;
-              if ((node = pn.previousSibling)) {
-                domUtils.remove(pn);
-                rng.setStartAtLast(node).collapse(true);
-                rng.select(true);
-              } else if ((node = pn.nextSibling)) {
-                domUtils.remove(pn);
-                rng.setStartAtFirst(node).collapse(true);
-                rng.select(true);
-              } else {
-                var tmpNode = me.document.createElement("p");
-                domUtils.fillNode(me.document, tmpNode);
-                pn.parentNode.insertBefore(tmpNode, pn);
-                domUtils.remove(pn);
-                rng.setStart(tmpNode, 0).collapse(true);
-                rng.select(true);
-              }
-            }
-          }
-        }
-      });
-    });
-  });
-
-  function getStyle(node) {
-    var cls = node.className;
-    if (domUtils.hasClass(node, /custom_/)) {
-      return cls.match(/custom_(\w+)/)[1];
-    }
-    return domUtils.getStyle(node, "list-style-type");
-  }
-
-  me.addListener("beforepaste", function(type, html) {
+UE.plugins["list"] = function () {
     var me = this,
-      rng = me.selection.getRange(),
-      li;
-    var root = UE.htmlparser(html.html, true);
-    if ((li = domUtils.findParentByTagName(rng.startContainer, "li", true))) {
-      var list = li.parentNode,
-        tagName = list.tagName === "OL" ? "ul" : "ol";
-      utils.each(root.getNodesByTagName(tagName), function(n) {
-        n.tagName = list.tagName;
-        n.setAttr();
-        if (n.parentNode === root) {
-          type = getStyle(list) || (list.tagName == "OL" ? "decimal" : "disc");
-        } else {
-          var className = n.parentNode.getAttr("class");
-          if (className && /custom_/.test(className)) {
-            type = className.match(/custom_(\w+)/)[1];
-          } else {
-            type = n.parentNode.getStyle("list-style-type");
-          }
-          if (!type) {
-            type = list.tagName === "OL" ? "decimal" : "disc";
-          }
-        }
-        var index = utils.indexOf(listStyle[list.tagName], type);
-        if (n.parentNode !== root)
-          index = index + 1 === listStyle[list.tagName].length ? 0 : index + 1;
-        var currentStyle = listStyle[list.tagName][index];
-        if (customStyle[currentStyle]) {
-          n.setAttr("class", "custom_" + currentStyle);
-        } else {
-          n.setStyle("list-style-type", currentStyle);
-        }
-      });
-    }
-
-    html.html = root.toHtml();
-  });
-  //导出时，去掉p标签
-  me.getOpt("disablePInList") === true &&
-    me.addOutputRule(function(root) {
-      utils.each(root.getNodesByTagName("li"), function(li) {
-        var newChildrens = [],
-          index = 0;
-        utils.each(li.children, function(n) {
-          if (n.tagName == "p") {
-            var tmpNode;
-            while ((tmpNode = n.children.pop())) {
-              newChildrens.splice(index, 0, tmpNode);
-              tmpNode.parentNode = li;
-              lastNode = tmpNode;
-            }
-            tmpNode = newChildrens[newChildrens.length - 1];
-            if (
-              !tmpNode ||
-              tmpNode.type !== "element" ||
-              tmpNode.tagName !== "br"
-            ) {
-              var br = UE.uNode.createElement("br");
-              br.parentNode = li;
-              newChildrens.push(br);
-            }
-
-            index = newChildrens.length;
-          }
-        });
-        if (newChildrens.length) {
-          li.children = newChildrens;
-        }
-      });
-    });
-  //进入编辑器的li要套p标签
-  me.addInputRule(function(root) {
-    utils.each(root.getNodesByTagName("li"), function(li) {
-      var tmpP = UE.uNode.createElement("p");
-      for (var i = 0, ci; (ci = li.children[i]); ) {
-        if (ci.type === "text" || dtd.p[ci.tagName]) {
-          tmpP.appendChild(ci);
-        } else {
-          if (tmpP.firstChild()) {
-            li.insertBefore(tmpP, ci);
-            tmpP = UE.uNode.createElement("p");
-            i = i + 2;
-          } else {
-            i++;
-          }
-        }
-      }
-      if ((tmpP.firstChild() && !tmpP.parentNode) || !li.firstChild()) {
-        li.appendChild(tmpP);
-      }
-      //trace:3357
-      //p不能为空
-      if (!tmpP.firstChild()) {
-        tmpP.innerHTML(browser.ie ? "&nbsp;" : "<br/>");
-      }
-      //去掉末尾的空白
-      var p = li.firstChild();
-      var lastChild = p.lastChild();
-      if (
-        lastChild &&
-        lastChild.type === "text" &&
-        /^\s*$/.test(lastChild.data)
-      ) {
-        p.removeChild(lastChild);
-      }
-    });
-    if (me.options.autoTransWordToList) {
-      var orderlisttype = {
-        num1: /^\d+\)/,
-        decimal: /^\d+\./,
-        "lower-alpha": /^[a-z]+\)/,
-        "upper-alpha": /^[A-Z]+\./,
-        cn: /^[\u4E00\u4E8C\u4E09\u56DB\u516d\u4e94\u4e03\u516b\u4e5d]+[\u3001]/,
-        cn2: /^\([\u4E00\u4E8C\u4E09\u56DB\u516d\u4e94\u4e03\u516b\u4e5d]+\)/
-      },
-        unorderlisttype = {
-          square: "n"
+        notExchange = {
+            TD: 1,
+            PRE: 1,
+            BLOCKQUOTE: 1
         };
-      function checkListType(content, container) {
-        var span = container.firstChild();
-        if (
-          span &&
-          span.type === "element" &&
-          span.tagName === "span" &&
-          /Wingdings|Symbol/.test(span.getStyle("font-family"))
-        ) {
-          for (var p in unorderlisttype) {
-            if (unorderlisttype[p] == span.data) {
-              return p;
-            }
-          }
-          return "disc";
-        }
-        for (var p in orderlisttype) {
-          if (orderlisttype[p].test(content)) {
-            return p;
-          }
-        }
-      }
-      utils.each(root.getNodesByTagName("p"), function(node) {
-        if (node.getAttr("class") !== "MsoListParagraph") {
-          return;
-        }
+    // var customStyle = {
+    //     cn: "cn-1-",
+    //     cn1: "cn-2-",
+    //     cn2: "cn-3-",
+    //     num: "num-1-",
+    //     num1: "num-2-",
+    //     num2: "num-3-",
+    //     dash: "dash",
+    //     dot: "dot"
+    // };
 
-        //word粘贴过来的会带有margin要去掉,但这样也可能会误命中一些央视
-        node.setStyle("margin", "");
-        node.setStyle("margin-left", "");
-        node.setAttr("class", "");
+    me.setOpt({
+        autoTransWordToList: false,
+        insertorderedlist: {
+            // num: "",
+            // num1: "",
+            // num2: "",
+            // cn: "",
+            // cn1: "",
+            // cn2: "",
+            decimal: "",
+            "lower-alpha": "",
+            "lower-roman": "",
+            "upper-alpha": "",
+            "upper-roman": ""
+        },
+        insertunorderedlist: {
+            circle: "",
+            disc: "",
+            square: "",
+            // dash: "",
+            // dot: ""
+        },
+        listDefaultPaddingLeft: "30",
+        listiconpath: "http://bs.baidu.com/listicon/",
+        maxListLevel: -1, //-1不限制
+        disablePInList: false
+    });
 
-        function appendLi(list, p, type) {
-          if (list.tagName === "ol") {
-            if (browser.ie) {
-              var first = p.firstChild();
-              if (
-                first.type === "element" &&
-                first.tagName === "span" &&
-                orderlisttype[type].test(first.innerText())
-              ) {
-                p.removeChild(first);
-              }
-            } else {
-              p.innerHTML(p.innerHTML().replace(orderlisttype[type], ""));
-            }
-          } else {
-            p.removeChild(p.firstChild());
-          }
-
-          var li = UE.uNode.createElement("li");
-          li.appendChild(p);
-          list.appendChild(li);
+    function listToArray(list) {
+        var arr = [];
+        for (var p in list) {
+            arr.push(p);
         }
-        var tmp = node,
-          type,
-          cacheNode = node;
-
-        if (
-          node.parentNode.tagName !== "li" &&
-          (type = checkListType(node.innerText(), node))
-        ) {
-          var list = UE.uNode.createElement(
-            me.options.insertorderedlist.hasOwnProperty(type) ? "ol" : "ul"
-          );
-          if (customStyle[type]) {
-            list.setAttr("class", "custom_" + type);
-          } else {
-            list.setStyle("list-style-type", type);
-          }
-          while (
-            node &&
-            node.parentNode.tagName !== "li" &&
-            checkListType(node.innerText(), node)
-          ) {
-            tmp = node.nextSibling();
-            if (!tmp) {
-              node.parentNode.insertBefore(list, node);
-            }
-            appendLi(list, node, type);
-            node = tmp;
-          }
-          if (!list.parentNode && node && node.parentNode) {
-            node.parentNode.insertBefore(list, node);
-          }
-        }
-        var span = cacheNode.firstChild();
-        if (
-          span &&
-          span.type == "element" &&
-          span.tagName == "span" &&
-          /^\s*(&nbsp;)+\s*$/.test(span.innerText())
-        ) {
-          span.parentNode.removeChild(span);
-        }
-      });
+        return arr;
     }
-  });
 
-  //调整索引标签
-  me.addListener("contentchange", function() {
-    adjustListStyle(me.document);
-  });
+    var listStyle = {
+        OL: listToArray(me.options.insertorderedlist),
+        UL: listToArray(me.options.insertunorderedlist)
+    };
+    var liiconpath = me.options.listiconpath;
 
-  function adjustListStyle(doc, ignore) {
-    utils.each(domUtils.getElementsByTagName(doc, "ol ul"), function(node) {
-      if (!domUtils.inDoc(node, doc)) return;
+    //根据用户配置，调整customStyle
+    // for (var s in customStyle) {
+    //     if (
+    //         !me.options.insertorderedlist.hasOwnProperty(s) &&
+    //         !me.options.insertunorderedlist.hasOwnProperty(s)
+    //     ) {
+    //         delete customStyle[s];
+    //     }
+    // }
 
-      var parent = node.parentNode;
-      if (parent.tagName === node.tagName) {
-        var nodeStyleType =
-          getStyle(node) || (node.tagName === "OL" ? "decimal" : "disc"),
-          parentStyleType =
-            getStyle(parent) || (parent.tagName === "OL" ? "decimal" : "disc");
-        if (nodeStyleType === parentStyleType) {
-          var styleIndex = utils.indexOf(
-            listStyle[node.tagName],
-            nodeStyleType
-          );
-          styleIndex = styleIndex + 1 === listStyle[node.tagName].length
-            ? 0
-            : styleIndex + 1;
-          setListStyle(node, listStyle[node.tagName][styleIndex]);
-        }
-      }
-      var index = 0,
-        type = 2;
-      if (domUtils.hasClass(node, /custom_/)) {
-        if (
-          !(
-            /[ou]l/i.test(parent.tagName) &&
-            domUtils.hasClass(parent, /custom_/)
-          )
-        ) {
-          type = 1;
-        }
-      } else {
-        if (
-          /[ou]l/i.test(parent.tagName) &&
-          domUtils.hasClass(parent, /custom_/)
-        ) {
-          type = 3;
-        }
-      }
-
-      var style = domUtils.getStyle(node, "list-style-type");
-      style && (node.style.cssText = "list-style-type:" + style);
-      node.className =
-        utils.trim(node.className.replace(/list-paddingleft-\w+/, "")) +
-        " list-paddingleft-" +
-        type;
-      utils.each(domUtils.getElementsByTagName(node, "li"), function(li) {
-        li.style.cssText && (li.style.cssText = "");
-        if (!li.firstChild) {
-          domUtils.remove(li);
-          return;
-        }
-        if (li.parentNode !== node) {
-          return;
-        }
-        index++;
-        if (domUtils.hasClass(node, /custom_/)) {
-          var paddingLeft = 1,
-            currentStyle = getStyle(node);
-          if (node.tagName === "OL") {
-            if (currentStyle) {
-              switch (currentStyle) {
-                case "cn":
-                case "cn1":
-                case "cn2":
-                  if (
-                    index > 10 &&
-                    (index % 10 === 0 || (index > 10 && index < 20))
-                  ) {
-                    paddingLeft = 2;
-                  } else if (index > 20) {
-                    paddingLeft = 3;
-                  }
-                  break;
-                case "num2":
-                  if (index > 9) {
-                    paddingLeft = 2;
-                  }
-              }
-            }
-            li.className =
-              "list-" +
-              customStyle[currentStyle] +
-              index +
-              " " +
-              "list-" +
-              currentStyle +
-              "-paddingleft-" +
-              paddingLeft;
-          } else {
-            li.className =
-              "list-" +
-              customStyle[currentStyle] +
-              " " +
-              "list-" +
-              currentStyle +
-              "-paddingleft";
-          }
-        } else {
-          li.className = li.className.replace(/list-[\w\-]+/gi, "");
-        }
-        var className = li.getAttribute("class");
-        if (className !== null && !className.replace(/\s/g, "")) {
-          domUtils.removeAttributes(li, "class");
-        }
-      });
-      !ignore &&
-        adjustList(
-          node,
-          node.tagName.toLowerCase(),
-          getStyle(node) || domUtils.getStyle(node, "list-style-type"),
-          true
+    me.ready(function () {
+        var customCss = [];
+        // for (var p in customStyle) {
+        //     if (p == "dash" || p == "dot") {
+        //         customCss.push(
+        //             "li.list-" +
+        //             customStyle[p] +
+        //             "{background-image:url(" +
+        //             liiconpath +
+        //             customStyle[p] +
+        //             ".gif)}"
+        //         );
+        //         customCss.push(
+        //             "ul.custom_" +
+        //             p +
+        //             "{list-style:none;}ul.custom_" +
+        //             p +
+        //             " li{background-position:0 3px;background-repeat:no-repeat}"
+        //         );
+        //     } else {
+        //         for (var i = 0; i < 99; i++) {
+        //             customCss.push(
+        //                 "li.list-" +
+        //                 customStyle[p] +
+        //                 i +
+        //                 "{background-image:url(" +
+        //                 liiconpath +
+        //                 "list-" +
+        //                 customStyle[p] +
+        //                 i +
+        //                 ".gif)}"
+        //             );
+        //         }
+        //         customCss.push(
+        //             "ol.custom_" +
+        //             p +
+        //             "{list-style:none;}ol.custom_" +
+        //             p +
+        //             " li{background-position:0 3px;background-repeat:no-repeat}"
+        //         );
+        //     }
+        //     switch (p) {
+        //         case "cn":
+        //             customCss.push("li.list-" + p + "-paddingleft-1{padding-left:25px}");
+        //             customCss.push("li.list-" + p + "-paddingleft-2{padding-left:40px}");
+        //             customCss.push("li.list-" + p + "-paddingleft-3{padding-left:55px}");
+        //             break;
+        //         case "cn1":
+        //             customCss.push("li.list-" + p + "-paddingleft-1{padding-left:30px}");
+        //             customCss.push("li.list-" + p + "-paddingleft-2{padding-left:40px}");
+        //             customCss.push("li.list-" + p + "-paddingleft-3{padding-left:55px}");
+        //             break;
+        //         case "cn2":
+        //             customCss.push("li.list-" + p + "-paddingleft-1{padding-left:40px}");
+        //             customCss.push("li.list-" + p + "-paddingleft-2{padding-left:55px}");
+        //             customCss.push("li.list-" + p + "-paddingleft-3{padding-left:68px}");
+        //             break;
+        //         case "num":
+        //         case "num1":
+        //             customCss.push("li.list-" + p + "-paddingleft-1{padding-left:25px}");
+        //             break;
+        //         case "num2":
+        //             customCss.push("li.list-" + p + "-paddingleft-1{padding-left:35px}");
+        //             customCss.push("li.list-" + p + "-paddingleft-2{padding-left:40px}");
+        //             break;
+        //         case "dash":
+        //             customCss.push("li.list-" + p + "-paddingleft{padding-left:35px}");
+        //             break;
+        //         case "dot":
+        //             customCss.push("li.list-" + p + "-paddingleft{padding-left:20px}");
+        //     }
+        // }
+        customCss.push(".list-paddingleft-1{padding-left:0}");
+        customCss.push(
+            ".list-paddingleft-2{padding-left:" +
+            me.options.listDefaultPaddingLeft +
+            "px}"
+        );
+        customCss.push(
+            ".list-paddingleft-3{padding-left:" +
+            me.options.listDefaultPaddingLeft * 2 +
+            "px}"
+        );
+        //如果不给宽度会在自定应样式里出现滚动条
+        utils.cssRule(
+            "list",
+            "ol,ul{margin:0;pading:0;" +
+            (browser.ie ? "" : "width:95%") +
+            "}li{clear:both;}" +
+            customCss.join("\n"),
+            me.document
         );
     });
-  }
-  function adjustList(list, tag, style, ignoreEmpty) {
-    var nextList = list.nextSibling;
-    if (
-      nextList &&
-      nextList.nodeType === 1 &&
-      nextList.tagName.toLowerCase() === tag &&
-      (getStyle(nextList) ||
-        domUtils.getStyle(nextList, "list-style-type") ||
-        (tag == "ol" ? "decimal" : "disc")) == style
-    ) {
-      domUtils.moveChild(nextList, list);
-      if (nextList.childNodes.length === 0) {
-        domUtils.remove(nextList);
-      }
-    }
-    if (nextList && domUtils.isFillChar(nextList)) {
-      domUtils.remove(nextList);
-    }
-    var preList = list.previousSibling;
-    if (
-      preList &&
-      preList.nodeType === 1 &&
-      preList.tagName.toLowerCase() == tag &&
-      (getStyle(preList) ||
-        domUtils.getStyle(preList, "list-style-type") ||
-        (tag == "ol" ? "decimal" : "disc")) === style
-    ) {
-      domUtils.moveChild(list, preList);
-    }
-    if (preList && domUtils.isFillChar(preList)) {
-      domUtils.remove(preList);
-    }
-    !ignoreEmpty && domUtils.isEmptyBlock(list) && domUtils.remove(list);
-    if (getStyle(list)) {
-      adjustListStyle(list.ownerDocument, true);
-    }
-  }
-
-  function setListStyle(list, style) {
-    if (customStyle[style]) {
-      list.className = "custom_" + style;
-    }
-    try {
-      domUtils.setStyle(list, "list-style-type", style);
-    } catch (e) {}
-  }
-  function clearEmptySibling(node) {
-    var tmpNode = node.previousSibling;
-    if (tmpNode && domUtils.isEmptyBlock(tmpNode)) {
-      domUtils.remove(tmpNode);
-    }
-    tmpNode = node.nextSibling;
-    if (tmpNode && domUtils.isEmptyBlock(tmpNode)) {
-      domUtils.remove(tmpNode);
-    }
-  }
-
-  me.addListener("keydown", function(type, evt) {
-    function preventAndSave() {
-      evt.preventDefault ? evt.preventDefault() : (evt.returnValue = false);
-      me.fireEvent("contentchange");
-      me.undoManger && me.undoManger.save();
-    }
-    function findList(node, filterFn) {
-      while (node && !domUtils.isBody(node)) {
-        if (filterFn(node)) {
-          return null;
-        }
-        if (node.nodeType === 1 && /[ou]l/i.test(node.tagName)) {
-          return node;
-        }
-        node = node.parentNode;
-      }
-      return null;
-    }
-    var keyCode = evt.keyCode || evt.which;
-    if (keyCode === 13 && !evt.shiftKey) {
-      //回车
-      var rng = me.selection.getRange(),
-        parent = domUtils.findParent(
-          rng.startContainer,
-          function(node) {
-            return domUtils.isBlockElm(node);
-          },
-          true
-        ),
-        li = domUtils.findParentByTagName(rng.startContainer, "li", true);
-      if (parent && parent.tagName !== "PRE" && !li) {
-        var html = parent.innerHTML.replace(
-          new RegExp(domUtils.fillChar, "g"),
-          ""
-        );
-        if (/^\s*1\s*\.[^\d]/.test(html)) {
-          parent.innerHTML = html.replace(/^\s*1\s*\./, "");
-          rng.setStartAtLast(parent).collapse(true).select();
-          me.__hasEnterExecCommand = true;
-          me.execCommand("insertorderedlist");
-          me.__hasEnterExecCommand = false;
-        }
-      }
-      var range = me.selection.getRange(),
-        start = findList(range.startContainer, function(node) {
-          return node.tagName === "TABLE";
-        }),
-        end = range.collapsed
-          ? start
-          : findList(range.endContainer, function(node) {
-              return node.tagName === "TABLE";
-            });
-
-      if (start && end && start === end) {
-        if (!range.collapsed) {
-          start = domUtils.findParentByTagName(
-            range.startContainer,
-            "li",
-            true
-          );
-          end = domUtils.findParentByTagName(range.endContainer, "li", true);
-          if (start && end && start === end) {
-            range.deleteContents();
-            li = domUtils.findParentByTagName(range.startContainer, "li", true);
-            if (li && domUtils.isEmptyBlock(li)) {
-              pre = li.previousSibling;
-              next = li.nextSibling;
-              p = me.document.createElement("p");
-
-              domUtils.fillNode(me.document, p);
-              parentList = li.parentNode;
-              if (pre && next) {
-                range.setStart(next, 0).collapse(true).select(true);
-                domUtils.remove(li);
-              } else {
-                if ((!pre && !next) || !pre) {
-                  parentList.parentNode.insertBefore(p, parentList);
-                } else {
-                  li.parentNode.parentNode.insertBefore(
-                    p,
-                    parentList.nextSibling
-                  );
-                }
-                domUtils.remove(li);
-                if (!parentList.firstChild) {
-                  domUtils.remove(parentList);
-                }
-                range.setStart(p, 0).setCursor();
-              }
-              preventAndSave();
-              return;
-            }
-          } else {
-            var tmpRange = range.cloneRange(),
-              bk = tmpRange.collapse(false).createBookmark();
-
-            range.deleteContents();
-            tmpRange.moveToBookmark(bk);
-            var li = domUtils.findParentByTagName(
-              tmpRange.startContainer,
-              "li",
-              true
-            );
-
-            clearEmptySibling(li);
-            tmpRange.select();
-            preventAndSave();
-            return;
-          }
-        }
-
-        li = domUtils.findParentByTagName(range.startContainer, "li", true);
-
-        if (li) {
-          if (domUtils.isEmptyBlock(li)) {
-            bk = range.createBookmark();
-            var parentList = li.parentNode;
-            if (li !== parentList.lastChild) {
-              domUtils.breakParent(li, parentList);
-              clearEmptySibling(li);
-            } else {
-              parentList.parentNode.insertBefore(li, parentList.nextSibling);
-              if (domUtils.isEmptyNode(parentList)) {
-                domUtils.remove(parentList);
-              }
-            }
-            //嵌套不处理
-            if (!dtd.$list[li.parentNode.tagName]) {
-              if (!domUtils.isBlockElm(li.firstChild)) {
-                p = me.document.createElement("p");
-                li.parentNode.insertBefore(p, li);
-                while (li.firstChild) {
-                  p.appendChild(li.firstChild);
-                }
-                domUtils.remove(li);
-              } else {
-                domUtils.remove(li, true);
-              }
-            }
-            range.moveToBookmark(bk).select();
-          } else {
-            var first = li.firstChild;
-            if (!first || !domUtils.isBlockElm(first)) {
-              var p = me.document.createElement("p");
-
-              !li.firstChild && domUtils.fillNode(me.document, p);
-              while (li.firstChild) {
-                p.appendChild(li.firstChild);
-              }
-              li.appendChild(p);
-              first = p;
-            }
-
-            var span = me.document.createElement("span");
-
-            range.insertNode(span);
-            domUtils.breakParent(span, li);
-
-            var nextLi = span.nextSibling;
-            first = nextLi.firstChild;
-
-            if (!first) {
-              p = me.document.createElement("p");
-
-              domUtils.fillNode(me.document, p);
-              nextLi.appendChild(p);
-              first = p;
-            }
-            if (domUtils.isEmptyNode(first)) {
-              first.innerHTML = "";
-              domUtils.fillNode(me.document, first);
-            }
-
-            range.setStart(first, 0).collapse(true).shrinkBoundary().select();
-            domUtils.remove(span);
-            var pre = nextLi.previousSibling;
-            if (pre && domUtils.isEmptyBlock(pre)) {
-              pre.innerHTML = "<p></p>";
-              domUtils.fillNode(me.document, pre.firstChild);
-            }
-          }
-          //                        }
-          preventAndSave();
-        }
-      }
-    }
-    if (keyCode === 8) {
-      //修中ie中li下的问题
-      range = me.selection.getRange();
-      if (range.collapsed && domUtils.isStartInblock(range)) {
-        tmpRange = range.cloneRange().trimBoundary();
-        li = domUtils.findParentByTagName(range.startContainer, "li", true);
-        //要在li的最左边，才能处理
-        if (li && domUtils.isStartInblock(tmpRange)) {
-          start = domUtils.findParentByTagName(range.startContainer, "p", true);
-          if (start && start !== li.firstChild) {
-            var parentList = domUtils.findParentByTagName(start, ["ol", "ul"]);
-            domUtils.breakParent(start, parentList);
-            clearEmptySibling(start);
-            me.fireEvent("contentchange");
-            range.setStart(start, 0).setCursor(false, true);
-            me.fireEvent("saveScene");
-            domUtils.preventDefault(evt);
-            return;
-          }
-
-          if (li && (pre = li.previousSibling)) {
-            if (keyCode === 46 && li.childNodes.length) {
-              return;
-            }
-            //有可能上边的兄弟节点是个2级菜单，要追加到2级菜单的最后的li
-            if (dtd.$list[pre.tagName]) {
-              pre = pre.lastChild;
-            }
-            me.undoManger && me.undoManger.save();
-            first = li.firstChild;
-            if (domUtils.isBlockElm(first)) {
-              if (domUtils.isEmptyNode(first)) {
-                //                                    range.setEnd(pre, pre.childNodes.length).shrinkBoundary().collapse().select(true);
-                pre.appendChild(first);
-                range.setStart(first, 0).setCursor(false, true);
-                //first不是唯一的节点
-                while (li.firstChild) {
-                  pre.appendChild(li.firstChild);
-                }
-              } else {
-                span = me.document.createElement("span");
-                range.insertNode(span);
-                //判断pre是否是空的节点,如果是<p><br/></p>类型的空节点，干掉p标签防止它占位
-                if (domUtils.isEmptyBlock(pre)) {
-                  pre.innerHTML = "";
-                }
-                domUtils.moveChild(li, pre);
-                range.setStartBefore(span).collapse(true).select(true);
-
-                domUtils.remove(span);
-              }
-            } else {
-              if (domUtils.isEmptyNode(li)) {
-                var p = me.document.createElement("p");
-                pre.appendChild(p);
-                range.setStart(p, 0).setCursor();
-                //                                    range.setEnd(pre, pre.childNodes.length).shrinkBoundary().collapse().select(true);
-              } else {
-                range
-                  .setEnd(pre, pre.childNodes.length)
-                  .collapse()
-                  .select(true);
-                while (li.firstChild) {
-                  pre.appendChild(li.firstChild);
-                }
-              }
-            }
-            domUtils.remove(li);
-            me.fireEvent("contentchange");
-            me.fireEvent("saveScene");
-            domUtils.preventDefault(evt);
-            return;
-          }
-          //trace:980
-
-          if (li && !li.previousSibling) {
-            var parentList = li.parentNode;
-            var bk = range.createBookmark();
-            if (domUtils.isTagNode(parentList.parentNode, "ol ul")) {
-              parentList.parentNode.insertBefore(li, parentList);
-              if (domUtils.isEmptyNode(parentList)) {
-                domUtils.remove(parentList);
-              }
-            } else {
-              while (li.firstChild) {
-                parentList.parentNode.insertBefore(li.firstChild, parentList);
-              }
-
-              domUtils.remove(li);
-              if (domUtils.isEmptyNode(parentList)) {
-                domUtils.remove(parentList);
-              }
-            }
-            range.moveToBookmark(bk).setCursor(false, true);
-            me.fireEvent("contentchange");
-            me.fireEvent("saveScene");
-            domUtils.preventDefault(evt);
-            return;
-          }
-        }
-      }
-    }
-  });
-
-  me.addListener("keyup", function(type, evt) {
-    var keyCode = evt.keyCode || evt.which;
-    if (keyCode == 8) {
-      var rng = me.selection.getRange(),
-        list;
-      if (
-        (list = domUtils.findParentByTagName(
-          rng.startContainer,
-          ["ol", "ul"],
-          true
-        ))
-      ) {
-        adjustList(
-          list,
-          list.tagName.toLowerCase(),
-          getStyle(list) || domUtils.getComputedStyle(list, "list-style-type"),
-          true
-        );
-      }
-    }
-  });
-  //处理tab键
-  me.addListener("tabkeydown", function() {
-    var range = me.selection.getRange();
-
-    //控制级数
-    function checkLevel(li) {
-      if (me.options.maxListLevel != -1) {
-        var level = li.parentNode,
-          levelNum = 0;
-        while (/[ou]l/i.test(level.tagName)) {
-          levelNum++;
-          level = level.parentNode;
-        }
-        if (levelNum >= me.options.maxListLevel) {
-          return true;
-        }
-      }
-    }
-    //只以开始为准
-    //todo 后续改进
-    var li = domUtils.findParentByTagName(range.startContainer, "li", true);
-    if (li) {
-      var bk;
-      if (range.collapsed) {
-        if (checkLevel(li)) return true;
-        var parentLi = li.parentNode,
-          list = me.document.createElement(parentLi.tagName),
-          index = utils.indexOf(
-            listStyle[list.tagName],
-            getStyle(parentLi) ||
-              domUtils.getComputedStyle(parentLi, "list-style-type")
-          );
-        index = index + 1 == listStyle[list.tagName].length ? 0 : index + 1;
-        var currentStyle = listStyle[list.tagName][index];
-        setListStyle(list, currentStyle);
-        if (domUtils.isStartInblock(range)) {
-          me.fireEvent("saveScene");
-          bk = range.createBookmark();
-          parentLi.insertBefore(list, li);
-          list.appendChild(li);
-          adjustList(list, list.tagName.toLowerCase(), currentStyle);
-          me.fireEvent("contentchange");
-          range.moveToBookmark(bk).select(true);
-          return true;
-        }
-      } else {
-        me.fireEvent("saveScene");
-        bk = range.createBookmark();
-        for (
-          var i = 0, closeList, parents = domUtils.findParents(li), ci;
-          (ci = parents[i++]);
-
-        ) {
-          if (domUtils.isTagNode(ci, "ol ul")) {
-            closeList = ci;
-            break;
-          }
-        }
-        var current = li;
-        if (bk.end) {
-          while (
-            current &&
-            !(
-              domUtils.getPosition(current, bk.end) &
-              domUtils.POSITION_FOLLOWING
-            )
-          ) {
-            if (checkLevel(current)) {
-              current = domUtils.getNextDomNode(current, false, null, function(
-                node
-              ) {
-                return node !== closeList;
-              });
-              continue;
-            }
-            var parentLi = current.parentNode,
-              list = me.document.createElement(parentLi.tagName),
-              index = utils.indexOf(
-                listStyle[list.tagName],
-                getStyle(parentLi) ||
-                  domUtils.getComputedStyle(parentLi, "list-style-type")
-              );
-            var currentIndex = index + 1 == listStyle[list.tagName].length
-              ? 0
-              : index + 1;
-            var currentStyle = listStyle[list.tagName][currentIndex];
-            setListStyle(list, currentStyle);
-            parentLi.insertBefore(list, current);
-            while (
-              current &&
-              !(
-                domUtils.getPosition(current, bk.end) &
-                domUtils.POSITION_FOLLOWING
-              )
-            ) {
-              li = current.nextSibling;
-              list.appendChild(current);
-              if (!li || domUtils.isTagNode(li, "ol ul")) {
-                if (li) {
-                  while ((li = li.firstChild)) {
-                    if (li.tagName == "LI") {
-                      break;
+    //单独处理剪切的问题
+    me.ready(function () {
+        domUtils.on(me.body, "cut", function () {
+            setTimeout(function () {
+                var rng = me.selection.getRange(),
+                    li;
+                //trace:3416
+                if (!rng.collapsed) {
+                    if (
+                        (li = domUtils.findParentByTagName(rng.startContainer, "li", true))
+                    ) {
+                        if (!li.nextSibling && domUtils.isEmptyBlock(li)) {
+                            var pn = li.parentNode,
+                                node;
+                            if ((node = pn.previousSibling)) {
+                                domUtils.remove(pn);
+                                rng.setStartAtLast(node).collapse(true);
+                                rng.select(true);
+                            } else if ((node = pn.nextSibling)) {
+                                domUtils.remove(pn);
+                                rng.setStartAtFirst(node).collapse(true);
+                                rng.select(true);
+                            } else {
+                                var tmpNode = me.document.createElement("p");
+                                domUtils.fillNode(me.document, tmpNode);
+                                pn.parentNode.insertBefore(tmpNode, pn);
+                                domUtils.remove(pn);
+                                rng.setStart(tmpNode, 0).collapse(true);
+                                rng.select(true);
+                            }
+                        }
                     }
-                  }
-                } else {
-                  li = domUtils.getNextDomNode(current, false, null, function(
-                    node
-                  ) {
-                    return node !== closeList;
-                  });
                 }
-                break;
-              }
-              current = li;
-            }
-            adjustList(list, list.tagName.toLowerCase(), currentStyle);
-            current = li;
-          }
-        }
-        me.fireEvent("contentchange");
-        range.moveToBookmark(bk).select();
-        return true;
-      }
-    }
-  });
-  function getLi(start) {
-    while (start && !domUtils.isBody(start)) {
-      if (start.nodeName == "TABLE") {
-        return null;
-      }
-      if (start.nodeName == "LI") {
-        return start;
-      }
-      start = start.parentNode;
-    }
-  }
+            });
+        });
+    });
 
-  /**
+    function getStyle(node) {
+        var cls = node.className;
+        if (domUtils.hasClass(node, /custom_/)) {
+            return cls.match(/custom_(\w+)/)[1];
+        }
+        return domUtils.getStyle(node, "list-style-type");
+    }
+
+    me.addListener("beforepaste", function (type, html) {
+        var me = this,
+            rng = me.selection.getRange(),
+            li;
+        var root = UE.htmlparser(html.html, true);
+        if ((li = domUtils.findParentByTagName(rng.startContainer, "li", true))) {
+            var list = li.parentNode,
+                tagName = list.tagName === "OL" ? "ul" : "ol";
+            utils.each(root.getNodesByTagName(tagName), function (n) {
+                n.tagName = list.tagName;
+                n.setAttr();
+                if (n.parentNode === root) {
+                    type = getStyle(list) || (list.tagName == "OL" ? "decimal" : "disc");
+                } else {
+                    var className = n.parentNode.getAttr("class");
+                    if (className && /custom_/.test(className)) {
+                        type = className.match(/custom_(\w+)/)[1];
+                    } else {
+                        type = n.parentNode.getStyle("list-style-type");
+                    }
+                    if (!type) {
+                        type = list.tagName === "OL" ? "decimal" : "disc";
+                    }
+                }
+                var index = utils.indexOf(listStyle[list.tagName], type);
+                if (n.parentNode !== root)
+                    index = index + 1 === listStyle[list.tagName].length ? 0 : index + 1;
+                var currentStyle = listStyle[list.tagName][index];
+                // if (customStyle[currentStyle]) {
+                //     n.setAttr("class", "custom_" + currentStyle);
+                // } else {
+                n.setStyle("list-style-type", currentStyle);
+                // }
+            });
+        }
+
+        html.html = root.toHtml();
+    });
+    //导出时，去掉p标签
+    me.getOpt("disablePInList") === true &&
+    me.addOutputRule(function (root) {
+        utils.each(root.getNodesByTagName("li"), function (li) {
+            var newChildrens = [],
+                index = 0;
+            utils.each(li.children, function (n) {
+                if (n.tagName == "p") {
+                    var tmpNode;
+                    while ((tmpNode = n.children.pop())) {
+                        newChildrens.splice(index, 0, tmpNode);
+                        tmpNode.parentNode = li;
+                        lastNode = tmpNode;
+                    }
+                    tmpNode = newChildrens[newChildrens.length - 1];
+                    if (
+                        !tmpNode ||
+                        tmpNode.type !== "element" ||
+                        tmpNode.tagName !== "br"
+                    ) {
+                        var br = UE.uNode.createElement("br");
+                        br.parentNode = li;
+                        newChildrens.push(br);
+                    }
+
+                    index = newChildrens.length;
+                }
+            });
+            if (newChildrens.length) {
+                li.children = newChildrens;
+            }
+        });
+    });
+    //进入编辑器的li要套p标签
+    me.addInputRule(function (root) {
+        utils.each(root.getNodesByTagName("li"), function (li) {
+            var tmpP = UE.uNode.createElement("p");
+            for (var i = 0, ci; (ci = li.children[i]);) {
+                if (ci.type === "text" || dtd.p[ci.tagName]) {
+                    tmpP.appendChild(ci);
+                } else {
+                    if (tmpP.firstChild()) {
+                        li.insertBefore(tmpP, ci);
+                        tmpP = UE.uNode.createElement("p");
+                        i = i + 2;
+                    } else {
+                        i++;
+                    }
+                }
+            }
+            if ((tmpP.firstChild() && !tmpP.parentNode) || !li.firstChild()) {
+                li.appendChild(tmpP);
+            }
+            //trace:3357
+            //p不能为空
+            if (!tmpP.firstChild()) {
+                tmpP.innerHTML(browser.ie ? "&nbsp;" : "<br/>");
+            }
+            //去掉末尾的空白
+            var p = li.firstChild();
+            var lastChild = p.lastChild();
+            if (
+                lastChild &&
+                lastChild.type === "text" &&
+                /^\s*$/.test(lastChild.data)
+            ) {
+                p.removeChild(lastChild);
+            }
+        });
+        if (me.options.autoTransWordToList) {
+            var orderlisttype = {
+                    num1: /^\d+\)/,
+                    decimal: /^\d+\./,
+                    "lower-alpha": /^[a-z]+\)/,
+                    "upper-alpha": /^[A-Z]+\./,
+                    cn: /^[\u4E00\u4E8C\u4E09\u56DB\u516d\u4e94\u4e03\u516b\u4e5d]+[\u3001]/,
+                    cn2: /^\([\u4E00\u4E8C\u4E09\u56DB\u516d\u4e94\u4e03\u516b\u4e5d]+\)/
+                },
+                unorderlisttype = {
+                    square: "n"
+                };
+
+            function checkListType(content, container) {
+                var span = container.firstChild();
+                if (
+                    span &&
+                    span.type === "element" &&
+                    span.tagName === "span" &&
+                    /Wingdings|Symbol/.test(span.getStyle("font-family"))
+                ) {
+                    for (var p in unorderlisttype) {
+                        if (unorderlisttype[p] == span.data) {
+                            return p;
+                        }
+                    }
+                    return "disc";
+                }
+                for (var p in orderlisttype) {
+                    if (orderlisttype[p].test(content)) {
+                        return p;
+                    }
+                }
+            }
+
+            utils.each(root.getNodesByTagName("p"), function (node) {
+                if (node.getAttr("class") !== "MsoListParagraph") {
+                    return;
+                }
+
+                //word粘贴过来的会带有margin要去掉,但这样也可能会误命中一些央视
+                node.setStyle("margin", "");
+                node.setStyle("margin-left", "");
+                node.setAttr("class", "");
+
+                function appendLi(list, p, type) {
+                    if (list.tagName === "ol") {
+                        if (browser.ie) {
+                            var first = p.firstChild();
+                            if (
+                                first.type === "element" &&
+                                first.tagName === "span" &&
+                                orderlisttype[type].test(first.innerText())
+                            ) {
+                                p.removeChild(first);
+                            }
+                        } else {
+                            p.innerHTML(p.innerHTML().replace(orderlisttype[type], ""));
+                        }
+                    } else {
+                        p.removeChild(p.firstChild());
+                    }
+
+                    var li = UE.uNode.createElement("li");
+                    li.appendChild(p);
+                    list.appendChild(li);
+                }
+
+                var tmp = node,
+                    type,
+                    cacheNode = node;
+
+                if (
+                    node.parentNode.tagName !== "li" &&
+                    (type = checkListType(node.innerText(), node))
+                ) {
+                    var list = UE.uNode.createElement(
+                        me.options.insertorderedlist.hasOwnProperty(type) ? "ol" : "ul"
+                    );
+                    // if (customStyle[type]) {
+                    //     list.setAttr("class", "custom_" + type);
+                    // } else {
+                    list.setStyle("list-style-type", type);
+                    // }
+                    while (
+                        node &&
+                        node.parentNode.tagName !== "li" &&
+                        checkListType(node.innerText(), node)
+                        ) {
+                        tmp = node.nextSibling();
+                        if (!tmp) {
+                            node.parentNode.insertBefore(list, node);
+                        }
+                        appendLi(list, node, type);
+                        node = tmp;
+                    }
+                    if (!list.parentNode && node && node.parentNode) {
+                        node.parentNode.insertBefore(list, node);
+                    }
+                }
+                var span = cacheNode.firstChild();
+                if (
+                    span &&
+                    span.type == "element" &&
+                    span.tagName == "span" &&
+                    /^\s*(&nbsp;)+\s*$/.test(span.innerText())
+                ) {
+                    span.parentNode.removeChild(span);
+                }
+            });
+        }
+    });
+
+    //调整索引标签
+    me.addListener("contentchange", function () {
+        adjustListStyle(me.document);
+    });
+
+    function adjustListStyle(doc, ignore) {
+        utils.each(domUtils.getElementsByTagName(doc, "ol ul"), function (node) {
+            if (!domUtils.inDoc(node, doc)) return;
+
+            var parent = node.parentNode;
+            if (parent.tagName === node.tagName) {
+                var nodeStyleType =
+                    getStyle(node) || (node.tagName === "OL" ? "decimal" : "disc"),
+                    parentStyleType =
+                        getStyle(parent) || (parent.tagName === "OL" ? "decimal" : "disc");
+                if (nodeStyleType === parentStyleType) {
+                    var styleIndex = utils.indexOf(
+                        listStyle[node.tagName],
+                        nodeStyleType
+                    );
+                    styleIndex = styleIndex + 1 === listStyle[node.tagName].length
+                        ? 0
+                        : styleIndex + 1;
+                    setListStyle(node, listStyle[node.tagName][styleIndex]);
+                }
+            }
+            var index = 0,
+                type = 2;
+            if (domUtils.hasClass(node, /custom_/)) {
+                if (
+                    !(
+                        /[ou]l/i.test(parent.tagName) &&
+                        domUtils.hasClass(parent, /custom_/)
+                    )
+                ) {
+                    type = 1;
+                }
+            } else {
+                if (
+                    /[ou]l/i.test(parent.tagName) &&
+                    domUtils.hasClass(parent, /custom_/)
+                ) {
+                    type = 3;
+                }
+            }
+
+            var style = domUtils.getStyle(node, "list-style-type");
+            style && (node.style.cssText = "list-style-type:" + style);
+            node.className =
+                utils.trim(node.className.replace(/list-paddingleft-\w+/, "")) +
+                " list-paddingleft-" +
+                type;
+            utils.each(domUtils.getElementsByTagName(node, "li"), function (li) {
+                li.style.cssText && (li.style.cssText = "");
+                if (!li.firstChild) {
+                    domUtils.remove(li);
+                    return;
+                }
+                if (li.parentNode !== node) {
+                    return;
+                }
+                index++;
+                if (domUtils.hasClass(node, /custom_/)) {
+                    var paddingLeft = 1,
+                        currentStyle = getStyle(node);
+                    if (node.tagName === "OL") {
+                        if (currentStyle) {
+                            switch (currentStyle) {
+                                case "cn":
+                                case "cn1":
+                                case "cn2":
+                                    if (
+                                        index > 10 &&
+                                        (index % 10 === 0 || (index > 10 && index < 20))
+                                    ) {
+                                        paddingLeft = 2;
+                                    } else if (index > 20) {
+                                        paddingLeft = 3;
+                                    }
+                                    break;
+                                case "num2":
+                                    if (index > 9) {
+                                        paddingLeft = 2;
+                                    }
+                            }
+                        }
+                        li.className =
+                            // "list-" +
+                            // customStyle[currentStyle] +
+                            // index +
+                            // " " +
+                            "list-" +
+                            currentStyle +
+                            "-paddingleft-" +
+                            paddingLeft;
+                    } else {
+                        li.className =
+                            // "list-" +
+                            // customStyle[currentStyle] +
+                            // " " +
+                            "list-" +
+                            currentStyle +
+                            "-paddingleft";
+                    }
+                } else {
+                    li.className = li.className.replace(/list-[\w\-]+/gi, "");
+                }
+                var className = li.getAttribute("class");
+                if (className !== null && !className.replace(/\s/g, "")) {
+                    domUtils.removeAttributes(li, "class");
+                }
+            });
+            !ignore &&
+            adjustList(
+                node,
+                node.tagName.toLowerCase(),
+                getStyle(node) || domUtils.getStyle(node, "list-style-type"),
+                true
+            );
+        });
+    }
+
+    function adjustList(list, tag, style, ignoreEmpty) {
+        var nextList = list.nextSibling;
+        if (
+            nextList &&
+            nextList.nodeType === 1 &&
+            nextList.tagName.toLowerCase() === tag &&
+            (getStyle(nextList) ||
+                domUtils.getStyle(nextList, "list-style-type") ||
+                (tag == "ol" ? "decimal" : "disc")) == style
+        ) {
+            domUtils.moveChild(nextList, list);
+            if (nextList.childNodes.length === 0) {
+                domUtils.remove(nextList);
+            }
+        }
+        if (nextList && domUtils.isFillChar(nextList)) {
+            domUtils.remove(nextList);
+        }
+        var preList = list.previousSibling;
+        if (
+            preList &&
+            preList.nodeType === 1 &&
+            preList.tagName.toLowerCase() == tag &&
+            (getStyle(preList) ||
+                domUtils.getStyle(preList, "list-style-type") ||
+                (tag == "ol" ? "decimal" : "disc")) === style
+        ) {
+            domUtils.moveChild(list, preList);
+        }
+        if (preList && domUtils.isFillChar(preList)) {
+            domUtils.remove(preList);
+        }
+        !ignoreEmpty && domUtils.isEmptyBlock(list) && domUtils.remove(list);
+        if (getStyle(list)) {
+            adjustListStyle(list.ownerDocument, true);
+        }
+    }
+
+    function setListStyle(list, style) {
+        // if (customStyle[style]) {
+        //     list.className = "custom_" + style;
+        // }
+        try {
+            domUtils.setStyle(list, "list-style-type", style);
+        } catch (e) {
+        }
+    }
+
+    function clearEmptySibling(node) {
+        var tmpNode = node.previousSibling;
+        if (tmpNode && domUtils.isEmptyBlock(tmpNode)) {
+            domUtils.remove(tmpNode);
+        }
+        tmpNode = node.nextSibling;
+        if (tmpNode && domUtils.isEmptyBlock(tmpNode)) {
+            domUtils.remove(tmpNode);
+        }
+    }
+
+    me.addListener("keydown", function (type, evt) {
+        function preventAndSave() {
+            evt.preventDefault ? evt.preventDefault() : (evt.returnValue = false);
+            me.fireEvent("contentchange");
+            me.undoManger && me.undoManger.save();
+        }
+
+        function findList(node, filterFn) {
+            while (node && !domUtils.isBody(node)) {
+                if (filterFn(node)) {
+                    return null;
+                }
+                if (node.nodeType === 1 && /[ou]l/i.test(node.tagName)) {
+                    return node;
+                }
+                node = node.parentNode;
+            }
+            return null;
+        }
+
+        var keyCode = evt.keyCode || evt.which;
+        if (keyCode === 13 && !evt.shiftKey) {
+            //回车
+            var rng = me.selection.getRange(),
+                parent = domUtils.findParent(
+                    rng.startContainer,
+                    function (node) {
+                        return domUtils.isBlockElm(node);
+                    },
+                    true
+                ),
+                li = domUtils.findParentByTagName(rng.startContainer, "li", true);
+            if (parent && parent.tagName !== "PRE" && !li) {
+                var html = parent.innerHTML.replace(
+                    new RegExp(domUtils.fillChar, "g"),
+                    ""
+                );
+                if (/^\s*1\s*\.[^\d]/.test(html)) {
+                    parent.innerHTML = html.replace(/^\s*1\s*\./, "");
+                    rng.setStartAtLast(parent).collapse(true).select();
+                    me.__hasEnterExecCommand = true;
+                    me.execCommand("insertorderedlist");
+                    me.__hasEnterExecCommand = false;
+                }
+            }
+            var range = me.selection.getRange(),
+                start = findList(range.startContainer, function (node) {
+                    return node.tagName === "TABLE";
+                }),
+                end = range.collapsed
+                    ? start
+                    : findList(range.endContainer, function (node) {
+                        return node.tagName === "TABLE";
+                    });
+
+            if (start && end && start === end) {
+                if (!range.collapsed) {
+                    start = domUtils.findParentByTagName(
+                        range.startContainer,
+                        "li",
+                        true
+                    );
+                    end = domUtils.findParentByTagName(range.endContainer, "li", true);
+                    if (start && end && start === end) {
+                        range.deleteContents();
+                        li = domUtils.findParentByTagName(range.startContainer, "li", true);
+                        if (li && domUtils.isEmptyBlock(li)) {
+                            pre = li.previousSibling;
+                            next = li.nextSibling;
+                            p = me.document.createElement("p");
+
+                            domUtils.fillNode(me.document, p);
+                            parentList = li.parentNode;
+                            if (pre && next) {
+                                range.setStart(next, 0).collapse(true).select(true);
+                                domUtils.remove(li);
+                            } else {
+                                if ((!pre && !next) || !pre) {
+                                    parentList.parentNode.insertBefore(p, parentList);
+                                } else {
+                                    li.parentNode.parentNode.insertBefore(
+                                        p,
+                                        parentList.nextSibling
+                                    );
+                                }
+                                domUtils.remove(li);
+                                if (!parentList.firstChild) {
+                                    domUtils.remove(parentList);
+                                }
+                                range.setStart(p, 0).setCursor();
+                            }
+                            preventAndSave();
+                            return;
+                        }
+                    } else {
+                        var tmpRange = range.cloneRange(),
+                            bk = tmpRange.collapse(false).createBookmark();
+
+                        range.deleteContents();
+                        tmpRange.moveToBookmark(bk);
+                        var li = domUtils.findParentByTagName(
+                            tmpRange.startContainer,
+                            "li",
+                            true
+                        );
+
+                        clearEmptySibling(li);
+                        tmpRange.select();
+                        preventAndSave();
+                        return;
+                    }
+                }
+
+                li = domUtils.findParentByTagName(range.startContainer, "li", true);
+
+                if (li) {
+                    if (domUtils.isEmptyBlock(li)) {
+                        bk = range.createBookmark();
+                        var parentList = li.parentNode;
+                        if (li !== parentList.lastChild) {
+                            domUtils.breakParent(li, parentList);
+                            clearEmptySibling(li);
+                        } else {
+                            parentList.parentNode.insertBefore(li, parentList.nextSibling);
+                            if (domUtils.isEmptyNode(parentList)) {
+                                domUtils.remove(parentList);
+                            }
+                        }
+                        //嵌套不处理
+                        if (!dtd.$list[li.parentNode.tagName]) {
+                            if (!domUtils.isBlockElm(li.firstChild)) {
+                                p = me.document.createElement("p");
+                                li.parentNode.insertBefore(p, li);
+                                while (li.firstChild) {
+                                    p.appendChild(li.firstChild);
+                                }
+                                domUtils.remove(li);
+                            } else {
+                                domUtils.remove(li, true);
+                            }
+                        }
+                        range.moveToBookmark(bk).select();
+                    } else {
+                        var first = li.firstChild;
+                        if (!first || !domUtils.isBlockElm(first)) {
+                            var p = me.document.createElement("p");
+
+                            !li.firstChild && domUtils.fillNode(me.document, p);
+                            while (li.firstChild) {
+                                p.appendChild(li.firstChild);
+                            }
+                            li.appendChild(p);
+                            first = p;
+                        }
+
+                        var span = me.document.createElement("span");
+
+                        range.insertNode(span);
+                        domUtils.breakParent(span, li);
+
+                        var nextLi = span.nextSibling;
+                        first = nextLi.firstChild;
+
+                        if (!first) {
+                            p = me.document.createElement("p");
+
+                            domUtils.fillNode(me.document, p);
+                            nextLi.appendChild(p);
+                            first = p;
+                        }
+                        if (domUtils.isEmptyNode(first)) {
+                            first.innerHTML = "";
+                            domUtils.fillNode(me.document, first);
+                        }
+
+                        range.setStart(first, 0).collapse(true).shrinkBoundary().select();
+                        domUtils.remove(span);
+                        var pre = nextLi.previousSibling;
+                        if (pre && domUtils.isEmptyBlock(pre)) {
+                            pre.innerHTML = "<p></p>";
+                            domUtils.fillNode(me.document, pre.firstChild);
+                        }
+                    }
+                    //                        }
+                    preventAndSave();
+                }
+            }
+        }
+        if (keyCode === 8) {
+            //修中ie中li下的问题
+            range = me.selection.getRange();
+            if (range.collapsed && domUtils.isStartInblock(range)) {
+                tmpRange = range.cloneRange().trimBoundary();
+                li = domUtils.findParentByTagName(range.startContainer, "li", true);
+                //要在li的最左边，才能处理
+                if (li && domUtils.isStartInblock(tmpRange)) {
+                    start = domUtils.findParentByTagName(range.startContainer, "p", true);
+                    if (start && start !== li.firstChild) {
+                        var parentList = domUtils.findParentByTagName(start, ["ol", "ul"]);
+                        domUtils.breakParent(start, parentList);
+                        clearEmptySibling(start);
+                        me.fireEvent("contentchange");
+                        range.setStart(start, 0).setCursor(false, true);
+                        me.fireEvent("saveScene");
+                        domUtils.preventDefault(evt);
+                        return;
+                    }
+
+                    if (li && (pre = li.previousSibling)) {
+                        if (keyCode === 46 && li.childNodes.length) {
+                            return;
+                        }
+                        //有可能上边的兄弟节点是个2级菜单，要追加到2级菜单的最后的li
+                        if (dtd.$list[pre.tagName]) {
+                            pre = pre.lastChild;
+                        }
+                        me.undoManger && me.undoManger.save();
+                        first = li.firstChild;
+                        if (domUtils.isBlockElm(first)) {
+                            if (domUtils.isEmptyNode(first)) {
+                                //                                    range.setEnd(pre, pre.childNodes.length).shrinkBoundary().collapse().select(true);
+                                pre.appendChild(first);
+                                range.setStart(first, 0).setCursor(false, true);
+                                //first不是唯一的节点
+                                while (li.firstChild) {
+                                    pre.appendChild(li.firstChild);
+                                }
+                            } else {
+                                span = me.document.createElement("span");
+                                range.insertNode(span);
+                                //判断pre是否是空的节点,如果是<p><br/></p>类型的空节点，干掉p标签防止它占位
+                                if (domUtils.isEmptyBlock(pre)) {
+                                    pre.innerHTML = "";
+                                }
+                                domUtils.moveChild(li, pre);
+                                range.setStartBefore(span).collapse(true).select(true);
+
+                                domUtils.remove(span);
+                            }
+                        } else {
+                            if (domUtils.isEmptyNode(li)) {
+                                var p = me.document.createElement("p");
+                                pre.appendChild(p);
+                                range.setStart(p, 0).setCursor();
+                                //                                    range.setEnd(pre, pre.childNodes.length).shrinkBoundary().collapse().select(true);
+                            } else {
+                                range
+                                    .setEnd(pre, pre.childNodes.length)
+                                    .collapse()
+                                    .select(true);
+                                while (li.firstChild) {
+                                    pre.appendChild(li.firstChild);
+                                }
+                            }
+                        }
+                        domUtils.remove(li);
+                        me.fireEvent("contentchange");
+                        me.fireEvent("saveScene");
+                        domUtils.preventDefault(evt);
+                        return;
+                    }
+                    //trace:980
+
+                    if (li && !li.previousSibling) {
+                        var parentList = li.parentNode;
+                        var bk = range.createBookmark();
+                        if (domUtils.isTagNode(parentList.parentNode, "ol ul")) {
+                            parentList.parentNode.insertBefore(li, parentList);
+                            if (domUtils.isEmptyNode(parentList)) {
+                                domUtils.remove(parentList);
+                            }
+                        } else {
+                            while (li.firstChild) {
+                                parentList.parentNode.insertBefore(li.firstChild, parentList);
+                            }
+
+                            domUtils.remove(li);
+                            if (domUtils.isEmptyNode(parentList)) {
+                                domUtils.remove(parentList);
+                            }
+                        }
+                        range.moveToBookmark(bk).setCursor(false, true);
+                        me.fireEvent("contentchange");
+                        me.fireEvent("saveScene");
+                        domUtils.preventDefault(evt);
+                        return;
+                    }
+                }
+            }
+        }
+    });
+
+    me.addListener("keyup", function (type, evt) {
+        var keyCode = evt.keyCode || evt.which;
+        if (keyCode == 8) {
+            var rng = me.selection.getRange(),
+                list;
+            if (
+                (list = domUtils.findParentByTagName(
+                    rng.startContainer,
+                    ["ol", "ul"],
+                    true
+                ))
+            ) {
+                adjustList(
+                    list,
+                    list.tagName.toLowerCase(),
+                    getStyle(list) || domUtils.getComputedStyle(list, "list-style-type"),
+                    true
+                );
+            }
+        }
+    });
+    //处理tab键
+    me.addListener("tabkeydown", function () {
+        var range = me.selection.getRange();
+
+        //控制级数
+        function checkLevel(li) {
+            if (me.options.maxListLevel != -1) {
+                var level = li.parentNode,
+                    levelNum = 0;
+                while (/[ou]l/i.test(level.tagName)) {
+                    levelNum++;
+                    level = level.parentNode;
+                }
+                if (levelNum >= me.options.maxListLevel) {
+                    return true;
+                }
+            }
+        }
+
+        //只以开始为准
+        //todo 后续改进
+        var li = domUtils.findParentByTagName(range.startContainer, "li", true);
+        if (li) {
+            var bk;
+            if (range.collapsed) {
+                if (checkLevel(li)) return true;
+                var parentLi = li.parentNode,
+                    list = me.document.createElement(parentLi.tagName),
+                    index = utils.indexOf(
+                        listStyle[list.tagName],
+                        getStyle(parentLi) ||
+                        domUtils.getComputedStyle(parentLi, "list-style-type")
+                    );
+                index = index + 1 == listStyle[list.tagName].length ? 0 : index + 1;
+                var currentStyle = listStyle[list.tagName][index];
+                setListStyle(list, currentStyle);
+                if (domUtils.isStartInblock(range)) {
+                    me.fireEvent("saveScene");
+                    bk = range.createBookmark();
+                    parentLi.insertBefore(list, li);
+                    list.appendChild(li);
+                    adjustList(list, list.tagName.toLowerCase(), currentStyle);
+                    me.fireEvent("contentchange");
+                    range.moveToBookmark(bk).select(true);
+                    return true;
+                }
+            } else {
+                me.fireEvent("saveScene");
+                bk = range.createBookmark();
+                for (
+                    var i = 0, closeList, parents = domUtils.findParents(li), ci;
+                    (ci = parents[i++]);
+                ) {
+                    if (domUtils.isTagNode(ci, "ol ul")) {
+                        closeList = ci;
+                        break;
+                    }
+                }
+                var current = li;
+                if (bk.end) {
+                    while (
+                        current &&
+                        !(
+                            domUtils.getPosition(current, bk.end) &
+                            domUtils.POSITION_FOLLOWING
+                        )
+                        ) {
+                        if (checkLevel(current)) {
+                            current = domUtils.getNextDomNode(current, false, null, function (
+                                node
+                            ) {
+                                return node !== closeList;
+                            });
+                            continue;
+                        }
+                        var parentLi = current.parentNode,
+                            list = me.document.createElement(parentLi.tagName),
+                            index = utils.indexOf(
+                                listStyle[list.tagName],
+                                getStyle(parentLi) ||
+                                domUtils.getComputedStyle(parentLi, "list-style-type")
+                            );
+                        var currentIndex = index + 1 == listStyle[list.tagName].length
+                            ? 0
+                            : index + 1;
+                        var currentStyle = listStyle[list.tagName][currentIndex];
+                        setListStyle(list, currentStyle);
+                        parentLi.insertBefore(list, current);
+                        while (
+                            current &&
+                            !(
+                                domUtils.getPosition(current, bk.end) &
+                                domUtils.POSITION_FOLLOWING
+                            )
+                            ) {
+                            li = current.nextSibling;
+                            list.appendChild(current);
+                            if (!li || domUtils.isTagNode(li, "ol ul")) {
+                                if (li) {
+                                    while ((li = li.firstChild)) {
+                                        if (li.tagName == "LI") {
+                                            break;
+                                        }
+                                    }
+                                } else {
+                                    li = domUtils.getNextDomNode(current, false, null, function (
+                                        node
+                                    ) {
+                                        return node !== closeList;
+                                    });
+                                }
+                                break;
+                            }
+                            current = li;
+                        }
+                        adjustList(list, list.tagName.toLowerCase(), currentStyle);
+                        current = li;
+                    }
+                }
+                me.fireEvent("contentchange");
+                range.moveToBookmark(bk).select();
+                return true;
+            }
+        }
+    });
+
+    function getLi(start) {
+        while (start && !domUtils.isBody(start)) {
+            if (start.nodeName == "TABLE") {
+                return null;
+            }
+            if (start.nodeName == "LI") {
+                return start;
+            }
+            start = start.parentNode;
+        }
+    }
+
+    /**
      * 有序列表，与“insertunorderedlist”命令互斥
      * @command insertorderedlist
      * @method execCommand
@@ -17786,7 +17797,7 @@ UE.plugins["list"] = function() {
      * editor.execCommand( 'insertorderedlist','decimal');
      * ```
      */
-  /**
+    /**
      * 查询当前选区内容是否有序列表
      * @command insertorderedlist
      * @method queryCommandState
@@ -17797,7 +17808,7 @@ UE.plugins["list"] = function() {
      * editor.queryCommandState( 'insertorderedlist' );
      * ```
      */
-  /**
+    /**
      * 查询当前选区内容是否有序列表
      * @command insertorderedlist
      * @method queryCommandValue
@@ -17809,7 +17820,7 @@ UE.plugins["list"] = function() {
      * ```
      */
 
-  /**
+    /**
      * 无序列表，与“insertorderedlist”命令互斥
      * @command insertunorderedlist
      * @method execCommand
@@ -17820,7 +17831,7 @@ UE.plugins["list"] = function() {
      * editor.execCommand( 'insertunorderedlist','circle');
      * ```
      */
-  /**
+    /**
      * 查询当前是否有word文档粘贴进来的图片
      * @command insertunorderedlist
      * @method insertunorderedlist
@@ -17831,7 +17842,7 @@ UE.plugins["list"] = function() {
      * editor.queryCommandState( 'insertunorderedlist' );
      * ```
      */
-  /**
+    /**
      * 查询当前选区内容是否有序列表
      * @command insertunorderedlist
      * @method queryCommandValue
@@ -17843,318 +17854,316 @@ UE.plugins["list"] = function() {
      * ```
      */
 
-  me.commands["insertorderedlist"] = me.commands["insertunorderedlist"] = {
-    execCommand: function(command, style) {
-      if (!style) {
-        style = command.toLowerCase() == "insertorderedlist"
-          ? "decimal"
-          : "disc";
-      }
-      var me = this,
-        range = this.selection.getRange(),
-        filterFn = function(node) {
-          return node.nodeType == 1
-            ? node.tagName.toLowerCase() != "br"
-            : !domUtils.isWhitespace(node);
-        },
-        tag = command.toLowerCase() == "insertorderedlist" ? "ol" : "ul",
-        frag = me.document.createDocumentFragment();
-      //去掉是因为会出现选到末尾，导致adjustmentBoundary缩到ol/ul的位置
-      //range.shrinkBoundary();//.adjustmentBoundary();
-      range.adjustmentBoundary().shrinkBoundary();
-      var bko = range.createBookmark(true),
-        start = getLi(me.document.getElementById(bko.start)),
-        modifyStart = 0,
-        end = getLi(me.document.getElementById(bko.end)),
-        modifyEnd = 0,
-        startParent,
-        endParent,
-        list,
-        tmp;
-
-      if (start || end) {
-        start && (startParent = start.parentNode);
-        if (!bko.end) {
-          end = start;
-        }
-        end && (endParent = end.parentNode);
-
-        if (startParent === endParent) {
-          while (start !== end) {
-            tmp = start;
-            start = start.nextSibling;
-            if (!domUtils.isBlockElm(tmp.firstChild)) {
-              var p = me.document.createElement("p");
-              while (tmp.firstChild) {
-                p.appendChild(tmp.firstChild);
-              }
-              tmp.appendChild(p);
+    me.commands["insertorderedlist"] = me.commands["insertunorderedlist"] = {
+        execCommand: function (command, style) {
+            if (!style) {
+                style = command.toLowerCase() == "insertorderedlist"
+                    ? "decimal"
+                    : "disc";
             }
-            frag.appendChild(tmp);
-          }
-          tmp = me.document.createElement("span");
-          startParent.insertBefore(tmp, end);
-          if (!domUtils.isBlockElm(end.firstChild)) {
-            p = me.document.createElement("p");
-            while (end.firstChild) {
-              p.appendChild(end.firstChild);
-            }
-            end.appendChild(p);
-          }
-          frag.appendChild(end);
-          domUtils.breakParent(tmp, startParent);
-          if (domUtils.isEmptyNode(tmp.previousSibling)) {
-            domUtils.remove(tmp.previousSibling);
-          }
-          if (domUtils.isEmptyNode(tmp.nextSibling)) {
-            domUtils.remove(tmp.nextSibling);
-          }
-          var nodeStyle =
-            getStyle(startParent) ||
-            domUtils.getComputedStyle(startParent, "list-style-type") ||
-            (command.toLowerCase() == "insertorderedlist" ? "decimal" : "disc");
-          if (startParent.tagName.toLowerCase() == tag && nodeStyle == style) {
-            for (
-              var i = 0, ci, tmpFrag = me.document.createDocumentFragment();
-              (ci = frag.firstChild);
+            var me = this,
+                range = this.selection.getRange(),
+                filterFn = function (node) {
+                    return node.nodeType == 1
+                        ? node.tagName.toLowerCase() != "br"
+                        : !domUtils.isWhitespace(node);
+                },
+                tag = command.toLowerCase() == "insertorderedlist" ? "ol" : "ul",
+                frag = me.document.createDocumentFragment();
+            //去掉是因为会出现选到末尾，导致adjustmentBoundary缩到ol/ul的位置
+            //range.shrinkBoundary();//.adjustmentBoundary();
+            range.adjustmentBoundary().shrinkBoundary();
+            var bko = range.createBookmark(true),
+                start = getLi(me.document.getElementById(bko.start)),
+                modifyStart = 0,
+                end = getLi(me.document.getElementById(bko.end)),
+                modifyEnd = 0,
+                startParent,
+                endParent,
+                list,
+                tmp;
 
-            ) {
-              if (domUtils.isTagNode(ci, "ol ul")) {
-                //                                  删除时，子列表不处理
-                //                                  utils.each(domUtils.getElementsByTagName(ci,'li'),function(li){
-                //                                        while(li.firstChild){
-                //                                            tmpFrag.appendChild(li.firstChild);
-                //                                        }
-                //
-                //                                    });
-                tmpFrag.appendChild(ci);
-              } else {
-                while (ci.firstChild) {
-                  tmpFrag.appendChild(ci.firstChild);
-                  domUtils.remove(ci);
+            if (start || end) {
+                start && (startParent = start.parentNode);
+                if (!bko.end) {
+                    end = start;
                 }
-              }
+                end && (endParent = end.parentNode);
+
+                if (startParent === endParent) {
+                    while (start !== end) {
+                        tmp = start;
+                        start = start.nextSibling;
+                        if (!domUtils.isBlockElm(tmp.firstChild)) {
+                            var p = me.document.createElement("p");
+                            while (tmp.firstChild) {
+                                p.appendChild(tmp.firstChild);
+                            }
+                            tmp.appendChild(p);
+                        }
+                        frag.appendChild(tmp);
+                    }
+                    tmp = me.document.createElement("span");
+                    startParent.insertBefore(tmp, end);
+                    if (!domUtils.isBlockElm(end.firstChild)) {
+                        p = me.document.createElement("p");
+                        while (end.firstChild) {
+                            p.appendChild(end.firstChild);
+                        }
+                        end.appendChild(p);
+                    }
+                    frag.appendChild(end);
+                    domUtils.breakParent(tmp, startParent);
+                    if (domUtils.isEmptyNode(tmp.previousSibling)) {
+                        domUtils.remove(tmp.previousSibling);
+                    }
+                    if (domUtils.isEmptyNode(tmp.nextSibling)) {
+                        domUtils.remove(tmp.nextSibling);
+                    }
+                    var nodeStyle =
+                        getStyle(startParent) ||
+                        domUtils.getComputedStyle(startParent, "list-style-type") ||
+                        (command.toLowerCase() == "insertorderedlist" ? "decimal" : "disc");
+                    if (startParent.tagName.toLowerCase() == tag && nodeStyle == style) {
+                        for (
+                            var i = 0, ci, tmpFrag = me.document.createDocumentFragment();
+                            (ci = frag.firstChild);
+                        ) {
+                            if (domUtils.isTagNode(ci, "ol ul")) {
+                                //                                  删除时，子列表不处理
+                                //                                  utils.each(domUtils.getElementsByTagName(ci,'li'),function(li){
+                                //                                        while(li.firstChild){
+                                //                                            tmpFrag.appendChild(li.firstChild);
+                                //                                        }
+                                //
+                                //                                    });
+                                tmpFrag.appendChild(ci);
+                            } else {
+                                while (ci.firstChild) {
+                                    tmpFrag.appendChild(ci.firstChild);
+                                    domUtils.remove(ci);
+                                }
+                            }
+                        }
+                        tmp.parentNode.insertBefore(tmpFrag, tmp);
+                    } else {
+                        list = me.document.createElement(tag);
+                        setListStyle(list, style);
+                        list.appendChild(frag);
+                        tmp.parentNode.insertBefore(list, tmp);
+                    }
+
+                    domUtils.remove(tmp);
+                    list && adjustList(list, tag, style);
+                    range.moveToBookmark(bko).select();
+                    return;
+                }
+                //开始
+                if (start) {
+                    while (start) {
+                        tmp = start.nextSibling;
+                        if (domUtils.isTagNode(start, "ol ul")) {
+                            frag.appendChild(start);
+                        } else {
+                            var tmpfrag = me.document.createDocumentFragment(),
+                                hasBlock = 0;
+                            while (start.firstChild) {
+                                if (domUtils.isBlockElm(start.firstChild)) {
+                                    hasBlock = 1;
+                                }
+                                tmpfrag.appendChild(start.firstChild);
+                            }
+                            if (!hasBlock) {
+                                var tmpP = me.document.createElement("p");
+                                tmpP.appendChild(tmpfrag);
+                                frag.appendChild(tmpP);
+                            } else {
+                                frag.appendChild(tmpfrag);
+                            }
+                            domUtils.remove(start);
+                        }
+
+                        start = tmp;
+                    }
+                    startParent.parentNode.insertBefore(frag, startParent.nextSibling);
+                    if (domUtils.isEmptyNode(startParent)) {
+                        range.setStartBefore(startParent);
+                        domUtils.remove(startParent);
+                    } else {
+                        range.setStartAfter(startParent);
+                    }
+                    modifyStart = 1;
+                }
+
+                if (end && domUtils.inDoc(endParent, me.document)) {
+                    //结束
+                    start = endParent.firstChild;
+                    while (start && start !== end) {
+                        tmp = start.nextSibling;
+                        if (domUtils.isTagNode(start, "ol ul")) {
+                            frag.appendChild(start);
+                        } else {
+                            tmpfrag = me.document.createDocumentFragment();
+                            hasBlock = 0;
+                            while (start.firstChild) {
+                                if (domUtils.isBlockElm(start.firstChild)) {
+                                    hasBlock = 1;
+                                }
+                                tmpfrag.appendChild(start.firstChild);
+                            }
+                            if (!hasBlock) {
+                                tmpP = me.document.createElement("p");
+                                tmpP.appendChild(tmpfrag);
+                                frag.appendChild(tmpP);
+                            } else {
+                                frag.appendChild(tmpfrag);
+                            }
+                            domUtils.remove(start);
+                        }
+                        start = tmp;
+                    }
+                    var tmpDiv = domUtils.createElement(me.document, "div", {
+                        tmpDiv: 1
+                    });
+                    domUtils.moveChild(end, tmpDiv);
+
+                    frag.appendChild(tmpDiv);
+                    domUtils.remove(end);
+                    endParent.parentNode.insertBefore(frag, endParent);
+                    range.setEndBefore(endParent);
+                    if (domUtils.isEmptyNode(endParent)) {
+                        domUtils.remove(endParent);
+                    }
+
+                    modifyEnd = 1;
+                }
             }
-            tmp.parentNode.insertBefore(tmpFrag, tmp);
-          } else {
+
+            if (!modifyStart) {
+                range.setStartBefore(me.document.getElementById(bko.start));
+            }
+            if (bko.end && !modifyEnd) {
+                range.setEndAfter(me.document.getElementById(bko.end));
+            }
+            range.enlarge(true, function (node) {
+                return notExchange[node.tagName];
+            });
+
+            frag = me.document.createDocumentFragment();
+
+            var bk = range.createBookmark(),
+                current = domUtils.getNextDomNode(bk.start, false, filterFn),
+                tmpRange = range.cloneRange(),
+                tmpNode,
+                block = domUtils.isBlockElm;
+
+            while (
+                current &&
+                current !== bk.end &&
+                domUtils.getPosition(current, bk.end) & domUtils.POSITION_PRECEDING
+                ) {
+                if (current.nodeType == 3 || dtd.li[current.tagName]) {
+                    if (current.nodeType == 1 && dtd.$list[current.tagName]) {
+                        while (current.firstChild) {
+                            frag.appendChild(current.firstChild);
+                        }
+                        tmpNode = domUtils.getNextDomNode(current, false, filterFn);
+                        domUtils.remove(current);
+                        current = tmpNode;
+                        continue;
+                    }
+                    tmpNode = current;
+                    tmpRange.setStartBefore(current);
+
+                    while (
+                        current &&
+                        current !== bk.end &&
+                        (!block(current) || domUtils.isBookmarkNode(current))
+                        ) {
+                        tmpNode = current;
+                        current = domUtils.getNextDomNode(current, false, null, function (
+                            node
+                        ) {
+                            return !notExchange[node.tagName];
+                        });
+                    }
+
+                    if (current && block(current)) {
+                        tmp = domUtils.getNextDomNode(tmpNode, false, filterFn);
+                        if (tmp && domUtils.isBookmarkNode(tmp)) {
+                            current = domUtils.getNextDomNode(tmp, false, filterFn);
+                            tmpNode = tmp;
+                        }
+                    }
+                    tmpRange.setEndAfter(tmpNode);
+
+                    current = domUtils.getNextDomNode(tmpNode, false, filterFn);
+
+                    var li = range.document.createElement("li");
+
+                    li.appendChild(tmpRange.extractContents());
+                    if (domUtils.isEmptyNode(li)) {
+                        var tmpNode = range.document.createElement("p");
+                        while (li.firstChild) {
+                            tmpNode.appendChild(li.firstChild);
+                        }
+                        li.appendChild(tmpNode);
+                    }
+                    frag.appendChild(li);
+                } else {
+                    current = domUtils.getNextDomNode(current, true, filterFn);
+                }
+            }
+            range.moveToBookmark(bk).collapse(true);
             list = me.document.createElement(tag);
             setListStyle(list, style);
             list.appendChild(frag);
-            tmp.parentNode.insertBefore(list, tmp);
-          }
-
-          domUtils.remove(tmp);
-          list && adjustList(list, tag, style);
-          range.moveToBookmark(bko).select();
-          return;
-        }
-        //开始
-        if (start) {
-          while (start) {
-            tmp = start.nextSibling;
-            if (domUtils.isTagNode(start, "ol ul")) {
-              frag.appendChild(start);
-            } else {
-              var tmpfrag = me.document.createDocumentFragment(),
-                hasBlock = 0;
-              while (start.firstChild) {
-                if (domUtils.isBlockElm(start.firstChild)) {
-                  hasBlock = 1;
-                }
-                tmpfrag.appendChild(start.firstChild);
-              }
-              if (!hasBlock) {
-                var tmpP = me.document.createElement("p");
-                tmpP.appendChild(tmpfrag);
-                frag.appendChild(tmpP);
-              } else {
-                frag.appendChild(tmpfrag);
-              }
-              domUtils.remove(start);
-            }
-
-            start = tmp;
-          }
-          startParent.parentNode.insertBefore(frag, startParent.nextSibling);
-          if (domUtils.isEmptyNode(startParent)) {
-            range.setStartBefore(startParent);
-            domUtils.remove(startParent);
-          } else {
-            range.setStartAfter(startParent);
-          }
-          modifyStart = 1;
-        }
-
-        if (end && domUtils.inDoc(endParent, me.document)) {
-          //结束
-          start = endParent.firstChild;
-          while (start && start !== end) {
-            tmp = start.nextSibling;
-            if (domUtils.isTagNode(start, "ol ul")) {
-              frag.appendChild(start);
-            } else {
-              tmpfrag = me.document.createDocumentFragment();
-              hasBlock = 0;
-              while (start.firstChild) {
-                if (domUtils.isBlockElm(start.firstChild)) {
-                  hasBlock = 1;
-                }
-                tmpfrag.appendChild(start.firstChild);
-              }
-              if (!hasBlock) {
-                tmpP = me.document.createElement("p");
-                tmpP.appendChild(tmpfrag);
-                frag.appendChild(tmpP);
-              } else {
-                frag.appendChild(tmpfrag);
-              }
-              domUtils.remove(start);
-            }
-            start = tmp;
-          }
-          var tmpDiv = domUtils.createElement(me.document, "div", {
-            tmpDiv: 1
-          });
-          domUtils.moveChild(end, tmpDiv);
-
-          frag.appendChild(tmpDiv);
-          domUtils.remove(end);
-          endParent.parentNode.insertBefore(frag, endParent);
-          range.setEndBefore(endParent);
-          if (domUtils.isEmptyNode(endParent)) {
-            domUtils.remove(endParent);
-          }
-
-          modifyEnd = 1;
-        }
-      }
-
-      if (!modifyStart) {
-        range.setStartBefore(me.document.getElementById(bko.start));
-      }
-      if (bko.end && !modifyEnd) {
-        range.setEndAfter(me.document.getElementById(bko.end));
-      }
-      range.enlarge(true, function(node) {
-        return notExchange[node.tagName];
-      });
-
-      frag = me.document.createDocumentFragment();
-
-      var bk = range.createBookmark(),
-        current = domUtils.getNextDomNode(bk.start, false, filterFn),
-        tmpRange = range.cloneRange(),
-        tmpNode,
-        block = domUtils.isBlockElm;
-
-      while (
-        current &&
-        current !== bk.end &&
-        domUtils.getPosition(current, bk.end) & domUtils.POSITION_PRECEDING
-      ) {
-        if (current.nodeType == 3 || dtd.li[current.tagName]) {
-          if (current.nodeType == 1 && dtd.$list[current.tagName]) {
-            while (current.firstChild) {
-              frag.appendChild(current.firstChild);
-            }
-            tmpNode = domUtils.getNextDomNode(current, false, filterFn);
-            domUtils.remove(current);
-            current = tmpNode;
-            continue;
-          }
-          tmpNode = current;
-          tmpRange.setStartBefore(current);
-
-          while (
-            current &&
-            current !== bk.end &&
-            (!block(current) || domUtils.isBookmarkNode(current))
-          ) {
-            tmpNode = current;
-            current = domUtils.getNextDomNode(current, false, null, function(
-              node
+            range.insertNode(list);
+            //当前list上下看能否合并
+            adjustList(list, tag, style);
+            //去掉冗余的tmpDiv
+            for (
+                var i = 0, ci, tmpDivs = domUtils.getElementsByTagName(list, "div");
+                (ci = tmpDivs[i++]);
             ) {
-              return !notExchange[node.tagName];
-            });
-          }
-
-          if (current && block(current)) {
-            tmp = domUtils.getNextDomNode(tmpNode, false, filterFn);
-            if (tmp && domUtils.isBookmarkNode(tmp)) {
-              current = domUtils.getNextDomNode(tmp, false, filterFn);
-              tmpNode = tmp;
+                if (ci.getAttribute("tmpDiv")) {
+                    domUtils.remove(ci, true);
+                }
             }
-          }
-          tmpRange.setEndAfter(tmpNode);
-
-          current = domUtils.getNextDomNode(tmpNode, false, filterFn);
-
-          var li = range.document.createElement("li");
-
-          li.appendChild(tmpRange.extractContents());
-          if (domUtils.isEmptyNode(li)) {
-            var tmpNode = range.document.createElement("p");
-            while (li.firstChild) {
-              tmpNode.appendChild(li.firstChild);
+            range.moveToBookmark(bko).select();
+        },
+        queryCommandState: function (command) {
+            var tag = command.toLowerCase() == "insertorderedlist" ? "ol" : "ul";
+            var path = this.selection.getStartElementPath();
+            for (var i = 0, ci; (ci = path[i++]);) {
+                if (ci.nodeName == "TABLE") {
+                    return 0;
+                }
+                if (tag == ci.nodeName.toLowerCase()) {
+                    return 1;
+                }
             }
-            li.appendChild(tmpNode);
-          }
-          frag.appendChild(li);
-        } else {
-          current = domUtils.getNextDomNode(current, true, filterFn);
+            return 0;
+        },
+        queryCommandValue: function (command) {
+            var tag = command.toLowerCase() == "insertorderedlist" ? "ol" : "ul";
+            var path = this.selection.getStartElementPath(),
+                node;
+            for (var i = 0, ci; (ci = path[i++]);) {
+                if (ci.nodeName == "TABLE") {
+                    node = null;
+                    break;
+                }
+                if (tag == ci.nodeName.toLowerCase()) {
+                    node = ci;
+                    break;
+                }
+            }
+            return node
+                ? getStyle(node) || domUtils.getComputedStyle(node, "list-style-type")
+                : null;
         }
-      }
-      range.moveToBookmark(bk).collapse(true);
-      list = me.document.createElement(tag);
-      setListStyle(list, style);
-      list.appendChild(frag);
-      range.insertNode(list);
-      //当前list上下看能否合并
-      adjustList(list, tag, style);
-      //去掉冗余的tmpDiv
-      for (
-        var i = 0, ci, tmpDivs = domUtils.getElementsByTagName(list, "div");
-        (ci = tmpDivs[i++]);
-
-      ) {
-        if (ci.getAttribute("tmpDiv")) {
-          domUtils.remove(ci, true);
-        }
-      }
-      range.moveToBookmark(bko).select();
-    },
-    queryCommandState: function(command) {
-      var tag = command.toLowerCase() == "insertorderedlist" ? "ol" : "ul";
-      var path = this.selection.getStartElementPath();
-      for (var i = 0, ci; (ci = path[i++]); ) {
-        if (ci.nodeName == "TABLE") {
-          return 0;
-        }
-        if (tag == ci.nodeName.toLowerCase()) {
-          return 1;
-        }
-      }
-      return 0;
-    },
-    queryCommandValue: function(command) {
-      var tag = command.toLowerCase() == "insertorderedlist" ? "ol" : "ul";
-      var path = this.selection.getStartElementPath(),
-        node;
-      for (var i = 0, ci; (ci = path[i++]); ) {
-        if (ci.nodeName == "TABLE") {
-          node = null;
-          break;
-        }
-        if (tag == ci.nodeName.toLowerCase()) {
-          node = ci;
-          break;
-        }
-      }
-      return node
-        ? getStyle(node) || domUtils.getComputedStyle(node, "list-style-type")
-        : null;
-    }
-  };
+    };
 };
 
 
@@ -18994,378 +19003,379 @@ UE.plugins["keystrokes"] = function() {
 ///commandsTitle  修复chrome下图片不能点击的问题，出现八个角可改变大小
 //修复chrome下图片不能点击的问题，出现八个角可改变大小
 
-UE.plugins["fiximgclick"] = (function() {
-  var elementUpdated = false;
-  function Scale() {
-    this.editor = null;
-    this.resizer = null;
-    this.cover = null;
-    this.doc = document;
-    this.prePos = { x: 0, y: 0 };
-    this.startPos = { x: 0, y: 0 };
-  }
+UE.plugins["fiximgclick"] = (function () {
+    var elementUpdated = false;
 
-  (function() {
-    var rect = [
-      //[left, top, width, height]
-      [0, 0, -1, -1],
-      [0, 0, 0, -1],
-      [0, 0, 1, -1],
-      [0, 0, -1, 0],
-      [0, 0, 1, 0],
-      [0, 0, -1, 1],
-      [0, 0, 0, 1],
-      [0, 0, 1, 1]
-    ];
+    function Scale() {
+        this.editor = null;
+        this.resizer = null;
+        this.cover = null;
+        this.doc = document;
+        this.prePos = {x: 0, y: 0};
+        this.startPos = {x: 0, y: 0};
+    }
 
-    Scale.prototype = {
-      init: function(editor) {
-        var me = this;
-        me.editor = editor;
-        me.startPos = this.prePos = { x: 0, y: 0 };
-        me.dragId = -1;
+    (function () {
+        var rect = [
+            //[left, top, width, height]
+            [0, 0, -1, -1],
+            [0, 0, 0, -1],
+            [0, 0, 1, -1],
+            [0, 0, -1, 0],
+            [0, 0, 1, 0],
+            [0, 0, -1, 1],
+            [0, 0, 0, 1],
+            [0, 0, 1, 1]
+        ];
 
-        var hands = [],
-          cover = (me.cover = document.createElement("div")),
-          resizer = (me.resizer = document.createElement("div"));
+        Scale.prototype = {
+            init: function (editor) {
+                var me = this;
+                me.editor = editor;
+                me.startPos = this.prePos = {x: 0, y: 0};
+                me.dragId = -1;
 
-        cover.id = me.editor.ui.id + "_imagescale_cover";
-        cover.style.cssText =
-          "position:absolute;display:none;z-index:" +
-          me.editor.options.zIndex +
-          ";filter:alpha(opacity=0); opacity:0;background:#CCC;";
-        domUtils.on(cover, "mousedown click", function() {
-          me.hide();
-        });
+                var hands = [],
+                    cover = (me.cover = document.createElement("div")),
+                    resizer = (me.resizer = document.createElement("div"));
 
-        for (i = 0; i < 8; i++) {
-          hands.push(
-            '<span class="edui-editor-imagescale-hand' + i + '"></span>'
-          );
-        }
-        resizer.id = me.editor.ui.id + "_imagescale";
-        resizer.className = "edui-editor-imagescale";
-        resizer.innerHTML = hands.join("");
-        resizer.style.cssText +=
-          ";display:none;border:1px solid #3b77ff;z-index:" +
-          me.editor.options.zIndex +
-          ";";
+                cover.id = me.editor.ui.id + "_imagescale_cover";
+                cover.style.cssText =
+                    "position:absolute;display:none;z-index:" +
+                    me.editor.options.zIndex +
+                    ";filter:alpha(opacity=0); opacity:0;background:#CCC;";
+                domUtils.on(cover, "mousedown click", function () {
+                    me.hide();
+                });
 
-        me.editor.ui.getDom().appendChild(cover);
-        me.editor.ui.getDom().appendChild(resizer);
-
-        me.initStyle();
-        me.initEvents();
-      },
-      initStyle: function() {
-        utils.cssRule(
-          "imagescale",
-          ".edui-editor-imagescale{display:none;position:absolute;border:1px solid #38B2CE;cursor:hand;-webkit-box-sizing: content-box;-moz-box-sizing: content-box;box-sizing: content-box;}" +
-            ".edui-editor-imagescale span{position:absolute;width:6px;height:6px;overflow:hidden;font-size:0px;display:block;background-color:#3C9DD0;}" +
-            ".edui-editor-imagescale .edui-editor-imagescale-hand0{cursor:nw-resize;top:0;margin-top:-4px;left:0;margin-left:-4px;}" +
-            ".edui-editor-imagescale .edui-editor-imagescale-hand1{cursor:n-resize;top:0;margin-top:-4px;left:50%;margin-left:-4px;}" +
-            ".edui-editor-imagescale .edui-editor-imagescale-hand2{cursor:ne-resize;top:0;margin-top:-4px;left:100%;margin-left:-3px;}" +
-            ".edui-editor-imagescale .edui-editor-imagescale-hand3{cursor:w-resize;top:50%;margin-top:-4px;left:0;margin-left:-4px;}" +
-            ".edui-editor-imagescale .edui-editor-imagescale-hand4{cursor:e-resize;top:50%;margin-top:-4px;left:100%;margin-left:-3px;}" +
-            ".edui-editor-imagescale .edui-editor-imagescale-hand5{cursor:sw-resize;top:100%;margin-top:-3px;left:0;margin-left:-4px;}" +
-            ".edui-editor-imagescale .edui-editor-imagescale-hand6{cursor:s-resize;top:100%;margin-top:-3px;left:50%;margin-left:-4px;}" +
-            ".edui-editor-imagescale .edui-editor-imagescale-hand7{cursor:se-resize;top:100%;margin-top:-3px;left:100%;margin-left:-3px;}"
-        );
-      },
-      initEvents: function() {
-        var me = this;
-
-        me.startPos.x = me.startPos.y = 0;
-        me.isDraging = false;
-      },
-      _eventHandler: function(e) {
-        var me = this;
-        switch (e.type) {
-          case "mousedown":
-            var hand = e.target || e.srcElement,
-              hand;
-            if (
-              hand.className.indexOf("edui-editor-imagescale-hand") != -1 &&
-              me.dragId == -1
-            ) {
-              me.dragId = hand.className.slice(-1);
-              me.startPos.x = me.prePos.x = e.clientX;
-              me.startPos.y = me.prePos.y = e.clientY;
-              domUtils.on(me.doc, "mousemove", me.proxy(me._eventHandler, me));
-            }
-            break;
-          case "mousemove":
-            if (me.dragId != -1) {
-              me.updateContainerStyle(me.dragId, {
-                x: e.clientX - me.prePos.x,
-                y: e.clientY - me.prePos.y
-              });
-              me.prePos.x = e.clientX;
-              me.prePos.y = e.clientY;
-              elementUpdated = true;
-              me.updateTargetElement();
-            }
-            break;
-          case "mouseup":
-            if (me.dragId != -1) {
-              me.updateContainerStyle(me.dragId, {
-                x: e.clientX - me.prePos.x,
-                y: e.clientY - me.prePos.y
-              });
-              me.updateTargetElement();
-              if (me.target.parentNode) me.attachTo(me.target);
-              me.dragId = -1;
-            }
-            domUtils.un(me.doc, "mousemove", me.proxy(me._eventHandler, me));
-            //修复只是点击挪动点，但没有改变大小，不应该触发contentchange
-            if (elementUpdated) {
-              elementUpdated = false;
-              me.editor.fireEvent("contentchange");
-            }
-
-            break;
-          default:
-            break;
-        }
-      },
-      updateTargetElement: function() {
-        var me = this;
-        domUtils.setStyles(me.target, {
-          width: me.resizer.style.width,
-          height: me.resizer.style.height
-        });
-        me.target.width = parseInt(me.resizer.style.width);
-        me.target.height = parseInt(me.resizer.style.height);
-        me.attachTo(me.target);
-      },
-      updateContainerStyle: function(dir, offset) {
-        var me = this,
-          dom = me.resizer,
-          tmp;
-
-        if (rect[dir][0] != 0) {
-          tmp = parseInt(dom.style.left) + offset.x;
-          dom.style.left = me._validScaledProp("left", tmp) + "px";
-        }
-        if (rect[dir][1] != 0) {
-          tmp = parseInt(dom.style.top) + offset.y;
-          dom.style.top = me._validScaledProp("top", tmp) + "px";
-        }
-        if (rect[dir][2] != 0) {
-          tmp = dom.clientWidth + rect[dir][2] * offset.x;
-          dom.style.width = me._validScaledProp("width", tmp) + "px";
-        }
-        if (rect[dir][3] != 0) {
-          tmp = dom.clientHeight + rect[dir][3] * offset.y;
-          dom.style.height = me._validScaledProp("height", tmp) + "px";
-        }
-      },
-      _validScaledProp: function(prop, value) {
-        var ele = this.resizer,
-          wrap = document;
-
-        value = isNaN(value) ? 0 : value;
-        switch (prop) {
-          case "left":
-            return value < 0
-              ? 0
-              : value + ele.clientWidth > wrap.clientWidth
-                ? wrap.clientWidth - ele.clientWidth
-                : value;
-          case "top":
-            return value < 0
-              ? 0
-              : value + ele.clientHeight > wrap.clientHeight
-                ? wrap.clientHeight - ele.clientHeight
-                : value;
-          case "width":
-            return value <= 0
-              ? 1
-              : value + ele.offsetLeft > wrap.clientWidth
-                ? wrap.clientWidth - ele.offsetLeft
-                : value;
-          case "height":
-            return value <= 0
-              ? 1
-              : value + ele.offsetTop > wrap.clientHeight
-                ? wrap.clientHeight - ele.offsetTop
-                : value;
-        }
-      },
-      hideCover: function() {
-        this.cover.style.display = "none";
-      },
-      showCover: function() {
-        var me = this,
-          editorPos = domUtils.getXY(me.editor.ui.getDom()),
-          iframePos = domUtils.getXY(me.editor.iframe);
-
-        domUtils.setStyles(me.cover, {
-          width: me.editor.iframe.offsetWidth + "px",
-          height: me.editor.iframe.offsetHeight + "px",
-          top: iframePos.y - editorPos.y + "px",
-          left: iframePos.x - editorPos.x + "px",
-          position: "absolute",
-          display: ""
-        });
-      },
-      show: function(targetObj) {
-        var me = this;
-        me.resizer.style.display = "block";
-        if (targetObj) me.attachTo(targetObj);
-
-        domUtils.on(this.resizer, "mousedown", me.proxy(me._eventHandler, me));
-        domUtils.on(me.doc, "mouseup", me.proxy(me._eventHandler, me));
-
-        me.showCover();
-        me.editor.fireEvent("afterscaleshow", me);
-        me.editor.fireEvent("saveScene");
-      },
-      hide: function() {
-        var me = this;
-        me.hideCover();
-        me.resizer.style.display = "none";
-
-        domUtils.un(me.resizer, "mousedown", me.proxy(me._eventHandler, me));
-        domUtils.un(me.doc, "mouseup", me.proxy(me._eventHandler, me));
-        me.editor.fireEvent("afterscalehide", me);
-      },
-      proxy: function(fn, context) {
-        return function(e) {
-          return fn.apply(context || this, arguments);
-        };
-      },
-      attachTo: function(targetObj) {
-        var me = this,
-          target = (me.target = targetObj),
-          resizer = this.resizer,
-          imgPos = domUtils.getXY(target),
-          iframePos = domUtils.getXY(me.editor.iframe),
-          editorPos = domUtils.getXY(resizer.parentNode);
-
-        domUtils.setStyles(resizer, {
-          width: target.width + "px",
-          height: target.height + "px",
-          left:
-            iframePos.x +
-              imgPos.x -
-              me.editor.document.body.scrollLeft -
-              editorPos.x -
-              parseInt(resizer.style.borderLeftWidth) +
-              "px",
-          top:
-            iframePos.y +
-              imgPos.y -
-              me.editor.document.body.scrollTop -
-              editorPos.y -
-              parseInt(resizer.style.borderTopWidth) +
-              "px"
-        });
-      }
-    };
-  })();
-
-  return function() {
-    var me = this,
-      imageScale;
-
-    me.setOpt("imageScaleEnabled", true);
-
-    if (!browser.ie && me.options.imageScaleEnabled) {
-      me.addListener("click", function(type, e) {
-        var range = me.selection.getRange(),
-          img = range.getClosedNode();
-
-        if (img && img.tagName == "IMG" && me.body.contentEditable != "false") {
-          if (
-            img.getAttribute("anchorname") ||
-            domUtils.hasClass(img, "loadingclass") ||
-            domUtils.hasClass(img, "loaderrorclass")
-          ) {
-            return;
-          }
-
-          if (!imageScale) {
-            imageScale = new Scale();
-            imageScale.init(me);
-            me.ui.getDom().appendChild(imageScale.resizer);
-
-            var _keyDownHandler = function(e) {
-              imageScale.hide();
-              if (imageScale.target)
-                me.selection.getRange().selectNode(imageScale.target).select();
-            },
-              _mouseDownHandler = function(e) {
-                var ele = e.target || e.srcElement;
-                if (
-                  ele &&
-                  (ele.className === undefined ||
-                    ele.className.indexOf("edui-editor-imagescale") == -1)
-                ) {
-                  _keyDownHandler(e);
+                for (i = 0; i < 8; i++) {
+                    hands.push(
+                        '<span class="edui-editor-imagescale-hand' + i + '"></span>'
+                    );
                 }
-              },
-              timer;
+                resizer.id = me.editor.ui.id + "_imagescale";
+                resizer.className = "edui-editor-imagescale";
+                resizer.innerHTML = hands.join("");
+                resizer.style.cssText +=
+                    ";display:none;border:1px solid #3b77ff;z-index:" +
+                    me.editor.options.zIndex +
+                    ";";
 
-            me.addListener("afterscaleshow", function(e) {
-              me.addListener("beforekeydown", _keyDownHandler);
-              me.addListener("beforemousedown", _mouseDownHandler);
-              domUtils.on(document, "keydown", _keyDownHandler);
-              domUtils.on(document, "mousedown", _mouseDownHandler);
-              me.selection.getNative().removeAllRanges();
-            });
-            me.addListener("afterscalehide", function(e) {
-              me.removeListener("beforekeydown", _keyDownHandler);
-              me.removeListener("beforemousedown", _mouseDownHandler);
-              domUtils.un(document, "keydown", _keyDownHandler);
-              domUtils.un(document, "mousedown", _mouseDownHandler);
-              var target = imageScale.target;
-              if (target.parentNode) {
-                me.selection.getRange().selectNode(target).select();
-              }
-            });
-            //TODO 有iframe的情况，mousedown不能往下传。。
-            domUtils.on(imageScale.resizer, "mousedown", function(e) {
-              me.selection.getNative().removeAllRanges();
-              var ele = e.target || e.srcElement;
-              if (
-                ele &&
-                ele.className.indexOf("edui-editor-imagescale-hand") == -1
-              ) {
-                timer = setTimeout(function() {
-                  imageScale.hide();
-                  if (imageScale.target)
-                    me.selection.getRange().selectNode(ele).select();
-                }, 200);
-              }
-            });
-            domUtils.on(imageScale.resizer, "mouseup", function(e) {
-              var ele = e.target || e.srcElement;
-              if (
-                ele &&
-                ele.className.indexOf("edui-editor-imagescale-hand") == -1
-              ) {
-                clearTimeout(timer);
-              }
-            });
-          }
-          imageScale.show(img);
-        } else {
-          if (imageScale && imageScale.resizer.style.display != "none")
-            imageScale.hide();
-        }
-      });
-    }
+                me.editor.ui.getDom().appendChild(cover);
+                me.editor.ui.getDom().appendChild(resizer);
 
-    if (browser.webkit) {
-      me.addListener("click", function(type, e) {
-        if (e.target.tagName == "IMG" && me.body.contentEditable != "false") {
-          var range = new dom.Range(me.document);
-          range.selectNode(e.target).select();
+                me.initStyle();
+                me.initEvents();
+            },
+            initStyle: function () {
+                utils.cssRule(
+                    "imagescale",
+                    ".edui-editor-imagescale{display:none;position:absolute;border:1px solid #38B2CE;cursor:hand;-webkit-box-sizing: content-box;-moz-box-sizing: content-box;box-sizing: content-box;}" +
+                    ".edui-editor-imagescale span{position:absolute;width:6px;height:6px;overflow:hidden;font-size:0px;display:block;background-color:#3C9DD0;}" +
+                    ".edui-editor-imagescale .edui-editor-imagescale-hand0{cursor:nw-resize;top:0;margin-top:-4px;left:0;margin-left:-4px;}" +
+                    ".edui-editor-imagescale .edui-editor-imagescale-hand1{cursor:n-resize;top:0;margin-top:-4px;left:50%;margin-left:-4px;}" +
+                    ".edui-editor-imagescale .edui-editor-imagescale-hand2{cursor:ne-resize;top:0;margin-top:-4px;left:100%;margin-left:-3px;}" +
+                    ".edui-editor-imagescale .edui-editor-imagescale-hand3{cursor:w-resize;top:50%;margin-top:-4px;left:0;margin-left:-4px;}" +
+                    ".edui-editor-imagescale .edui-editor-imagescale-hand4{cursor:e-resize;top:50%;margin-top:-4px;left:100%;margin-left:-3px;}" +
+                    ".edui-editor-imagescale .edui-editor-imagescale-hand5{cursor:sw-resize;top:100%;margin-top:-3px;left:0;margin-left:-4px;}" +
+                    ".edui-editor-imagescale .edui-editor-imagescale-hand6{cursor:s-resize;top:100%;margin-top:-3px;left:50%;margin-left:-4px;}" +
+                    ".edui-editor-imagescale .edui-editor-imagescale-hand7{cursor:se-resize;top:100%;margin-top:-3px;left:100%;margin-left:-3px;}"
+                );
+            },
+            initEvents: function () {
+                var me = this;
+
+                me.startPos.x = me.startPos.y = 0;
+                me.isDraging = false;
+            },
+            _eventHandler: function (e) {
+                var me = this;
+                switch (e.type) {
+                    case "mousedown":
+                        var hand = e.target || e.srcElement,
+                            hand;
+                        if (
+                            hand.className.indexOf("edui-editor-imagescale-hand") != -1 &&
+                            me.dragId == -1
+                        ) {
+                            me.dragId = hand.className.slice(-1);
+                            me.startPos.x = me.prePos.x = e.clientX;
+                            me.startPos.y = me.prePos.y = e.clientY;
+                            domUtils.on(me.doc, "mousemove", me.proxy(me._eventHandler, me));
+                        }
+                        break;
+                    case "mousemove":
+                        if (me.dragId != -1) {
+                            me.updateContainerStyle(me.dragId, {
+                                x: e.clientX - me.prePos.x,
+                                y: e.clientY - me.prePos.y
+                            });
+                            me.prePos.x = e.clientX;
+                            me.prePos.y = e.clientY;
+                            elementUpdated = true;
+                            me.updateTargetElement();
+                        }
+                        break;
+                    case "mouseup":
+                        if (me.dragId != -1) {
+                            me.updateContainerStyle(me.dragId, {
+                                x: e.clientX - me.prePos.x,
+                                y: e.clientY - me.prePos.y
+                            });
+                            me.updateTargetElement();
+                            if (me.target.parentNode) me.attachTo(me.target);
+                            me.dragId = -1;
+                        }
+                        domUtils.un(me.doc, "mousemove", me.proxy(me._eventHandler, me));
+                        //修复只是点击挪动点，但没有改变大小，不应该触发contentchange
+                        if (elementUpdated) {
+                            elementUpdated = false;
+                            me.editor.fireEvent("contentchange");
+                        }
+
+                        break;
+                    default:
+                        break;
+                }
+            },
+            updateTargetElement: function () {
+                var me = this;
+                domUtils.setStyles(me.target, {
+                    width: me.resizer.style.width,
+                    height: me.resizer.style.height
+                });
+                me.target.width = parseInt(me.resizer.style.width);
+                me.target.height = parseInt(me.resizer.style.height);
+                me.attachTo(me.target);
+            },
+            updateContainerStyle: function (dir, offset) {
+                var me = this,
+                    dom = me.resizer,
+                    tmp;
+
+                if (rect[dir][0] != 0) {
+                    tmp = parseInt(dom.style.left) + offset.x;
+                    dom.style.left = me._validScaledProp("left", tmp) + "px";
+                }
+                if (rect[dir][1] != 0) {
+                    tmp = parseInt(dom.style.top) + offset.y;
+                    dom.style.top = me._validScaledProp("top", tmp) + "px";
+                }
+                if (rect[dir][2] != 0) {
+                    tmp = dom.clientWidth + rect[dir][2] * offset.x;
+                    dom.style.width = me._validScaledProp("width", tmp) + "px";
+                }
+                if (rect[dir][3] != 0) {
+                    tmp = dom.clientHeight + rect[dir][3] * offset.y;
+                    dom.style.height = me._validScaledProp("height", tmp) + "px";
+                }
+            },
+            _validScaledProp: function (prop, value) {
+                var ele = this.resizer,
+                    wrap = document;
+
+                value = isNaN(value) ? 0 : value;
+                switch (prop) {
+                    case "left":
+                        return value < 0
+                            ? 0
+                            : value + ele.clientWidth > wrap.clientWidth
+                                ? wrap.clientWidth - ele.clientWidth
+                                : value;
+                    case "top":
+                        return value < 0
+                            ? 0
+                            : value + ele.clientHeight > wrap.clientHeight
+                                ? wrap.clientHeight - ele.clientHeight
+                                : value;
+                    case "width":
+                        return value <= 0
+                            ? 1
+                            : value + ele.offsetLeft > wrap.clientWidth
+                                ? wrap.clientWidth - ele.offsetLeft
+                                : value;
+                    case "height":
+                        return value <= 0
+                            ? 1
+                            : value + ele.offsetTop > wrap.clientHeight
+                                ? wrap.clientHeight - ele.offsetTop
+                                : value;
+                }
+            },
+            hideCover: function () {
+                this.cover.style.display = "none";
+            },
+            showCover: function () {
+                var me = this,
+                    editorPos = domUtils.getXY(me.editor.ui.getDom()),
+                    iframePos = domUtils.getXY(me.editor.iframe);
+
+                domUtils.setStyles(me.cover, {
+                    width: me.editor.iframe.offsetWidth + "px",
+                    height: me.editor.iframe.offsetHeight + "px",
+                    top: iframePos.y - editorPos.y + "px",
+                    left: iframePos.x - editorPos.x + "px",
+                    position: "absolute",
+                    display: ""
+                });
+            },
+            show: function (targetObj) {
+                var me = this;
+                me.resizer.style.display = "block";
+                if (targetObj) me.attachTo(targetObj);
+
+                domUtils.on(this.resizer, "mousedown", me.proxy(me._eventHandler, me));
+                domUtils.on(me.doc, "mouseup", me.proxy(me._eventHandler, me));
+
+                me.showCover();
+                me.editor.fireEvent("afterscaleshow", me);
+                me.editor.fireEvent("saveScene");
+            },
+            hide: function () {
+                var me = this;
+                me.hideCover();
+                me.resizer.style.display = "none";
+
+                domUtils.un(me.resizer, "mousedown", me.proxy(me._eventHandler, me));
+                domUtils.un(me.doc, "mouseup", me.proxy(me._eventHandler, me));
+                me.editor.fireEvent("afterscalehide", me);
+            },
+            proxy: function (fn, context) {
+                return function (e) {
+                    return fn.apply(context || this, arguments);
+                };
+            },
+            attachTo: function (targetObj) {
+                var me = this,
+                    target = (me.target = targetObj),
+                    resizer = this.resizer,
+                    imgPos = domUtils.getXY(target),
+                    iframePos = domUtils.getXY(me.editor.iframe),
+                    editorPos = domUtils.getXY(resizer.parentNode);
+
+                domUtils.setStyles(resizer, {
+                    width: target.width + "px",
+                    height: target.height + "px",
+                    left:
+                        iframePos.x +
+                        imgPos.x -
+                        me.editor.document.body.scrollLeft -
+                        editorPos.x -
+                        parseInt(resizer.style.borderLeftWidth) +
+                        "px",
+                    top:
+                        iframePos.y +
+                        imgPos.y -
+                        me.editor.document.body.scrollTop -
+                        editorPos.y -
+                        parseInt(resizer.style.borderTopWidth) +
+                        "px"
+                });
+            }
+        };
+    })();
+
+    return function () {
+        var me = this,
+            imageScale;
+
+        me.setOpt("imageScaleEnabled", true);
+
+        if (!browser.ie && me.options.imageScaleEnabled) {
+            me.addListener("click", function (type, e) {
+                var range = me.selection.getRange(),
+                    img = range.getClosedNode();
+
+                if (img && img.tagName == "IMG" && me.body.contentEditable != "false") {
+                    if (
+                        img.getAttribute("anchorname") ||
+                        domUtils.hasClass(img, "uep-loading") ||
+                        domUtils.hasClass(img, "uep-loading-error")
+                    ) {
+                        return;
+                    }
+
+                    if (!imageScale) {
+                        imageScale = new Scale();
+                        imageScale.init(me);
+                        me.ui.getDom().appendChild(imageScale.resizer);
+
+                        var _keyDownHandler = function (e) {
+                                imageScale.hide();
+                                if (imageScale.target)
+                                    me.selection.getRange().selectNode(imageScale.target).select();
+                            },
+                            _mouseDownHandler = function (e) {
+                                var ele = e.target || e.srcElement;
+                                if (
+                                    ele &&
+                                    (ele.className === undefined ||
+                                        ele.className.indexOf("edui-editor-imagescale") == -1)
+                                ) {
+                                    _keyDownHandler(e);
+                                }
+                            },
+                            timer;
+
+                        me.addListener("afterscaleshow", function (e) {
+                            me.addListener("beforekeydown", _keyDownHandler);
+                            me.addListener("beforemousedown", _mouseDownHandler);
+                            domUtils.on(document, "keydown", _keyDownHandler);
+                            domUtils.on(document, "mousedown", _mouseDownHandler);
+                            me.selection.getNative().removeAllRanges();
+                        });
+                        me.addListener("afterscalehide", function (e) {
+                            me.removeListener("beforekeydown", _keyDownHandler);
+                            me.removeListener("beforemousedown", _mouseDownHandler);
+                            domUtils.un(document, "keydown", _keyDownHandler);
+                            domUtils.un(document, "mousedown", _mouseDownHandler);
+                            var target = imageScale.target;
+                            if (target.parentNode) {
+                                me.selection.getRange().selectNode(target).select();
+                            }
+                        });
+                        //TODO 有iframe的情况，mousedown不能往下传。。
+                        domUtils.on(imageScale.resizer, "mousedown", function (e) {
+                            me.selection.getNative().removeAllRanges();
+                            var ele = e.target || e.srcElement;
+                            if (
+                                ele &&
+                                ele.className.indexOf("edui-editor-imagescale-hand") == -1
+                            ) {
+                                timer = setTimeout(function () {
+                                    imageScale.hide();
+                                    if (imageScale.target)
+                                        me.selection.getRange().selectNode(ele).select();
+                                }, 200);
+                            }
+                        });
+                        domUtils.on(imageScale.resizer, "mouseup", function (e) {
+                            var ele = e.target || e.srcElement;
+                            if (
+                                ele &&
+                                ele.className.indexOf("edui-editor-imagescale-hand") == -1
+                            ) {
+                                clearTimeout(timer);
+                            }
+                        });
+                    }
+                    imageScale.show(img);
+                } else {
+                    if (imageScale && imageScale.resizer.style.display != "none")
+                        imageScale.hide();
+                }
+            });
         }
-      });
-    }
-  };
+
+        if (browser.webkit) {
+            me.addListener("click", function (type, e) {
+                if (e.target.tagName == "IMG" && me.body.contentEditable != "false") {
+                    var range = new dom.Range(me.document);
+                    range.selectNode(e.target).select();
+                }
+            });
+        }
+    };
 })();
 
 
@@ -26235,196 +26245,196 @@ UE.plugins["customstyle"] = function() {
  * 远程图片抓取,当开启本插件时所有不符合本地域名的图片都将被抓取成为本地服务器上的图片
  */
 UE.plugins["catchremoteimage"] = function () {
-  var me = this,
-    ajax = UE.ajax;
+    var me = this,
+        ajax = UE.ajax;
 
-  /* 设置默认值 */
-  if (me.options.catchRemoteImageEnable === false) {
-    return;
-  }
-  me.setOpt({
-    catchRemoteImageEnable: false
-  });
-
-  var catcherLocalDomain = me.getOpt("catcherLocalDomain"),
-    catcherActionUrl = me.getActionUrl(me.getOpt("catcherActionName")),
-    catcherUrlPrefix = me.getOpt("catcherUrlPrefix"),
-    catcherFieldName = me.getOpt("catcherFieldName");
-
-  me.addListener('serverConfigLoaded', function () {
-    catcherLocalDomain = me.getOpt("catcherLocalDomain");
-    catcherActionUrl = me.getActionUrl(me.getOpt("catcherActionName"));
-    catcherUrlPrefix = me.getOpt("catcherUrlPrefix");
-    catcherFieldName = me.getOpt("catcherFieldName");
-  });
-
-  me.addListener("afterpaste", function () {
-    me.fireEvent("catchremoteimage");
-  });
-
-  var catchRemoteImageCatching = false;
-
-  function sendApi(imgs, callbacks) {
-    var params = utils.serializeParam(me.queryCommandValue("serverparam")) || "",
-      url = utils.formatUrl(
-        catcherActionUrl +
-        (catcherActionUrl.indexOf("?") === -1 ? "?" : "&") +
-        params
-      ),
-      isJsonp = utils.isCrossDomainUrl(url),
-      opt = {
-        method: "POST",
-        dataType: isJsonp ? "jsonp" : "",
-        timeout: 60000, //单位：毫秒，回调请求超时设置。目标用户如果网速不是很快的话此处建议设置一个较大的数值
-        headers: me.options.serverHeaders || {},
-        onsuccess: callbacks["success"],
-        onerror: callbacks["error"]
-      };
-    opt[catcherFieldName] = imgs;
-    ajax.request(url, opt);
-  }
-
-  function catchElement(type, ele, imageUrl) {
-    sendApi([imageUrl], {
-      //成功抓取
-      success: function (r) {
-        try {
-          var info = r.state !== undefined
-            ? r
-            : eval("(" + r.responseText + ")");
-        } catch (e) {
-          return;
-        }
-
-        /* 获取源路径和新路径 */
-        var oldSrc,
-          newSrc,
-          oldBgIMG,
-          newBgIMG,
-          list = info.list;
-        var catchFailList = [];
-        var catchSuccessList = [];
-        var failIMG = me.options.themePath + me.options.theme + '/images/img-cracked.png';
-        var loadingIMG = me.options.themePath + me.options.theme + '/images/spacer.gif';
-
-        var cj = list[0];
-        switch (type) {
-          case 'image':
-            oldSrc = ele.getAttribute("_src") || ele.src || "";
-            if (cj.state === "SUCCESS") {
-              newSrc = catcherUrlPrefix + cj.url;
-              // 上传成功是删除uploading动画
-              domUtils.removeClasses(ele, "loadingclass");
-              domUtils.setAttributes(ele, {
-                "src": newSrc,
-                "_src": newSrc,
-                "data-catch-result": "success"
-              });
-              catchSuccessList.push(ele);
-            } else {
-              // 替换成统一的失败图片
-              domUtils.removeClasses(ele, "loadingclass");
-              domUtils.setAttributes(ele, {
-                "src": failIMG,
-                "_src": failIMG,
-                "data-catch-result": "fail" // 添加catch失败标记
-              });
-              catchFailList.push(ele);
-            }
-            break;
-          case 'background':
-            oldBgIMG = ele.getAttribute("data-background") || "";
-            if (cj.state === "SUCCESS") {
-              newBgIMG = catcherUrlPrefix + cj.url;
-              ele.style.cssText = ele.style.cssText.replace(loadingIMG, newBgIMG);
-              domUtils.removeAttributes(ele, "data-background");
-              domUtils.setAttributes(ele, {
-                "data-catch-result": "success"   // 添加catch成功标记
-              });
-              catchSuccessList.push(ele);
-            } else {
-              ele.style.cssText = ele.style.cssText.replace(loadingIMG, failIMG);
-              domUtils.removeAttributes(ele, "data-background");
-              domUtils.setAttributes(ele, {
-                "data-catch-result": "fail"   // 添加catch失败标记
-              });
-              catchFailList.push(ele);
-            }
-            break;
-        }
-        // 监听事件添加成功抓取和抓取失败的dom列表参数
-        me.fireEvent('catchremotesuccess', catchSuccessList, catchFailList);
-        catchRemoteImageCatching = false;
-        setTimeout(function () {
-          me.fireEvent('catchremoteimage');
-        }, 0);
-      },
-      //回调失败，本次请求超时
-      error: function () {
-        me.fireEvent('catchremoteerror');
-        catchRemoteImageCatching = false;
-        setTimeout(function () {
-          me.fireEvent('catchremoteimage');
-        }, 0);
-      }
+    /* 设置默认值 */
+    if (me.options.catchRemoteImageEnable === false) {
+        return;
+    }
+    me.setOpt({
+        catchRemoteImageEnable: false
     });
-  }
 
-  function catchRemoteImage() {
-    if (catchRemoteImageCatching) {
-      return;
+    var catcherLocalDomain = me.getOpt("catcherLocalDomain"),
+        catcherActionUrl = me.getActionUrl(me.getOpt("catcherActionName")),
+        catcherUrlPrefix = me.getOpt("catcherUrlPrefix"),
+        catcherFieldName = me.getOpt("catcherFieldName");
+
+    me.addListener('serverConfigLoaded', function () {
+        catcherLocalDomain = me.getOpt("catcherLocalDomain");
+        catcherActionUrl = me.getActionUrl(me.getOpt("catcherActionName"));
+        catcherUrlPrefix = me.getOpt("catcherUrlPrefix");
+        catcherFieldName = me.getOpt("catcherFieldName");
+    });
+
+    me.addListener("afterpaste", function () {
+        me.fireEvent("catchremoteimage");
+    });
+
+    var catchRemoteImageCatching = false;
+
+    function sendApi(imgs, callbacks) {
+        var params = utils.serializeParam(me.queryCommandValue("serverparam")) || "",
+            url = utils.formatUrl(
+                catcherActionUrl +
+                (catcherActionUrl.indexOf("?") === -1 ? "?" : "&") +
+                params
+            ),
+            isJsonp = utils.isCrossDomainUrl(url),
+            opt = {
+                method: "POST",
+                dataType: isJsonp ? "jsonp" : "",
+                timeout: 60000, //单位：毫秒，回调请求超时设置。目标用户如果网速不是很快的话此处建议设置一个较大的数值
+                headers: me.options.serverHeaders || {},
+                onsuccess: callbacks["success"],
+                onerror: callbacks["error"]
+            };
+        opt[catcherFieldName] = imgs;
+        ajax.request(url, opt);
     }
-    catchRemoteImageCatching = true;
 
-    var loadingIMG = me.options.themePath + me.options.theme + '/images/spacer.gif',
-      imgs = me.document.querySelectorAll('[style*="url"],img'),
-      test = function (src, urls) {
-        if (src.indexOf(location.host) !== -1 || /(^\.)|(^\/)/.test(src)) {
-          return true;
-        }
-        if (urls) {
-          for (var j = 0, url; (url = urls[j++]);) {
-            if (src.indexOf(url) !== -1) {
-              return true;
+    function catchElement(type, ele, imageUrl) {
+        sendApi([imageUrl], {
+            //成功抓取
+            success: function (r) {
+                try {
+                    var info = r.state !== undefined
+                        ? r
+                        : eval("(" + r.responseText + ")");
+                } catch (e) {
+                    return;
+                }
+
+                /* 获取源路径和新路径 */
+                var oldSrc,
+                    newSrc,
+                    oldBgIMG,
+                    newBgIMG,
+                    list = info.list;
+                var catchFailList = [];
+                var catchSuccessList = [];
+                var failIMG = me.options.themePath + me.options.theme + '/images/img-cracked.png';
+                var loadingIMG = me.options.themePath + me.options.theme + '/images/spacer.gif';
+
+                var cj = list[0];
+                switch (type) {
+                    case 'image':
+                        oldSrc = ele.getAttribute("_src") || ele.src || "";
+                        if (cj.state === "SUCCESS") {
+                            newSrc = catcherUrlPrefix + cj.url;
+                            // 上传成功是删除uploading动画
+                            domUtils.removeClasses(ele, "uep-loading");
+                            domUtils.setAttributes(ele, {
+                                "src": newSrc,
+                                "_src": newSrc,
+                                "data-catch-result": "success"
+                            });
+                            catchSuccessList.push(ele);
+                        } else {
+                            // 替换成统一的失败图片
+                            domUtils.removeClasses(ele, "uep-loading");
+                            domUtils.setAttributes(ele, {
+                                "src": failIMG,
+                                "_src": failIMG,
+                                "data-catch-result": "fail" // 添加catch失败标记
+                            });
+                            catchFailList.push(ele);
+                        }
+                        break;
+                    case 'background':
+                        oldBgIMG = ele.getAttribute("data-background") || "";
+                        if (cj.state === "SUCCESS") {
+                            newBgIMG = catcherUrlPrefix + cj.url;
+                            ele.style.cssText = ele.style.cssText.replace(loadingIMG, newBgIMG);
+                            domUtils.removeAttributes(ele, "data-background");
+                            domUtils.setAttributes(ele, {
+                                "data-catch-result": "success"   // 添加catch成功标记
+                            });
+                            catchSuccessList.push(ele);
+                        } else {
+                            ele.style.cssText = ele.style.cssText.replace(loadingIMG, failIMG);
+                            domUtils.removeAttributes(ele, "data-background");
+                            domUtils.setAttributes(ele, {
+                                "data-catch-result": "fail"   // 添加catch失败标记
+                            });
+                            catchFailList.push(ele);
+                        }
+                        break;
+                }
+                // 监听事件添加成功抓取和抓取失败的dom列表参数
+                me.fireEvent('catchremotesuccess', catchSuccessList, catchFailList);
+                catchRemoteImageCatching = false;
+                setTimeout(function () {
+                    me.fireEvent('catchremoteimage');
+                }, 0);
+            },
+            //回调失败，本次请求超时
+            error: function () {
+                me.fireEvent('catchremoteerror');
+                catchRemoteImageCatching = false;
+                setTimeout(function () {
+                    me.fireEvent('catchremoteimage');
+                }, 0);
             }
-          }
-        }
-        return false;
-      };
-
-    for (var i = 0, ci; (ci = imgs[i++]);) {
-      if (ci.getAttribute("data-word-image") || ci.getAttribute('data-catch-result')) {
-        continue;
-      }
-      if (ci.nodeName === "IMG") {
-        var src = ci.getAttribute("_src") || ci.src || "";
-        if (/^(https?|ftp):/i.test(src) && !test(src, catcherLocalDomain)) {
-          catchElement('image', ci, src);
-          domUtils.setAttributes(ci, {
-            class: "loadingclass",
-            _src: src,
-            src: loadingIMG
-          })
-          return;
-        }
-      } else {
-        var backgroundImageurl = ci.style.cssText.replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
-        if (/^(https?|ftp):/i.test(backgroundImageurl) && !test(backgroundImageurl, catcherLocalDomain)) {
-          catchElement('background', ci, backgroundImageurl);
-          ci.style.cssText = ci.style.cssText.replace(backgroundImageurl, loadingIMG);
-          domUtils.setAttributes(ci, {
-            "data-background": backgroundImageurl
-          })
-          return;
-        }
-      }
+        });
     }
 
-  };
+    function catchRemoteImage() {
+        if (catchRemoteImageCatching) {
+            return;
+        }
+        catchRemoteImageCatching = true;
 
-  me.addListener("catchremoteimage", function () {
-    catchRemoteImage();
-  });
+        var loadingIMG = me.options.themePath + me.options.theme + '/images/spacer.gif',
+            imgs = me.document.querySelectorAll('[style*="url"],img'),
+            test = function (src, urls) {
+                if (src.indexOf(location.host) !== -1 || /(^\.)|(^\/)/.test(src)) {
+                    return true;
+                }
+                if (urls) {
+                    for (var j = 0, url; (url = urls[j++]);) {
+                        if (src.indexOf(url) !== -1) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            };
+
+        for (var i = 0, ci; (ci = imgs[i++]);) {
+            if (ci.getAttribute("data-word-image") || ci.getAttribute('data-catch-result')) {
+                continue;
+            }
+            if (ci.nodeName === "IMG") {
+                var src = ci.getAttribute("_src") || ci.src || "";
+                if (/^(https?|ftp):/i.test(src) && !test(src, catcherLocalDomain)) {
+                    catchElement('image', ci, src);
+                    domUtils.setAttributes(ci, {
+                        class: "loadingclass",
+                        _src: src,
+                        src: loadingIMG
+                    })
+                    return;
+                }
+            } else {
+                var backgroundImageurl = ci.style.cssText.replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
+                if (/^(https?|ftp):/i.test(backgroundImageurl) && !test(backgroundImageurl, catcherLocalDomain)) {
+                    catchElement('background', ci, backgroundImageurl);
+                    ci.style.cssText = ci.style.cssText.replace(backgroundImageurl, loadingIMG);
+                    domUtils.setAttributes(ci, {
+                        "data-background": backgroundImageurl
+                    })
+                    return;
+                }
+            }
+        }
+
+    };
+
+    me.addListener("catchremoteimage", function () {
+        catchRemoteImage();
+    });
 };
 
 
@@ -26532,259 +26542,260 @@ UE.plugins["template"] = function() {
  * @author Jinqn
  * @date 2013-10-14
  */
-UE.plugin.register("autoupload", function() {
-  function sendAndInsertFile(file, editor) {
-    var me = editor;
-    //模拟数据
-    var fieldName,
-      urlPrefix,
-      maxSize,
-      allowFiles,
-      actionUrl,
-      loadingHtml,
-      errorHandler,
-      successHandler,
-      filetype = /image\/\w+/i.test(file.type) ? "image" : "file",
-      loadingId = "loading_" + (+new Date()).toString(36);
+UE.plugin.register("autoupload", function () {
+    function sendAndInsertFile(file, editor) {
+        var me = editor;
+        //模拟数据
+        var fieldName,
+            urlPrefix,
+            maxSize,
+            allowFiles,
+            actionUrl,
+            loadingHtml,
+            errorHandler,
+            successHandler,
+            filetype = /image\/\w+/i.test(file.type) ? "image" : "file",
+            loadingId = "loading_" + (+new Date()).toString(36);
 
-    fieldName = me.getOpt(filetype + "FieldName");
-    urlPrefix = me.getOpt(filetype + "UrlPrefix");
-    maxSize = me.getOpt(filetype + "MaxSize");
-    allowFiles = me.getOpt(filetype + "AllowFiles");
-    actionUrl = me.getActionUrl(me.getOpt(filetype + "ActionName"));
-    errorHandler = function(title) {
-      var loader = me.document.getElementById(loadingId);
-      loader && domUtils.remove(loader);
-      me.fireEvent("showmessage", {
-        id: loadingId,
-        content: title,
-        type: "error",
-        timeout: 4000
-      });
-    };
-
-    if (filetype === "image") {
-      loadingHtml =
-        '<img class="loadingclass" id="' +
-        loadingId +
-        '" src="' +
-        me.options.themePath +
-        me.options.theme +
-        '/images/spacer.gif">';
-      successHandler = function(data) {
-        var link = urlPrefix + data.url,
-          loader = me.document.getElementById(loadingId);
-        if (loader) {
-          domUtils.removeClasses(loader, "loadingclass");
-          loader.setAttribute("src", link);
-          loader.setAttribute("_src", link);
-          loader.setAttribute("alt", data.original || "");
-          loader.removeAttribute("id");
-          me.trigger("contentchange", loader);
-        }
-      };
-    } else {
-      loadingHtml =
-        "<p>" +
-        '<img class="loadingclass" id="' +
-        loadingId +
-        '" src="' +
-        me.options.themePath +
-        me.options.theme +
-        '/images/spacer.gif">' +
-        "</p>";
-      successHandler = function(data) {
-        var link = urlPrefix + data.url,
-          loader = me.document.getElementById(loadingId);
-
-        var rng = me.selection.getRange(),
-          bk = rng.createBookmark();
-        rng.selectNode(loader).select();
-        me.execCommand("insertfile", { url: link });
-        rng.moveToBookmark(bk).select();
-      };
-    }
-
-    /* 插入loading的占位符 */
-    me.execCommand("inserthtml", loadingHtml);
-    /* 判断后端配置是否没有加载成功 */
-    if (!me.getOpt(filetype + "ActionName")) {
-      errorHandler(me.getLang("autoupload.errorLoadConfig"));
-      return;
-    }
-    /* 判断文件大小是否超出限制 */
-    if (file.size > maxSize) {
-      errorHandler(me.getLang("autoupload.exceedSizeError"));
-      return;
-    }
-    /* 判断文件格式是否超出允许 */
-    var fileext = file.name ? file.name.substr(file.name.lastIndexOf(".")) : "";
-    if (
-      (fileext && filetype != "image") ||
-      (allowFiles &&
-        (allowFiles.join("") + ".").indexOf(fileext.toLowerCase() + ".") == -1)
-    ) {
-      errorHandler(me.getLang("autoupload.exceedTypeError"));
-      return;
-    }
-
-    var upload = function(file) {
-      const formData = new FormData();
-      formData.append(fieldName, file, file.name);
-      UE.api.requestAction(me, me.getOpt(filetype + "ActionName"), {
-        data:formData
-      }).then(function(res){
-        successHandler(res.data);
-      }).catch(function(err){
-        errorHandler(me.getLang("autoupload.loadError"));
-      });
-    };
-
-    var imageCompressEnable = me.getOpt('imageCompressEnable'),
-      imageMaxSize = me.getOpt('imageMaxSize'),
-      imageCompressBorder = me.getOpt('imageCompressBorder');
-    if('image'===filetype && imageCompressEnable){
-      UE.image.compress(file,{
-        maxSizeMB: imageMaxSize/1024/1024,
-        maxWidthOrHeight: imageCompressBorder
-      }).then(function(compressedFile){
-        if(me.options.debug){
-          console.log('AutoUpload.CompressImage', (compressedFile.size / file.size * 100).toFixed(2) + '%');
-        }
-        upload(compressedFile);
-      }).catch(function(err){
-        console.error('AutoUpload.CompressImage.error', err)
-        upload(file);
-      });
-    }else{
-      upload(file);
-    }
-
-    /* 创建Ajax并提交 */
-    // var xhr = new XMLHttpRequest(),
-    //   fd = new FormData(),
-    //   params = utils.serializeParam(me.queryCommandValue("serverparam")) || "",
-    //   url = utils.formatUrl(
-    //     actionUrl + (actionUrl.indexOf("?") == -1 ? "?" : "&") + params
-    //   );
-    //
-    // fd.append(
-    //   fieldName,
-    //   file,
-    //   file.name || "blob." + file.type.substr("image/".length)
-    // );
-    // fd.append("type", "ajax");
-    // xhr.open("post", url, true);
-    // xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-    // xhr.addEventListener("load", function(e) {
-    //   try {
-    //     var json = new Function("return " + utils.trim(e.target.response))();
-    //     if (json.state == "SUCCESS" && json.url) {
-    //       successHandler(json);
-    //     } else {
-    //       errorHandler(json.state);
-    //     }
-    //   } catch (er) {
-    //     errorHandler(me.getLang("autoupload.loadError"));
-    //   }
-    // });
-    // xhr.send(fd);
-  }
-
-  function getPasteImage(e) {
-    return e.clipboardData &&
-      e.clipboardData.items &&
-      e.clipboardData.items.length == 1 &&
-      /^image\//.test(e.clipboardData.items[0].type)
-      ? e.clipboardData.items
-      : null;
-  }
-  function getDropImage(e) {
-    return e.dataTransfer && e.dataTransfer.files ? e.dataTransfer.files : null;
-  }
-
-  return {
-    outputRule: function(root) {
-      utils.each(root.getNodesByTagName("img"), function(n) {
-        if (/\b(loaderrorclass)|(bloaderrorclass)\b/.test(n.getAttr("class"))) {
-          n.parentNode.removeChild(n);
-        }
-      });
-      utils.each(root.getNodesByTagName("p"), function(n) {
-        if (/\bloadpara\b/.test(n.getAttr("class"))) {
-          n.parentNode.removeChild(n);
-        }
-      });
-    },
-    bindEvents: {
-      defaultOptions: {
-        //默认间隔时间
-        enableDragUpload: true,
-        enablePasteUpload: true
-      },
-      //插入粘贴板的图片，拖放插入图片
-      ready: function(e) {
-        var me = this;
-        if (window.FormData && window.FileReader) {
-          var handler = function(e) {
-            var hasImg = false,
-              items;
-            //获取粘贴板文件列表或者拖放文件列表
-            items = e.type == "paste" ? getPasteImage(e) : getDropImage(e);
-            if (items) {
-              var len = items.length,
-                file;
-              while (len--) {
-                file = items[len];
-                if (file.getAsFile) file = file.getAsFile();
-                if (file && file.size > 0) {
-                  sendAndInsertFile(file, me);
-                  hasImg = true;
-                }
-              }
-              hasImg && e.preventDefault();
-            }
-          };
-
-          if (me.getOpt("enablePasteUpload") !== false) {
-            domUtils.on(me.body, "paste ", handler);
-          }
-          if (me.getOpt("enableDragUpload") !== false) {
-            domUtils.on(me.body, "drop", handler);
-            //取消拖放图片时出现的文字光标位置提示
-            domUtils.on(me.body, "dragover", function(e) {
-              if (e.dataTransfer.types[0] == "Files") {
-                e.preventDefault();
-              }
+        fieldName = me.getOpt(filetype + "FieldName");
+        urlPrefix = me.getOpt(filetype + "UrlPrefix");
+        maxSize = me.getOpt(filetype + "MaxSize");
+        allowFiles = me.getOpt(filetype + "AllowFiles");
+        actionUrl = me.getActionUrl(me.getOpt(filetype + "ActionName"));
+        errorHandler = function (title) {
+            var loader = me.document.getElementById(loadingId);
+            loader && domUtils.remove(loader);
+            me.fireEvent("showmessage", {
+                id: loadingId,
+                content: title,
+                type: "error",
+                timeout: 4000
             });
-          } else {
-            if (browser.gecko) {
-              domUtils.on(me.body, "drop", function(e) {
-                if (getDropImage(e)) {
-                  e.preventDefault();
-                }
-              });
-            }
-          }
+        };
 
-          //设置loading的样式
-          utils.cssRule(
-            "loading",
-            ".loadingclass{display:inline-block;cursor:default;background: url('" +
-              this.options.themePath +
-              this.options.theme +
-              "/images/loading.gif') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-left:1px;height:22px;width:22px;}\n" +
-              ".loaderrorclass{display:inline-block;cursor:default;background: url('" +
-              this.options.themePath +
-              this.options.theme +
-              "/images/loaderror.png') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-right:1px;height:22px;width:22px;" +
-              "}",
-            this.document
-          );
+        if (filetype === "image") {
+            loadingHtml =
+                '<img class="uep-loading" id="' +
+                loadingId +
+                '" src="' +
+                me.options.themePath +
+                me.options.theme +
+                '/images/spacer.gif">';
+            successHandler = function (data) {
+                var link = urlPrefix + data.url,
+                    loader = me.document.getElementById(loadingId);
+                if (loader) {
+                    domUtils.removeClasses(loader, "uep-loading");
+                    loader.setAttribute("src", link);
+                    loader.setAttribute("_src", link);
+                    loader.setAttribute("alt", data.original || "");
+                    loader.removeAttribute("id");
+                    me.trigger("contentchange", loader);
+                }
+            };
+        } else {
+            loadingHtml =
+                "<p>" +
+                '<img class="uep-loading" id="' +
+                loadingId +
+                '" src="' +
+                me.options.themePath +
+                me.options.theme +
+                '/images/spacer.gif">' +
+                "</p>";
+            successHandler = function (data) {
+                var link = urlPrefix + data.url,
+                    loader = me.document.getElementById(loadingId);
+
+                var rng = me.selection.getRange(),
+                    bk = rng.createBookmark();
+                rng.selectNode(loader).select();
+                me.execCommand("insertfile", {url: link});
+                rng.moveToBookmark(bk).select();
+            };
         }
-      }
+
+        /* 插入loading的占位符 */
+        me.execCommand("inserthtml", loadingHtml);
+        /* 判断后端配置是否没有加载成功 */
+        if (!me.getOpt(filetype + "ActionName")) {
+            errorHandler(me.getLang("autoupload.errorLoadConfig"));
+            return;
+        }
+        /* 判断文件大小是否超出限制 */
+        if (file.size > maxSize) {
+            errorHandler(me.getLang("autoupload.exceedSizeError"));
+            return;
+        }
+        /* 判断文件格式是否超出允许 */
+        var fileext = file.name ? file.name.substr(file.name.lastIndexOf(".")) : "";
+        if (
+            (fileext && filetype != "image") ||
+            (allowFiles &&
+                (allowFiles.join("") + ".").indexOf(fileext.toLowerCase() + ".") == -1)
+        ) {
+            errorHandler(me.getLang("autoupload.exceedTypeError"));
+            return;
+        }
+
+        var upload = function (file) {
+            const formData = new FormData();
+            formData.append(fieldName, file, file.name);
+            UE.api.requestAction(me, me.getOpt(filetype + "ActionName"), {
+                data: formData
+            }).then(function (res) {
+                successHandler(res.data);
+            }).catch(function (err) {
+                errorHandler(me.getLang("autoupload.loadError"));
+            });
+        };
+
+        var imageCompressEnable = me.getOpt('imageCompressEnable'),
+            imageMaxSize = me.getOpt('imageMaxSize'),
+            imageCompressBorder = me.getOpt('imageCompressBorder');
+        if ('image' === filetype && imageCompressEnable) {
+            UE.image.compress(file, {
+                maxSizeMB: imageMaxSize / 1024 / 1024,
+                maxWidthOrHeight: imageCompressBorder
+            }).then(function (compressedFile) {
+                if (me.options.debug) {
+                    console.log('AutoUpload.CompressImage', (compressedFile.size / file.size * 100).toFixed(2) + '%');
+                }
+                upload(compressedFile);
+            }).catch(function (err) {
+                console.error('AutoUpload.CompressImage.error', err)
+                upload(file);
+            });
+        } else {
+            upload(file);
+        }
+
+        /* 创建Ajax并提交 */
+        // var xhr = new XMLHttpRequest(),
+        //   fd = new FormData(),
+        //   params = utils.serializeParam(me.queryCommandValue("serverparam")) || "",
+        //   url = utils.formatUrl(
+        //     actionUrl + (actionUrl.indexOf("?") == -1 ? "?" : "&") + params
+        //   );
+        //
+        // fd.append(
+        //   fieldName,
+        //   file,
+        //   file.name || "blob." + file.type.substr("image/".length)
+        // );
+        // fd.append("type", "ajax");
+        // xhr.open("post", url, true);
+        // xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        // xhr.addEventListener("load", function(e) {
+        //   try {
+        //     var json = new Function("return " + utils.trim(e.target.response))();
+        //     if (json.state == "SUCCESS" && json.url) {
+        //       successHandler(json);
+        //     } else {
+        //       errorHandler(json.state);
+        //     }
+        //   } catch (er) {
+        //     errorHandler(me.getLang("autoupload.loadError"));
+        //   }
+        // });
+        // xhr.send(fd);
     }
-  };
+
+    function getPasteImage(e) {
+        return e.clipboardData &&
+        e.clipboardData.items &&
+        e.clipboardData.items.length == 1 &&
+        /^image\//.test(e.clipboardData.items[0].type)
+            ? e.clipboardData.items
+            : null;
+    }
+
+    function getDropImage(e) {
+        return e.dataTransfer && e.dataTransfer.files ? e.dataTransfer.files : null;
+    }
+
+    return {
+        outputRule: function (root) {
+            utils.each(root.getNodesByTagName("img"), function (n) {
+                if (/\b(uep\-loading\-error)|(bloaderrorclass)\b/.test(n.getAttr("class"))) {
+                    n.parentNode.removeChild(n);
+                }
+            });
+            utils.each(root.getNodesByTagName("p"), function (n) {
+                if (/\bloadpara\b/.test(n.getAttr("class"))) {
+                    n.parentNode.removeChild(n);
+                }
+            });
+        },
+        bindEvents: {
+            defaultOptions: {
+                //默认间隔时间
+                enableDragUpload: true,
+                enablePasteUpload: true
+            },
+            //插入粘贴板的图片，拖放插入图片
+            ready: function (e) {
+                var me = this;
+                if (window.FormData && window.FileReader) {
+                    var handler = function (e) {
+                        var hasImg = false,
+                            items;
+                        //获取粘贴板文件列表或者拖放文件列表
+                        items = e.type == "paste" ? getPasteImage(e) : getDropImage(e);
+                        if (items) {
+                            var len = items.length,
+                                file;
+                            while (len--) {
+                                file = items[len];
+                                if (file.getAsFile) file = file.getAsFile();
+                                if (file && file.size > 0) {
+                                    sendAndInsertFile(file, me);
+                                    hasImg = true;
+                                }
+                            }
+                            hasImg && e.preventDefault();
+                        }
+                    };
+
+                    if (me.getOpt("enablePasteUpload") !== false) {
+                        domUtils.on(me.body, "paste ", handler);
+                    }
+                    if (me.getOpt("enableDragUpload") !== false) {
+                        domUtils.on(me.body, "drop", handler);
+                        //取消拖放图片时出现的文字光标位置提示
+                        domUtils.on(me.body, "dragover", function (e) {
+                            if (e.dataTransfer.types[0] == "Files") {
+                                e.preventDefault();
+                            }
+                        });
+                    } else {
+                        if (browser.gecko) {
+                            domUtils.on(me.body, "drop", function (e) {
+                                if (getDropImage(e)) {
+                                    e.preventDefault();
+                                }
+                            });
+                        }
+                    }
+
+                    //设置loading的样式
+                    utils.cssRule(
+                        "loading",
+                        ".uep-loading{display:inline-block;cursor:default;background: url('" +
+                        this.options.themePath +
+                        this.options.theme +
+                        "/images/loading.gif') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-left:1px;height:22px;width:22px;}\n" +
+                        ".uep-loading-error{display:inline-block;cursor:default;background: url('" +
+                        this.options.themePath +
+                        this.options.theme +
+                        "/images/loaderror.png') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-right:1px;height:22px;width:22px;" +
+                        "}",
+                        this.document
+                    );
+                }
+            }
+        }
+    };
 });
 
 
@@ -27104,150 +27115,150 @@ UE.plugin.register("section", function() {
  * @date 2014-03-31
  */
 UE.plugin.register("simpleupload", function () {
-  var me = this,
-    isLoaded = false,
-    containerBtn;
+    var me = this,
+        isLoaded = false,
+        containerBtn;
 
-  function initUploadBtn() {
-    var input = document.createElement("input");
-    input.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;cursor:pointer;font-size:0;opacity:0;';
-    input.type = 'file';
-    containerBtn.appendChild(input);
-    domUtils.on(input,'change',function (e) {
-      var state = me.queryCommandState("simpleupload");
-      if (state === -1) {
-        return;
-      }
-      if (!input.value) {
-        return;
-      }
+    function initUploadBtn() {
+        var input = document.createElement("input");
+        input.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;cursor:pointer;font-size:0;opacity:0;';
+        input.type = 'file';
+        containerBtn.appendChild(input);
+        domUtils.on(input, 'change', function (e) {
+            var state = me.queryCommandState("simpleupload");
+            if (state === -1) {
+                return;
+            }
+            if (!input.value) {
+                return;
+            }
 
-      var loadingId = UE.dialog.loadingPlaceholder(me);
+            var loadingId = UE.dialog.loadingPlaceholder(me);
 
-      if (!me.getOpt("imageActionName")) {
-        UE.dialog.removeLoadingPlaceholder(me, loadingId);
-        UE.dialog.tipError(me, me.getLang("autoupload.errorLoadConfig"));
-        return;
-      }
+            if (!me.getOpt("imageActionName")) {
+                UE.dialog.removeLoadingPlaceholder(me, loadingId);
+                UE.dialog.tipError(me, me.getLang("autoupload.errorLoadConfig"));
+                return;
+            }
 
-      var allowFiles = me.getOpt("imageAllowFiles");
-      var filename = input.value, fileext = filename ? filename.substr(filename.lastIndexOf(".")) : "";
-      if (
-        !fileext ||
-        (allowFiles &&
-          (allowFiles.join("") + ".").indexOf(fileext.toLowerCase() + ".") === -1)
-      ) {
-        UE.dialog.removeLoadingPlaceholder(me, loadingId);
-        UE.dialog.tipError(me, me.getLang("autoupload.exceedTypeError"));
-        return;
-      }
+            var allowFiles = me.getOpt("imageAllowFiles");
+            var filename = input.value, fileext = filename ? filename.substr(filename.lastIndexOf(".")) : "";
+            if (
+                !fileext ||
+                (allowFiles &&
+                    (allowFiles.join("") + ".").indexOf(fileext.toLowerCase() + ".") === -1)
+            ) {
+                UE.dialog.removeLoadingPlaceholder(me, loadingId);
+                UE.dialog.tipError(me, me.getLang("autoupload.exceedTypeError"));
+                return;
+            }
 
-      var upload = function(file){
-        const formData = new FormData();
-        formData.append(me.getOpt('imageFieldName'), file, file.name);
-        UE.api.requestAction(me,me.getOpt("imageActionName"),{
-          data:formData
-        }).then(function(res){
-          if('SUCCESS'===res.data.state && res.data.url){
-            const loader = me.document.getElementById(loadingId);
-            domUtils.removeClasses(loader, "loadingclass");
-            const link = me.options.imageUrlPrefix + res.data.url;
-            loader.setAttribute("src", link);
-            loader.setAttribute("_src", link);
-            loader.setAttribute("alt", res.data.original || "");
-            loader.removeAttribute("id");
-            me.fireEvent("contentchange");
-            // 触发上传图片事件
-            me.fireEvent("uploadsuccess", {
-              res: res.data,
-              type: 'image'
-            });
-          }else{
-            UE.dialog.removeLoadingPlaceholder(me, loadingId);
-            UE.dialog.tipError(me, res.data.state);
-          }
-        }).catch(function(err){
-          UE.dialog.removeLoadingPlaceholder(me, loadingId);
-          UE.dialog.tipError(me, err);
+            var upload = function (file) {
+                const formData = new FormData();
+                formData.append(me.getOpt('imageFieldName'), file, file.name);
+                UE.api.requestAction(me, me.getOpt("imageActionName"), {
+                    data: formData
+                }).then(function (res) {
+                    if ('SUCCESS' === res.data.state && res.data.url) {
+                        const loader = me.document.getElementById(loadingId);
+                        domUtils.removeClasses(loader, "uep-loading");
+                        const link = me.options.imageUrlPrefix + res.data.url;
+                        loader.setAttribute("src", link);
+                        loader.setAttribute("_src", link);
+                        loader.setAttribute("alt", res.data.original || "");
+                        loader.removeAttribute("id");
+                        me.fireEvent("contentchange");
+                        // 触发上传图片事件
+                        me.fireEvent("uploadsuccess", {
+                            res: res.data,
+                            type: 'image'
+                        });
+                    } else {
+                        UE.dialog.removeLoadingPlaceholder(me, loadingId);
+                        UE.dialog.tipError(me, res.data.state);
+                    }
+                }).catch(function (err) {
+                    UE.dialog.removeLoadingPlaceholder(me, loadingId);
+                    UE.dialog.tipError(me, err);
+                });
+            };
+            var file = input.files[0];
+            // console.log('file',file);
+            var imageCompressEnable = me.getOpt('imageCompressEnable'),
+                imageMaxSize = me.getOpt('imageMaxSize'),
+                imageCompressBorder = me.getOpt('imageCompressBorder');
+            if (imageCompressEnable) {
+                UE.image.compress(file, {
+                    maxSizeMB: imageMaxSize / 1024 / 1024,
+                    maxWidthOrHeight: imageCompressBorder
+                }).then(function (compressedFile) {
+                    if (me.options.debug) {
+                        console.log('SimpleUpload.CompressImage', (compressedFile.size / file.size * 100).toFixed(2) + '%');
+                    }
+                    upload(compressedFile);
+                }).catch(function (err) {
+                    console.error('SimpleUpload.CompressImage.error', err);
+                    upload(file);
+                });
+            } else {
+                upload(file);
+            }
         });
-      };
-      var file = input.files[0];
-      // console.log('file',file);
-      var imageCompressEnable = me.getOpt('imageCompressEnable'),
-        imageMaxSize = me.getOpt('imageMaxSize'),
-        imageCompressBorder = me.getOpt('imageCompressBorder');
-      if(imageCompressEnable){
-        UE.image.compress(file,{
-          maxSizeMB: imageMaxSize/1024/1024,
-          maxWidthOrHeight: imageCompressBorder
-        }).then(function(compressedFile){
-          if(me.options.debug){
-            console.log('SimpleUpload.CompressImage', (compressedFile.size / file.size * 100).toFixed(2) + '%');
-          }
-          upload(compressedFile);
-        }).catch(function(err){
-          console.error('SimpleUpload.CompressImage.error', err);
-          upload(file);
+
+        var stateTimer;
+        me.addListener("selectionchange", function () {
+            clearTimeout(stateTimer);
+            stateTimer = setTimeout(function () {
+                var state = me.queryCommandState("simpleupload");
+                if (state === -1) {
+                    input.disabled = "disabled";
+                } else {
+                    input.disabled = false;
+                }
+            }, 400);
         });
-      }else{
-        upload(file);
-      }
-    });
-
-    var stateTimer;
-    me.addListener("selectionchange", function () {
-      clearTimeout(stateTimer);
-      stateTimer = setTimeout(function () {
-        var state = me.queryCommandState("simpleupload");
-        if (state === -1) {
-          input.disabled = "disabled";
-        } else {
-          input.disabled = false;
-        }
-      }, 400);
-    });
-    isLoaded = true;
-  }
-
-  return {
-    bindEvents: {
-      ready: function () {
-        //设置loading的样式
-        utils.cssRule(
-          "loading",
-          ".loadingclass{display:inline-block;cursor:default;background: url('" +
-          this.options.themePath +
-          this.options.theme +
-          "/images/loading.gif') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-right:1px;height:22px;width:22px;}\n" +
-          ".loaderrorclass{display:inline-block;cursor:default;background: url('" +
-          this.options.themePath +
-          this.options.theme +
-          "/images/loaderror.png') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-right:1px;height:22px;width:22px;" +
-          "}",
-          this.document
-        );
-      },
-      /* 初始化简单上传按钮 */
-      simpleuploadbtnready: function (type, container) {
-        containerBtn = container;
-        me.afterConfigReady(initUploadBtn);
-      }
-    },
-    outputRule: function (root) {
-      utils.each(root.getNodesByTagName("img"), function (n) {
-        if (/\b(loaderrorclass)|(bloaderrorclass)\b/.test(n.getAttr("class"))) {
-          n.parentNode.removeChild(n);
-        }
-      });
-    },
-    commands: {
-      simpleupload: {
-        queryCommandState: function () {
-          return isLoaded ? 0 : -1;
-        }
-      }
+        isLoaded = true;
     }
-  };
+
+    return {
+        bindEvents: {
+            ready: function () {
+                //设置loading的样式
+                utils.cssRule(
+                    "loading",
+                    ".uep-loading{display:inline-block;cursor:default;background: url('" +
+                    this.options.themePath +
+                    this.options.theme +
+                    "/images/loading.gif') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-right:1px;height:22px;width:22px;}\n" +
+                    ".uep-loading-error{display:inline-block;cursor:default;background: url('" +
+                    this.options.themePath +
+                    this.options.theme +
+                    "/images/loaderror.png') no-repeat center center transparent;border-radius:3px;outline:1px solid #EEE;margin-right:1px;height:22px;width:22px;" +
+                    "}",
+                    this.document
+                );
+            },
+            /* 初始化简单上传按钮 */
+            simpleuploadbtnready: function (type, container) {
+                containerBtn = container;
+                me.afterConfigReady(initUploadBtn);
+            }
+        },
+        outputRule: function (root) {
+            utils.each(root.getNodesByTagName("img"), function (n) {
+                if (/\b(uep\-loading\-error)|(bloaderrorclass)\b/.test(n.getAttr("class"))) {
+                    n.parentNode.removeChild(n);
+                }
+            });
+        },
+        commands: {
+            simpleupload: {
+                queryCommandState: function () {
+                    return isLoaded ? 0 : -1;
+                }
+            }
+        }
+    };
 });
 
 
@@ -32055,1006 +32066,1006 @@ UE.ui = baidu.editor.ui = {};
 ///commandsName FullScreen
 ///commandsTitle  全屏
 (function () {
-  var utils = baidu.editor.utils,
-    uiUtils = baidu.editor.ui.uiUtils,
-    UIBase = baidu.editor.ui.UIBase,
-    domUtils = baidu.editor.dom.domUtils;
-  var nodeStack = [];
+    var utils = baidu.editor.utils,
+        uiUtils = baidu.editor.ui.uiUtils,
+        UIBase = baidu.editor.ui.UIBase,
+        domUtils = baidu.editor.dom.domUtils;
+    var nodeStack = [];
 
-  function EditorUI(options) {
-    this.initOptions(options);
-    this.initEditorUI();
-  }
+    function EditorUI(options) {
+        this.initOptions(options);
+        this.initEditorUI();
+    }
 
-  EditorUI.prototype = {
-    uiName: "editor",
-    initEditorUI: function () {
-      this.editor.ui = this;
-      this._dialogs = {};
-      this.initUIBase();
-      this._initToolbars();
-      var editor = this.editor,
-        me = this;
+    EditorUI.prototype = {
+        uiName: "editor",
+        initEditorUI: function () {
+            this.editor.ui = this;
+            this._dialogs = {};
+            this.initUIBase();
+            this._initToolbars();
+            var editor = this.editor,
+                me = this;
 
-      editor.addListener("ready", function () {
-        //提供getDialog方法
-        editor.getDialog = function (name) {
-          return editor.ui._dialogs[name + "Dialog"];
-        };
-        domUtils.on(editor.window, "scroll", function (evt) {
-          baidu.editor.ui.Popup.postHide(evt);
-        });
-        //提供编辑器实时宽高(全屏时宽高不变化)
-        editor.ui._actualFrameWidth = editor.options.initialFrameWidth;
+            editor.addListener("ready", function () {
+                //提供getDialog方法
+                editor.getDialog = function (name) {
+                    return editor.ui._dialogs[name + "Dialog"];
+                };
+                domUtils.on(editor.window, "scroll", function (evt) {
+                    baidu.editor.ui.Popup.postHide(evt);
+                });
+                //提供编辑器实时宽高(全屏时宽高不变化)
+                editor.ui._actualFrameWidth = editor.options.initialFrameWidth;
 
-        UE.browser.ie &&
-        UE.browser.version === 6 &&
-        editor.container.ownerDocument.execCommand(
-          "BackgroundImageCache",
-          false,
-          true
-        );
+                UE.browser.ie &&
+                UE.browser.version === 6 &&
+                editor.container.ownerDocument.execCommand(
+                    "BackgroundImageCache",
+                    false,
+                    true
+                );
 
-        //display bottom-bar label based on config
-        if (editor.options.elementPathEnabled) {
-          editor.ui.getDom("elementpath").innerHTML =
-            '<div class="edui-editor-breadcrumb">' +
-            editor.getLang("elementPathTip") +
-            ":</div>";
-        }
-        if (editor.options.wordCount) {
-          function countFn() {
-            setCount(editor, me);
-            domUtils.un(editor.document, "click", arguments.callee);
-          }
-
-          domUtils.on(editor.document, "click", countFn);
-          editor.ui.getDom("wordcount").innerHTML = editor.getLang(
-            "wordCountTip"
-          );
-        }
-        editor.ui._scale();
-        if (editor.options.scaleEnabled) {
-          if (editor.autoHeightEnabled) {
-            editor.disableAutoHeight();
-          }
-          me.enableScale();
-        } else {
-          me.disableScale();
-        }
-        if (
-          !editor.options.elementPathEnabled &&
-          !editor.options.wordCount &&
-          !editor.options.scaleEnabled
-        ) {
-          editor.ui.getDom("elementpath").style.display = "none";
-          editor.ui.getDom("wordcount").style.display = "none";
-          editor.ui.getDom("scale").style.display = "none";
-        }
-
-        if (!editor.selection.isFocus()) return;
-        editor.fireEvent("selectionchange", false, true);
-      });
-
-      editor.addListener("mousedown", function (t, evt) {
-        var el = evt.target || evt.srcElement;
-        baidu.editor.ui.Popup.postHide(evt, el);
-        baidu.editor.ui.ShortCutMenu.postHide(evt);
-      });
-      editor.addListener("delcells", function () {
-        if (UE.ui["edittip"]) {
-          new UE.ui["edittip"](editor);
-        }
-        editor.getDialog("edittip").open();
-      });
-
-      var pastePop,
-        isPaste = false,
-        timer;
-      editor.addListener("afterpaste", function () {
-        if (editor.queryCommandState("pasteplain")) return;
-        if (baidu.editor.ui.PastePicker) {
-          pastePop = new baidu.editor.ui.Popup({
-            content: new baidu.editor.ui.PastePicker({editor: editor}),
-            editor: editor,
-            className: "edui-wordpastepop"
-          });
-          pastePop.render();
-        }
-        isPaste = true;
-      });
-
-      editor.addListener("afterinserthtml", function () {
-        clearTimeout(timer);
-        timer = setTimeout(function () {
-          if (pastePop && (isPaste || editor.ui._isTransfer)) {
-            if (pastePop.isHidden()) {
-              var span = domUtils.createElement(editor.document, "span", {
-                  style: "line-height:0px;",
-                  innerHTML: "\ufeff"
-                }),
-                range = editor.selection.getRange();
-              range.insertNode(span);
-              var tmp = getDomNode(span, "firstChild", "previousSibling");
-              tmp &&
-              pastePop.showAnchor(tmp.nodeType == 3 ? tmp.parentNode : tmp);
-              domUtils.remove(span);
-            } else {
-              pastePop.show();
-            }
-            delete editor.ui._isTransfer;
-            isPaste = false;
-          }
-        }, 200);
-      });
-      editor.addListener("contextmenu", function (t, evt) {
-        baidu.editor.ui.Popup.postHide(evt);
-      });
-      editor.addListener("keydown", function (t, evt) {
-        if (pastePop) pastePop.dispose(evt);
-        var keyCode = evt.keyCode || evt.which;
-        if (evt.altKey && keyCode == 90) {
-          UE.ui.buttons["fullscreen"].onclick();
-        }
-      });
-      editor.addListener("wordcount", function (type) {
-        setCount(this, me);
-      });
-
-      function setCount(editor, ui) {
-        editor.setOpt({
-          wordCount: true,
-          maximumWords: 10000,
-          wordCountMsg:
-            editor.options.wordCountMsg || editor.getLang("wordCountMsg"),
-          wordOverFlowMsg:
-            editor.options.wordOverFlowMsg || editor.getLang("wordOverFlowMsg")
-        });
-        var opt = editor.options,
-          max = opt.maximumWords,
-          msg = opt.wordCountMsg,
-          errMsg = opt.wordOverFlowMsg,
-          countDom = ui.getDom("wordcount");
-        if (!opt.wordCount) {
-          return;
-        }
-        var count = editor.getContentLength(true);
-        if (count > max) {
-          countDom.innerHTML = errMsg;
-          editor.fireEvent("wordcountoverflow");
-        } else {
-          countDom.innerHTML = msg
-            .replace("{#leave}", max - count)
-            .replace("{#count}", count);
-        }
-      }
-
-      editor.addListener("selectionchange", function () {
-        if (editor.options.elementPathEnabled) {
-          me[
-          (editor.queryCommandState("elementpath") == -1 ? "dis" : "en") +
-          "ableElementPath"
-            ]();
-        }
-        if (editor.options.scaleEnabled) {
-          me[
-          (editor.queryCommandState("scale") == -1 ? "dis" : "en") +
-          "ableScale"
-            ]();
-        }
-      });
-      var popup = new baidu.editor.ui.Popup({
-        editor: editor,
-        content: "",
-        className: "edui-bubble",
-        _onEditButtonClick: function () {
-          this.hide();
-          editor.ui._dialogs.linkDialog.open();
-        },
-        _onImgEditButtonClick: function (name) {
-          this.hide();
-          editor.ui._dialogs[name] && editor.ui._dialogs[name].open();
-        },
-        _onImgSetFloat: function (value) {
-          this.hide();
-          editor.execCommand("imagefloat", value);
-        },
-        _setIframeAlign: function (value) {
-          var frame = popup.anchorEl;
-          var newFrame = frame.cloneNode(true);
-          switch (value) {
-            case -2:
-              newFrame.setAttribute("align", "");
-              break;
-            case -1:
-              newFrame.setAttribute("align", "left");
-              break;
-            case 1:
-              newFrame.setAttribute("align", "right");
-              break;
-          }
-          frame.parentNode.insertBefore(newFrame, frame);
-          domUtils.remove(frame);
-          popup.anchorEl = newFrame;
-          popup.showAnchor(popup.anchorEl);
-        },
-        _updateIframe: function () {
-          var frame = (editor._iframe = popup.anchorEl);
-          if (domUtils.hasClass(frame, "ueditor_baidumap")) {
-            editor.selection.getRange().selectNode(frame).select();
-            editor.ui._dialogs.mapDialog.open();
-            popup.hide();
-          } else {
-            editor.ui._dialogs.insertframeDialog.open();
-            popup.hide();
-          }
-        },
-        _onRemoveButtonClick: function (cmdName) {
-          editor.execCommand(cmdName);
-          this.hide();
-        },
-        queryAutoHide: function (el) {
-          if (el && el.ownerDocument == editor.document) {
-            if (
-              el.tagName.toLowerCase() == "img" ||
-              domUtils.findParentByTagName(el, "a", true)
-            ) {
-              return el !== popup.anchorEl;
-            }
-          }
-          return baidu.editor.ui.Popup.prototype.queryAutoHide.call(this, el);
-        }
-      });
-      popup.render();
-      if (editor.options.imagePopup) {
-        editor.addListener("mouseover", function (t, evt) {
-          evt = evt || window.event;
-          var el = evt.target || evt.srcElement;
-          if (
-            editor.ui._dialogs.insertframeDialog &&
-            /iframe/gi.test(el.tagName)
-          ) {
-            var html = popup.formatHtml(
-              "<nobr>" +
-              '<span onclick=$$._setIframeAlign(-2) class="edui-clickable">' +
-              editor.getLang("default") +
-              '</span>&nbsp;&nbsp;<span onclick=$$._setIframeAlign(-1) class="edui-clickable">' +
-              editor.getLang("justifyleft") +
-              '</span>&nbsp;&nbsp;<span onclick=$$._setIframeAlign(1) class="edui-clickable">' +
-              editor.getLang("justifyright") +
-              "</span>&nbsp;&nbsp;" +
-              ' <span onclick="$$._updateIframe( this);" class="edui-clickable">' +
-              editor.getLang("modify") +
-              "</span></nobr>"
-            );
-            if (html) {
-              popup.getDom("content").innerHTML = html;
-              popup.anchorEl = el;
-              popup.showAnchor(popup.anchorEl);
-            } else {
-              popup.hide();
-            }
-          }
-        });
-        editor.addListener("selectionchange", function (t, causeByUi) {
-          if (!causeByUi) return;
-          var html = "",
-            str = "",
-            img = editor.selection.getRange().getClosedNode(),
-            dialogs = editor.ui._dialogs;
-          if (img && img.tagName == "IMG") {
-            var dialogName = "insertimageDialog";
-            if (
-              img.className.indexOf("edui-faked-video") != -1 ||
-              img.className.indexOf("edui-upload-video") != -1
-            ) {
-              dialogName = "insertvideoDialog";
-            }
-            if (
-              img.className.indexOf("edui-faked-audio") != -1 ||
-              img.className.indexOf("edui-upload-audio") != -1
-            ) {
-              dialogName = "insertaudioDialog";
-            }
-            if (img.getAttribute("anchorname")) {
-              dialogName = "anchorDialog";
-              html = popup.formatHtml(
-                "<nobr>" +
-                '<span onclick=$$._onImgEditButtonClick("anchorDialog") class="edui-clickable">' +
-                editor.getLang("modify") +
-                "</span>&nbsp;&nbsp;" +
-                "<span onclick=$$._onRemoveButtonClick('anchor') class=\"edui-clickable\">" +
-                editor.getLang("delete") +
-                "</span></nobr>"
-              );
-            }
-            // if (img.getAttribute("data-word-image")) {
-            //   //todo 放到dialog去做查询
-            //   editor['data-word-image'] = [img.getAttribute("data-word-image")];
-            //   dialogName = "wordimageDialog";
-            // }
-            if (
-              domUtils.hasClass(img, "loadingclass") ||
-              domUtils.hasClass(img, "loaderrorclass")
-            ) {
-              dialogName = "";
-            }
-            if (!dialogs[dialogName]) {
-              return;
-            }
-
-            var actions = [];
-            actions.push('<nobr />');
-            actions.push('<span onclick=$$._onImgSetFloat("none") class="edui-clickable edui-popup-action-item">' +
-              editor.getLang("default") +
-              "</span>");
-            actions.push('<span onclick=$$._onImgSetFloat("left") class="edui-clickable edui-popup-action-item">' +
-              editor.getLang("justifyleft") +
-              "</span>");
-            actions.push('<span onclick=$$._onImgSetFloat("right") class="edui-clickable edui-popup-action-item">' +
-              editor.getLang("justifyright") +
-              "</span>");
-            actions.push('<span onclick=$$._onImgSetFloat("center") class="edui-clickable edui-popup-action-item">' +
-              editor.getLang("justifycenter") +
-              "</span>");
-            if (img.getAttribute('data-formula-image') !== null) {
-              actions.push("<span onclick=\"$$._onImgEditButtonClick('formulaDialog');\" class='edui-clickable edui-popup-action-item'>" +
-                 editor.getLang("formulaedit") + "</span>");
-            }
-            if (img.getAttribute("data-word-image")) {
-              actions.push("<span onclick=\"$$._onImgEditButtonClick('wordimageDialog');\" class='edui-clickable edui-popup-action-item'>" +
-                editor.getLang("save") +
-                "</span>");
-            } else {
-              actions.push("<span onclick=\"$$._onImgEditButtonClick('" + dialogName + '\');" class="edui-clickable edui-popup-action-item">' +
-                editor.getLang("modify") +
-                "</span>");
-            }
-            actions.push("</nobr>");
-
-            !html && (html = popup.formatHtml(actions.join("")));
-          }
-          if (editor.ui._dialogs.linkDialog) {
-            var link = editor.queryCommandValue("link");
-            var url;
-            if (
-              link &&
-              (url = link.getAttribute("_href") || link.getAttribute("href", 2))
-            ) {
-              var txt = url;
-              if (url.length > 30) {
-                txt = url.substring(0, 20) + "...";
-              }
-              if (html) {
-                html += '<div style="height:5px;"></div>';
-              }
-              html += popup.formatHtml(
-                "<nobr>" +
-                editor.getLang("anchorMsg") +
-                ': <a target="_blank" href="' +
-                url +
-                '" title="' +
-                url +
-                '" >' +
-                txt +
-                "</a>" +
-                ' <span class="edui-clickable" onclick="$$._onEditButtonClick();">' +
-                editor.getLang("modify") +
-                "</span>" +
-                ' <span class="edui-clickable" onclick="$$._onRemoveButtonClick(\'unlink\');"> ' +
-                editor.getLang("clear") +
-                "</span></nobr>"
-              );
-              popup.showAnchor(link);
-            }
-          }
-
-          if (html) {
-            popup.getDom("content").innerHTML = html;
-            popup.anchorEl = img || link;
-            popup.showAnchor(popup.anchorEl);
-          } else {
-            popup.hide();
-          }
-        });
-      }
-    },
-    _initToolbars: function () {
-      var editor = this.editor;
-      var toolbars = this.toolbars || [];
-      if(toolbars[0]){
-        toolbars[0].unshift(
-          'message'
-        );
-      }
-      var toolbarUis = [];
-      var extraUIs = [];
-      for (var i = 0; i < toolbars.length; i++) {
-        var toolbar = toolbars[i];
-        var toolbarUi = new baidu.editor.ui.Toolbar({
-          theme: editor.options.theme
-        });
-        for (var j = 0; j < toolbar.length; j++) {
-          var toolbarItem = toolbar[j];
-          var toolbarItemUi = null;
-          if (typeof toolbarItem == "string") {
-            toolbarItem = toolbarItem.toLowerCase();
-            if (toolbarItem === "|") {
-              toolbarItem = "Separator";
-            }
-            if (toolbarItem === "||") {
-              toolbarItem = "Breakline";
-            }
-            var ui = baidu.editor.ui[toolbarItem];
-            if (ui) {
-              if (utils.isFunction(ui)) {
-                toolbarItemUi = new baidu.editor.ui[toolbarItem](editor);
-              } else {
-                if (ui.id && ui.id !== editor.key) {
-                  continue;
+                //display bottom-bar label based on config
+                if (editor.options.elementPathEnabled) {
+                    editor.ui.getDom("elementpath").innerHTML =
+                        '<div class="edui-editor-breadcrumb">' +
+                        editor.getLang("elementPathTip") +
+                        ":</div>";
                 }
-                var itemUI = ui.execFn.call(editor, editor, toolbarItem);
-                if (itemUI) {
-                  if (ui.index === undefined) {
-                    toolbarUi.add(itemUI);
-                    continue;
-                  } else {
-                    extraUIs.push({
-                      index: ui.index,
-                      itemUI: itemUI
+                if (editor.options.wordCount) {
+                    function countFn() {
+                        setCount(editor, me);
+                        domUtils.un(editor.document, "click", arguments.callee);
+                    }
+
+                    domUtils.on(editor.document, "click", countFn);
+                    editor.ui.getDom("wordcount").innerHTML = editor.getLang(
+                        "wordCountTip"
+                    );
+                }
+                editor.ui._scale();
+                if (editor.options.scaleEnabled) {
+                    if (editor.autoHeightEnabled) {
+                        editor.disableAutoHeight();
+                    }
+                    me.enableScale();
+                } else {
+                    me.disableScale();
+                }
+                if (
+                    !editor.options.elementPathEnabled &&
+                    !editor.options.wordCount &&
+                    !editor.options.scaleEnabled
+                ) {
+                    editor.ui.getDom("elementpath").style.display = "none";
+                    editor.ui.getDom("wordcount").style.display = "none";
+                    editor.ui.getDom("scale").style.display = "none";
+                }
+
+                if (!editor.selection.isFocus()) return;
+                editor.fireEvent("selectionchange", false, true);
+            });
+
+            editor.addListener("mousedown", function (t, evt) {
+                var el = evt.target || evt.srcElement;
+                baidu.editor.ui.Popup.postHide(evt, el);
+                baidu.editor.ui.ShortCutMenu.postHide(evt);
+            });
+            editor.addListener("delcells", function () {
+                if (UE.ui["edittip"]) {
+                    new UE.ui["edittip"](editor);
+                }
+                editor.getDialog("edittip").open();
+            });
+
+            var pastePop,
+                isPaste = false,
+                timer;
+            editor.addListener("afterpaste", function () {
+                if (editor.queryCommandState("pasteplain")) return;
+                if (baidu.editor.ui.PastePicker) {
+                    pastePop = new baidu.editor.ui.Popup({
+                        content: new baidu.editor.ui.PastePicker({editor: editor}),
+                        editor: editor,
+                        className: "edui-wordpastepop"
                     });
-                  }
+                    pastePop.render();
                 }
-              }
-            }
-            //fullscreen这里单独处理一下，放到首行去
-            if (toolbarItem === "fullscreen") {
-              if (toolbarUis && toolbarUis[0]) {
-                toolbarUis[0].items.splice(0, 0, toolbarItemUi);
-              } else {
-                toolbarItemUi && toolbarUi.items.splice(0, 0, toolbarItemUi);
-              }
-              continue;
-            }
-          } else {
-            toolbarItemUi = toolbarItem;
-          }
-          if (toolbarItemUi && toolbarItemUi.id) {
-            toolbarUi.add(toolbarItemUi);
-          }
-        }
-        toolbarUis[i] = toolbarUi;
-      }
+                isPaste = true;
+            });
 
-      //接受外部定制的UI
+            editor.addListener("afterinserthtml", function () {
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    if (pastePop && (isPaste || editor.ui._isTransfer)) {
+                        if (pastePop.isHidden()) {
+                            var span = domUtils.createElement(editor.document, "span", {
+                                    style: "line-height:0px;",
+                                    innerHTML: "\ufeff"
+                                }),
+                                range = editor.selection.getRange();
+                            range.insertNode(span);
+                            var tmp = getDomNode(span, "firstChild", "previousSibling");
+                            tmp &&
+                            pastePop.showAnchor(tmp.nodeType == 3 ? tmp.parentNode : tmp);
+                            domUtils.remove(span);
+                        } else {
+                            pastePop.show();
+                        }
+                        delete editor.ui._isTransfer;
+                        isPaste = false;
+                    }
+                }, 200);
+            });
+            editor.addListener("contextmenu", function (t, evt) {
+                baidu.editor.ui.Popup.postHide(evt);
+            });
+            editor.addListener("keydown", function (t, evt) {
+                if (pastePop) pastePop.dispose(evt);
+                var keyCode = evt.keyCode || evt.which;
+                if (evt.altKey && keyCode == 90) {
+                    UE.ui.buttons["fullscreen"].onclick();
+                }
+            });
+            editor.addListener("wordcount", function (type) {
+                setCount(this, me);
+            });
 
-      utils.each(extraUIs, function (obj) {
-        toolbarUi.add(obj.itemUI, obj.index);
-      });
-      this.toolbars = toolbarUis;
-    },
-    getHtmlTpl: function () {
-      return (
-        '<div id="##" class="%%">' +
-        '<div id="##_toolbarbox" class="%%-toolbarbox">' +
-        (this.toolbars.length
-          ? '<div id="##_toolbarboxouter" class="%%-toolbarboxouter"><div class="%%-toolbarboxinner">' +
-          this.renderToolbarBoxHtml() +
-          "</div></div>"
-          : "") +
-        '<div id="##_toolbarmsg" class="%%-toolbarmsg" style="display:none;">' +
-        '<div id = "##_upload_dialog" class="%%-toolbarmsg-upload" onclick="$$.showWordImageDialog();">' +
-        this.editor.getLang("clickToUpload") +
-        "</div>" +
-        '<div class="%%-toolbarmsg-close" onclick="$$.hideToolbarMsg();">x</div>' +
-        '<div id="##_toolbarmsg_label" class="%%-toolbarmsg-label"></div>' +
-        '<div style="height:0;overflow:hidden;clear:both;"></div>' +
-        "</div>" +
-        '<div id="##_message_holder" class="%%-messageholder"></div>' +
-        "</div>" +
-        '<div id="##_iframeholder" class="%%-iframeholder">' +
-        "</div>" +
-        //modify wdcount by matao
-        '<div id="##_bottombar" class="%%-bottomContainer"><table><tr>' +
-        '<td id="##_elementpath" class="%%-bottombar"></td>' +
-        '<td id="##_wordcount" class="%%-wordcount"></td>' +
-        '<td id="##_scale" class="%%-scale"><div class="%%-icon"></div></td>' +
-        "</tr></table></div>" +
-        '<div id="##_scalelayer"></div>' +
-        "</div>"
-      );
-    },
-    showWordImageDialog: function () {
-      this._dialogs["wordimageDialog"].open();
-    },
-    renderToolbarBoxHtml: function () {
-      var buff = [];
-      for (var i = 0; i < this.toolbars.length; i++) {
-        buff.push(this.toolbars[i].renderHtml());
-      }
-      return buff.join("");
-    },
-    setFullScreen: function (fullscreen) {
-      var editor = this.editor,
-        container = editor.container.parentNode.parentNode;
-      if (this._fullscreen != fullscreen) {
-        this._fullscreen = fullscreen;
-        this.editor.fireEvent("beforefullscreenchange", fullscreen);
-        if (baidu.editor.browser.gecko) {
-          var bk = editor.selection.getRange().createBookmark();
-        }
-        if (fullscreen) {
-          while (container.tagName !== "BODY") {
-            var position = baidu.editor.dom.domUtils.getComputedStyle(
-              container,
-              "position"
+            function setCount(editor, ui) {
+                editor.setOpt({
+                    wordCount: true,
+                    maximumWords: 10000,
+                    wordCountMsg:
+                        editor.options.wordCountMsg || editor.getLang("wordCountMsg"),
+                    wordOverFlowMsg:
+                        editor.options.wordOverFlowMsg || editor.getLang("wordOverFlowMsg")
+                });
+                var opt = editor.options,
+                    max = opt.maximumWords,
+                    msg = opt.wordCountMsg,
+                    errMsg = opt.wordOverFlowMsg,
+                    countDom = ui.getDom("wordcount");
+                if (!opt.wordCount) {
+                    return;
+                }
+                var count = editor.getContentLength(true);
+                if (count > max) {
+                    countDom.innerHTML = errMsg;
+                    editor.fireEvent("wordcountoverflow");
+                } else {
+                    countDom.innerHTML = msg
+                        .replace("{#leave}", max - count)
+                        .replace("{#count}", count);
+                }
+            }
+
+            editor.addListener("selectionchange", function () {
+                if (editor.options.elementPathEnabled) {
+                    me[
+                    (editor.queryCommandState("elementpath") == -1 ? "dis" : "en") +
+                    "ableElementPath"
+                        ]();
+                }
+                if (editor.options.scaleEnabled) {
+                    me[
+                    (editor.queryCommandState("scale") == -1 ? "dis" : "en") +
+                    "ableScale"
+                        ]();
+                }
+            });
+            var popup = new baidu.editor.ui.Popup({
+                editor: editor,
+                content: "",
+                className: "edui-bubble",
+                _onEditButtonClick: function () {
+                    this.hide();
+                    editor.ui._dialogs.linkDialog.open();
+                },
+                _onImgEditButtonClick: function (name) {
+                    this.hide();
+                    editor.ui._dialogs[name] && editor.ui._dialogs[name].open();
+                },
+                _onImgSetFloat: function (value) {
+                    this.hide();
+                    editor.execCommand("imagefloat", value);
+                },
+                _setIframeAlign: function (value) {
+                    var frame = popup.anchorEl;
+                    var newFrame = frame.cloneNode(true);
+                    switch (value) {
+                        case -2:
+                            newFrame.setAttribute("align", "");
+                            break;
+                        case -1:
+                            newFrame.setAttribute("align", "left");
+                            break;
+                        case 1:
+                            newFrame.setAttribute("align", "right");
+                            break;
+                    }
+                    frame.parentNode.insertBefore(newFrame, frame);
+                    domUtils.remove(frame);
+                    popup.anchorEl = newFrame;
+                    popup.showAnchor(popup.anchorEl);
+                },
+                _updateIframe: function () {
+                    var frame = (editor._iframe = popup.anchorEl);
+                    if (domUtils.hasClass(frame, "ueditor_baidumap")) {
+                        editor.selection.getRange().selectNode(frame).select();
+                        editor.ui._dialogs.mapDialog.open();
+                        popup.hide();
+                    } else {
+                        editor.ui._dialogs.insertframeDialog.open();
+                        popup.hide();
+                    }
+                },
+                _onRemoveButtonClick: function (cmdName) {
+                    editor.execCommand(cmdName);
+                    this.hide();
+                },
+                queryAutoHide: function (el) {
+                    if (el && el.ownerDocument == editor.document) {
+                        if (
+                            el.tagName.toLowerCase() == "img" ||
+                            domUtils.findParentByTagName(el, "a", true)
+                        ) {
+                            return el !== popup.anchorEl;
+                        }
+                    }
+                    return baidu.editor.ui.Popup.prototype.queryAutoHide.call(this, el);
+                }
+            });
+            popup.render();
+            if (editor.options.imagePopup) {
+                editor.addListener("mouseover", function (t, evt) {
+                    evt = evt || window.event;
+                    var el = evt.target || evt.srcElement;
+                    if (
+                        editor.ui._dialogs.insertframeDialog &&
+                        /iframe/gi.test(el.tagName)
+                    ) {
+                        var html = popup.formatHtml(
+                            "<nobr>" +
+                            '<span onclick=$$._setIframeAlign(-2) class="edui-clickable">' +
+                            editor.getLang("default") +
+                            '</span>&nbsp;&nbsp;<span onclick=$$._setIframeAlign(-1) class="edui-clickable">' +
+                            editor.getLang("justifyleft") +
+                            '</span>&nbsp;&nbsp;<span onclick=$$._setIframeAlign(1) class="edui-clickable">' +
+                            editor.getLang("justifyright") +
+                            "</span>&nbsp;&nbsp;" +
+                            ' <span onclick="$$._updateIframe( this);" class="edui-clickable">' +
+                            editor.getLang("modify") +
+                            "</span></nobr>"
+                        );
+                        if (html) {
+                            popup.getDom("content").innerHTML = html;
+                            popup.anchorEl = el;
+                            popup.showAnchor(popup.anchorEl);
+                        } else {
+                            popup.hide();
+                        }
+                    }
+                });
+                editor.addListener("selectionchange", function (t, causeByUi) {
+                    if (!causeByUi) return;
+                    var html = "",
+                        str = "",
+                        img = editor.selection.getRange().getClosedNode(),
+                        dialogs = editor.ui._dialogs;
+                    if (img && img.tagName == "IMG") {
+                        var dialogName = "insertimageDialog";
+                        if (
+                            img.className.indexOf("edui-faked-video") != -1 ||
+                            img.className.indexOf("edui-upload-video") != -1
+                        ) {
+                            dialogName = "insertvideoDialog";
+                        }
+                        if (
+                            img.className.indexOf("edui-faked-audio") != -1 ||
+                            img.className.indexOf("edui-upload-audio") != -1
+                        ) {
+                            dialogName = "insertaudioDialog";
+                        }
+                        if (img.getAttribute("anchorname")) {
+                            dialogName = "anchorDialog";
+                            html = popup.formatHtml(
+                                "<nobr>" +
+                                '<span onclick=$$._onImgEditButtonClick("anchorDialog") class="edui-clickable">' +
+                                editor.getLang("modify") +
+                                "</span>&nbsp;&nbsp;" +
+                                "<span onclick=$$._onRemoveButtonClick('anchor') class=\"edui-clickable\">" +
+                                editor.getLang("delete") +
+                                "</span></nobr>"
+                            );
+                        }
+                        // if (img.getAttribute("data-word-image")) {
+                        //   //todo 放到dialog去做查询
+                        //   editor['data-word-image'] = [img.getAttribute("data-word-image")];
+                        //   dialogName = "wordimageDialog";
+                        // }
+                        if (
+                            domUtils.hasClass(img, "uep-loading") ||
+                            domUtils.hasClass(img, "uep-loading-error")
+                        ) {
+                            dialogName = "";
+                        }
+                        if (!dialogs[dialogName]) {
+                            return;
+                        }
+
+                        var actions = [];
+                        actions.push('<nobr />');
+                        actions.push('<span onclick=$$._onImgSetFloat("none") class="edui-clickable edui-popup-action-item">' +
+                            editor.getLang("default") +
+                            "</span>");
+                        actions.push('<span onclick=$$._onImgSetFloat("left") class="edui-clickable edui-popup-action-item">' +
+                            editor.getLang("justifyleft") +
+                            "</span>");
+                        actions.push('<span onclick=$$._onImgSetFloat("right") class="edui-clickable edui-popup-action-item">' +
+                            editor.getLang("justifyright") +
+                            "</span>");
+                        actions.push('<span onclick=$$._onImgSetFloat("center") class="edui-clickable edui-popup-action-item">' +
+                            editor.getLang("justifycenter") +
+                            "</span>");
+                        if (img.getAttribute('data-formula-image') !== null) {
+                            actions.push("<span onclick=\"$$._onImgEditButtonClick('formulaDialog');\" class='edui-clickable edui-popup-action-item'>" +
+                                editor.getLang("formulaedit") + "</span>");
+                        }
+                        if (img.getAttribute("data-word-image")) {
+                            actions.push("<span onclick=\"$$._onImgEditButtonClick('wordimageDialog');\" class='edui-clickable edui-popup-action-item'>" +
+                                editor.getLang("save") +
+                                "</span>");
+                        } else {
+                            actions.push("<span onclick=\"$$._onImgEditButtonClick('" + dialogName + '\');" class="edui-clickable edui-popup-action-item">' +
+                                editor.getLang("modify") +
+                                "</span>");
+                        }
+                        actions.push("</nobr>");
+
+                        !html && (html = popup.formatHtml(actions.join("")));
+                    }
+                    if (editor.ui._dialogs.linkDialog) {
+                        var link = editor.queryCommandValue("link");
+                        var url;
+                        if (
+                            link &&
+                            (url = link.getAttribute("_href") || link.getAttribute("href", 2))
+                        ) {
+                            var txt = url;
+                            if (url.length > 30) {
+                                txt = url.substring(0, 20) + "...";
+                            }
+                            if (html) {
+                                html += '<div style="height:5px;"></div>';
+                            }
+                            html += popup.formatHtml(
+                                "<nobr>" +
+                                editor.getLang("anchorMsg") +
+                                ': <a target="_blank" href="' +
+                                url +
+                                '" title="' +
+                                url +
+                                '" >' +
+                                txt +
+                                "</a>" +
+                                ' <span class="edui-clickable" onclick="$$._onEditButtonClick();">' +
+                                editor.getLang("modify") +
+                                "</span>" +
+                                ' <span class="edui-clickable" onclick="$$._onRemoveButtonClick(\'unlink\');"> ' +
+                                editor.getLang("clear") +
+                                "</span></nobr>"
+                            );
+                            popup.showAnchor(link);
+                        }
+                    }
+
+                    if (html) {
+                        popup.getDom("content").innerHTML = html;
+                        popup.anchorEl = img || link;
+                        popup.showAnchor(popup.anchorEl);
+                    } else {
+                        popup.hide();
+                    }
+                });
+            }
+        },
+        _initToolbars: function () {
+            var editor = this.editor;
+            var toolbars = this.toolbars || [];
+            if (toolbars[0]) {
+                toolbars[0].unshift(
+                    'message'
+                );
+            }
+            var toolbarUis = [];
+            var extraUIs = [];
+            for (var i = 0; i < toolbars.length; i++) {
+                var toolbar = toolbars[i];
+                var toolbarUi = new baidu.editor.ui.Toolbar({
+                    theme: editor.options.theme
+                });
+                for (var j = 0; j < toolbar.length; j++) {
+                    var toolbarItem = toolbar[j];
+                    var toolbarItemUi = null;
+                    if (typeof toolbarItem == "string") {
+                        toolbarItem = toolbarItem.toLowerCase();
+                        if (toolbarItem === "|") {
+                            toolbarItem = "Separator";
+                        }
+                        if (toolbarItem === "||") {
+                            toolbarItem = "Breakline";
+                        }
+                        var ui = baidu.editor.ui[toolbarItem];
+                        if (ui) {
+                            if (utils.isFunction(ui)) {
+                                toolbarItemUi = new baidu.editor.ui[toolbarItem](editor);
+                            } else {
+                                if (ui.id && ui.id !== editor.key) {
+                                    continue;
+                                }
+                                var itemUI = ui.execFn.call(editor, editor, toolbarItem);
+                                if (itemUI) {
+                                    if (ui.index === undefined) {
+                                        toolbarUi.add(itemUI);
+                                        continue;
+                                    } else {
+                                        extraUIs.push({
+                                            index: ui.index,
+                                            itemUI: itemUI
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                        //fullscreen这里单独处理一下，放到首行去
+                        if (toolbarItem === "fullscreen") {
+                            if (toolbarUis && toolbarUis[0]) {
+                                toolbarUis[0].items.splice(0, 0, toolbarItemUi);
+                            } else {
+                                toolbarItemUi && toolbarUi.items.splice(0, 0, toolbarItemUi);
+                            }
+                            continue;
+                        }
+                    } else {
+                        toolbarItemUi = toolbarItem;
+                    }
+                    if (toolbarItemUi && toolbarItemUi.id) {
+                        toolbarUi.add(toolbarItemUi);
+                    }
+                }
+                toolbarUis[i] = toolbarUi;
+            }
+
+            //接受外部定制的UI
+
+            utils.each(extraUIs, function (obj) {
+                toolbarUi.add(obj.itemUI, obj.index);
+            });
+            this.toolbars = toolbarUis;
+        },
+        getHtmlTpl: function () {
+            return (
+                '<div id="##" class="%%">' +
+                '<div id="##_toolbarbox" class="%%-toolbarbox">' +
+                (this.toolbars.length
+                    ? '<div id="##_toolbarboxouter" class="%%-toolbarboxouter"><div class="%%-toolbarboxinner">' +
+                    this.renderToolbarBoxHtml() +
+                    "</div></div>"
+                    : "") +
+                '<div id="##_toolbarmsg" class="%%-toolbarmsg" style="display:none;">' +
+                '<div id = "##_upload_dialog" class="%%-toolbarmsg-upload" onclick="$$.showWordImageDialog();">' +
+                this.editor.getLang("clickToUpload") +
+                "</div>" +
+                '<div class="%%-toolbarmsg-close" onclick="$$.hideToolbarMsg();">x</div>' +
+                '<div id="##_toolbarmsg_label" class="%%-toolbarmsg-label"></div>' +
+                '<div style="height:0;overflow:hidden;clear:both;"></div>' +
+                "</div>" +
+                '<div id="##_message_holder" class="%%-messageholder"></div>' +
+                "</div>" +
+                '<div id="##_iframeholder" class="%%-iframeholder">' +
+                "</div>" +
+                //modify wdcount by matao
+                '<div id="##_bottombar" class="%%-bottomContainer"><table><tr>' +
+                '<td id="##_elementpath" class="%%-bottombar"></td>' +
+                '<td id="##_wordcount" class="%%-wordcount"></td>' +
+                '<td id="##_scale" class="%%-scale"><div class="%%-icon"></div></td>' +
+                "</tr></table></div>" +
+                '<div id="##_scalelayer"></div>' +
+                "</div>"
             );
-            nodeStack.push(position);
-            container.style.position = "static";
-            container = container.parentNode;
-          }
-          this._bakHtmlOverflow = document.documentElement.style.overflow;
-          this._bakBodyOverflow = document.body.style.overflow;
-          this._bakAutoHeight = this.editor.autoHeightEnabled;
-          this._bakScrollTop = Math.max(
-            document.documentElement.scrollTop,
-            document.body.scrollTop
-          );
-
-          this._bakEditorContaninerWidth = editor.iframe.parentNode.offsetWidth;
-          if (this._bakAutoHeight) {
-            //当全屏时不能执行自动长高
-            editor.autoHeightEnabled = false;
-            this.editor.disableAutoHeight();
-          }
-
-          document.documentElement.style.overflow = "hidden";
-          //修复，滚动条不收起的问题
-
-          window.scrollTo(0, window.scrollY);
-          this._bakCssText = this.getDom().style.cssText;
-          this._bakCssText1 = this.getDom("iframeholder").style.cssText;
-          editor.iframe.parentNode.style.width = "";
-          this._updateFullScreen();
-        } else {
-          while (container.tagName !== "BODY") {
-            container.style.position = nodeStack.shift();
-            container = container.parentNode;
-          }
-          this.getDom().style.cssText = this._bakCssText;
-          this.getDom("iframeholder").style.cssText = this._bakCssText1;
-          if (this._bakAutoHeight) {
-            editor.autoHeightEnabled = true;
-            this.editor.enableAutoHeight();
-          }
-
-          document.documentElement.style.overflow = this._bakHtmlOverflow;
-          document.body.style.overflow = this._bakBodyOverflow;
-          editor.iframe.parentNode.style.width =
-            this._bakEditorContaninerWidth + "px";
-          window.scrollTo(0, this._bakScrollTop);
-        }
-        if (browser.gecko && editor.body.contentEditable === "true") {
-          var input = document.createElement("input");
-          document.body.appendChild(input);
-          editor.body.contentEditable = false;
-          setTimeout(function () {
-            input.focus();
-            setTimeout(function () {
-              editor.body.contentEditable = true;
-              editor.fireEvent("fullscreenchanged", fullscreen);
-              editor.selection.getRange().moveToBookmark(bk).select(true);
-              baidu.editor.dom.domUtils.remove(input);
-              fullscreen && window.scroll(0, 0);
-            }, 0);
-          }, 0);
-        }
-
-        if (editor.body.contentEditable === "true") {
-          this.editor.fireEvent("fullscreenchanged", fullscreen);
-          this.triggerLayout();
-        }
-      }
-    },
-    _updateFullScreen: function () {
-      if (this._fullscreen) {
-        var vpRect = uiUtils.getViewportRect();
-        this.getDom().style.cssText =
-          "border:0;position:absolute;left:0;top:var(--ueditor-top-offset," +
-          (this.editor.options.topOffset || 0) +
-          "px);width:" +
-          vpRect.width +
-          "px;height:" +
-          vpRect.height +
-          "px;z-index:" +
-          (this.getDom().style.zIndex * 1 + 100);
-        uiUtils.setViewportOffset(this.getDom(), {
-          left: 0,
-          // top: this.editor.options.topOffset || 0
-        });
-        this.editor.setHeight(
-          vpRect.height -
-          this.getDom("toolbarbox").offsetHeight -
-          this.getDom("bottombar").offsetHeight -
-          (this.editor.options.topOffset || 0),
-          true
-        );
-        //不手动调一下，会导致全屏失效
-        if (browser.gecko) {
-          try {
-            window.onresize();
-          } catch (e) {
-          }
-        }
-      }
-    },
-    _updateElementPath: function () {
-      var bottom = this.getDom("elementpath"),
-        list;
-      if (
-        this.elementPathEnabled &&
-        (list = this.editor.queryCommandValue("elementpath"))
-      ) {
-        var buff = [];
-        for (var i = 0, ci; (ci = list[i]); i++) {
-          buff[i] = this.formatHtml(
-            '<span unselectable="on" onclick="$$.editor.execCommand(&quot;elementpath&quot;, &quot;' +
-            i +
-            '&quot;);">' +
-            ci +
-            "</span>"
-          );
-        }
-        bottom.innerHTML =
-          '<div class="edui-editor-breadcrumb" onmousedown="return false;">' +
-          this.editor.getLang("elementPathTip") +
-          ": " +
-          buff.join(" &gt; ") +
-          "</div>";
-      } else {
-        bottom.style.display = "none";
-      }
-    },
-    disableElementPath: function () {
-      var bottom = this.getDom("elementpath");
-      bottom.innerHTML = "";
-      bottom.style.display = "none";
-      this.elementPathEnabled = false;
-    },
-    enableElementPath: function () {
-      var bottom = this.getDom("elementpath");
-      bottom.style.display = "";
-      this.elementPathEnabled = true;
-      this._updateElementPath();
-    },
-    _scale: function () {
-      var doc = document,
-        editor = this.editor,
-        editorHolder = editor.container,
-        editorDocument = editor.document,
-        toolbarBox = this.getDom("toolbarbox"),
-        bottombar = this.getDom("bottombar"),
-        scale = this.getDom("scale"),
-        scalelayer = this.getDom("scalelayer");
-
-      var isMouseMove = false,
-        position = null,
-        minEditorHeight = 0,
-        minEditorWidth = editor.options.minFrameWidth,
-        pageX = 0,
-        pageY = 0,
-        scaleWidth = 0,
-        scaleHeight = 0;
-
-      function down() {
-        position = domUtils.getXY(editorHolder);
-
-        if (!minEditorHeight) {
-          minEditorHeight =
-            editor.options.minFrameHeight +
-            toolbarBox.offsetHeight +
-            bottombar.offsetHeight;
-        }
-
-        scalelayer.style.cssText =
-          "position:absolute;left:0;display:;top:0;background-color:#41ABFF;opacity:0.4;filter: Alpha(opacity=40);width:" +
-          editorHolder.offsetWidth +
-          "px;height:" +
-          editorHolder.offsetHeight +
-          "px;z-index:" +
-          (editor.options.zIndex + 1);
-
-        domUtils.on(doc, "mousemove", move);
-        domUtils.on(editorDocument, "mouseup", up);
-        domUtils.on(doc, "mouseup", up);
-      }
-
-      var me = this;
-      //by xuheng 全屏时关掉缩放
-      this.editor.addListener("fullscreenchanged", function (e, fullScreen) {
-        if (fullScreen) {
-          me.disableScale();
-        } else {
-          if (me.editor.options.scaleEnabled) {
-            me.enableScale();
-            var tmpNode = me.editor.document.createElement("span");
-            me.editor.body.appendChild(tmpNode);
-            me.editor.body.style.height =
-              Math.max(
-                domUtils.getXY(tmpNode).y,
-                me.editor.iframe.offsetHeight - 20
-              ) + "px";
-            domUtils.remove(tmpNode);
-          }
-        }
-      });
-
-      function move(event) {
-        clearSelection();
-        var e = event || window.event;
-        pageX = e.pageX || doc.documentElement.scrollLeft + e.clientX;
-        pageY = e.pageY || doc.documentElement.scrollTop + e.clientY;
-        scaleWidth = pageX - position.x;
-        scaleHeight = pageY - position.y;
-
-        if (scaleWidth >= minEditorWidth) {
-          isMouseMove = true;
-          scalelayer.style.width = scaleWidth + "px";
-        }
-        if (scaleHeight >= minEditorHeight) {
-          isMouseMove = true;
-          scalelayer.style.height = scaleHeight + "px";
-        }
-      }
-
-      function up() {
-        if (isMouseMove) {
-          isMouseMove = false;
-          editor.ui._actualFrameWidth = scalelayer.offsetWidth - 2;
-          editorHolder.style.width = editor.ui._actualFrameWidth + "px";
-
-          editor.setHeight(
-            scalelayer.offsetHeight -
-            bottombar.offsetHeight -
-            toolbarBox.offsetHeight -
-            2,
-            true
-          );
-        }
-        if (scalelayer) {
-          scalelayer.style.display = "none";
-        }
-        clearSelection();
-        domUtils.un(doc, "mousemove", move);
-        domUtils.un(editorDocument, "mouseup", up);
-        domUtils.un(doc, "mouseup", up);
-      }
-
-      function clearSelection() {
-        if (browser.ie) doc.selection.clear();
-        else window.getSelection().removeAllRanges();
-      }
-
-      this.enableScale = function () {
-        //trace:2868
-        if (editor.queryCommandState("source") == 1) return;
-        scale.style.display = "";
-        this.scaleEnabled = true;
-        domUtils.on(scale, "mousedown", down);
-      };
-      this.disableScale = function () {
-        scale.style.display = "none";
-        this.scaleEnabled = false;
-        domUtils.un(scale, "mousedown", down);
-      };
-    },
-    isFullScreen: function () {
-      return this._fullscreen;
-    },
-    postRender: function () {
-      UIBase.prototype.postRender.call(this);
-      for (var i = 0; i < this.toolbars.length; i++) {
-        this.toolbars[i].postRender();
-      }
-      var me = this;
-      var timerId,
-        domUtils = baidu.editor.dom.domUtils,
-        updateFullScreenTime = function () {
-          clearTimeout(timerId);
-          timerId = setTimeout(function () {
-            me._updateFullScreen();
-          });
-        };
-      domUtils.on(window, "resize", updateFullScreenTime);
-
-      me.addListener("destroy", function () {
-        domUtils.un(window, "resize", updateFullScreenTime);
-        clearTimeout(timerId);
-      });
-    },
-    showToolbarMsg: function (msg, flag) {
-      this.getDom("toolbarmsg_label").innerHTML = msg;
-      this.getDom("toolbarmsg").style.display = "";
-      //
-      if (!flag) {
-        var w = this.getDom("upload_dialog");
-        w.style.display = "none";
-      }
-    },
-    hideToolbarMsg: function () {
-      this.getDom("toolbarmsg").style.display = "none";
-    },
-    mapUrl: function (url) {
-      return url
-        ? url.replace("~/", this.editor.options.UEDITOR_CORS_URL || "")
-        : "";
-    },
-    triggerLayout: function () {
-      var dom = this.getDom();
-      if (dom.style.zoom == "1") {
-        dom.style.zoom = "100%";
-      } else {
-        dom.style.zoom = "1";
-      }
-    }
-  };
-  utils.inherits(EditorUI, baidu.editor.ui.UIBase);
-
-  var instances = {};
-
-  UE.ui.Editor = function (options) {
-    var editor = new UE.Editor(options);
-    editor.options.editor = editor;
-    utils.loadFile(document, {
-      href:
-        editor.options.themePath + editor.options.theme + "/css/ueditor.css?20230921",
-      tag: "link",
-      type: "text/css",
-      rel: "stylesheet"
-    });
-
-    var oldRender = editor.render;
-    editor.render = function (holder) {
-      if (holder.constructor === String) {
-        editor.key = holder;
-        instances[holder] = editor;
-      }
-      utils.domReady(function () {
-        editor.langIsReady
-          ? renderUI()
-          : editor.addListener("langReady", renderUI);
-
-        function renderUI() {
-          editor.setOpt({
-            labelMap: editor.options.labelMap || editor.getLang("labelMap")
-          });
-          new EditorUI(editor.options);
-          if (holder) {
-            if (holder.constructor === String) {
-              holder = document.getElementById(holder);
+        },
+        showWordImageDialog: function () {
+            this._dialogs["wordimageDialog"].open();
+        },
+        renderToolbarBoxHtml: function () {
+            var buff = [];
+            for (var i = 0; i < this.toolbars.length; i++) {
+                buff.push(this.toolbars[i].renderHtml());
             }
-            holder &&
-            holder.getAttribute("name") &&
-            (editor.options.textarea = holder.getAttribute("name"));
-            if (holder && /script|textarea/gi.test(holder.tagName)) {
-              var newDiv = document.createElement("div");
-              holder.parentNode.insertBefore(newDiv, holder);
-              var cont = holder.value || holder.innerHTML;
-              editor.options.initialContent = /^[\t\r\n ]*$/.test(cont)
-                ? editor.options.initialContent
-                : cont
-                  .replace(/>[\n\r\t]+([ ]{4})+/g, ">")
-                  .replace(/[\n\r\t]+([ ]{4})+</g, "<")
-                  .replace(/>[\n\r\t]+</g, "><");
-              holder.className && (newDiv.className = holder.className);
-              holder.style.cssText &&
-              (newDiv.style.cssText = holder.style.cssText);
-              if (/textarea/i.test(holder.tagName)) {
-                editor.textarea = holder;
-                editor.textarea.style.display = "none";
-              } else {
-                holder.parentNode.removeChild(holder);
-              }
-              if (holder.id) {
-                newDiv.id = holder.id;
-                domUtils.removeAttributes(holder, "id");
-              }
-              holder = newDiv;
-              holder.innerHTML = "";
+            return buff.join("");
+        },
+        setFullScreen: function (fullscreen) {
+            var editor = this.editor,
+                container = editor.container.parentNode.parentNode;
+            if (this._fullscreen != fullscreen) {
+                this._fullscreen = fullscreen;
+                this.editor.fireEvent("beforefullscreenchange", fullscreen);
+                if (baidu.editor.browser.gecko) {
+                    var bk = editor.selection.getRange().createBookmark();
+                }
+                if (fullscreen) {
+                    while (container.tagName !== "BODY") {
+                        var position = baidu.editor.dom.domUtils.getComputedStyle(
+                            container,
+                            "position"
+                        );
+                        nodeStack.push(position);
+                        container.style.position = "static";
+                        container = container.parentNode;
+                    }
+                    this._bakHtmlOverflow = document.documentElement.style.overflow;
+                    this._bakBodyOverflow = document.body.style.overflow;
+                    this._bakAutoHeight = this.editor.autoHeightEnabled;
+                    this._bakScrollTop = Math.max(
+                        document.documentElement.scrollTop,
+                        document.body.scrollTop
+                    );
+
+                    this._bakEditorContaninerWidth = editor.iframe.parentNode.offsetWidth;
+                    if (this._bakAutoHeight) {
+                        //当全屏时不能执行自动长高
+                        editor.autoHeightEnabled = false;
+                        this.editor.disableAutoHeight();
+                    }
+
+                    document.documentElement.style.overflow = "hidden";
+                    //修复，滚动条不收起的问题
+
+                    window.scrollTo(0, window.scrollY);
+                    this._bakCssText = this.getDom().style.cssText;
+                    this._bakCssText1 = this.getDom("iframeholder").style.cssText;
+                    editor.iframe.parentNode.style.width = "";
+                    this._updateFullScreen();
+                } else {
+                    while (container.tagName !== "BODY") {
+                        container.style.position = nodeStack.shift();
+                        container = container.parentNode;
+                    }
+                    this.getDom().style.cssText = this._bakCssText;
+                    this.getDom("iframeholder").style.cssText = this._bakCssText1;
+                    if (this._bakAutoHeight) {
+                        editor.autoHeightEnabled = true;
+                        this.editor.enableAutoHeight();
+                    }
+
+                    document.documentElement.style.overflow = this._bakHtmlOverflow;
+                    document.body.style.overflow = this._bakBodyOverflow;
+                    editor.iframe.parentNode.style.width =
+                        this._bakEditorContaninerWidth + "px";
+                    window.scrollTo(0, this._bakScrollTop);
+                }
+                if (browser.gecko && editor.body.contentEditable === "true") {
+                    var input = document.createElement("input");
+                    document.body.appendChild(input);
+                    editor.body.contentEditable = false;
+                    setTimeout(function () {
+                        input.focus();
+                        setTimeout(function () {
+                            editor.body.contentEditable = true;
+                            editor.fireEvent("fullscreenchanged", fullscreen);
+                            editor.selection.getRange().moveToBookmark(bk).select(true);
+                            baidu.editor.dom.domUtils.remove(input);
+                            fullscreen && window.scroll(0, 0);
+                        }, 0);
+                    }, 0);
+                }
+
+                if (editor.body.contentEditable === "true") {
+                    this.editor.fireEvent("fullscreenchanged", fullscreen);
+                    this.triggerLayout();
+                }
             }
-          }
-          domUtils.addClass(holder, "edui-" + editor.options.theme);
-          editor.ui.render(holder);
-          var opt = editor.options;
-          //给实例添加一个编辑器的容器引用
-          editor.container = editor.ui.getDom();
-          var parents = domUtils.findParents(holder, true);
-          var displays = [];
-          for (var i = 0, ci; (ci = parents[i]); i++) {
-            displays[i] = ci.style.display;
-            ci.style.display = "block";
-          }
-          if (opt.initialFrameWidth) {
-            opt.minFrameWidth = opt.initialFrameWidth;
-          } else {
-            opt.minFrameWidth = opt.initialFrameWidth = holder.offsetWidth;
-            var styleWidth = holder.style.width;
-            if (/%$/.test(styleWidth)) {
-              opt.initialFrameWidth = styleWidth;
+        },
+        _updateFullScreen: function () {
+            if (this._fullscreen) {
+                var vpRect = uiUtils.getViewportRect();
+                this.getDom().style.cssText =
+                    "border:0;position:absolute;left:0;top:var(--ueditor-top-offset," +
+                    (this.editor.options.topOffset || 0) +
+                    "px);width:" +
+                    vpRect.width +
+                    "px;height:" +
+                    vpRect.height +
+                    "px;z-index:" +
+                    (this.getDom().style.zIndex * 1 + 100);
+                uiUtils.setViewportOffset(this.getDom(), {
+                    left: 0,
+                    // top: this.editor.options.topOffset || 0
+                });
+                this.editor.setHeight(
+                    vpRect.height -
+                    this.getDom("toolbarbox").offsetHeight -
+                    this.getDom("bottombar").offsetHeight -
+                    (this.editor.options.topOffset || 0),
+                    true
+                );
+                //不手动调一下，会导致全屏失效
+                if (browser.gecko) {
+                    try {
+                        window.onresize();
+                    } catch (e) {
+                    }
+                }
             }
-          }
-          if (opt.initialFrameHeight) {
-            opt.minFrameHeight = opt.initialFrameHeight;
-          } else {
-            opt.initialFrameHeight = opt.minFrameHeight = holder.offsetHeight;
-          }
-          for (var i = 0, ci; (ci = parents[i]); i++) {
-            ci.style.display = displays[i];
-          }
-          //编辑器最外容器设置了高度，会导致，编辑器不占位
-          //todo 先去掉，没有找到原因
-          if (holder.style.height) {
-            holder.style.height = "";
-          }
-          editor.container.style.width =
-            opt.initialFrameWidth +
-            (/%$/.test(opt.initialFrameWidth) ? "" : "px");
-          editor.container.style.zIndex = opt.zIndex;
-          oldRender.call(editor, editor.ui.getDom("iframeholder"));
-          editor.fireEvent("afteruiready");
+        },
+        _updateElementPath: function () {
+            var bottom = this.getDom("elementpath"),
+                list;
+            if (
+                this.elementPathEnabled &&
+                (list = this.editor.queryCommandValue("elementpath"))
+            ) {
+                var buff = [];
+                for (var i = 0, ci; (ci = list[i]); i++) {
+                    buff[i] = this.formatHtml(
+                        '<span unselectable="on" onclick="$$.editor.execCommand(&quot;elementpath&quot;, &quot;' +
+                        i +
+                        '&quot;);">' +
+                        ci +
+                        "</span>"
+                    );
+                }
+                bottom.innerHTML =
+                    '<div class="edui-editor-breadcrumb" onmousedown="return false;">' +
+                    this.editor.getLang("elementPathTip") +
+                    ": " +
+                    buff.join(" &gt; ") +
+                    "</div>";
+            } else {
+                bottom.style.display = "none";
+            }
+        },
+        disableElementPath: function () {
+            var bottom = this.getDom("elementpath");
+            bottom.innerHTML = "";
+            bottom.style.display = "none";
+            this.elementPathEnabled = false;
+        },
+        enableElementPath: function () {
+            var bottom = this.getDom("elementpath");
+            bottom.style.display = "";
+            this.elementPathEnabled = true;
+            this._updateElementPath();
+        },
+        _scale: function () {
+            var doc = document,
+                editor = this.editor,
+                editorHolder = editor.container,
+                editorDocument = editor.document,
+                toolbarBox = this.getDom("toolbarbox"),
+                bottombar = this.getDom("bottombar"),
+                scale = this.getDom("scale"),
+                scalelayer = this.getDom("scalelayer");
+
+            var isMouseMove = false,
+                position = null,
+                minEditorHeight = 0,
+                minEditorWidth = editor.options.minFrameWidth,
+                pageX = 0,
+                pageY = 0,
+                scaleWidth = 0,
+                scaleHeight = 0;
+
+            function down() {
+                position = domUtils.getXY(editorHolder);
+
+                if (!minEditorHeight) {
+                    minEditorHeight =
+                        editor.options.minFrameHeight +
+                        toolbarBox.offsetHeight +
+                        bottombar.offsetHeight;
+                }
+
+                scalelayer.style.cssText =
+                    "position:absolute;left:0;display:;top:0;background-color:#41ABFF;opacity:0.4;filter: Alpha(opacity=40);width:" +
+                    editorHolder.offsetWidth +
+                    "px;height:" +
+                    editorHolder.offsetHeight +
+                    "px;z-index:" +
+                    (editor.options.zIndex + 1);
+
+                domUtils.on(doc, "mousemove", move);
+                domUtils.on(editorDocument, "mouseup", up);
+                domUtils.on(doc, "mouseup", up);
+            }
+
+            var me = this;
+            //by xuheng 全屏时关掉缩放
+            this.editor.addListener("fullscreenchanged", function (e, fullScreen) {
+                if (fullScreen) {
+                    me.disableScale();
+                } else {
+                    if (me.editor.options.scaleEnabled) {
+                        me.enableScale();
+                        var tmpNode = me.editor.document.createElement("span");
+                        me.editor.body.appendChild(tmpNode);
+                        me.editor.body.style.height =
+                            Math.max(
+                                domUtils.getXY(tmpNode).y,
+                                me.editor.iframe.offsetHeight - 20
+                            ) + "px";
+                        domUtils.remove(tmpNode);
+                    }
+                }
+            });
+
+            function move(event) {
+                clearSelection();
+                var e = event || window.event;
+                pageX = e.pageX || doc.documentElement.scrollLeft + e.clientX;
+                pageY = e.pageY || doc.documentElement.scrollTop + e.clientY;
+                scaleWidth = pageX - position.x;
+                scaleHeight = pageY - position.y;
+
+                if (scaleWidth >= minEditorWidth) {
+                    isMouseMove = true;
+                    scalelayer.style.width = scaleWidth + "px";
+                }
+                if (scaleHeight >= minEditorHeight) {
+                    isMouseMove = true;
+                    scalelayer.style.height = scaleHeight + "px";
+                }
+            }
+
+            function up() {
+                if (isMouseMove) {
+                    isMouseMove = false;
+                    editor.ui._actualFrameWidth = scalelayer.offsetWidth - 2;
+                    editorHolder.style.width = editor.ui._actualFrameWidth + "px";
+
+                    editor.setHeight(
+                        scalelayer.offsetHeight -
+                        bottombar.offsetHeight -
+                        toolbarBox.offsetHeight -
+                        2,
+                        true
+                    );
+                }
+                if (scalelayer) {
+                    scalelayer.style.display = "none";
+                }
+                clearSelection();
+                domUtils.un(doc, "mousemove", move);
+                domUtils.un(editorDocument, "mouseup", up);
+                domUtils.un(doc, "mouseup", up);
+            }
+
+            function clearSelection() {
+                if (browser.ie) doc.selection.clear();
+                else window.getSelection().removeAllRanges();
+            }
+
+            this.enableScale = function () {
+                //trace:2868
+                if (editor.queryCommandState("source") == 1) return;
+                scale.style.display = "";
+                this.scaleEnabled = true;
+                domUtils.on(scale, "mousedown", down);
+            };
+            this.disableScale = function () {
+                scale.style.display = "none";
+                this.scaleEnabled = false;
+                domUtils.un(scale, "mousedown", down);
+            };
+        },
+        isFullScreen: function () {
+            return this._fullscreen;
+        },
+        postRender: function () {
+            UIBase.prototype.postRender.call(this);
+            for (var i = 0; i < this.toolbars.length; i++) {
+                this.toolbars[i].postRender();
+            }
+            var me = this;
+            var timerId,
+                domUtils = baidu.editor.dom.domUtils,
+                updateFullScreenTime = function () {
+                    clearTimeout(timerId);
+                    timerId = setTimeout(function () {
+                        me._updateFullScreen();
+                    });
+                };
+            domUtils.on(window, "resize", updateFullScreenTime);
+
+            me.addListener("destroy", function () {
+                domUtils.un(window, "resize", updateFullScreenTime);
+                clearTimeout(timerId);
+            });
+        },
+        showToolbarMsg: function (msg, flag) {
+            this.getDom("toolbarmsg_label").innerHTML = msg;
+            this.getDom("toolbarmsg").style.display = "";
+            //
+            if (!flag) {
+                var w = this.getDom("upload_dialog");
+                w.style.display = "none";
+            }
+        },
+        hideToolbarMsg: function () {
+            this.getDom("toolbarmsg").style.display = "none";
+        },
+        mapUrl: function (url) {
+            return url
+                ? url.replace("~/", this.editor.options.UEDITOR_CORS_URL || "")
+                : "";
+        },
+        triggerLayout: function () {
+            var dom = this.getDom();
+            if (dom.style.zoom == "1") {
+                dom.style.zoom = "100%";
+            } else {
+                dom.style.zoom = "1";
+            }
         }
-      });
     };
-    return editor;
-  };
+    utils.inherits(EditorUI, baidu.editor.ui.UIBase);
 
-  /**
-   * @file
-   * @name UE
-   * @short UE
-   * @desc UEditor的顶部命名空间
-   */
-  /**
-   * @name getEditor
-   * @since 1.2.4+
-   * @grammar UE.getEditor(id,[opt])  =>  Editor实例
-   * @desc 提供一个全局的方法得到编辑器实例
-   *
-   * * ''id''  放置编辑器的容器id, 如果容器下的编辑器已经存在，就直接返回
-   * * ''opt'' 编辑器的可选参数
-   * @example
-   *  UE.getEditor('containerId',{onready:function(){//创建一个编辑器实例
-   *      this.setContent('hello')
-   *  }});
-   *  UE.getEditor('containerId'); //返回刚创建的实例
-   *
-   */
-  UE.getEditor = function (id, opt) {
-    var editor = instances[id];
-    if (!editor) {
-      editor = instances[id] = new UE.ui.Editor(opt);
-      editor.render(id);
-    }
-    return editor;
-  };
+    var instances = {};
 
-  UE.delEditor = function (id) {
-    var editor;
-    if ((editor = instances[id])) {
-      editor.key && editor.destroy();
-      delete instances[id];
-    }
-  };
+    UE.ui.Editor = function (options) {
+        var editor = new UE.Editor(options);
+        editor.options.editor = editor;
+        utils.loadFile(document, {
+            href:
+                editor.options.themePath + editor.options.theme + "/css/ueditor.css?20230921",
+            tag: "link",
+            type: "text/css",
+            rel: "stylesheet"
+        });
 
-  UE.registerUI = function (uiName, fn, index, editorId) {
-    utils.each(uiName.split(/\s+/), function (name) {
-      baidu.editor.ui[name] = {
-        id: editorId,
-        execFn: fn,
-        index: index
-      };
-    });
-  };
+        var oldRender = editor.render;
+        editor.render = function (holder) {
+            if (holder.constructor === String) {
+                editor.key = holder;
+                instances[holder] = editor;
+            }
+            utils.domReady(function () {
+                editor.langIsReady
+                    ? renderUI()
+                    : editor.addListener("langReady", renderUI);
+
+                function renderUI() {
+                    editor.setOpt({
+                        labelMap: editor.options.labelMap || editor.getLang("labelMap")
+                    });
+                    new EditorUI(editor.options);
+                    if (holder) {
+                        if (holder.constructor === String) {
+                            holder = document.getElementById(holder);
+                        }
+                        holder &&
+                        holder.getAttribute("name") &&
+                        (editor.options.textarea = holder.getAttribute("name"));
+                        if (holder && /script|textarea/gi.test(holder.tagName)) {
+                            var newDiv = document.createElement("div");
+                            holder.parentNode.insertBefore(newDiv, holder);
+                            var cont = holder.value || holder.innerHTML;
+                            editor.options.initialContent = /^[\t\r\n ]*$/.test(cont)
+                                ? editor.options.initialContent
+                                : cont
+                                    .replace(/>[\n\r\t]+([ ]{4})+/g, ">")
+                                    .replace(/[\n\r\t]+([ ]{4})+</g, "<")
+                                    .replace(/>[\n\r\t]+</g, "><");
+                            holder.className && (newDiv.className = holder.className);
+                            holder.style.cssText &&
+                            (newDiv.style.cssText = holder.style.cssText);
+                            if (/textarea/i.test(holder.tagName)) {
+                                editor.textarea = holder;
+                                editor.textarea.style.display = "none";
+                            } else {
+                                holder.parentNode.removeChild(holder);
+                            }
+                            if (holder.id) {
+                                newDiv.id = holder.id;
+                                domUtils.removeAttributes(holder, "id");
+                            }
+                            holder = newDiv;
+                            holder.innerHTML = "";
+                        }
+                    }
+                    domUtils.addClass(holder, "edui-" + editor.options.theme);
+                    editor.ui.render(holder);
+                    var opt = editor.options;
+                    //给实例添加一个编辑器的容器引用
+                    editor.container = editor.ui.getDom();
+                    var parents = domUtils.findParents(holder, true);
+                    var displays = [];
+                    for (var i = 0, ci; (ci = parents[i]); i++) {
+                        displays[i] = ci.style.display;
+                        ci.style.display = "block";
+                    }
+                    if (opt.initialFrameWidth) {
+                        opt.minFrameWidth = opt.initialFrameWidth;
+                    } else {
+                        opt.minFrameWidth = opt.initialFrameWidth = holder.offsetWidth;
+                        var styleWidth = holder.style.width;
+                        if (/%$/.test(styleWidth)) {
+                            opt.initialFrameWidth = styleWidth;
+                        }
+                    }
+                    if (opt.initialFrameHeight) {
+                        opt.minFrameHeight = opt.initialFrameHeight;
+                    } else {
+                        opt.initialFrameHeight = opt.minFrameHeight = holder.offsetHeight;
+                    }
+                    for (var i = 0, ci; (ci = parents[i]); i++) {
+                        ci.style.display = displays[i];
+                    }
+                    //编辑器最外容器设置了高度，会导致，编辑器不占位
+                    //todo 先去掉，没有找到原因
+                    if (holder.style.height) {
+                        holder.style.height = "";
+                    }
+                    editor.container.style.width =
+                        opt.initialFrameWidth +
+                        (/%$/.test(opt.initialFrameWidth) ? "" : "px");
+                    editor.container.style.zIndex = opt.zIndex;
+                    oldRender.call(editor, editor.ui.getDom("iframeholder"));
+                    editor.fireEvent("afteruiready");
+                }
+            });
+        };
+        return editor;
+    };
+
+    /**
+     * @file
+     * @name UE
+     * @short UE
+     * @desc UEditor的顶部命名空间
+     */
+    /**
+     * @name getEditor
+     * @since 1.2.4+
+     * @grammar UE.getEditor(id,[opt])  =>  Editor实例
+     * @desc 提供一个全局的方法得到编辑器实例
+     *
+     * * ''id''  放置编辑器的容器id, 如果容器下的编辑器已经存在，就直接返回
+     * * ''opt'' 编辑器的可选参数
+     * @example
+     *  UE.getEditor('containerId',{onready:function(){//创建一个编辑器实例
+     *      this.setContent('hello')
+     *  }});
+     *  UE.getEditor('containerId'); //返回刚创建的实例
+     *
+     */
+    UE.getEditor = function (id, opt) {
+        var editor = instances[id];
+        if (!editor) {
+            editor = instances[id] = new UE.ui.Editor(opt);
+            editor.render(id);
+        }
+        return editor;
+    };
+
+    UE.delEditor = function (id) {
+        var editor;
+        if ((editor = instances[id])) {
+            editor.key && editor.destroy();
+            delete instances[id];
+        }
+    };
+
+    UE.registerUI = function (uiName, fn, index, editorId) {
+        utils.each(uiName.split(/\s+/), function (name) {
+            baidu.editor.ui[name] = {
+                id: editorId,
+                execFn: fn,
+                index: index
+            };
+        });
+    };
 })();
 
 
