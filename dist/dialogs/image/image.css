@@ -13,8 +13,9 @@
 
 /*tab样式框大小*/
 .tabhead {
-    float:left;
+    float: left;
 }
+
 .tabbody {
     width: 100%;
     height: 346px;
@@ -38,25 +39,26 @@
 }
 
 /* 图片对齐方式 */
-.alignBar{
-    float:right;
+.alignBar {
+    float: right;
     margin-top: 5px;
     position: relative;
 }
 
-.alignBar .algnLabel{
-    float:left;
+.alignBar .algnLabel {
+    float: left;
     height: 20px;
     line-height: 20px;
 }
 
-.alignBar #alignIcon{
-    zoom:1;
+.alignBar #alignIcon {
+    zoom: 1;
     _display: inline;
     display: inline-block;
     position: relative;
 }
-.alignBar #alignIcon span{
+
+.alignBar #alignIcon span {
     float: left;
     cursor: pointer;
     display: block;
@@ -66,32 +68,38 @@
     margin-left: 3px;
     background-image: url(./images/alignicon.jpg);
 }
-.alignBar #alignIcon .none-align{
+
+.alignBar #alignIcon .none-align {
     background-position: 0 -18px;
 }
-.alignBar #alignIcon .left-align{
+
+.alignBar #alignIcon .left-align {
     background-position: -20px -18px;
 }
-.alignBar #alignIcon .right-align{
+
+.alignBar #alignIcon .right-align {
     background-position: -40px -18px;
 }
-.alignBar #alignIcon .center-align{
+
+.alignBar #alignIcon .center-align {
     background-position: -60px -18px;
 }
-.alignBar #alignIcon .none-align.focus{
+
+.alignBar #alignIcon .none-align.focus {
     background-position: 0 0;
 }
-.alignBar #alignIcon .left-align.focus{
+
+.alignBar #alignIcon .left-align.focus {
     background-position: -20px 0;
 }
-.alignBar #alignIcon .right-align.focus{
+
+.alignBar #alignIcon .right-align.focus {
     background-position: -40px 0;
 }
-.alignBar #alignIcon .center-align.focus{
+
+.alignBar #alignIcon .center-align.focus {
     background-position: -60px 0;
 }
-
-
 
 
 /* 远程图片样式 */
@@ -99,42 +107,46 @@
     z-index: 200;
 }
 
-#remote .top{
+#remote .top {
     width: 100%;
     margin-top: 25px;
 }
-#remote .left{
+
+#remote .left {
     display: block;
     float: left;
     width: 300px;
-    height:10px;
+    height: 10px;
 }
-#remote .right{
+
+#remote .right {
     display: block;
     float: right;
     width: 300px;
-    height:10px;
+    height: 10px;
 }
-#remote .row{
+
+#remote .row {
     margin-left: 20px;
     clear: both;
     height: 40px;
 }
 
-#remote .row label{
+#remote .row label {
     text-align: center;
     width: 50px;
-    zoom:1;
+    zoom: 1;
     _display: inline;
-    display:inline-block;
+    display: inline-block;
     vertical-align: middle;
 }
-#remote .row label.algnLabel{
+
+#remote .row label.algnLabel {
     float: left;
 
 }
 
-#remote input.text{
+#remote input.text {
     width: 150px;
     padding: 3px 6px;
     font-size: 14px;
@@ -149,52 +161,60 @@
     -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
+
 #remote input.text:focus {
     outline: 0;
 }
-#remote #url{
-  width: 400px;
-  margin-bottom: 2px;
+
+#remote #url {
+    width: 400px;
+    margin-bottom: 2px;
 }
-#remote #imageSelect{
-  width: 100px;
-  display: inline-block;
-  background: #FFF;
-  border: 1px solid #EEE;
-  line-height: 26px;
-  text-align: center;
-  color: #333;
-  text-decoration: none;
-  border-radius: 3px;
-  vertical-align: top;
+
+#remote #imageSelect {
+    width: 100px;
+    display: inline-block;
+    background: #FFF;
+    border: 1px solid #EEE;
+    line-height: 26px;
+    text-align: center;
+    color: #333;
+    text-decoration: none;
+    border-radius: 3px;
+    vertical-align: top;
 }
+
 #remote #width,
-#remote #height{
+#remote #height {
     width: 30px;
     margin-left: 2px;
     margin-right: 2px;
-    text-align:center;
+    text-align: center;
 }
+
 #remote #border,
 #remote #vhSpace,
-#remote #title{
+#remote #title {
     width: 180px;
     margin-right: 5px;
 }
-#remote #lock{
-  display:inline-block;
-  vertical-align: middle;
+
+#remote #lock {
+    display: inline-block;
+    vertical-align: middle;
 }
-#remote #lockicon{
+
+#remote #lockicon {
     zoom: 1;
-    _display:inline;
+    _display: inline;
     display: inline-block;
     width: 20px;
     height: 20px;
     background: url("../../themes/default/images/lock.gif") -13px -13px no-repeat;
     vertical-align: middle;
 }
-#remote #preview{
+
+#remote #preview {
     clear: both;
     width: 260px;
     height: 240px;
@@ -256,7 +276,7 @@
     color: #cccccc;
     font-size: 18px;
     position: relative;
-    top:0;
+    top: 0;
     *top: 10px;
 }
 
@@ -456,7 +476,7 @@
     line-height: 28px;
     width: 100%;
     z-index: 100;
-    display:none;
+    display: none;
 }
 
 #upload .filelist li .success {
@@ -478,7 +498,8 @@
     border: 1px solid #eeeeee;
     border-radius: 0;
 }
-#upload .filelist li.filePickerBlock div.webuploader-pick  {
+
+#upload .filelist li.filePickerBlock div.webuploader-pick {
     width: 100%;
     height: 100%;
     margin: 0;
@@ -511,7 +532,7 @@
     background: url(./images/icons.gif) no-repeat \9;
     margin: 5px 1px 1px;
     cursor: pointer;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -519,7 +540,7 @@
 }
 
 #upload .filelist div.file-panel span.rotateLeft {
-    display:none;
+    display: none;
     background-position: 0 -24px;
 }
 
@@ -528,7 +549,7 @@
 }
 
 #upload .filelist div.file-panel span.rotateRight {
-    display:none;
+    display: none;
     background-position: -24px -24px;
 }
 
@@ -567,6 +588,7 @@
     color: #6dbfff;
     margin: 0 10px 0 0;
 }
+
 #upload .statusBar .progress span.percentage {
     width: 0;
     height: 100%;
@@ -575,6 +597,7 @@
     background: #1483d8;
     position: absolute;
 }
+
 #upload .statusBar .progress span.text {
     position: relative;
     z-index: 10;
@@ -597,6 +620,7 @@
     display: inline-block;
     float: left;
 }
+
 #upload .statusBar .btns .webuploader-pick,
 #upload .statusBar .btns .uploadBtn,
 #upload .statusBar .btns .uploadBtn.state-uploading,
@@ -616,6 +640,7 @@
     -ms-user-select: none;
     user-select: none;
 }
+
 #upload .statusBar .btns .webuploader-pick-hover,
 #upload .statusBar .btns .uploadBtn:hover,
 #upload .statusBar .btns .uploadBtn.state-uploading:hover,
@@ -624,24 +649,24 @@
 }
 
 #upload .statusBar .btns .uploadBtn,
-#upload .statusBar .btns .uploadBtn.state-paused{
+#upload .statusBar .btns .uploadBtn.state-paused {
     background: #00b7ee;
     color: #fff;
     border-color: transparent;
 }
+
 #upload .statusBar .btns .uploadBtn:hover,
-#upload .statusBar .btns .uploadBtn.state-paused:hover{
+#upload .statusBar .btns .uploadBtn.state-paused:hover {
     background: #00a2d4;
 }
 
 #upload .statusBar .btns .uploadBtn.disabled {
     pointer-events: none;
-    filter:alpha(opacity=60);
-    -moz-opacity:0.6;
+    filter: alpha(opacity=60);
+    -moz-opacity: 0.6;
     -khtml-opacity: 0.6;
     opacity: 0.6;
 }
-
 
 
 /* 图片管理样式 */
@@ -650,19 +675,22 @@
     height: 336px;
     padding: 10px 0 0 0;
 }
-#online #imageList{
+
+#online #imageList {
     width: 100%;
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
     position: relative;
 }
+
 #online ul {
     display: block;
     list-style: none;
     margin: 0;
     padding: 0;
 }
+
 #online li {
     float: left;
     display: block;
@@ -677,18 +705,21 @@
     cursor: pointer;
     position: relative;
 }
+
 #online li.clearFloat {
     float: none;
     clear: both;
     display: block;
-    width:0;
-    height:0;
+    width: 0;
+    height: 0;
     margin: 0;
     padding: 0;
 }
+
 #online li img {
     cursor: pointer;
 }
+
 #online li .icon {
     cursor: pointer;
     width: 113px;
@@ -700,16 +731,19 @@
     border: 0;
     background-repeat: no-repeat;
 }
+
 #online li .icon:hover {
     width: 107px;
     height: 107px;
     border: 3px solid #1094fa;
 }
+
 #online li.selected .icon {
     background-image: url(images/success.png);
-    background-image: url(images/success.gif)\9;
+    background-image: url(images/success.gif) \9;
     background-position: 75px 75px;
 }
+
 #online li.selected .icon:hover {
     width: 107px;
     height: 107px;

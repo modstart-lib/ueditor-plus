@@ -27,32 +27,32 @@
                 setTabFocus(target.getAttribute('data-content-id'));
             });
         }
-        if(!editorOpt.disableUpload){
-          $G('tabhead').querySelector('[data-content-id="upload"]').style.display = 'inline-block';
+        if (!editorOpt.disableUpload) {
+            $G('tabhead').querySelector('[data-content-id="upload"]').style.display = 'inline-block';
         }
-        if(!editorOpt.disableOnline){
-          $G('tabhead').querySelector('[data-content-id="online"]').style.display = 'inline-block';
+        if (!editorOpt.disableOnline) {
+            $G('tabhead').querySelector('[data-content-id="online"]').style.display = 'inline-block';
         }
-        if(!!editorOpt.selectCallback){
-          $G('imageSelect').style.display = 'inline-block';
-          domUtils.on($G('imageSelect'), "click", function (e) {
-            editorOpt.selectCallback(editor,function(info){
-              if(info){
-                $G('url').value = info.path;
-                $G('title').value = info.name;
-                var img = new Image();
-                img.onload = function(){
-                  $G('width').value = img.width;
-                  $G('height').value = img.height;
-                  remoteImage.setPreview();
-                };
-                img.onerror = function(){
-                  remoteImage.setPreview();
-                };
-                img.src = info.path;
-              }
+        if (!!editorOpt.selectCallback) {
+            $G('imageSelect').style.display = 'inline-block';
+            domUtils.on($G('imageSelect'), "click", function (e) {
+                editorOpt.selectCallback(editor, function (info) {
+                    if (info) {
+                        $G('url').value = info.path;
+                        $G('title').value = info.name;
+                        var img = new Image();
+                        img.onload = function () {
+                            $G('width').value = img.width;
+                            $G('height').value = img.height;
+                            remoteImage.setPreview();
+                        };
+                        img.onerror = function () {
+                            remoteImage.setPreview();
+                        };
+                        img.src = info.path;
+                    }
+                });
             });
-          });
         }
         var img = editor.selection.getRange().getClosedNode();
         if (img && img.tagName && img.tagName.toLowerCase() == 'img') {
@@ -64,7 +64,7 @@
 
     /* 初始化tabbody */
     function setTabFocus(id) {
-        if(!id) return;
+        if (!id) return;
         var i, bodyId, tabs = $G('tabhead').children;
         for (i = 0; i < tabs.length; i++) {
             bodyId = tabs[i].getAttribute('data-content-id');
@@ -121,7 +121,7 @@
                     break;
             }
 
-            if(list) {
+            if (list) {
                 editor.execCommand('insertimage', list);
                 remote && editor.fireEvent("catchRemoteImage");
             }
@@ -130,22 +130,22 @@
 
 
     /* 初始化对其方式的点击事件 */
-    function initAlign(){
+    function initAlign() {
         /* 点击align图标 */
-        domUtils.on($G("alignIcon"), 'click', function(e){
+        domUtils.on($G("alignIcon"), 'click', function (e) {
             var target = e.target || e.srcElement;
-            if(target.className && target.className.indexOf('-align') != -1) {
+            if (target.className && target.className.indexOf('-align') != -1) {
                 setAlign(target.getAttribute('data-align'));
             }
         });
     }
 
     /* 设置对齐方式 */
-    function setAlign(align){
+    function setAlign(align) {
         align = align || 'none';
         var aligns = $G("alignIcon").children;
-        for(i = 0; i < aligns.length; i++){
-            if(aligns[i].getAttribute('data-align') == align) {
+        for (i = 0; i < aligns.length; i++) {
+            if (aligns[i].getAttribute('data-align') == align) {
                 domUtils.addClass(aligns[i], 'focus');
                 $G("align").value = aligns[i].getAttribute('data-align');
             } else {
@@ -153,10 +153,11 @@
             }
         }
     }
+
     /* 获取对齐方式 */
-    function getAlign(){
+    function getAlign() {
         var align = $G("align").value || 'none';
-        return align == 'none' ? '':align;
+        return align == 'none' ? '' : align;
     }
 
 
@@ -165,6 +166,7 @@
         this.container = utils.isString(target) ? document.getElementById(target) : target;
         this.init();
     }
+
     RemoteImage.prototype = {
         init: function () {
             this.initContainer();
@@ -194,38 +196,38 @@
             domUtils.on($G("border"), 'keyup', updatePreview);
             domUtils.on($G("title"), 'keyup', updatePreview);
 
-            domUtils.on($G("width"), 'keyup', function(){
-                if(locker.checked) {
-                    var proportion =locker.getAttribute('data-proportion');
+            domUtils.on($G("width"), 'keyup', function () {
+                if (locker.checked) {
+                    var proportion = locker.getAttribute('data-proportion');
                     $G('height').value = Math.round(this.value / proportion);
                 } else {
                     _this.updateLocker();
                 }
                 updatePreview();
             });
-            domUtils.on($G("height"), 'keyup', function(){
-                if(locker.checked) {
-                    var proportion =locker.getAttribute('data-proportion');
+            domUtils.on($G("height"), 'keyup', function () {
+                if (locker.checked) {
+                    var proportion = locker.getAttribute('data-proportion');
                     $G('width').value = Math.round(this.value * proportion);
                 } else {
                     _this.updateLocker();
                 }
                 updatePreview();
             });
-            domUtils.on($G("lock"), 'change', function(){
-                var proportion = parseInt($G("width").value) /parseInt($G("height").value);
+            domUtils.on($G("lock"), 'change', function () {
+                var proportion = parseInt($G("width").value) / parseInt($G("height").value);
                 locker.setAttribute('data-proportion', proportion);
             });
 
-            function updatePreview(){
+            function updatePreview() {
                 _this.setPreview();
             }
         },
-        updateLocker: function(){
+        updateLocker: function () {
             var width = $G('width').value,
                 height = $G('height').value,
                 locker = $G('lock');
-            if(width && height && width == parseInt(width) && height == parseInt(height)) {
+            if (width && height && width == parseInt(width) && height == parseInt(height)) {
                 locker.disabled = false;
                 locker.title = '';
             } else {
@@ -234,7 +236,7 @@
                 locker.title = lang.remoteLockError;
             }
         },
-        setImage: function(img){
+        setImage: function (img) {
             /* 不是正常的图片 */
             if (!img.tagName || img.tagName.toLowerCase() != 'img' && !img.getAttribute("src") || !img.src) return;
 
@@ -244,7 +246,7 @@
 
             /* 防止onchange事件循环调用 */
             if (src !== $G("url").value) $G("url").value = src;
-            if(src) {
+            if (src) {
                 /* 设置表单内容 */
                 $G("width").value = img.width || '';
                 $G("height").value = img.height || '';
@@ -256,14 +258,14 @@
                 this.updateLocker();
             }
         },
-        getData: function(){
+        getData: function () {
             var data = {};
-            for(var k in this.dom){
+            for (var k in this.dom) {
                 data[k] = this.dom[k].value;
             }
             return data;
         },
-        setPreview: function(){
+        setPreview: function () {
             var url = $G('url').value,
                 ow = $G('width').value,
                 oh = $G('height').value,
@@ -273,59 +275,59 @@
                 width,
                 height;
 
-            width = ((!ow || !oh) ? preview.offsetWidth:Math.min(ow, preview.offsetWidth));
-            width = width+(border*2) > preview.offsetWidth ? width:(preview.offsetWidth - (border*2));
-            height = (!ow || !oh) ? '':width*oh/ow;
+            width = ((!ow || !oh) ? preview.offsetWidth : Math.min(ow, preview.offsetWidth));
+            width = width + (border * 2) > preview.offsetWidth ? width : (preview.offsetWidth - (border * 2));
+            height = (!ow || !oh) ? '' : width * oh / ow;
 
-            if(url) {
+            if (url) {
                 preview.innerHTML = '<img src="' + url + '" width="' + width + '" height="' + height + '" border="' + border + 'px solid #000" title="' + title + '" />';
             }
         },
         getInsertList: function () {
             var data = this.getData();
-            if(data['url']) {
+            if (data['url']) {
                 var img = {
-                  src: data['url'],
-                  _src: data['url'],
+                    src: data['url'],
+                    _src: data['url'],
                 }
                 img._propertyDelete = []
                 img.style = []
-                if(data['width']){
-                  img.width = data['width'];
-                  img.style.push('width:'+data['width']+'px');
-                }else{
-                  img._propertyDelete.push('width');
+                if (data['width']) {
+                    img.width = data['width'];
+                    img.style.push('width:' + data['width'] + 'px');
+                } else {
+                    img._propertyDelete.push('width');
                 }
-                if(data['height']){
-                  img.height = data['height'];
-                  img.style.push('height:'+data['height']+'px');
-                }else{
-                  img._propertyDelete.push('height');
+                if (data['height']) {
+                    img.height = data['height'];
+                    img.style.push('height:' + data['height'] + 'px');
+                } else {
+                    img._propertyDelete.push('height');
                 }
-                if(data['border']){
-                  img.border = data['border'];
-                }else{
-                  img._propertyDelete.push('border');
+                if (data['border']) {
+                    img.border = data['border'];
+                } else {
+                    img._propertyDelete.push('border');
                 }
-                if(data['align']){
-                  img.floatStyle = data['align'];
-                }else{
-                  img._propertyDelete.push('floatStyle');
+                if (data['align']) {
+                    img.floatStyle = data['align'];
+                } else {
+                    img._propertyDelete.push('floatStyle');
                 }
-                if(data['vhSpace']){
-                  img.vspace = data['vhSpace'];
-                }else{
-                  img._propertyDelete.push('vspace');
+                if (data['vhSpace']) {
+                    img.vspace = data['vhSpace'];
+                } else {
+                    img._propertyDelete.push('vspace');
                 }
-                if(data['title']){
-                  img.alt = data['title'];
-                }else{
-                  img._propertyDelete.push('alt');
+                if (data['title']) {
+                    img.alt = data['title'];
+                } else {
+                    img._propertyDelete.push('alt');
                 }
-                if(img.style.length> 0){
-                  img.style = img.style.join(';');
-                }else{
-                  img._propertyDelete.push('style');
+                if (img.style.length > 0) {
+                    img.style = img.style.join(';');
+                } else {
+                    img._propertyDelete.push('style');
                 }
                 return [img];
             } else {
@@ -335,12 +337,12 @@
     };
 
 
-
     /* 上传图片 */
     function UploadImage(target) {
         this.$wrap = target.constructor == String ? $('#' + target) : $(target);
         this.init();
     }
+
     UploadImage.prototype = {
         init: function () {
             this.imageList = [];
@@ -355,34 +357,34 @@
             var _this = this,
                 $ = jQuery,    // just in case. Make sure it's not an other libaray.
                 $wrap = _this.$wrap,
-            // 图片容器
+                // 图片容器
                 $queue = $wrap.find('.filelist'),
-            // 状态栏，包括进度和控制按钮
+                // 状态栏，包括进度和控制按钮
                 $statusBar = $wrap.find('.statusBar'),
-            // 文件总体选择信息。
+                // 文件总体选择信息。
                 $info = $statusBar.find('.info'),
-            // 上传按钮
+                // 上传按钮
                 $upload = $wrap.find('.uploadBtn'),
-            // 上传按钮
+                // 上传按钮
                 $filePickerBtn = $wrap.find('.filePickerBtn'),
-            // 上传按钮
+                // 上传按钮
                 $filePickerBlock = $wrap.find('.filePickerBlock'),
-            // 没选择文件之前的内容。
+                // 没选择文件之前的内容。
                 $placeHolder = $wrap.find('.placeholder'),
-            // 总体进度条
+                // 总体进度条
                 $progress = $statusBar.find('.progress').hide(),
-            // 添加的文件数量
+                // 添加的文件数量
                 fileCount = 0,
-            // 添加的文件总大小
+                // 添加的文件总大小
                 fileSize = 0,
-            // 优化retina, 在retina下这个值是2
+                // 优化retina, 在retina下这个值是2
                 ratio = window.devicePixelRatio || 1,
-            // 缩略图大小
+                // 缩略图大小
                 thumbnailWidth = 113 * ratio,
                 thumbnailHeight = 113 * ratio,
-            // 可能有pedding, ready, uploading, confirm, done.
+                // 可能有pedding, ready, uploading, confirm, done.
                 state = '',
-            // 所有文件的进度信息，key为file id
+                // 所有文件的进度信息，key为file id
                 percentages = {},
                 supportTransition = (function () {
                     var s = document.createElement('p').style,
@@ -394,7 +396,7 @@
                     s = null;
                     return r;
                 })(),
-            // WebUploader实例
+                // WebUploader实例
                 uploader,
                 actionUrl = editor.getActionUrl(editor.getOpt('imageActionName')),
                 acceptExtensions = (editor.getOpt('imageAllowFiles') || []).join('').replace(/\./g, ',').replace(/^[,]/, ''),
@@ -427,10 +429,10 @@
                 threads: 1,
                 headers: editor.getOpt('serverHeaders') || {},
                 compress: editor.getOpt('imageCompressEnable') ? {
-                    enable:editor.getOpt('imageCompressEnable'),
+                    enable: editor.getOpt('imageCompressEnable'),
                     maxWidthOrHeight: imageCompressBorder,
                     maxSize: imageMaxSize,
-                }:false
+                } : false
             });
             uploader.addButton({
                 id: '#filePickerBlock'
@@ -451,9 +453,9 @@
                     '</li>'),
 
                     $btns = $('<div class="file-panel">' +
-                    '<span class="cancel">' + lang.uploadDelete + '</span>' +
-                    '<span class="rotateRight">' + lang.uploadTurnRight + '</span>' +
-                    '<span class="rotateLeft">' + lang.uploadTurnLeft + '</span></div>').appendTo($li),
+                        '<span class="cancel">' + lang.uploadDelete + '</span>' +
+                        '<span class="rotateRight">' + lang.uploadTurnRight + '</span>' +
+                        '<span class="rotateLeft">' + lang.uploadTurnLeft + '</span></div>').appendTo($li),
                     $prgress = $li.find('p.progress span'),
                     $wrap = $li.find('p.imgWrap'),
                     $info = $('<p class="error"></p>').hide().appendTo($li),
@@ -498,7 +500,7 @@
                             }
                         }, thumbnailWidth, thumbnailHeight);
                     }
-                    percentages[ file.id ] = [ file.size, 0 ];
+                    percentages[file.id] = [file.size, 0];
                     file.rotation = 0;
 
                     /* 检查文件格式 */
@@ -518,11 +520,11 @@
                     // 成功
                     if (cur === 'error' || cur === 'invalid') {
                         showError(file.statusText);
-                        percentages[ file.id ][ 1 ] = 1;
+                        percentages[file.id][1] = 1;
                     } else if (cur === 'interrupt') {
                         showError('interrupt');
                     } else if (cur === 'queued') {
-                        percentages[ file.id ][ 1 ] = 0;
+                        percentages[file.id][1] = 0;
                     } else if (cur === 'progress') {
                         $info.hide();
                         $prgress.css('display', 'block');
@@ -575,7 +577,7 @@
             // 负责view的销毁
             function removeFile(file) {
                 var $li = $('#' + file.id);
-                delete percentages[ file.id ];
+                delete percentages[file.id];
                 updateTotalProgress();
                 $li.off().find('.file-panel').off().end().remove();
             }
@@ -587,8 +589,8 @@
                     percent;
 
                 $.each(percentages, function (k, v) {
-                    total += v[ 0 ];
-                    loaded += v[ 0 ] * v[ 1 ];
+                    total += v[0];
+                    loaded += v[0] * v[1];
                 });
 
                 percent = total ? loaded / total : 0;
@@ -614,7 +616,8 @@
                             $queue.addClass('element-invisible');
                             $statusBar.addClass('element-invisible');
                             $placeHolder.removeClass('element-invisible');
-                            $progress.hide(); $info.hide();
+                            $progress.hide();
+                            $info.hide();
                             uploader.refresh();
                             break;
 
@@ -623,25 +626,29 @@
                             $placeHolder.addClass('element-invisible');
                             $queue.removeClass('element-invisible');
                             $statusBar.removeClass('element-invisible');
-                            $progress.hide(); $info.show();
+                            $progress.hide();
+                            $info.show();
                             $upload.text(lang.uploadStart);
                             uploader.refresh();
                             break;
 
                         /* 上传中 */
                         case 'uploading':
-                            $progress.show(); $info.hide();
+                            $progress.show();
+                            $info.hide();
                             $upload.text(lang.uploadPause);
                             break;
 
                         /* 暂停上传 */
                         case 'paused':
-                            $progress.show(); $info.hide();
+                            $progress.show();
+                            $info.hide();
                             $upload.text(lang.uploadContinue);
                             break;
 
                         case 'confirm':
-                            $progress.show(); $info.hide();
+                            $progress.show();
+                            $info.hide();
                             $upload.text(lang.uploadStart);
 
                             stats = uploader.getStats();
@@ -652,7 +659,8 @@
                             break;
 
                         case 'finish':
-                            $progress.hide(); $info.show();
+                            $progress.hide();
+                            $info.show();
                             if (stats.uploadFailNum) {
                                 $upload.text(lang.uploadRetry);
                             } else {
@@ -686,9 +694,7 @@
                     }
                 } else {
                     stats = uploader.getStats();
-                    text = lang.updateStatusFinish.replace('_', fileCount).
-                        replace('_KB', WebUploader.formatSize(fileSize)).
-                        replace('_', stats.successNum);
+                    text = lang.updateStatusFinish.replace('_', fileCount).replace('_KB', WebUploader.formatSize(fileSize)).replace('_', stats.successNum);
 
                     if (stats.uploadFailNum) {
                         text += lang.updateStatusError.replace('_', stats.uploadFailNum);
@@ -735,7 +741,7 @@
                     case 'startUpload':
                         /* 添加额外的GET参数 */
                         var params = utils.serializeParam(editor.queryCommandValue('serverparam')) || '',
-                            url = utils.formatUrl(actionUrl + (actionUrl.indexOf('?') == -1 ? '?':'&') + 'encode=utf-8&' + params);
+                            url = utils.formatUrl(actionUrl + (actionUrl.indexOf('?') == -1 ? '?' : '&') + 'encode=utf-8&' + params);
                         uploader.option('server', url);
                         setState('uploading', files);
                         break;
@@ -757,7 +763,7 @@
                     $percent = $li.find('.progress span');
 
                 $percent.css('width', percentage * 100 + '%');
-                percentages[ file.id ][ 1 ] = percentage;
+                percentages[file.id][1] = percentage;
                 updateTotalProgress();
             });
 
@@ -811,7 +817,7 @@
         },
         getQueueCount: function () {
             var file, i, status, readyFile = 0, files = this.uploader.getFiles();
-            for (i = 0; file = files[i++]; ) {
+            for (i = 0; file = files[i++];) {
                 status = file.getStatus();
                 if (status == 'queued' || status == 'uploading' || status == 'progress') readyFile++;
             }
@@ -843,6 +849,7 @@
         this.container = utils.isString(target) ? document.getElementById(target) : target;
         this.init();
     }
+
     OnlineImage.prototype = {
         init: function () {
             this.reset();
@@ -865,7 +872,7 @@
             var _this = this;
 
             /* 滚动拉取图片 */
-            domUtils.on($G('imageList'), 'scroll', function(e){
+            domUtils.on($G('imageList'), 'scroll', function (e) {
                 var panel = this;
                 if (panel.scrollHeight - (panel.offsetHeight + panel.scrollTop) < 10) {
                     _this.getImageData();
@@ -898,7 +905,7 @@
             this.getImageData();
         },
         /* 重置界面 */
-        reset: function() {
+        reset: function () {
             this.initContainer();
             this.initData();
         },
@@ -906,13 +913,13 @@
         getImageData: function () {
             var _this = this;
 
-            if(!_this.listEnd && !this.isLoadingData) {
+            if (!_this.listEnd && !this.isLoadingData) {
                 this.isLoadingData = true;
                 var url = editor.getActionUrl(editor.getOpt('imageManagerActionName')),
                     isJsonp = utils.isCrossDomainUrl(url);
                 ajax.request(url, {
                     'timeout': 100000,
-                    'dataType': isJsonp ? 'jsonp':'',
+                    'dataType': isJsonp ? 'jsonp' : '',
                     'headers': editor.options.serverHeaders || {},
                     'data': utils.extend({
                         start: this.listIndex,
@@ -921,17 +928,17 @@
                     'method': 'get',
                     'onsuccess': function (r) {
                         try {
-                            var json = isJsonp ? r:eval('(' + r.responseText + ')');
+                            var json = isJsonp ? r : eval('(' + r.responseText + ')');
                             if (json.state === 'SUCCESS') {
                                 _this.pushData(json.list);
                                 _this.listIndex = parseInt(json.start) + parseInt(json.list.length);
-                                if(_this.listIndex >= json.total) {
+                                if (_this.listIndex >= json.total) {
                                     _this.listEnd = true;
                                 }
                                 _this.isLoadingData = false;
                             }
                         } catch (e) {
-                            if(r.responseText.indexOf('ue_separate_ue') != -1) {
+                            if (r.responseText.indexOf('ue_separate_ue') != -1) {
                                 var list = r.responseText.split(r.responseText);
                                 _this.pushData(list);
                                 _this.listIndex = parseInt(list.length);
@@ -951,18 +958,18 @@
             var i, item, img, icon, _this = this,
                 urlPrefix = editor.getOpt('imageManagerUrlPrefix');
             for (i = 0; i < list.length; i++) {
-                if(list[i] && list[i].url) {
+                if (list[i] && list[i].url) {
                     item = document.createElement('li');
                     img = document.createElement('img');
                     icon = document.createElement('span');
 
-                    domUtils.on(img, 'load', (function(image){
-                        return function(){
+                    domUtils.on(img, 'load', (function (image) {
+                        return function () {
                             _this.scale(image, image.parentNode.offsetWidth, image.parentNode.offsetHeight);
                         }
                     })(img));
                     img.width = 113;
-                    img.setAttribute('src', urlPrefix + list[i].url + (list[i].url.indexOf('?') == -1 ? '?noCache=':'&noCache=') + (+new Date()).toString(36) );
+                    img.setAttribute('src', urlPrefix + list[i].url + (list[i].url.indexOf('?') == -1 ? '?noCache=' : '&noCache=') + (+new Date()).toString(36));
                     img.setAttribute('_src', urlPrefix + list[i].url);
                     domUtils.addClass(icon, 'icon');
 
