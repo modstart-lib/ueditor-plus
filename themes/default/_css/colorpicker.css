@@ -11,11 +11,11 @@
     margin-left: 1px;
     width: 128px;
     float: left;
-    border-radius:3px;
+    border-radius: 3px;
     position: relative;
 }
 
-.edui-default .edui-colorpicker-preview input{
+.edui-default .edui-colorpicker-preview input {
     padding: 0;
     left: 0;
     border: 0;
@@ -51,7 +51,7 @@
     display: block;
     margin: 0;
     cursor: pointer;
-    border-radius:2px;
+    border-radius: 2px;
 }
 
 .edui-default .edui-colorpicker-colorcell:hover {
@@ -59,28 +59,34 @@
     height: 14px;
     margin: 0;
 }
-.edui-default .edui-colorpicker-advbtn{
+
+.edui-default .edui-colorpicker-advbtn {
     display: block;
     text-align: center;
     cursor: pointer;
-    height:20px;
+    height: 20px;
 }
-.arrow_down{
+
+.arrow_down {
     background: white url('../images/arrow_down.png') no-repeat center;
 }
-.arrow_up{
+
+.arrow_up {
     background: white url('../images/arrow_up.png') no-repeat center;
 }
+
 /*高级的样式*/
-.edui-colorpicker-adv{
+.edui-colorpicker-adv {
     position: relative;
     overflow: hidden;
     height: 180px;
     display: none;
 }
+
 .edui-colorpicker-plant, .edui-colorpicker-hue {
     border: solid 1px #666;
 }
+
 .edui-colorpicker-pad {
     width: 150px;
     height: 150px;
@@ -91,7 +97,8 @@
     overflow: hidden;
     cursor: crosshair;
 }
-.edui-colorpicker-cover{
+
+.edui-colorpicker-cover {
     position: absolute;
     top: 0;
     left: 0;
@@ -99,7 +106,8 @@
     height: 150px;
     background: url("../images/tangram-colorpicker.png") -160px -200px;
 }
-.edui-colorpicker-padDot{
+
+.edui-colorpicker-padDot {
     position: absolute;
     top: 0;
     left: 0;
@@ -110,6 +118,7 @@
     z-index: 1000;
 
 }
+
 .edui-colorpicker-sliderMain {
     position: absolute;
     left: 171px;
@@ -119,12 +128,14 @@
     background: url(../images/tangram-colorpicker.png) -179px -12px no-repeat;
 
 }
+
 .edui-colorpicker-slider {
     width: 100%;
     height: 100%;
     cursor: pointer;
 }
-.edui-colorpicker-thumb{
+
+.edui-colorpicker-thumb {
     position: absolute;
     top: 0;
     cursor: pointer;

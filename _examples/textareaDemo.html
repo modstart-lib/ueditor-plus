@@ -8,33 +8,33 @@
     <script type="text/javascript" charset="utf-8" src="../ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="editor_api.js"></script>
     <style type="text/css">
-        #myEditor{
+        #myEditor {
             height: 300px;
         }
     </style>
-  <script>var _hmt = _hmt || [];
-  (function() {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?5f8b495b287894a451c761c963e6e34a";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();</script>
-  <link rel="stylesheet" href="./style.css"/>
+    <script>var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?5f8b495b287894a451c761c963e6e34a";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();</script>
+    <link rel="stylesheet" href="./style.css"/>
 </head>
 <body class="demo-editor-page">
-    <div>
-      <h1>文本域渲染编辑器</h1>
-      <!--style给定宽度可以影响编辑器的最终宽度-->
-      <textarea id="myEditor">这里是原始的textarea中的内容，可以从数据中读取</textarea>
-      <br/>
-      <input type="button" onclick="render()" value="渲染编辑器">
-      <script type="text/javascript">
+<div>
+    <h1>文本域渲染编辑器</h1>
+    <!--style给定宽度可以影响编辑器的最终宽度-->
+    <textarea id="myEditor">这里是原始的textarea中的内容，可以从数据中读取</textarea>
+    <br/>
+    <input type="button" onclick="render()" value="渲染编辑器">
+    <script type="text/javascript">
         //渲染编辑器
-        function render(){
-          UE.getEditor('myEditor')
+        function render() {
+            UE.getEditor('myEditor')
         }
-      </script>
+    </script>
 
-    </div>
+</div>
 </body>
 </html>

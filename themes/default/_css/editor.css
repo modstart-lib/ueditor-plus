@@ -8,18 +8,20 @@
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
-.edui-editor div{
-    width:auto;
-    height:auto;
+
+.edui-editor div {
+    width: auto;
+    height: auto;
 }
+
 .edui-default .edui-editor-toolbarbox {
     position: relative;
     zoom: 1;
     /*-webkit-box-shadow:0 1px 4px rgba(204, 204, 204, 0.6);*/
     /*-moz-box-shadow:0 1px 4px rgba(204, 204, 204, 0.6);*/
     /*box-shadow:0 1px 4px rgba(204, 204, 204, 0.6);*/
-    border-top-left-radius:2px;
-    border-top-right-radius:2px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
 }
 
 .edui-default .edui-editor-toolbarboxouter {
@@ -83,8 +85,8 @@
     line-height: 20px;
     font-size: 12px;
     font-family: Arial, Helvetica, Tahoma, Verdana, Sans-Serif;
-    padding:0 5px;
-    color:var(--edui-color-muted);
+    padding: 0 5px;
+    color: var(--edui-color-muted);
 }
 
 .edui-default .edui-editor-wordcount {
@@ -92,9 +94,11 @@
     margin-right: 5px;
     color: #aaa;
 }
+
 .edui-default .edui-editor-scale {
     width: 12px;
 }
+
 .edui-default .edui-editor-scale .edui-editor-icon {
     float: right;
     width: 100%;
@@ -103,6 +107,7 @@
     background: url(../images/scale.png) no-repeat;
     cursor: se-resize;
 }
+
 .edui-default .edui-editor-breadcrumb {
     margin: 2px 0 0 3px;
     color: var(--edui-color-muted);
@@ -120,13 +125,13 @@
 }
 
 .edui-default .edui-bubble .edui-popup-content {
-  font-size: 13px;
-  box-shadow: 0 0 10px #0000001f;
-  transition: .25s;
-  color: #666;
-  background-color: #FFF;
-  padding: 10px;
-  border-radius: 5px;
+    font-size: 13px;
+    box-shadow: 0 0 10px #0000001f;
+    transition: .25s;
+    color: #666;
+    background-color: #FFF;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .edui-default .edui-bubble .edui-shadow {

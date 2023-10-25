@@ -1,8 +1,8 @@
 /**
  * 开发版本的文件导入
  */
-(function (){
-    var paths  = [
+(function () {
+    var paths = [
             'editor.js',
             'core/browser.js',
             'core/utils.js',
@@ -127,10 +127,10 @@
             'adapter/message.js',
         ],
         baseURL = '../_src/';
-        if(window.UEDITOR_HOME_URL){
-            baseURL = window.UEDITOR_HOME_URL + '_src/';
-        }
-    for (var i=0,pi;pi = paths[i++];) {
-        document.write('<script src="'+ baseURL + pi +'"></script>');
+    if (window.UEDITOR_HOME_URL) {
+        baseURL = window.UEDITOR_HOME_URL + '_src/';
+    }
+    for (var i = 0, pi; pi = paths[i++];) {
+        document.write('<script src="' + baseURL + pi + '"></script>');
     }
 })();

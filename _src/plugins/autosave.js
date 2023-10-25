@@ -57,22 +57,22 @@ UE.plugin.register("autosave", function () {
                     // console.log('saveKey', saveKey, data);
                     if (data) {
                         me.body.innerHTML = data;
-                        me.fireEvent('showmessage',{
-                          type:'info',
-                          content:me.getLang('autosave').autoRestoreTip
+                        me.fireEvent('showmessage', {
+                            type: 'info',
+                            content: me.getLang('autosave').autoRestoreTip
                         })
                     }
                 }
                 // console.log('saveKey', saveKey);
             },
-            beforesubmit: function(){
+            beforesubmit: function () {
                 if (!me.getOpt("autoSaveEnable") || !saveKey) {
-                  return;
+                    return;
                 }
                 me.execCommand('clear_auto_save_content');
             },
             contentchange: function () {
-                if(!me.isReady){
+                if (!me.isReady) {
                     return;
                 }
                 if (!me.getOpt("autoSaveEnable") || !saveKey) {

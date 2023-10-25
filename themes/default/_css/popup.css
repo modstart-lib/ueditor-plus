@@ -2,12 +2,12 @@
 .edui-default .edui-popup {
     z-index: 3000;
     background-color: #ffffff;
-    width:auto;
-    height:auto;
+    width: auto;
+    height: auto;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    margin-top:1px;
+    margin-top: 1px;
 }
 
 .edui-default .edui-popup .edui-shadow {
@@ -19,7 +19,7 @@
 
 .edui-default .edui-popup-content {
     font-size: 13px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     transition: .25s;
     color: #333;
     background-color: #FFF;
@@ -62,7 +62,7 @@
     border-right: 1px solid gray;
 }
 
-.edui-popup div{
-    width:auto;
-    height:auto;
+.edui-popup div {
+    width: auto;
+    height: auto;
 }

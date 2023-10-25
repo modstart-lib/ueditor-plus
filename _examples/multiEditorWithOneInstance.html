@@ -7,64 +7,75 @@
     <script type="text/javascript" charset="utf-8" src="editor_api.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js"></script>
     <style>
-        table{margin-bottom:10px;border-collapse:collapse;display:table;border:1px dashed #ddd}
-        #test td{padding:5px;border: 1px solid #DDD;}
+        table {
+            margin-bottom: 10px;
+            border-collapse: collapse;
+            display: table;
+            border: 1px dashed #ddd
+        }
+
+        #test td {
+            padding: 5px;
+            border: 1px solid #DDD;
+        }
     </style>
-  <script>var _hmt = _hmt || [];
-  (function() {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?5f8b495b287894a451c761c963e6e34a";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();</script>
-  <link rel="stylesheet" href="./style.css"/>
+    <script>var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?5f8b495b287894a451c761c963e6e34a";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();</script>
+    <link rel="stylesheet" href="./style.css"/>
 </head>
 <body class="demo-editor-page wide">
 <div>
-  <h1>UEditor多编辑区域一个编辑器实例</h1>
-  <table id="test">
-    <tr>
-      <td width="100">
-        编辑区域一
-      </td>
-      <td class="content" id="content1"><script id="editor1" type="text/plain" style="width:1024px;height:200px;">内容1</script></td>
-    </tr>
-    <tr>
-      <td>
-        编辑区域二
-      </td>
-      <td class="content" id="content2">内容2</td>
-    </tr>
-    <tr>
-      <td>
-        编辑区域三
-      </td>
-      <td class="content" id="content3">内容3</td>
-    </tr>
-  </table>
+    <h1>UEditor多编辑区域一个编辑器实例</h1>
+    <table id="test">
+        <tr>
+            <td width="100">
+                编辑区域一
+            </td>
+            <td class="content" id="content1">
+                <script id="editor1" type="text/plain" style="width:1024px;height:200px;">内容1</script>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                编辑区域二
+            </td>
+            <td class="content" id="content2">内容2</td>
+        </tr>
+        <tr>
+            <td>
+                编辑区域三
+            </td>
+            <td class="content" id="content3">内容3</td>
+        </tr>
+    </table>
 
-  <script type="text/javascript">
-    var ue = UE.getEditor('editor1');
-    ue.ready(function(){
-      //阻止工具栏的点击向上冒泡
-      $(this.container).click(function(e){
-        e.stopPropagation()
-      })
-    });
-    $('.content').click(function(e){
-      var $target = $(this);
-      var content = $target.html();
-      var currentParnet = ue.container.parentNode.parentNode;
-      var currentContent = ue.getContent();
-      $target.html('');
-      $target.append(ue.container.parentNode);
-      ue.reset();
-      setTimeout(function(){
-        ue.setContent(content);
-      },200)
-      $(currentParnet).html(currentContent);
-    })
-  </script>
+    <script type="text/javascript">
+        var ue = UE.getEditor('editor1');
+        ue.ready(function () {
+            //阻止工具栏的点击向上冒泡
+            $(this.container).click(function (e) {
+                e.stopPropagation()
+            })
+        });
+        $('.content').click(function (e) {
+            var $target = $(this);
+            var content = $target.html();
+            var currentParnet = ue.container.parentNode.parentNode;
+            var currentContent = ue.getContent();
+            $target.html('');
+            $target.append(ue.container.parentNode);
+            ue.reset();
+            setTimeout(function () {
+                ue.setContent(content);
+            }, 200)
+            $(currentParnet).html(currentContent);
+        })
+    </script>
 </div>
 </body>
 </html>

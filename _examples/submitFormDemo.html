@@ -6,44 +6,45 @@
     <script type="text/javascript" charset="utf-8" src="../ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="editor_api.js"></script>
     <style type="text/css">
-        body{
-            font-size:14px;
+        body {
+            font-size: 14px;
         }
     </style>
-  <script>var _hmt = _hmt || [];
-  (function() {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?5f8b495b287894a451c761c963e6e34a";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();</script>
-  <link rel="stylesheet" href="./style.css"/>
+    <script>var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?5f8b495b287894a451c761c963e6e34a";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();</script>
+    <link rel="stylesheet" href="./style.css"/>
 </head>
 <body class="demo-editor-page">
-    <div>
-      <h2>UEditorPlus提交示例</h2>
-      <form id="form" method="post" target="_blank">
+<div>
+    <h2>UEditorPlus提交示例</h2>
+    <form id="form" method="post" target="_blank">
         <script type="text/plain" id="myEditor" name="myEditor">
             <p>欢迎使用UEditorPlus！</p>
+
         </script>
         <input type="submit" value="通过input的submit提交">
-      </form>
-      <p>
-          <button onclick="document.getElementById('form').submit()">通过js调用submit提交</button>
-      </p>
-      <script type="text/javascript">
-        var editor_a = UE.getEditor('myEditor',{initialFrameHeight:500});
+    </form>
+    <p>
+        <button onclick="document.getElementById('form').submit()">通过js调用submit提交</button>
+    </p>
+    <script type="text/javascript">
+        var editor_a = UE.getEditor('myEditor', {initialFrameHeight: 500});
         editor_a.addListener("contentchange", function () {
-            console.log('编辑器内容发生改变',editor_a.getContent());
+            console.log('编辑器内容发生改变', editor_a.getContent());
         })
         //--自动切换提交地址----
-        var doc=document,
-          version = editor_a.options.serverUrl || editor_a.options.imageUrl || "php",
-          form=doc.getElementById("form");
-        form.action="../_demo_server/handle.php?action=showPost";
-      </script>
+        var doc = document,
+            version = editor_a.options.serverUrl || editor_a.options.imageUrl || "php",
+            form = doc.getElementById("form");
+        form.action = "../_demo_server/handle.php?action=showPost";
+    </script>
 
-    </div>
+</div>
 </body>
 
 

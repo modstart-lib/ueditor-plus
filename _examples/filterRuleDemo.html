@@ -10,21 +10,21 @@
             clear: both;
         }
     </style>
-  <script>var _hmt = _hmt || [];
-  (function() {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?5f8b495b287894a451c761c963e6e34a";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();</script>
-  <link rel="stylesheet" href="./style.css"/>
+    <script>var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?5f8b495b287894a451c761c963e6e34a";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();</script>
+    <link rel="stylesheet" href="./style.css"/>
 </head>
 <body class="demo-editor-page">
 <div>
-  <p>尝试粘贴内容近来，这里边不能粘贴任何inline的样式，不能有iframe,style,script,embed等标签，表格不能嵌套</p>
-  <div>
-    <script id="editor" type="text/plain" style="width:500px;height:500px"></script>
-  </div>
+    <p>尝试粘贴内容近来，这里边不能粘贴任何inline的样式，不能有iframe,style,script,embed等标签，表格不能嵌套</p>
+    <div>
+        <script id="editor" type="text/plain" style="width:500px;height:500px"></script>
+    </div>
 
 </div>
 </body>
@@ -32,24 +32,24 @@
 
     UE.getEditor('editor', {
         filterRules: function () {
-            return{
-                span:function(node){
-                    if(/Wingdings|Symbol/.test(node.getStyle('font-family'))){
+            return {
+                span: function (node) {
+                    if (/Wingdings|Symbol/.test(node.getStyle('font-family'))) {
                         return true;
-                    }else{
-                        node.parentNode.removeChild(node,true)
+                    } else {
+                        node.parentNode.removeChild(node, true)
                     }
                 },
-                p: function(node){
+                p: function (node) {
                     var listTag;
-                    if(node.getAttr('class') == 'MsoListParagraph'){
+                    if (node.getAttr('class') == 'MsoListParagraph') {
                         listTag = 'MsoListParagraph'
                     }
                     node.setAttr();
-                    if(listTag){
-                        node.setAttr('class','MsoListParagraph')
+                    if (listTag) {
+                        node.setAttr('class', 'MsoListParagraph')
                     }
-                    if(!node.firstChild()){
+                    if (!node.firstChild()) {
                         node.innerHTML(UE.browser.ie ? '&nbsp;' : '<br>')
                     }
                 },
@@ -95,18 +95,18 @@
 //                    node.setAttr();
 //                    node.setAttr({'src':src})
 //                },
-                ol:{$: {}},
+                ol: {$: {}},
                 ul: {$: {}},
 
-                dl:function(node){
+                dl: function (node) {
                     node.tagName = 'ul';
                     node.setAttr()
                 },
-                dt:function(node){
+                dt: function (node) {
                     node.tagName = 'li';
                     node.setAttr()
                 },
-                dd:function(node){
+                dd: function (node) {
                     node.tagName = 'li';
                     node.setAttr()
                 },
@@ -117,8 +117,8 @@
                         node.setAttr()
                     }
                     var tmpNodes = node.getNodesByTagName('ol ul');
-                    UE.utils.each(tmpNodes,function(n){
-                        node.parentNode.insertAfter(n,node);
+                    UE.utils.each(tmpNodes, function (n) {
+                        node.parentNode.insertAfter(n, node);
 
                     })
 
@@ -145,7 +145,7 @@
                 tbody: {$: {}},
                 caption: {$: {}},
                 th: {$: {}},
-                td: {$: {valign: 1, align: 1,rowspan:1,colspan:1,width:1,height:1}},
+                td: {$: {valign: 1, align: 1, rowspan: 1, colspan: 1, width: 1, height: 1}},
                 tr: {$: {}},
                 h3: {$: {}},
                 h2: {$: {}},

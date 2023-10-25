@@ -5,13 +5,13 @@
     float: right;
     /*background: url("../images/icons-all.gif") no-repeat 10px -233px;*/
     font-family: 'edui-iconfont';
-    font-size:12px;
-    line-height:20px;
-    text-align:center;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
 }
 
-.edui-default .edui-hassubmenu .edui-arrow:before{
-  content: "\e665";
+.edui-default .edui-hassubmenu .edui-arrow:before {
+    content: "\e665";
 }
 
 .edui-default .edui-menu-body .edui-menuitem {
@@ -33,6 +33,6 @@
 .edui-default .edui-menu-body .edui-state-hover {
     padding: 0 !important;
     background-color: var(--edui-color-active-bg);
-    border-radius:3px;
-    border:1px solid var(--edui-color-active-bg);
+    border-radius: 3px;
+    border: 1px solid var(--edui-color-active-bg);
 }

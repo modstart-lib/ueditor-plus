@@ -16,7 +16,7 @@
     cursor: pointer;
 }
 
-.edui-default .edui-toolbar .edui-combox-body .edui-arrow:before{
+.edui-default .edui-toolbar .edui-combox-body .edui-arrow:before {
     content: "\e9f0";
     font-family: "edui-iconfont";
     font-size: 8px;
