@@ -117,9 +117,11 @@
     </div>
 
     <script type="text/javascript">
-        var ue = UE.getEditor('editor');
+        var ue = UE.getEditor('editor',{
+            // autoHeightEnabled: false,
+        });
         ue.on('contentchange', function () {
-            console.log('contentchange', ue.getContent());
+            // console.log('contentchange', ue.getContent());
         });
 
         function isFocus(e) {

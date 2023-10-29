@@ -1618,6 +1618,13 @@
             return count;
         },
 
+        getScrollTop: function () {
+            return Math.max(this.document.documentElement.scrollTop, this.document.body.scrollTop);
+        },
+        getScrollLeft: function () {
+            return Math.max(this.document.documentElement.scrollLeft, this.document.body.scrollLeft);
+        },
+
         /**
          * 注册输入过滤规则
          * @method  addInputRule

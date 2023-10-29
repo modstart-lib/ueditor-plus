@@ -293,14 +293,14 @@
                     if (img && img.tagName == "IMG") {
                         var dialogName = "insertimageDialog";
                         if (
-                            img.className.indexOf("edui-faked-video") != -1 ||
-                            img.className.indexOf("edui-upload-video") != -1
+                            img.className.indexOf("edui-faked-video") !== -1 ||
+                            img.className.indexOf("edui-upload-video") !== -1
                         ) {
                             dialogName = "insertvideoDialog";
                         }
                         if (
-                            img.className.indexOf("edui-faked-audio") != -1 ||
-                            img.className.indexOf("edui-upload-audio") != -1
+                            img.className.indexOf("edui-faked-audio") !== -1 ||
+                            img.className.indexOf("edui-upload-audio") !== -1
                         ) {
                             dialogName = "insertaudioDialog";
                         }
