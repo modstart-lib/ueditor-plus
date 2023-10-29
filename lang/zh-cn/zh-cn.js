@@ -268,7 +268,6 @@ UE.I18N['zh-cn'] = {
     'default': '默认',
     'modify': '修改',
     'save': '保存',
-    'formulaedit': '公式修改',
     'justifyleft': '左对齐',
     'justifyright': '右对齐',
     'justifycenter': '居中',
@@ -730,7 +729,8 @@ UE.I18N['zh-cn'] = {
         }
     },
     'formula': {
-        'static': {}
+        'static': {},
+        'edit': '公式修改',
     },
     'wordimage': {
         'static': {

@@ -276,7 +276,6 @@ UE.I18N['en'] = {
     'default': 'Default',
     'modify': 'Modify',
     'save': 'Save',
-    'formulaedit': 'FormulaEdit',
     'justifyleft': 'Justify Left',
     'justifyright': 'Justify Right',
     'justifycenter': 'Justify Center',
@@ -650,7 +649,8 @@ UE.I18N['en'] = {
         }
     },
     'formula': {
-        'static': {}
+        'static': {},
+        'edit': 'Formula Edit',
     },
     wordimage: {
         'static': {

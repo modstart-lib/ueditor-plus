@@ -349,7 +349,7 @@
                             "</span>");
                         if (closedNode.getAttribute('data-formula-image') !== null) {
                             actions.push("<span onclick=\"$$._onImgEditButtonClick('formulaDialog');\" class='edui-clickable edui-popup-action-item'>" +
-                                editor.getLang("formulaedit") + "</span>");
+                                editor.getLang("formula.edit") + "</span>");
                         }
                         if (closedNode.getAttribute("data-word-image")) {
                             actions.push("<span onclick=\"$$._onImgEditButtonClick('wordimageDialog');\" class='edui-clickable edui-popup-action-item'>" +
