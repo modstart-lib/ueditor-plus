@@ -89,6 +89,7 @@
                 baidu.editor.ui.Popup.postHide(evt, el);
                 baidu.editor.ui.ShortCutMenu.postHide(evt);
             });
+
             editor.addListener("delcells", function () {
                 if (UE.ui["edittip"]) {
                     new UE.ui["edittip"](editor);
@@ -288,23 +289,24 @@
                     if (!causeByUi) return;
                     var html = "",
                         str = "",
-                        img = editor.selection.getRange().getClosedNode(),
+                        closedNode = editor.selection.getRange().getClosedNode(),
                         dialogs = editor.ui._dialogs;
-                    if (img && img.tagName == "IMG") {
+                    // 图片选中处理
+                    if (closedNode && closedNode.tagName === "IMG") {
                         var dialogName = "insertimageDialog";
                         if (
-                            img.className.indexOf("edui-faked-video") !== -1 ||
-                            img.className.indexOf("edui-upload-video") !== -1
+                            closedNode.className.indexOf("edui-faked-video") !== -1 ||
+                            closedNode.className.indexOf("edui-upload-video") !== -1
                         ) {
                             dialogName = "insertvideoDialog";
                         }
                         if (
-                            img.className.indexOf("edui-faked-audio") !== -1 ||
-                            img.className.indexOf("edui-upload-audio") !== -1
+                            closedNode.className.indexOf("edui-faked-audio") !== -1 ||
+                            closedNode.className.indexOf("edui-upload-audio") !== -1
                         ) {
                             dialogName = "insertaudioDialog";
                         }
-                        if (img.getAttribute("anchorname")) {
+                        if (closedNode.getAttribute("anchorname")) {
                             dialogName = "anchorDialog";
                             html = popup.formatHtml(
                                 "<nobr>" +
@@ -322,8 +324,8 @@
                         //   dialogName = "wordimageDialog";
                         // }
                         if (
-                            domUtils.hasClass(img, "uep-loading") ||
-                            domUtils.hasClass(img, "uep-loading-error")
+                            domUtils.hasClass(closedNode, "uep-loading") ||
+                            domUtils.hasClass(closedNode, "uep-loading-error")
                         ) {
                             dialogName = "";
                         }
@@ -345,11 +347,11 @@
                         actions.push('<span onclick=$$._onImgSetFloat("center") class="edui-clickable edui-popup-action-item">' +
                             editor.getLang("justifycenter") +
                             "</span>");
-                        if (img.getAttribute('data-formula-image') !== null) {
+                        if (closedNode.getAttribute('data-formula-image') !== null) {
                             actions.push("<span onclick=\"$$._onImgEditButtonClick('formulaDialog');\" class='edui-clickable edui-popup-action-item'>" +
                                 editor.getLang("formulaedit") + "</span>");
                         }
-                        if (img.getAttribute("data-word-image")) {
+                        if (closedNode.getAttribute("data-word-image")) {
                             actions.push("<span onclick=\"$$._onImgEditButtonClick('wordimageDialog');\" class='edui-clickable edui-popup-action-item'>" +
                                 editor.getLang("save") +
                                 "</span>");
@@ -362,6 +364,7 @@
 
                         !html && (html = popup.formatHtml(actions.join("")));
                     }
+                    // 链接选中处理
                     if (editor.ui._dialogs.linkDialog) {
                         var link = editor.queryCommandValue("link");
                         var url;
@@ -399,7 +402,7 @@
 
                     if (html) {
                         popup.getDom("content").innerHTML = html;
-                        popup.anchorEl = img || link;
+                        popup.anchorEl = closedNode || link;
                         popup.showAnchor(popup.anchorEl);
                     } else {
                         popup.hide();
