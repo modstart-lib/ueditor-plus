@@ -20,7 +20,7 @@
                     if (
                         evt &&
                         /scroll/gi.test(evt.type) &&
-                        pop.className == "edui-wordpastepop"
+                        pop.className === "edui-wordpastepop"
                     )
                         return;
                     pop.hide();

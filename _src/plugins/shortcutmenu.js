@@ -18,7 +18,8 @@ UE.plugins["shortcutmenu"] = function () {
         return;
     }
 
-    me.addListener("contextmenu mouseup", function (type, e) {
+    // contextmenu
+    me.addListener("mouseup", function (type, e) {
         var me = this,
             customEvt = {
                 type: type,
@@ -31,7 +32,7 @@ UE.plugins["shortcutmenu"] = function () {
 
         setTimeout(function () {
             var rng = me.selection.getRange();
-            if (rng.collapsed === false || type == "contextmenu") {
+            if (rng.collapsed === false || type === "contextmenu") {
                 // 未选中文字情况下不显示
                 if (!me.selection.getText()) {
                     return
@@ -52,7 +53,7 @@ UE.plugins["shortcutmenu"] = function () {
             }
         });
 
-        if (type == "contextmenu") {
+        if (type === "contextmenu") {
             domUtils.preventDefault(e);
             if (browser.ie9below) {
                 var ieRange;
@@ -70,7 +71,7 @@ UE.plugins["shortcutmenu"] = function () {
     });
 
     me.addListener("keydown", function (type) {
-        if (type == "keydown") {
+        if (type === "keydown") {
             menu && !menu.isHidden && menu.hide();
         }
     });

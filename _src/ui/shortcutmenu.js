@@ -157,7 +157,7 @@
             me.eventType = e.type;
             el.style.cssText = "display:block;left:-9999px";
 
-            if (e.type == "contextmenu" && hasContextmenu) {
+            if (e.type === "contextmenu" && hasContextmenu) {
                 var menu = domUtils.getElementsByTagName(
                     fixedlayer,
                     "div",
