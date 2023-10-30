@@ -459,6 +459,7 @@
             "imageleft",
             "imagecenter",
             "imageright",
+            "insertimage",
             "formula",
             // "justifyleft",    // 居左对齐
             // "justifycenter",  // 居中对齐

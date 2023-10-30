@@ -20,6 +20,7 @@ UE.plugins["shortcutmenu"] = function () {
 
     // contextmenu
     me.addListener("mouseup", function (type, e) {
+        return;
         var me = this,
             customEvt = {
                 type: type,
@@ -29,8 +30,10 @@ UE.plugins["shortcutmenu"] = function () {
                 clientX: e.clientX,
                 clientY: e.clientY
             };
+        console.log('shortcutmenu.mouseup', e, e.target, me.selection.getRange());
 
         setTimeout(function () {
+            // console.log(e, me.selection.getRange());
             // var rng = me.selection.getRange();
             // if (rng.collapsed) {
             //     return;

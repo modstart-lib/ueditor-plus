@@ -45,11 +45,11 @@ UE.plugins["fiximgclick"] = (function () {
                     "position:absolute;display:none;z-index:" +
                     me.editor.options.zIndex +
                     ";filter:alpha(opacity=0); opacity:0;background:#CCC;";
-                domUtils.on(cover, "mousedown click", function () {
+                domUtils.on(cover, "mousedown", function (e) {
                     me.hide();
                 });
 
-                for (i = 0; i < 8; i++) {
+                for (var i = 0; i < 8; i++) {
                     hands.push(
                         '<span class="edui-editor-imagescale-hand' + i + '"></span>'
                     );
@@ -96,8 +96,8 @@ UE.plugins["fiximgclick"] = (function () {
                         var hand = e.target || e.srcElement,
                             hand;
                         if (
-                            hand.className.indexOf("edui-editor-imagescale-hand") != -1 &&
-                            me.dragId == -1
+                            hand.className.indexOf("edui-editor-imagescale-hand") !== -1 &&
+                            me.dragId === -1
                         ) {
                             me.dragId = hand.className.slice(-1);
                             me.startPos.x = me.prePos.x = e.clientX;
@@ -106,7 +106,7 @@ UE.plugins["fiximgclick"] = (function () {
                         }
                         break;
                     case "mousemove":
-                        if (me.dragId != -1) {
+                        if (me.dragId !== -1) {
                             me.updateContainerStyle(me.dragId, {
                                 x: e.clientX - me.prePos.x,
                                 y: e.clientY - me.prePos.y
@@ -118,13 +118,15 @@ UE.plugins["fiximgclick"] = (function () {
                         }
                         break;
                     case "mouseup":
-                        if (me.dragId != -1) {
+                        if (me.dragId !== -1) {
                             me.updateContainerStyle(me.dragId, {
                                 x: e.clientX - me.prePos.x,
                                 y: e.clientY - me.prePos.y
                             });
                             me.updateTargetElement();
-                            if (me.target.parentNode) me.attachTo(me.target);
+                            if (me.target.parentNode) {
+                                me.attachTo(me.target);
+                            }
                             me.dragId = -1;
                         }
                         domUtils.un(me.doc, "mousemove", me.proxy(me._eventHandler, me));
@@ -223,7 +225,9 @@ UE.plugins["fiximgclick"] = (function () {
             show: function (targetObj) {
                 var me = this;
                 me.resizer.style.display = "block";
-                if (targetObj) me.attachTo(targetObj);
+                if (targetObj) {
+                    me.attachTo(targetObj);
+                }
 
                 domUtils.on(this.resizer, "mousedown", me.proxy(me._eventHandler, me));
                 domUtils.on(me.doc, "mouseup", me.proxy(me._eventHandler, me));
@@ -287,7 +291,11 @@ UE.plugins["fiximgclick"] = (function () {
                 var range = me.selection.getRange(),
                     img = range.getClosedNode();
 
-                if (img && img.tagName == "IMG" && me.body.contentEditable != "false") {
+                if (img
+                    && img.tagName === "IMG"
+                    && me.body.contentEditable !== "false"
+                    && img === e.target
+                ) {
                     if (
                         img.getAttribute("anchorname") ||
                         domUtils.hasClass(img, "uep-loading") ||
@@ -303,15 +311,16 @@ UE.plugins["fiximgclick"] = (function () {
 
                         var _keyDownHandler = function (e) {
                                 imageScale.hide();
-                                if (imageScale.target)
+                                if (imageScale.target) {
                                     me.selection.getRange().selectNode(imageScale.target).select();
+                                }
                             },
                             _mouseDownHandler = function (e) {
                                 var ele = e.target || e.srcElement;
                                 if (
                                     ele &&
                                     (ele.className === undefined ||
-                                        ele.className.indexOf("edui-editor-imagescale") == -1)
+                                        ele.className.indexOf("edui-editor-imagescale") === -1)
                                 ) {
                                     _keyDownHandler(e);
                                 }
@@ -341,7 +350,7 @@ UE.plugins["fiximgclick"] = (function () {
                             var ele = e.target || e.srcElement;
                             if (
                                 ele &&
-                                ele.className.indexOf("edui-editor-imagescale-hand") == -1
+                                ele.className.indexOf("edui-editor-imagescale-hand") === -1
                             ) {
                                 timer = setTimeout(function () {
                                     imageScale.hide();
@@ -354,7 +363,7 @@ UE.plugins["fiximgclick"] = (function () {
                             var ele = e.target || e.srcElement;
                             if (
                                 ele &&
-                                ele.className.indexOf("edui-editor-imagescale-hand") == -1
+                                ele.className.indexOf("edui-editor-imagescale-hand") === -1
                             ) {
                                 clearTimeout(timer);
                             }
@@ -362,15 +371,16 @@ UE.plugins["fiximgclick"] = (function () {
                     }
                     imageScale.show(img);
                 } else {
-                    if (imageScale && imageScale.resizer.style.display != "none")
+                    if (imageScale && imageScale.resizer.style.display !== "none") {
                         imageScale.hide();
+                    }
                 }
             });
         }
 
         if (browser.webkit) {
             me.addListener("click", function (type, e) {
-                if (e.target.tagName == "IMG" && me.body.contentEditable != "false") {
+                if (e.target.tagName === "IMG" && me.body.contentEditable !== "false") {
                     var range = new dom.Range(me.document);
                     range.selectNode(e.target).select();
                 }

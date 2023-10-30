@@ -190,6 +190,9 @@
                         if (!closedNode || closedNode.tagName !== "IMG") {
                             return false;
                         }
+                        if (domUtils.hasClass(closedNode, "uep-loading") || domUtils.hasClass(closedNode, "uep-loading-error")) {
+                            return false;
+                        }
                         return editor.queryCommandState('imagefloat') !== UE.constants.STATEFUL.DISABLED;
                     }
                 });
@@ -341,7 +344,7 @@
                                         fullscreen: /preview/.test(cmd),
                                         closeDialog: editor.getLang("closeDialog")
                                     },
-                                    type == "ok"
+                                    type === "ok"
                                         ? {
                                             buttons: [
                                                 {
@@ -388,7 +391,7 @@
                                             }
                                             break;
                                         case "scrawl":
-                                            if (editor.queryCommandState("scrawl") != -1) {
+                                            if (editor.queryCommandState("scrawl") !== -1) {
                                                 dialog.render();
                                                 dialog.open();
                                             }
@@ -401,9 +404,28 @@
                                 }
                             },
                             theme: editor.options.theme,
-                            disabled:
-                                (cmd == "scrawl" && editor.queryCommandState("scrawl") == -1)
+                            disabled: (cmd === "scrawl" && editor.queryCommandState("scrawl") === -1)
                         });
+                        switch (cmd) {
+                            case 'insertimage':
+                            case 'formula':
+                                ui.shouldUiShow = (function (cmd) {
+                                    return function () {
+                                        let closedNode = editor.selection.getRange().getClosedNode();
+                                        if (!closedNode || closedNode.tagName !== "IMG") {
+                                            return false;
+                                        }
+                                        if ('formula' === cmd && closedNode.getAttribute('data-formula-image') !== null) {
+                                            return true;
+                                        }
+                                        if ('insertimage' === cmd) {
+                                            return true;
+                                        }
+                                        return false;
+                                    };
+                                })(cmd);
+                                break;
+                        }
                         editorui.buttons[cmd] = ui;
                         editor.addListener("selectionchange", function () {
                             //只存在于右键菜单而无工具栏按钮的ui不需要检测状态
@@ -412,7 +434,7 @@
 
                             var state = editor.queryCommandState(cmd);
                             if (ui.getDom()) {
-                                ui.setDisabled(state == -1);
+                                ui.setDisabled(state === -1);
                                 ui.setChecked(state);
                             }
                         });

@@ -286,7 +286,9 @@
                     }
                 });
                 editor.addListener("selectionchange", function (t, causeByUi) {
-                    if (!causeByUi) return;
+                    if (!causeByUi) {
+                        return;
+                    }
                     var html = "",
                         str = "",
                         closedNode = editor.selection.getRange().getClosedNode(),
@@ -334,33 +336,21 @@
                         }
 
                         var actions = [];
-                        actions.push('<nobr />');
-                        actions.push('<span onclick=$$._onImgSetFloat("none") class="edui-clickable edui-popup-action-item">' +
-                            editor.getLang("default") +
-                            "</span>");
-                        actions.push('<span onclick=$$._onImgSetFloat("left") class="edui-clickable edui-popup-action-item">' +
-                            editor.getLang("justifyleft") +
-                            "</span>");
-                        actions.push('<span onclick=$$._onImgSetFloat("right") class="edui-clickable edui-popup-action-item">' +
-                            editor.getLang("justifyright") +
-                            "</span>");
-                        actions.push('<span onclick=$$._onImgSetFloat("center") class="edui-clickable edui-popup-action-item">' +
-                            editor.getLang("justifycenter") +
-                            "</span>");
-                        if (closedNode.getAttribute('data-formula-image') !== null) {
-                            actions.push("<span onclick=\"$$._onImgEditButtonClick('formulaDialog');\" class='edui-clickable edui-popup-action-item'>" +
-                                editor.getLang("formula.edit") + "</span>");
-                        }
                         if (closedNode.getAttribute("data-word-image")) {
                             actions.push("<span onclick=\"$$._onImgEditButtonClick('wordimageDialog');\" class='edui-clickable edui-popup-action-item'>" +
                                 editor.getLang("save") +
                                 "</span>");
                         } else {
-                            actions.push("<span onclick=\"$$._onImgEditButtonClick('" + dialogName + '\');" class="edui-clickable edui-popup-action-item">' +
-                                editor.getLang("modify") +
-                                "</span>");
+                            // actions.push("<span onclick=\"$$._onImgEditButtonClick('" + dialogName + '\');" class="edui-clickable edui-popup-action-item">' +
+                            //     editor.getLang("modify") +
+                            //     "</span>");
                         }
-                        actions.push("</nobr>");
+
+                        if (actions.length > 0) {
+                            // wrap with <nobr> </nobr>
+                            actions.unshift('<nobr>');
+                            actions.push('</nobr>');
+                        }
 
                         !html && (html = popup.formatHtml(actions.join("")));
                     }
