@@ -650,7 +650,6 @@ UE.I18N['en'] = {
     },
     'formula': {
         'static': {},
-        'edit': 'Formula Edit',
     },
     wordimage: {
         'static': {

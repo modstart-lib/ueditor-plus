@@ -730,7 +730,6 @@ UE.I18N['zh-cn'] = {
     },
     'formula': {
         'static': {},
-        'edit': '公式修改',
     },
     'wordimage': {
         'static': {
