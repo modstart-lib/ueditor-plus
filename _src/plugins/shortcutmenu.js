@@ -20,7 +20,6 @@ UE.plugins["shortcutmenu"] = function () {
 
     // contextmenu
     me.addListener("mouseup", function (type, e) {
-        return;
         var me = this,
             customEvt = {
                 type: type,
