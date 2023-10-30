@@ -858,7 +858,7 @@
         editor.options.editor = editor;
         utils.loadFile(document, {
             href:
-                editor.options.themePath + editor.options.theme + "/_css/ueditor.css?20230921",
+                editor.options.themePath + editor.options.theme + "/_css/ueditor.css?{timestamp}",
             tag: "link",
             type: "text/css",
             rel: "stylesheet"

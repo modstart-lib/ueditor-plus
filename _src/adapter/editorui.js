@@ -29,26 +29,26 @@
     };
 
     var iframeUrlMap = {
-        anchor: "~/dialogs/anchor/anchor.html?20220503",
-        insertimage: "~/dialogs/image/image.html?20220503",
-        link: "~/dialogs/link/link.html?20220503",
-        spechars: "~/dialogs/spechars/spechars.html?20220503",
-        searchreplace: "~/dialogs/searchreplace/searchreplace.html?20220503",
-        insertvideo: "~/dialogs/video/video.html?20220503",
-        insertaudio: "~/dialogs/audio/audio.html?20220503",
-        help: "~/dialogs/help/help.html?20220503",
-        preview: "~/dialogs/preview/preview.html?20220503",
-        emotion: "~/dialogs/emotion/emotion.html?20220503",
-        wordimage: "~/dialogs/wordimage/wordimage.html?20220902",
-        formula: "~/dialogs/formula/formula.html?20230822",
-        attachment: "~/dialogs/attachment/attachment.html?20220503",
-        insertframe: "~/dialogs/insertframe/insertframe.html?20220503",
-        edittip: "~/dialogs/table/edittip.html?20220503",
-        edittable: "~/dialogs/table/edittable.html?20220503",
-        edittd: "~/dialogs/table/edittd.html?20220503",
-        scrawl: "~/dialogs/scrawl/scrawl.html?20220503",
-        template: "~/dialogs/template/template.html?20220503",
-        background: "~/dialogs/background/background.html?20220503",
+        anchor: "~/dialogs/anchor/anchor.html?{timestamp}",
+        insertimage: "~/dialogs/image/image.html?{timestamp}",
+        link: "~/dialogs/link/link.html?{timestamp}",
+        spechars: "~/dialogs/spechars/spechars.html?{timestamp}",
+        searchreplace: "~/dialogs/searchreplace/searchreplace.html?{timestamp}",
+        insertvideo: "~/dialogs/video/video.html?{timestamp}",
+        insertaudio: "~/dialogs/audio/audio.html?{timestamp}",
+        help: "~/dialogs/help/help.html?{timestamp}",
+        preview: "~/dialogs/preview/preview.html?{timestamp}",
+        emotion: "~/dialogs/emotion/emotion.html?{timestamp}",
+        wordimage: "~/dialogs/wordimage/wordimage.html?{timestamp}",
+        formula: "~/dialogs/formula/formula.html?{timestamp}",
+        attachment: "~/dialogs/attachment/attachment.html?{timestamp}",
+        insertframe: "~/dialogs/insertframe/insertframe.html?{timestamp}",
+        edittip: "~/dialogs/table/edittip.html?{timestamp}",
+        edittable: "~/dialogs/table/edittable.html?{timestamp}",
+        edittd: "~/dialogs/table/edittd.html?{timestamp}",
+        scrawl: "~/dialogs/scrawl/scrawl.html?{timestamp}",
+        template: "~/dialogs/template/template.html?{timestamp}",
+        background: "~/dialogs/background/background.html?{timestamp}",
     };
     //为工具栏添加按钮，以下都是统一的按钮触发命令，所以写在一起
     var btnCmds = [
@@ -115,7 +115,7 @@
                 ) {
                     var state = editor.queryCommandState(cmd);
                     // console.log('selectionchange',cmd,uiReady,state);
-                    if (state == -1) {
+                    if (state === -1) {
                         ui.setDisabled(true);
                         ui.setChecked(false);
                     } else {

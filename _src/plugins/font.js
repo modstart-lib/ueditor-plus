@@ -455,10 +455,10 @@ UE.plugins["font"] = function () {
 
                                 text.parentNode.insertBefore(span, text);
                                 //修复，span套span 但样式不继承的问题
-                                if (!browser.ie || (browser.ie && browser.version == 9)) {
+                                if (!browser.ie || (browser.ie && browser.version === 9)) {
                                     var spanParent = span.parentNode;
                                     while (!domUtils.isBlockElm(spanParent)) {
-                                        if (spanParent.tagName == "SPAN") {
+                                        if (spanParent.tagName === "SPAN") {
                                             //opera合并style不会加入";"
                                             span.style.cssText =
                                                 spanParent.style.cssText + ";" + span.style.cssText;
@@ -500,9 +500,9 @@ UE.plugins["font"] = function () {
                             !domUtils.isBlockElm(tmpNode) &&
                             !domUtils.isBody(tmpNode)
                             ) {
-                            if (tmpNode.nodeType == 1) {
+                            if (tmpNode.nodeType === 1) {
                                 value = domUtils.getComputedStyle(tmpNode, style);
-                                if (value != "none") {
+                                if (value !== "none") {
                                     return value;
                                 }
                             }
@@ -558,10 +558,10 @@ UE.plugins["font"] = function () {
                 queryCommandState: function (cmdName) {
                     if (!needCmd[cmdName]) return 0;
                     var val = this.queryCommandValue(cmdName);
-                    if (cmdName == "fontborder") {
+                    if (cmdName === "fontborder") {
                         return /1px/.test(val) && /solid/.test(val);
                     } else {
-                        return cmdName == "underline"
+                        return cmdName === "underline"
                             ? /underline/.test(val)
                             : /line\-through/.test(val);
                     }

@@ -240,7 +240,7 @@
                 element.unselectable = "on";
                 if (element.hasChildNodes()) {
                     for (var i = 0; i < element.childNodes.length; i++) {
-                        if (element.childNodes[i].nodeType == 1) {
+                        if (element.childNodes[i].nodeType === 1) {
                             uiUtils.makeUnselectable(element.childNodes[i]);
                         }
                     }

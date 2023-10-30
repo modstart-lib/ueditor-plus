@@ -316,7 +316,8 @@
         // 是否开启初始化时即全屏，默认关闭
         , fullscreen: false
 
-        //,imagePopup:true      //图片操作的浮层开关，默认打开
+        // 图片操作的浮层开关，默认打开
+        //,imagePopup:true
 
         // 自动同步编辑器要提交的数据
         //,autoSyncData:true
