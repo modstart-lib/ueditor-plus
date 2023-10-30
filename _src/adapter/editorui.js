@@ -107,6 +107,22 @@
                     theme: editor.options.theme,
                     showText: false
                 });
+                switch (cmd) {
+                    case 'bold':
+                    case 'italic':
+                    case 'underline':
+                    case 'strikethrough':
+                    case 'fontborder':
+                        ui.shouldUiShow = (function (cmdInternal) {
+                            return function () {
+                                if (!editor.selection.getText()) {
+                                    return false;
+                                }
+                                return editor.queryCommandState(cmdInternal) !== UE.constants.STATEFUL.DISABLED;
+                            }
+                        })(cmd);
+                        break;
+                }
                 editorui.buttons[cmd] = ui;
                 editor.addListener("selectionchange", function (
                     type,
@@ -114,7 +130,6 @@
                     uiReady
                 ) {
                     var state = editor.queryCommandState(cmd);
-                    // console.log('selectionchange',cmd,uiReady,state);
                     if (state === -1) {
                         ui.setDisabled(true);
                         ui.setChecked(false);
@@ -215,8 +230,15 @@
                     },
                     onbuttonclick: function () {
                         editor.execCommand(cmd, this.color);
+                    },
+                    shouldUiShow: function () {
+                        if (!editor.selection.getText()) {
+                            return false;
+                        }
+                        return editor.queryCommandState(cmd) !== UE.constants.STATEFUL.DISABLED;
                     }
                 });
+
                 editorui.buttons[cmd] = ui;
                 editor.addListener("selectionchange", function () {
                     ui.setDisabled(editor.queryCommandState(cmd) == -1);

@@ -97,7 +97,7 @@
 
                     if (UI[item]) {
                         this.items[i] = new UI[item](this.editor);
-                        this.items[i].className += " edui-shortcutsubmenu ";
+                        this.items[i].className += " edui-short-cut-sub-menu ";
                     }
                 }
             }
@@ -113,7 +113,7 @@
             isSubMenuShow = false;
             var layerEle = uiUtils.getFixedLayer();
             var list = domUtils.getElementsByTagName(layerEle, "div", function (node) {
-                return domUtils.hasClass(node, "edui-shortcutsubmenu edui-popup");
+                return domUtils.hasClass(node, "edui-short-cut-sub-menu edui-popup");
             });
 
             for (var i = 0, node; (node = list[i++]);) {
@@ -128,6 +128,12 @@
                 offset = {},
                 el = this.getDom(),
                 fixedlayer = uiUtils.getFixedLayer();
+
+            for (let item of this.items) {
+                if ('shouldUiShow' in item) {
+                    item.uiShow(item.shouldUiShow());
+                }
+            }
 
             function setPos(offset) {
                 if (offset.left < 0) {
@@ -157,26 +163,26 @@
             me.eventType = e.type;
             el.style.cssText = "display:block;left:-9999px";
 
-            if (e.type === "contextmenu" && hasContextmenu) {
-                var menu = domUtils.getElementsByTagName(
-                    fixedlayer,
-                    "div",
-                    "edui-contextmenu"
-                )[0];
-                if (menu) {
-                    setPosByCxtMenu(menu);
-                } else {
-                    me.editor.addListener("aftershowcontextmenu", function (type, menu) {
-                        setPosByCxtMenu(menu);
-                    });
-                }
-            } else {
-                offset = uiUtils.getViewportOffsetByEvent(e);
-                offset.top -= el.offsetHeight + me.SPACE;
-                offset.left += me.SPACE + 20;
-                setPos(offset);
-                me.setOpacity(el, 1);
-            }
+            // if (e.type === "contextmenu" && hasContextmenu) {
+            //     var menu = domUtils.getElementsByTagName(
+            //         fixedlayer,
+            //         "div",
+            //         "edui-contextmenu"
+            //     )[0];
+            //     if (menu) {
+            //         setPosByCxtMenu(menu);
+            //     } else {
+            //         me.editor.addListener("aftershowcontextmenu", function (type, menu) {
+            //             setPosByCxtMenu(menu);
+            //         });
+            //     }
+            // } else {
+            offset = uiUtils.getViewportOffsetByEvent(e);
+            offset.top -= el.offsetHeight + me.SPACE;
+            offset.left += me.SPACE + 20;
+            setPos(offset);
+            me.setOpacity(el, 1);
+            // }
 
             me.isHidden = false;
             me.left = e.screenX + el.offsetWidth / 2 - me.SPACE;

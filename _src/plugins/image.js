@@ -36,7 +36,7 @@ UE.commands["imagefloat"] = {
             range = me.selection.getRange();
         if (!range.collapsed) {
             var img = range.getClosedNode();
-            if (img && img.tagName == "IMG") {
+            if (img && img.tagName === "IMG") {
                 switch (align) {
                     case "left":
                     case "right":
@@ -170,7 +170,7 @@ UE.commands["imagefloat"] = {
         if (range.collapsed) return -1;
 
         startNode = range.getClosedNode();
-        if (startNode && startNode.nodeType == 1 && startNode.tagName == "IMG") {
+        if (startNode && startNode.nodeType === 1 && startNode.tagName === "IMG") {
             return 0;
         }
         return -1;

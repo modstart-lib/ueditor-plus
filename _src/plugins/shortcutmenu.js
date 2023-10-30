@@ -31,26 +31,28 @@ UE.plugins["shortcutmenu"] = function () {
             };
 
         setTimeout(function () {
-            var rng = me.selection.getRange();
-            if (rng.collapsed === false || type === "contextmenu") {
-                // 未选中文字情况下不显示
-                if (!me.selection.getText()) {
-                    return
-                }
-                if (!menu) {
-                    menu = new baidu.editor.ui.ShortCutMenu({
-                        editor: me,
-                        items: items,
-                        theme: me.options.theme,
-                        className: "edui-shortcutmenu"
-                    });
+            // var rng = me.selection.getRange();
+            // if (rng.collapsed) {
+            //     return;
+            // }
+            // if (rng.collapsed === false || type === "contextmenu") {
+            // 未选中文字情况下不显示
+            // if (!me.selection.getText()) {
+            //     return
+            // }
+            if (!menu) {
+                menu = new baidu.editor.ui.ShortCutMenu({
+                    editor: me,
+                    items: items,
+                    theme: me.options.theme,
+                    className: "edui-shortcutmenu"
+                });
 
-                    menu.render();
-                    me.fireEvent("afterrendershortcutmenu", menu);
-                }
-
-                menu.show(customEvt, !!UE.plugins["contextmenu"]);
+                menu.render();
+                me.fireEvent("afterrendershortcutmenu", menu);
             }
+            menu.show(customEvt, !!UE.plugins["contextmenu"]);
+            // }
         });
 
         if (type === "contextmenu") {

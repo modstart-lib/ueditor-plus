@@ -55,7 +55,7 @@
             if (this.fireEvent("picknocolor") !== false) {
                 this.popup.hide();
             }
-        }
+        },
     };
     utils.inherits(ColorButton, SplitButton);
 })();

@@ -80,6 +80,24 @@
             var box = this.getDom();
             if (box) baidu.editor.dom.domUtils.remove(box);
             uiUtils.unsetGlobal(this.id);
+        },
+        uiIsShow: true,
+        uiShowStyleBackupValue: null,
+        uiShow: function (enable) {
+            if (enable) {
+                if (this.uiIsShow) {
+                    return;
+                }
+                this.getDom().style.display = this.uiShowStyleBackupValue;
+                this.uiIsShow = true;
+            } else {
+                if (!this.uiIsShow) {
+                    return;
+                }
+                this.uiShowStyleBackupValue = this.getDom().style.display;
+                this.getDom().style.display = 'none';
+                this.uiIsShow = false;
+            }
         }
     };
     utils.inherits(UIBase, EventBase);

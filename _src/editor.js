@@ -12,7 +12,11 @@ window.UE = baidu.editor = {
     _customizeUI: {},
     version: "3.6.0-beta",
     constants: {
-
+        STATEFUL: {
+            DISABLED: -1,
+            OFF: 0,
+            ON: 1,
+        },
     }
 };
 var dom = (UE.dom = {});
