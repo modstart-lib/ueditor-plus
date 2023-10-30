@@ -167,10 +167,49 @@
         return ui;
     };
 
+    var imageTypeSet = [
+        'none', 'left', 'center', 'right'
+    ];
+    for (let value of imageTypeSet) {
+        (function (value) {
+            editorui['image' + value] = function (editor) {
+                var ui = new editorui.Button({
+                    className: "edui-for-" + 'image' + value,
+                    title:
+                        editor.options.labelMap['image' + value] ||
+                        editor.getLang(
+                            "labelMap." + 'image' + value
+                        ) ||
+                        "",
+                    theme: editor.options.theme,
+                    onclick: function () {
+                        editor.execCommand('imagefloat', value);
+                    },
+                    shouldUiShow: function () {
+                        let closedNode = editor.selection.getRange().getClosedNode();
+                        if (!closedNode || closedNode.tagName !== "IMG") {
+                            return false;
+                        }
+                        return editor.queryCommandState('imagefloat') !== UE.constants.STATEFUL.DISABLED;
+                    }
+                });
+                editorui.buttons['image' + value] = ui;
+                editor.addListener("selectionchange", function (
+                    type,
+                    causeByUi,
+                    uiReady
+                ) {
+                    ui.setDisabled(editor.queryCommandState('imagefloat') === UE.constants.STATEFUL.DISABLED);
+                    ui.setChecked(editor.queryCommandValue('imagefloat') === value && !uiReady);
+                });
+                return ui;
+            };
+        })(value);
+    }
+
     //排版，图片排版，文字方向
     var typeset = {
         justify: ["left", "right", "center", "justify"],
-        imagefloat: ["none", "left", "center", "right"],
         directionality: ["ltr", "rtl"]
     };
 
