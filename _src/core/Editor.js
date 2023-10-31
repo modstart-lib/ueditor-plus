@@ -263,7 +263,7 @@
                         me.options.lang +
                         "/" +
                         me.options.lang +
-                        ".js?{timestamp}",
+                        ".js?{timestamp:dist/lang/zh-cn/zh-cn.js}",
                     tag: "script",
                     type: "text/javascript",
                     defer: "defer"

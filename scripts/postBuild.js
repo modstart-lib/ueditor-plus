@@ -1,4 +1,6 @@
 const fs = require('fs');
+const path = require('path');
+const md5File = require('md5-file');
 
 const timestamp = parseInt((new Date().getTime()) / 1000);
 
@@ -6,12 +8,30 @@ const timestamp = parseInt((new Date().getTime()) / 1000);
 function replacePlaceholderFile(filePath) {
     let content = fs.readFileSync(filePath, 'utf8');
     let changed = false;
-    if (content.indexOf('{timestamp}') > -1) {
-        content = content.replace(/{timestamp}/g, timestamp);
-        console.log('replacePlaceholder {timestamp}', filePath);
-        changed = true;
-    }
+    content = content.replace(/['"]([^'"]+)\?\{timestamp:?.*?\}['"]/g,
+        function (match, contents, offset, input_string) {
+            let fileTimestampPath = path.join(path.dirname(filePath), contents);
+            if (fileTimestampPath.indexOf('/~/') >= 0) {
+                fileTimestampPath = fileTimestampPath.replace('/~/', '/');
+            }
+            if (!fs.existsSync(fileTimestampPath)) {
+                const mat = /{timestamp:(.*?)\}/.exec(match);
+                if (mat) {
+                    fileTimestampPath = mat[1];
+                }
+            }
+            if (!fs.existsSync(fileTimestampPath)) {
+                console.log('not exists', fileTimestampPath, match);
+                return match;
+            }
+            let timestamp = md5File.sync(fileTimestampPath).substr(0, 8);
+            changed = true;
+            contents = match.replace(/\{timestamp:?.*?\}/g, timestamp);
+            console.log('replace', match, fileTimestampPath, timestamp);
+            return contents;
+        });
     if (changed) {
+        console.log('update', filePath)
         fs.writeFileSync(filePath, content);
     }
 }

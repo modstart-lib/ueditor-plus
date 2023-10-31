@@ -7454,7 +7454,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
                         me.options.lang +
                         "/" +
                         me.options.lang +
-                        ".js?1698648173",
+                        ".js?73781e3d",
                     tag: "script",
                     type: "text/javascript",
                     defer: "defer"
@@ -8931,7 +8931,7 @@ UE.Editor.defaultOptions = function (editor) {
         initialContent: "",
         initialStyle: "",
         autoClearinitialContent: false,
-        iframeCssUrl: _url + "themes/iframe.css?1698648173",
+        iframeCssUrl: _url + "themes/iframe.css?c20ec247",
         iframeCssUrlsAddition: [],
         textarea: "editorValue",
         focus: false,
@@ -34452,26 +34452,26 @@ UE.ui = baidu.editor.ui = {};
     };
 
     var iframeUrlMap = {
-        anchor: "~/dialogs/anchor/anchor.html?1698648173",
-        insertimage: "~/dialogs/image/image.html?1698648173",
-        link: "~/dialogs/link/link.html?1698648173",
-        spechars: "~/dialogs/spechars/spechars.html?1698648173",
-        searchreplace: "~/dialogs/searchreplace/searchreplace.html?1698648173",
-        insertvideo: "~/dialogs/video/video.html?1698648173",
-        insertaudio: "~/dialogs/audio/audio.html?1698648173",
-        help: "~/dialogs/help/help.html?1698648173",
-        preview: "~/dialogs/preview/preview.html?1698648173",
-        emotion: "~/dialogs/emotion/emotion.html?1698648173",
-        wordimage: "~/dialogs/wordimage/wordimage.html?1698648173",
-        formula: "~/dialogs/formula/formula.html?1698648173",
-        attachment: "~/dialogs/attachment/attachment.html?1698648173",
-        insertframe: "~/dialogs/insertframe/insertframe.html?1698648173",
-        edittip: "~/dialogs/table/edittip.html?1698648173",
-        edittable: "~/dialogs/table/edittable.html?1698648173",
-        edittd: "~/dialogs/table/edittd.html?1698648173",
-        scrawl: "~/dialogs/scrawl/scrawl.html?1698648173",
-        template: "~/dialogs/template/template.html?1698648173",
-        background: "~/dialogs/background/background.html?1698648173",
+        anchor: "~/dialogs/anchor/anchor.html?2f10d082",
+        insertimage: "~/dialogs/image/image.html?ae1f2c09",
+        link: "~/dialogs/link/link.html?ccbfcf18",
+        spechars: "~/dialogs/spechars/spechars.html?3bbeb696",
+        searchreplace: "~/dialogs/searchreplace/searchreplace.html?2cb782d2",
+        insertvideo: "~/dialogs/video/video.html?eff630e6",
+        insertaudio: "~/dialogs/audio/audio.html?3b2ef8d5",
+        help: "~/dialogs/help/help.html?05c0c8bf",
+        preview: "~/dialogs/preview/preview.html?5d9a0847",
+        emotion: "~/dialogs/emotion/emotion.html?a7bc0989",
+        wordimage: "~/dialogs/wordimage/wordimage.html?00faeb9f",
+        formula: "~/dialogs/formula/formula.html?9a5a1511",
+        attachment: "~/dialogs/attachment/attachment.html?ea8b47c8",
+        insertframe: "~/dialogs/insertframe/insertframe.html?807119a5",
+        edittip: "~/dialogs/table/edittip.html?fa0ea189",
+        edittable: "~/dialogs/table/edittable.html?134e2f06",
+        edittd: "~/dialogs/table/edittd.html?9fe1a06e",
+        scrawl: "~/dialogs/scrawl/scrawl.html?81bccab9",
+        template: "~/dialogs/template/template.html?3c8090b7",
+        background: "~/dialogs/background/background.html?c2bb8b05",
     };
     //为工具栏添加按钮，以下都是统一的按钮触发命令，所以写在一起
     var btnCmds = [
@@ -36306,7 +36306,7 @@ UE.ui = baidu.editor.ui = {};
         editor.options.editor = editor;
         utils.loadFile(document, {
             href:
-                editor.options.themePath + editor.options.theme + "/css/ueditor.css?1698648173",
+                editor.options.themePath + editor.options.theme + "/css/ueditor.css?275bd940",
             tag: "link",
             type: "text/css",
             rel: "stylesheet"
