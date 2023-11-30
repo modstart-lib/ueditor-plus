@@ -11,10 +11,7 @@ body:
     - type: textarea
       attributes:
           label: 如何复现
-          description: 请详细告诉我们如何复现你遇到的问题，同时搭建一个最小可复现的 Demo 发送压缩 zip 包到 modstart@163.com
-          placeholder: |
-              1. ...
-              2. ...
-              3. ...
+          description: 请搭建一个最小可复现的 Demo 压缩为 zip 发送到 modstart@163.com
+          placeholder: 请搭建一个最小可复现的 Demo 压缩为 zip 发送到 modstart@163.com
       validations:
           required: true
