@@ -154,6 +154,8 @@
                 "print",               // 打印
                 "preview",             // 预览
                 "searchreplace",       // 查询替换
+                "|",
+                "wordimport",
                 "help",                // 帮助
             ]
         ]

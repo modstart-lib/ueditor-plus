@@ -301,7 +301,6 @@
             "wordimage",
             "insertvideo",
             "insertaudio",
-            "insertframe",
             "edittip",
             "edittable",
             "edittd",
