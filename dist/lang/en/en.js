@@ -45,6 +45,7 @@ UE.I18N['en'] = {
         'mergecells': 'MergeCells',
         'deletetable': 'DeleteTable',
         'cleardoc': 'Clear',
+        'contentimport': 'Content Import',
         'insertparagraphbeforetable': "InsertParagraphBeforeTable",
         'fontfamily': 'FontFamily',
         'fontsize': 'FontSize',
