@@ -1944,7 +1944,7 @@ UE.image = (function () {
                     }
                 };
                 try {
-                    return o.libURL = o.libURL || "https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js", compressOnWebWorker(e, o).then((function (e) {
+                    return o.libURL = o.libURL || "https://cdn.bootcdn.net/ajax/libs/browser-image-compression/2.0.2/browser-image-compression.js", compressOnWebWorker(e, o).then((function (e) {
                         try {
                             return a = e, u()
                         } catch (e) {
