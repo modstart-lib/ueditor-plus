@@ -525,6 +525,10 @@
                     var bk = editor.selection.getRange().createBookmark();
                 }
                 if (fullscreen) {
+
+                    // add https://gitee.com/modstart-lib/ueditor-plus/issues/I85R7X
+                    this._bakEditorContaninerWidth = editor.iframe.parentNode.style.width;
+
                     while (container.tagName !== "BODY") {
                         var position = baidu.editor.dom.domUtils.getComputedStyle(
                             container,
@@ -542,7 +546,9 @@
                         document.body.scrollTop
                     );
 
-                    this._bakEditorContaninerWidth = editor.iframe.parentNode.offsetWidth;
+                    // delete https://gitee.com/modstart-lib/ueditor-plus/issues/I85R7X
+                    // this._bakEditorContaninerWidth = editor.iframe.parentNode.offsetWidth;
+
                     if (this._bakAutoHeight) {
                         //当全屏时不能执行自动长高
                         editor.autoHeightEnabled = false;
@@ -571,8 +577,9 @@
 
                     document.documentElement.style.overflow = this._bakHtmlOverflow;
                     document.body.style.overflow = this._bakBodyOverflow;
-                    editor.iframe.parentNode.style.width =
-                        this._bakEditorContaninerWidth + "px";
+                    // modify https://gitee.com/modstart-lib/ueditor-plus/issues/I85R7X
+                    editor.iframe.parentNode.style.width = this._bakEditorContaninerWidth
+                    // editor.iframe.parentNode.style.width = this._bakEditorContaninerWidth + "px";
                     window.scrollTo(0, this._bakScrollTop);
                 }
                 if (browser.gecko && editor.body.contentEditable === "true") {
