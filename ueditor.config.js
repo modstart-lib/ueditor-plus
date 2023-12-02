@@ -160,6 +160,7 @@
 
         // 自定义工具栏按钮点击，返回 true 表示已经处理点击，会阻止默认事件
         , toolbarCallback: function (cmd, editor) {
+            // console.log('toolbarCallback',cmd, editor);
             // switch(cmd){
             //   case 'insertimage':
             //     editor.execCommand('insertHtml', '<p><img src="xxxxx" /></p>');

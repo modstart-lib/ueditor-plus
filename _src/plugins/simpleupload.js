@@ -14,6 +14,15 @@ UE.plugin.register("simpleupload", function () {
         input.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;cursor:pointer;font-size:0;opacity:0;';
         input.type = 'file';
         containerBtn.appendChild(input);
+        domUtils.on(input, 'click', function (e) {
+            var toolbarCallback = me.getOpt("toolbarCallback");
+            if (toolbarCallback) {
+                if (true === toolbarCallback('simpleupload', me)) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                }
+            }
+        });
         domUtils.on(input, 'change', function (e) {
             var state = me.queryCommandState("simpleupload");
             if (state === -1) {
