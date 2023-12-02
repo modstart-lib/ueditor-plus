@@ -155,7 +155,7 @@
                 "preview",             // 预览
                 "searchreplace",       // 查询替换
                 "|",
-                "wordimport",
+                "contentimport",
                 "help",                // 帮助
             ]
         ]

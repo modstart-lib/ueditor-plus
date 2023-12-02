@@ -44,6 +44,7 @@ UE.I18N['zh-cn'] = {
         'mergecells': '合并多个单元格',
         'deletetable': '删除表格',
         'cleardoc': '清空文档',
+        'contentimport': '导入内容',
         'insertparagraphbeforetable': "表格前插入行",
         'insertcode': '代码语言',
         'fontfamily': '字体',

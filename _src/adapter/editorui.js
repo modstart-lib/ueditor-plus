@@ -28,28 +28,6 @@
         return dialog;
     };
 
-    var iframeUrlMap = {
-        anchor: "~/dialogs/anchor/anchor.html?{timestamp}",
-        insertimage: "~/dialogs/image/image.html?{timestamp}",
-        link: "~/dialogs/link/link.html?{timestamp}",
-        spechars: "~/dialogs/spechars/spechars.html?{timestamp}",
-        searchreplace: "~/dialogs/searchreplace/searchreplace.html?{timestamp}",
-        insertvideo: "~/dialogs/video/video.html?{timestamp}",
-        insertaudio: "~/dialogs/audio/audio.html?{timestamp}",
-        help: "~/dialogs/help/help.html?{timestamp}",
-        preview: "~/dialogs/preview/preview.html?{timestamp}",
-        emotion: "~/dialogs/emotion/emotion.html?{timestamp}",
-        wordimage: "~/dialogs/wordimage/wordimage.html?{timestamp}",
-        formula: "~/dialogs/formula/formula.html?{timestamp}",
-        attachment: "~/dialogs/attachment/attachment.html?{timestamp}",
-        insertframe: "~/dialogs/insertframe/insertframe.html?{timestamp}",
-        edittip: "~/dialogs/table/edittip.html?{timestamp}",
-        edittable: "~/dialogs/table/edittable.html?{timestamp}",
-        edittd: "~/dialogs/table/edittd.html?{timestamp}",
-        scrawl: "~/dialogs/scrawl/scrawl.html?{timestamp}",
-        template: "~/dialogs/template/template.html?{timestamp}",
-        background: "~/dialogs/background/background.html?{timestamp}",
-    };
     //为工具栏添加按钮，以下都是统一的按钮触发命令，所以写在一起
     var btnCmds = [
         "undo",
@@ -215,7 +193,6 @@
         justify: ["left", "right", "center", "justify"],
         directionality: ["ltr", "rtl"]
     };
-
     for (var p in typeset) {
         (function (cmd, val) {
             for (var i = 0, ci; (ci = val[i++]);) {
@@ -290,6 +267,29 @@
         })(ci);
     }
 
+    var dialogIframeUrlMap = {
+        anchor: "~/dialogs/anchor/anchor.html?{timestamp}",
+        insertimage: "~/dialogs/image/image.html?{timestamp}",
+        link: "~/dialogs/link/link.html?{timestamp}",
+        spechars: "~/dialogs/spechars/spechars.html?{timestamp}",
+        searchreplace: "~/dialogs/searchreplace/searchreplace.html?{timestamp}",
+        insertvideo: "~/dialogs/video/video.html?{timestamp}",
+        insertaudio: "~/dialogs/audio/audio.html?{timestamp}",
+        help: "~/dialogs/help/help.html?{timestamp}",
+        preview: "~/dialogs/preview/preview.html?{timestamp}",
+        emotion: "~/dialogs/emotion/emotion.html?{timestamp}",
+        wordimage: "~/dialogs/wordimage/wordimage.html?{timestamp}",
+        formula: "~/dialogs/formula/formula.html?{timestamp}",
+        attachment: "~/dialogs/attachment/attachment.html?{timestamp}",
+        insertframe: "~/dialogs/insertframe/insertframe.html?{timestamp}",
+        edittip: "~/dialogs/table/edittip.html?{timestamp}",
+        edittable: "~/dialogs/table/edittable.html?{timestamp}",
+        edittd: "~/dialogs/table/edittd.html?{timestamp}",
+        scrawl: "~/dialogs/scrawl/scrawl.html?{timestamp}",
+        template: "~/dialogs/template/template.html?{timestamp}",
+        background: "~/dialogs/background/background.html?{timestamp}",
+        contentimport: "~/dialogs/contentimport/contentimport.html?{timestamp}",
+    };
     var dialogBtns = {
         noOk: ["searchreplace", "help", "spechars", "preview"],
         ok: [
@@ -308,9 +308,9 @@
             "template",
             "formula",
             "background",
+            "contentimport",
         ]
     };
-
     for (var p in dialogBtns) {
         (function (type, vals) {
             for (var i = 0, ci; (ci = vals[i++]);) {
@@ -322,8 +322,8 @@
                     editorui[cmd] = function (editor, iframeUrl, title) {
                         iframeUrl =
                             iframeUrl ||
-                            (editor.options.iframeUrlMap || {})[cmd] ||
-                            iframeUrlMap[cmd];
+                            (editor.options.dialogIframeUrlMap || {})[cmd] ||
+                            dialogIframeUrlMap[cmd];
                         title =
                             editor.options.labelMap[cmd] ||
                             editor.getLang("labelMap." + cmd) ||
@@ -394,7 +394,6 @@
                                                 dialog.render();
                                                 dialog.open();
                                             }
-
                                             break;
                                         default:
                                             dialog.render();
@@ -509,6 +508,7 @@
         });
         return ui;
     };
+
     editorui.fontfamily = function (editor, list, title) {
         list = editor.options["fontfamily"] || [];
         title =
@@ -766,6 +766,7 @@
         });
         return ui;
     };
+
     editorui.inserttable = function (editor, iframeUrl, title) {
         title =
             editor.options.labelMap["inserttable"] ||
@@ -881,6 +882,7 @@
             };
         })(ri);
     }
+
     //有序，无序列表
     var lists = ["insertorderedlist", "insertunorderedlist"];
     for (var l = 0, cl; (cl = lists[l++]);) {
@@ -952,7 +954,7 @@
     };
 
     // 表情
-    editorui["emotion"] = function (editor, iframeUrl) {
+    editorui['emotion'] = function (editor, iframeUrl) {
         var cmd = "emotion";
         var ui = new editorui.MultiMenuPop({
             title:
@@ -963,8 +965,8 @@
             className: "edui-for-" + cmd,
             iframeUrl: editor.ui.mapUrl(
                 iframeUrl ||
-                (editor.options.iframeUrlMap || {})[cmd] ||
-                iframeUrlMap[cmd]
+                (editor.options.dialogIframeUrlMap || {})[cmd] ||
+                dialogIframeUrlMap[cmd]
             )
         });
         editorui.buttons[cmd] = ui;
@@ -975,7 +977,7 @@
         return ui;
     };
 
-    editorui.autotypeset = function (editor) {
+    editorui['autotypeset'] = function (editor) {
         var ui = new editorui.AutoTypeSetButton({
             editor: editor,
             title:
@@ -995,7 +997,7 @@
     };
 
     /* 简单上传插件 */
-    editorui["simpleupload"] = function (editor) {
+    editorui['simpleupload'] = function (editor) {
         var name = "simpleupload",
             ui = new editorui.Button({
                 className: "edui-for-" + name,
@@ -1028,4 +1030,5 @@
         });
         return ui;
     };
+
 })();

@@ -276,6 +276,12 @@
     height: 220px;
 }
 
+/*content-import-dialog*/
+.edui-default .edui-for-contentimport .edui-dialog-content {
+    width: 620px;
+    height: 400px;
+}
+
 /*help-dialog*/
 .edui-default .edui-for-help .edui-dialog-content {
     width: 400px;

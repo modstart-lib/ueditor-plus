@@ -1,8 +1,8 @@
 @font-face {
   font-family: "edui-iconfont"; /* Project id 2897874 */
-  src: url('iconfont.woff2?t=1701502437144') format('woff2'),
-       url('iconfont.woff?t=1701502437144') format('woff'),
-       url('iconfont.ttf?t=1701502437144') format('truetype');
+  src: url('iconfont.woff2?t=1701504467714') format('woff2'),
+       url('iconfont.woff?t=1701504467714') format('woff'),
+       url('iconfont.ttf?t=1701504467714') format('truetype');
 }
 
 .edui-iconfont {
@@ -13,8 +13,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.edui-icon-word:before {
-  content: "\e6a3";
+.edui-icon-content-import:before {
+  content: "\e6f1";
 }
 
 .edui-icon-sound:before {

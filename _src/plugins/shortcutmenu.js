@@ -29,7 +29,7 @@ UE.plugins["shortcutmenu"] = function () {
                 clientX: e.clientX,
                 clientY: e.clientY
             };
-        console.log('shortcutmenu.mouseup', e, e.target, me.selection.getRange());
+        // console.log('shortcutmenu.mouseup', e, e.target, me.selection.getRange());
 
         setTimeout(function () {
             // console.log(e, me.selection.getRange());
