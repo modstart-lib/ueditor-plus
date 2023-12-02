@@ -19,6 +19,12 @@
 - 在线演示：[https://open-demo.modstart.com/ueditor-plus/_examples/](https://open-demo.modstart.com/ueditor-plus/_examples/)
 - 使用文档： [https://open-doc.modstart.com/ueditor-plus](https://open-doc.modstart.com/ueditor-plus)
 
+## 使用遇到问题
+
+自开源以来，UEditor Plus 已经被大家广泛关注，也收到了很多反馈。
+
+为提高问题解决的效率，在提交问题时，请大家自行搭建一个最小可复现的环境代码（`zip` 压缩包 或 `git` 仓库地址），不提供的问题或者 `issue` 将不予解决和解答。
+
 ## 使用教程
 
 ### 原生使用
