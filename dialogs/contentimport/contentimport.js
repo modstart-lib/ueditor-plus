@@ -31,16 +31,20 @@ function processWord(file) {
     reader.readAsArrayBuffer(file);
 }
 
-function processMarkdown(file) {
+function processMarkdown( markdown ){
+    var converter = new showdown.Converter();
+    var html = converter.makeHtml(markdown);
+    $('.file-tip').html('转换成功');
+    contentImport.data.result = html;
+    $('.file-result').html(html).show();
+}
+
+function processMarkdownFile(file) {
     $('.file-tip').html('正在转换Markdown文件，请稍后...');
     $('.file-result').html('').hide();
     var reader = new FileReader();
     reader.onload = function (loadEvent) {
-        var converter = new showdown.Converter();
-        var html = converter.makeHtml(loadEvent.target.result);
-        $('.file-tip').html('转换成功');
-        contentImport.data.result = html;
-        $('.file-result').html(html).show();
+        processMarkdown( loadEvent.target.result );
     };
     reader.onerror = function (loadEvent) {
         $('.file-tip').html('Markdown文件转换失败:' + loadEvent);
@@ -59,12 +63,16 @@ function addUploadButtonListener() {
                 processWord(file);
                 break;
             case 'md':
-                processMarkdown(file);
+                processMarkdownFile(file);
                 break;
             default:
                 $('.file-tip').html('不支持的文件格式:' + fileExt);
                 break;
         }
+    });
+    g('fileInputConfirm').addEventListener('click', function () {
+        processMarkdown( g('fileInputContent').value );
+        $('.file-input').hide();
     });
 }
 
@@ -79,6 +87,5 @@ function addOkListener() {
         editor.fireEvent('saveScene');
     };
     dialog.oncancel = function () {
-
     };
 }
