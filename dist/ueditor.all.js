@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
     instants: {},
     I18N: {},
     _customizeUI: {},
-    version: "3.7.0",
+    version: "3.8.0-beta",
     constants: {
         STATEFUL: {
             DISABLED: -1,
@@ -34720,7 +34720,7 @@ UE.ui = baidu.editor.ui = {};
         scrawl: "~/dialogs/scrawl/scrawl.html?81bccab9",
         template: "~/dialogs/template/template.html?3c8090b7",
         background: "~/dialogs/background/background.html?c2bb8b05",
-        contentimport: "~/dialogs/contentimport/contentimport.html?2238b46e",
+        contentimport: "~/dialogs/contentimport/contentimport.html?3a4dab40",
     };
     var dialogBtns = {
         noOk: ["searchreplace", "help", "spechars", "preview"],
