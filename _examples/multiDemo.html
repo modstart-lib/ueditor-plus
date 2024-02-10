@@ -20,12 +20,13 @@
 
     <!--style给定宽度可以影响编辑器的最终宽度-->
     <script type="text/plain" id="myEditor1" style="margin-bottom:100px;">
+        <p>这里是初始化内容1</p>
     </script>
     <script type="text/plain" id="myEditor2" style="margin-bottom:100px;">
-    <p>这里我可以写一些输入提示</p>
-
+        <p>这里我可以写一些输入提示2</p>
     </script>
     <script type="text/plain" id="myEditor3" style="margin-bottom:100px;">
+        <p>这里是初始化内容3</p>
     </script>
 
     <script type="text/javascript">
@@ -33,13 +34,11 @@
             theme: "default", //皮肤
             lang: 'zh-cn' //语言
         });
-
         UE.getEditor('myEditor2', {
             autoClearinitialContent: true, //focus时自动清空初始化时的内容
             wordCount: false, //关闭字数统计
             elementPathEnabled: false//关闭elementPath
         });
-
         UE.getEditor('myEditor3', {
             //toolbars:[['FullScreen', 'Source', 'Undo', 'Redo','Bold']],//这里可以选择自己需要的工具按钮名称,此处仅选择如下五个
             lang: "en"

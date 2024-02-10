@@ -45,7 +45,7 @@ UE.plugins["shortcutmenu"] = function () {
             if (!menu) {
                 menu = new baidu.editor.ui.ShortCutMenu({
                     editor: me,
-                    items: items,
+                    items: items.concat([]),
                     theme: me.options.theme,
                     className: "edui-shortcutmenu"
                 });
