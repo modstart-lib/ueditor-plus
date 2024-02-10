@@ -930,6 +930,7 @@
          * @warning 该方法会触发selectionchange事件
          * @param { String } html 要插入的html内容
          * @param { Boolean } isAppendTo 若传入true，不清空原来的内容，在最后插入内容，否则，清空内容再插入
+         * @param { Boolean } notFireSelectionchange 是否阻止触发选区变化，true为阻止，false为不阻止
          * @example
          * ```javascript
          * //假设设置前的编辑器内容是 <p>old text</p>
@@ -1382,7 +1383,7 @@
         },
 
         /**
-         * 重置编辑器，可用来做多个tab使用同一个编辑器实例
+         * 重置编辑器，可用来做多个tab 使用同一个编辑器实例
          * @method  reset
          * @remind 此方法会清空编辑器内容，清空回退列表，会触发reset事件
          * @example
@@ -1391,7 +1392,21 @@
          * ```
          */
         reset: function () {
+            this.clear();
             this.fireEvent("reset");
+        },
+
+        /**
+         * 清空编辑器内容
+         * @method clear
+         * @remind 此方法会清空编辑器内容
+         * @example
+         * ```javascript
+         * editor.clear()
+         * ```
+         */
+        clear: function () {
+            this.setContent("");
         },
 
         /**
@@ -1704,7 +1719,7 @@
          */
         getActionUrl: function (action) {
             var serverUrl = this.getOpt("serverUrl")
-            if(!action){
+            if (!action) {
                 return serverUrl;
             }
             var actionName = this.getOpt(action) || action,
