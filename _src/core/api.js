@@ -1198,7 +1198,8 @@ UE.api = (function () {
     }));
     return {
         requestAction: function (me, action, config) {
-            config.url = me.getOpt('serverUrl');
+            // config.url = me.getOpt('serverUrl');
+            config.url = me.getActionUrl();
             config.method = 'post';
             config.params = config.params || {};
             config.params = Object.assign(config.params, me.getOpt('serverparam'));

@@ -1703,18 +1703,20 @@
          * ```
          */
         getActionUrl: function (action) {
+            var serverUrl = this.getOpt("serverUrl")
+            if(!action){
+                return serverUrl;
+            }
             var actionName = this.getOpt(action) || action,
-                imageUrl = this.getOpt("imageUrl"),
-                serverUrl = this.getOpt("serverUrl");
+                imageUrl = this.getOpt("imageUrl");
 
             if (!serverUrl && imageUrl) {
                 serverUrl = imageUrl.replace(/^(.*[\/]).+([\.].+)$/, "$1controller$2");
             }
-
             if (serverUrl) {
                 serverUrl =
                     serverUrl +
-                    (serverUrl.indexOf("?") == -1 ? "?" : "&") +
+                    (serverUrl.indexOf("?") === -1 ? "?" : "&") +
                     "action=" +
                     (actionName || "");
                 return utils.formatUrl(serverUrl);
