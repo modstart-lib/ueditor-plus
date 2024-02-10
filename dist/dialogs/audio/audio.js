@@ -380,6 +380,7 @@
                 fileVal: editor.getOpt('audioFieldName'),
                 duplicate: true,
                 fileSingleSizeLimit: fileMaxSize,
+                headers: editor.getOpt('serverHeaders') || {},
                 compress: false
             });
             uploader.addButton({

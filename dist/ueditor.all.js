@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
     instants: {},
     I18N: {},
     _customizeUI: {},
-    version: "3.8.0-beta",
+    version: "3.8.0",
     constants: {
         STATEFUL: {
             DISABLED: -1,
@@ -3434,16 +3434,16 @@ var domUtils = (dom.domUtils = {
      * @param { String } tagName 需要查找的节点的tagName， 多个tagName以空格分割
      * @return { Array } 符合条件的节点集合
      */
-    getElementsByTagName: function (node, name, filter) {
+    getElementsByTagName: function (node, tagName, filter) {
         if (filter && utils.isString(filter)) {
             var className = filter;
             filter = function (node) {
                 return domUtils.hasClass(node, className);
             };
         }
-        name = utils.trim(name).replace(/[ ]{2,}/g, " ").split(" ");
+        tagName = utils.trim(tagName).replace(/[ ]{2,}/g, " ").split(" ");
         var arr = [];
-        for (var n = 0, ni; (ni = name[n++]);) {
+        for (var n = 0, ni; (ni = tagName[n++]);) {
             var list = node.getElementsByTagName(ni);
             for (var i = 0, ci; (ci = list[i++]);) {
                 if (!filter || filter(ci)) arr.push(ci);
@@ -7221,21 +7221,16 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
      * @param { UE.Editor } editor 编辑器事例
      */
     function setValue(form, editor) {
+        if (!editor.options.textarea) {
+            return;
+        }
         var textarea;
-        if (editor.options.textarea) {
-            if (utils.isString(editor.options.textarea)) {
-                for (
-                    var i = 0, ti, tis = domUtils.getElementsByTagName(form, "textarea");
-                    (ti = tis[i++]);
-                ) {
-                    if (ti.id == "ueditor_textarea_" + editor.options.textarea) {
-                        textarea = ti;
-                        break;
-                    }
-                }
-            } else {
-                textarea = editor.textarea;
-            }
+        textarea = editor.textarea;
+        if (!textarea) {
+            textarea = form.getElementById("ueditor_textarea_" + editor.options.textarea);
+        }
+        if (!textarea) {
+            textarea = form.getElementsByName(editor.options.textarea)[0];
         }
         if (!textarea) {
             form.appendChild(
@@ -7245,7 +7240,8 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
                     style: "display:none"
                 }))
             );
-            //不要产生多个textarea
+        }
+        if (textarea && !editor.textarea) {
             editor.textarea = textarea;
         }
         !textarea.getAttribute("name") &&
@@ -8125,6 +8121,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
          * @warning 该方法会触发selectionchange事件
          * @param { String } html 要插入的html内容
          * @param { Boolean } isAppendTo 若传入true，不清空原来的内容，在最后插入内容，否则，清空内容再插入
+         * @param { Boolean } notFireSelectionchange 是否阻止触发选区变化，true为阻止，false为不阻止
          * @example
          * ```javascript
          * //假设设置前的编辑器内容是 <p>old text</p>
@@ -8577,7 +8574,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
         },
 
         /**
-         * 重置编辑器，可用来做多个tab使用同一个编辑器实例
+         * 重置编辑器，可用来做多个tab 使用同一个编辑器实例
          * @method  reset
          * @remind 此方法会清空编辑器内容，清空回退列表，会触发reset事件
          * @example
@@ -8586,7 +8583,21 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
          * ```
          */
         reset: function () {
+            this.clear();
             this.fireEvent("reset");
+        },
+
+        /**
+         * 清空编辑器内容
+         * @method clear
+         * @remind 此方法会清空编辑器内容
+         * @example
+         * ```javascript
+         * editor.clear()
+         * ```
+         */
+        clear: function () {
+            this.setContent("");
         },
 
         /**
@@ -8898,18 +8909,20 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
          * ```
          */
         getActionUrl: function (action) {
+            var serverUrl = this.getOpt("serverUrl")
+            if (!action) {
+                return serverUrl;
+            }
             var actionName = this.getOpt(action) || action,
-                imageUrl = this.getOpt("imageUrl"),
-                serverUrl = this.getOpt("serverUrl");
+                imageUrl = this.getOpt("imageUrl");
 
             if (!serverUrl && imageUrl) {
                 serverUrl = imageUrl.replace(/^(.*[\/]).+([\.].+)$/, "$1controller$2");
             }
-
             if (serverUrl) {
                 serverUrl =
                     serverUrl +
-                    (serverUrl.indexOf("?") == -1 ? "?" : "&") +
+                    (serverUrl.indexOf("?") === -1 ? "?" : "&") +
                     "action=" +
                     (actionName || "");
                 return utils.formatUrl(serverUrl);
@@ -8933,7 +8946,7 @@ UE.Editor.defaultOptions = function (editor) {
         autoClearinitialContent: false,
         iframeCssUrl: _url + "themes/iframe.css?c20ec247",
         iframeCssUrlsAddition: [],
-        textarea: "editorValue",
+        textarea: '',
         focus: false,
         focusInEnd: true,
         autoClearEmptyNode: true,
@@ -10531,7 +10544,8 @@ UE.api = (function () {
     }));
     return {
         requestAction: function (me, action, config) {
-            config.url = me.getOpt('serverUrl');
+            // config.url = me.getOpt('serverUrl');
+            config.url = me.getActionUrl();
             config.method = 'post';
             config.params = config.params || {};
             config.params = Object.assign(config.params, me.getOpt('serverparam'));
@@ -19327,7 +19341,8 @@ UE.plugins["undo"] = function () {
         Redo: "ctrl+89" //redo
     });
     var isCollapsed = true;
-    me.addListener("keydown", function (type, evt) {
+    me.addListener("keyup", function (type, evt) {
+
         var me = this;
         var keyCode = evt.keyCode || evt.which;
         if (
@@ -19356,10 +19371,10 @@ UE.plugins["undo"] = function () {
 
             saveSceneTimer = setTimeout(function () {
                 if (inputType) {
-                    var interalTimer = setInterval(function () {
+                    var intervalTimer = setInterval(function () {
                         if (!inputType) {
                             save(me);
-                            clearInterval(interalTimer);
+                            clearInterval(intervalTimer);
                         }
                     }, 300);
                     return;
@@ -28713,7 +28728,7 @@ UE.plugins["shortcutmenu"] = function () {
             if (!menu) {
                 menu = new baidu.editor.ui.ShortCutMenu({
                     editor: me,
-                    items: items,
+                    items: items.concat([]),
                     theme: me.options.theme,
                     className: "edui-shortcutmenu"
                 });
@@ -34701,18 +34716,18 @@ UE.ui = baidu.editor.ui = {};
 
     var dialogIframeUrlMap = {
         anchor: "~/dialogs/anchor/anchor.html?2f10d082",
-        insertimage: "~/dialogs/image/image.html?ae1f2c09",
+        insertimage: "~/dialogs/image/image.html?922fb017",
         link: "~/dialogs/link/link.html?ccbfcf18",
         spechars: "~/dialogs/spechars/spechars.html?3bbeb696",
         searchreplace: "~/dialogs/searchreplace/searchreplace.html?2cb782d2",
-        insertvideo: "~/dialogs/video/video.html?eff630e6",
-        insertaudio: "~/dialogs/audio/audio.html?3b2ef8d5",
+        insertvideo: "~/dialogs/video/video.html?80179379",
+        insertaudio: "~/dialogs/audio/audio.html?186ee4c9",
         help: "~/dialogs/help/help.html?05c0c8bf",
         preview: "~/dialogs/preview/preview.html?5d9a0847",
         emotion: "~/dialogs/emotion/emotion.html?a7bc0989",
-        wordimage: "~/dialogs/wordimage/wordimage.html?00faeb9f",
+        wordimage: "~/dialogs/wordimage/wordimage.html?2570dd00",
         formula: "~/dialogs/formula/formula.html?9a5a1511",
-        attachment: "~/dialogs/attachment/attachment.html?ea8b47c8",
+        attachment: "~/dialogs/attachment/attachment.html?8a7d83e2",
         insertframe: "~/dialogs/insertframe/insertframe.html?807119a5",
         edittip: "~/dialogs/table/edittip.html?fa0ea189",
         edittable: "~/dialogs/table/edittable.html?134e2f06",

@@ -167,6 +167,7 @@
                 fileVal: editor.getOpt('fileFieldName'),
                 duplicate: true,
                 fileSingleSizeLimit: fileMaxSize,
+                headers: editor.getOpt('serverHeaders') || {},
                 compress: false
             });
             uploader.addButton({
