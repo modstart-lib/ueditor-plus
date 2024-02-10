@@ -24,14 +24,17 @@
 <body class="demo-editor-page">
 <div>
     <h1>文本域渲染编辑器</h1>
-    <!--style给定宽度可以影响编辑器的最终宽度-->
-    <textarea id="myEditor">这里是原始的textarea中的内容，可以从数据中读取</textarea>
-    <br/>
-    <input type="button" onclick="render()" value="渲染编辑器">
+    <form action="">
+        <!--style给定宽度可以影响编辑器的最终宽度-->
+        <textarea id="myEditor" name="myEditor">这里是原始的textarea中的内容，可以从数据中读取</textarea>
+        <br/>
+        <input type="button" onclick="render()" value="渲染编辑器">
+    </form>
     <script type="text/javascript">
         //渲染编辑器
+        var ue = null;
         function render() {
-            UE.getEditor('myEditor')
+            ue = UE.getEditor('myEditor')
         }
     </script>
 

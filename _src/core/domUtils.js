@@ -1242,16 +1242,16 @@ var domUtils = (dom.domUtils = {
      * @param { String } tagName 需要查找的节点的tagName， 多个tagName以空格分割
      * @return { Array } 符合条件的节点集合
      */
-    getElementsByTagName: function (node, name, filter) {
+    getElementsByTagName: function (node, tagName, filter) {
         if (filter && utils.isString(filter)) {
             var className = filter;
             filter = function (node) {
                 return domUtils.hasClass(node, className);
             };
         }
-        name = utils.trim(name).replace(/[ ]{2,}/g, " ").split(" ");
+        tagName = utils.trim(tagName).replace(/[ ]{2,}/g, " ").split(" ");
         var arr = [];
-        for (var n = 0, ni; (ni = name[n++]);) {
+        for (var n = 0, ni; (ni = tagName[n++]);) {
             var list = node.getElementsByTagName(ni);
             for (var i = 0, ci; (ci = list[i++]);) {
                 if (!filter || filter(ci)) arr.push(ci);

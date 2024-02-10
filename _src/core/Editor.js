@@ -30,21 +30,16 @@
      * @param { UE.Editor } editor 编辑器事例
      */
     function setValue(form, editor) {
+        if (!editor.options.textarea) {
+            return;
+        }
         var textarea;
-        if (editor.options.textarea) {
-            if (utils.isString(editor.options.textarea)) {
-                for (
-                    var i = 0, ti, tis = domUtils.getElementsByTagName(form, "textarea");
-                    (ti = tis[i++]);
-                ) {
-                    if (ti.id == "ueditor_textarea_" + editor.options.textarea) {
-                        textarea = ti;
-                        break;
-                    }
-                }
-            } else {
-                textarea = editor.textarea;
-            }
+        textarea = editor.textarea;
+        if (!textarea) {
+            textarea = form.getElementById("ueditor_textarea_" + editor.options.textarea);
+        }
+        if (!textarea) {
+            textarea = form.getElementsByName(editor.options.textarea)[0];
         }
         if (!textarea) {
             form.appendChild(
@@ -54,7 +49,8 @@
                     style: "display:none"
                 }))
             );
-            //不要产生多个textarea
+        }
+        if (textarea && !editor.textarea) {
             editor.textarea = textarea;
         }
         !textarea.getAttribute("name") &&
