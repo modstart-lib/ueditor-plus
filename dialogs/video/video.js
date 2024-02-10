@@ -434,6 +434,7 @@
                 fileVal: editor.getOpt('videoFieldName'),
                 duplicate: true,
                 fileSingleSizeLimit: fileMaxSize,
+                headers: editor.getOpt('serverHeaders') || {},
                 compress: false
             });
             uploader.addButton({
