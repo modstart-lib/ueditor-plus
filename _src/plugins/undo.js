@@ -267,7 +267,8 @@ UE.plugins["undo"] = function () {
         Redo: "ctrl+89" //redo
     });
     var isCollapsed = true;
-    me.addListener("keydown", function (type, evt) {
+    me.addListener("keyup", function (type, evt) {
+
         var me = this;
         var keyCode = evt.keyCode || evt.which;
         if (
@@ -296,10 +297,10 @@ UE.plugins["undo"] = function () {
 
             saveSceneTimer = setTimeout(function () {
                 if (inputType) {
-                    var interalTimer = setInterval(function () {
+                    var intervalTimer = setInterval(function () {
                         if (!inputType) {
                             save(me);
-                            clearInterval(interalTimer);
+                            clearInterval(intervalTimer);
                         }
                     }, 300);
                     return;
