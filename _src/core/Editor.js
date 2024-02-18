@@ -36,7 +36,9 @@
         var textarea;
         textarea = editor.textarea;
         if (!textarea) {
-            textarea = form.getElementById("ueditor_textarea_" + editor.options.textarea);
+            textarea = domUtils.getElementsByTagName(form, "textarea",function (node){
+                return node.id === 'ueditor_textarea_' + editor.options.textarea;
+            })[0];
         }
         if (!textarea) {
             textarea = form.getElementsByName(editor.options.textarea)[0];
