@@ -34739,7 +34739,7 @@ UE.ui = baidu.editor.ui = {};
         scrawl: "~/dialogs/scrawl/scrawl.html?81bccab9",
         template: "~/dialogs/template/template.html?3c8090b7",
         background: "~/dialogs/background/background.html?c2bb8b05",
-        contentimport: "~/dialogs/contentimport/contentimport.html?3a4dab40",
+        contentimport: "~/dialogs/contentimport/contentimport.html?e298f77b",
     };
     var dialogBtns = {
         noOk: ["searchreplace", "help", "spechars", "preview"],
