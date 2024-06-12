@@ -59,23 +59,24 @@ UE.plugin.register("simpleupload", function () {
                 UE.api.requestAction(me, me.getOpt("imageActionName"), {
                     data: formData
                 }).then(function (res) {
-                    if ('SUCCESS' === res.data.state && res.data.url) {
+                    var resData = me.getOpt('serverResponsePrepare')( res.data )
+                    if ('SUCCESS' === resData.state && resData.url) {
                         const loader = me.document.getElementById(loadingId);
                         domUtils.removeClasses(loader, "uep-loading");
-                        const link = me.options.imageUrlPrefix + res.data.url;
+                        const link = me.options.imageUrlPrefix + resData.url;
                         loader.setAttribute("src", link);
                         loader.setAttribute("_src", link);
-                        loader.setAttribute("alt", res.data.original || "");
+                        loader.setAttribute("alt", resData.original || "");
                         loader.removeAttribute("id");
                         me.fireEvent("contentchange");
                         // 触发上传图片事件
                         me.fireEvent("uploadsuccess", {
-                            res: res.data,
+                            res: resData,
                             type: 'image'
                         });
                     } else {
                         UE.dialog.removeLoadingPlaceholder(me, loadingId);
-                        UE.dialog.tipError(me, res.data.state);
+                        UE.dialog.tipError(me, resData.state);
                     }
                 }).catch(function (err) {
                     UE.dialog.removeLoadingPlaceholder(me, loadingId);

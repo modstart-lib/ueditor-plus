@@ -67,6 +67,8 @@ UE.plugins["catchremoteimage"] = function () {
                     return;
                 }
 
+                info = me.options.serverResponsePrepare(info);
+
                 /* 获取源路径和新路径 */
                 var oldSrc,
                     newSrc,

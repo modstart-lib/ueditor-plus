@@ -57,6 +57,11 @@
         serverHeaders: {
             // 'Authorization': 'Bearer xxx'
         },
+        // 服务器返回参数统一转换方法，可以在这里统一处理返回参数
+        serverResponsePrepare: function( res ){
+            console.log('serverResponsePrepare', res);
+            return res;
+        },
 
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
         toolbars: [

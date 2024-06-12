@@ -26,6 +26,7 @@
                     onsuccess: function (r) {
                         try {
                             var config = isJsonp ? r : eval("(" + r.responseText + ")");
+                            config = me.options.serverResponsePrepare( config )
                             // console.log('me.options.before', me.options.audioConfig);
                             me.options = utils.merge(me.options, config);
                             // console.log('server.config', config.audioConfig);

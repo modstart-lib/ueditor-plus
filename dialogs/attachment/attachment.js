@@ -515,6 +515,7 @@
                 try {
                     var responseText = (ret._raw || ret),
                         json = utils.str2json(responseText);
+                    json = editor.getOpt('serverResponsePrepare')( json );
                     if (json.state == 'SUCCESS') {
                         _this.fileList.push(json);
                         $file.append('<span class="success"></span>');

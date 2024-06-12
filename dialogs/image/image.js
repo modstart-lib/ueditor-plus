@@ -772,6 +772,7 @@
                 try {
                     var responseText = (ret._raw || ret),
                         json = utils.str2json(responseText);
+                    json = editor.options.serverResponsePrepare( json );
                     if (json.state == 'SUCCESS') {
                         _this.imageList.push(json);
                         $file.append('<span class="success"></span>');
@@ -929,6 +930,7 @@
                     'onsuccess': function (r) {
                         try {
                             var json = isJsonp ? r : eval('(' + r.responseText + ')');
+                            json = editor.options.serverResponsePrepare( json );
                             if (json.state === 'SUCCESS') {
                                 _this.pushData(json.list);
                                 _this.listIndex = parseInt(json.start) + parseInt(json.list.length);
