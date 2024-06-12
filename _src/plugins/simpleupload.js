@@ -13,6 +13,7 @@ UE.plugin.register("simpleupload", function () {
         var input = document.createElement("input");
         input.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;cursor:pointer;font-size:0;opacity:0;';
         input.type = 'file';
+        input.accept = me.getOpt('imageAllowFiles').join(',');
         containerBtn.appendChild(input);
         domUtils.on(input, 'click', function (e) {
             var toolbarCallback = me.getOpt("toolbarCallback");
