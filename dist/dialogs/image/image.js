@@ -447,10 +447,10 @@
             // 当有文件添加进来时执行，负责view的创建
             function addFile(file) {
                 var $li = $('<li id="' + file.id + '">' +
-                    '<p class="title">' + file.name + '</p>' +
-                    '<p class="imgWrap"></p>' +
-                    '<p class="progress"><span></span></p>' +
-                    '</li>'),
+                        '<p class="title">' + file.name + '</p>' +
+                        '<p class="imgWrap"></p>' +
+                        '<p class="progress"><span></span></p>' +
+                        '</li>'),
 
                     $btns = $('<div class="file-panel">' +
                         '<span class="cancel">' + lang.uploadDelete + '</span>' +
@@ -772,6 +772,7 @@
                 try {
                     var responseText = (ret._raw || ret),
                         json = utils.str2json(responseText);
+                    json = editor.options.serverResponsePrepare(json);
                     if (json.state == 'SUCCESS') {
                         _this.imageList.push(json);
                         $file.append('<span class="success"></span>');
@@ -790,9 +791,11 @@
 
             uploader.on('uploadError', function (file, code) {
             });
-            uploader.on('error', function (code, file) {
-                if (code == 'Q_TYPE_DENIED' || code == 'F_EXCEED_SIZE') {
-                    addFile(file);
+            uploader.on('error', function (code, param1, param2) {
+                if (code === 'F_EXCEED_SIZE') {
+                    editor.getOpt('tipError')(lang.errorExceedSize + ' ' + (param1 / 1024 / 1024).toFixed(1) + 'MB');
+                } else {
+                    console.log('error', code, param1, param2);
                 }
             });
             uploader.on('uploadComplete', function (file, ret) {
@@ -929,6 +932,7 @@
                     'onsuccess': function (r) {
                         try {
                             var json = isJsonp ? r : eval('(' + r.responseText + ')');
+                            json = editor.options.serverResponsePrepare(json);
                             if (json.state === 'SUCCESS') {
                                 _this.pushData(json.list);
                                 _this.listIndex = parseInt(json.start) + parseInt(json.list.length);

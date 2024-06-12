@@ -183,6 +183,7 @@
         } : false
     });
     uploader.on('uploadSuccess', function (file, res) {
+        res = editor.getOpt('serverResponsePrepare')(res);
         if ('state' in res) {
             if (res.state === 'SUCCESS') {
                 if (res.url) {

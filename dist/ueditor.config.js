@@ -57,6 +57,11 @@
         serverHeaders: {
             // 'Authorization': 'Bearer xxx'
         },
+        // 服务器返回参数统一转换方法，可以在这里统一处理返回参数
+        serverResponsePrepare: function( res ){
+            console.log('serverResponsePrepare', res);
+            return res;
+        },
 
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
         toolbars: [
@@ -594,7 +599,15 @@
         // 允许进入编辑器的 div 标签自动变成 p 标签
         , allowDivTransToP: true
         // 默认产出的数据中的color自动从rgb格式变成16进制格式
-        , rgb2Hex: true
+        , rgb2Hex: true,
+
+        tipError: function(msg, param){
+            if( window && window.MS && window.MS.dialog ){
+                window.MS.dialog.tipError( msg );
+            }else{
+                alert( msg );
+            }
+        }
     };
 
     function getUEBasePath(docUrl, confUrl) {

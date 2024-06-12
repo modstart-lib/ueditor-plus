@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
     instants: {},
     I18N: {},
     _customizeUI: {},
-    version: "3.9.0-beta",
+    version: "3.9.0",
     constants: {
         STATEFUL: {
             DISABLED: -1,
@@ -9002,6 +9002,7 @@ UE.Editor.defaultOptions = function (editor) {
                     onsuccess: function (r) {
                         try {
                             var config = isJsonp ? r : eval("(" + r.responseText + ")");
+                            config = me.options.serverResponsePrepare( config )
                             // console.log('me.options.before', me.options.audioConfig);
                             me.options = utils.merge(me.options, config);
                             // console.log('server.config', config.audioConfig);
@@ -29595,6 +29596,8 @@ UE.plugins["catchremoteimage"] = function () {
                     return;
                 }
 
+                info = me.options.serverResponsePrepare(info);
+
                 /* 获取源路径和新路径 */
                 var oldSrc,
                     newSrc,
@@ -30416,6 +30419,7 @@ UE.plugin.register("simpleupload", function () {
         var input = document.createElement("input");
         input.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;cursor:pointer;font-size:0;opacity:0;';
         input.type = 'file';
+        input.accept = me.getOpt('imageAllowFiles').join(',');
         containerBtn.appendChild(input);
         domUtils.on(input, 'click', function (e) {
             var toolbarCallback = me.getOpt("toolbarCallback");
@@ -30461,23 +30465,24 @@ UE.plugin.register("simpleupload", function () {
                 UE.api.requestAction(me, me.getOpt("imageActionName"), {
                     data: formData
                 }).then(function (res) {
-                    if ('SUCCESS' === res.data.state && res.data.url) {
+                    var resData = me.getOpt('serverResponsePrepare')( res.data )
+                    if ('SUCCESS' === resData.state && resData.url) {
                         const loader = me.document.getElementById(loadingId);
                         domUtils.removeClasses(loader, "uep-loading");
-                        const link = me.options.imageUrlPrefix + res.data.url;
+                        const link = me.options.imageUrlPrefix + resData.url;
                         loader.setAttribute("src", link);
                         loader.setAttribute("_src", link);
-                        loader.setAttribute("alt", res.data.original || "");
+                        loader.setAttribute("alt", resData.original || "");
                         loader.removeAttribute("id");
                         me.fireEvent("contentchange");
                         // 触发上传图片事件
                         me.fireEvent("uploadsuccess", {
-                            res: res.data,
+                            res: resData,
                             type: 'image'
                         });
                     } else {
                         UE.dialog.removeLoadingPlaceholder(me, loadingId);
-                        UE.dialog.tipError(me, res.data.state);
+                        UE.dialog.tipError(me, resData.state);
                     }
                 }).catch(function (err) {
                     UE.dialog.removeLoadingPlaceholder(me, loadingId);
@@ -34720,18 +34725,18 @@ UE.ui = baidu.editor.ui = {};
 
     var dialogIframeUrlMap = {
         anchor: "~/dialogs/anchor/anchor.html?2f10d082",
-        insertimage: "~/dialogs/image/image.html?33811fba",
+        insertimage: "~/dialogs/image/image.html?4da72874",
         link: "~/dialogs/link/link.html?ccbfcf18",
         spechars: "~/dialogs/spechars/spechars.html?3bbeb696",
         searchreplace: "~/dialogs/searchreplace/searchreplace.html?2cb782d2",
-        insertvideo: "~/dialogs/video/video.html?918640f8",
-        insertaudio: "~/dialogs/audio/audio.html?d1beccf5",
+        insertvideo: "~/dialogs/video/video.html?aa46c3ba",
+        insertaudio: "~/dialogs/audio/audio.html?0742e32d",
         help: "~/dialogs/help/help.html?05c0c8bf",
         preview: "~/dialogs/preview/preview.html?5d9a0847",
         emotion: "~/dialogs/emotion/emotion.html?a7bc0989",
-        wordimage: "~/dialogs/wordimage/wordimage.html?c29fcf85",
+        wordimage: "~/dialogs/wordimage/wordimage.html?30a3bf2b",
         formula: "~/dialogs/formula/formula.html?9a5a1511",
-        attachment: "~/dialogs/attachment/attachment.html?abf97d51",
+        attachment: "~/dialogs/attachment/attachment.html?2cf57519",
         insertframe: "~/dialogs/insertframe/insertframe.html?807119a5",
         edittip: "~/dialogs/table/edittip.html?fa0ea189",
         edittable: "~/dialogs/table/edittable.html?134e2f06",
