@@ -42,22 +42,26 @@
 </script>
 ```
 
-### vue双向绑定
+### vue2 使用
 
-① 安装UEditor插件支持
+① 安装插件支持
 
 ```shell
-npm i vue-ueditor-wrap
+npm i --save vue-ueditor-wrap@2.x
 # 或
-yarn add vue-ueditor-wrap
+yarn add --save vue-ueditor-wrap@2.x
 ```
 
-② 解压 UEditorPlus 到静态资源目录，配置
+② 解压 UEditorPlus 到静态资源目录
+
+复制 `dist-min` 到项目 `public/static/UEditorPlus/` 目录
+
+③ 引入组件并使用
 
 ```html
 
 <template>
-    <div class="content">
+    <div>
         <vue-ueditor-wrap v-model="content"
                           editor-id="editor"
                           :config="editorConfig"
@@ -66,16 +70,21 @@ yarn add vue-ueditor-wrap
     </div>
 </template>
 <script>
+    import VueUeditorWrap from 'vue-ueditor-wrap'
+
     export default {
+        components: {
+            VueUeditorWrap
+        },
         data() {
             return {
                 content: '<p>Hello UEditorPlus</p>',
                 editorConfig: {
-                    // 编辑器后端服务接口，参考后端规范 https://open-doc.modstart.com/ueditor-plus/backend.html
-                    serverUrl: '后端服务',
-                    // 配置 UEditorPlus 的静态资源根路径，可以是 CDN 的静态资源地址
-                    UEDITOR_HOME_URL: '/static/UEditorPlus',
-                    UEDITOR_CORS_URL: '/static/UEditorPlus'
+                    // 后端服务地址，后端处理参考
+                    // https://open-doc.modstart.com/ueditor-plus/backend.html
+                    serverUrl: '/api/path/to/server',
+                    UEDITOR_HOME_URL: '/static/UEditorPlus/',
+                    UEDITOR_CORS_URL: '/static/UEditorPlus/',
                 }
             }
         }
@@ -83,7 +92,106 @@ yarn add vue-ueditor-wrap
 </script>
 ```
 
-更多配置和使用参考：[vue-ueditor-wrap](https://hc199421.gitee.io/vue-ueditor-wrap)
+### vue3 使用
+
+① 安装插件支持
+
+```shell
+npm i --save vue-ueditor-wrap@3.x
+# 或
+yarn add --save vue-ueditor-wrap@3.x
+```
+
+② 解压 UEditorPlus 到静态资源目录
+
+复制 `dist-min` 到项目 `public/static/UEditorPlus/` 目录
+
+③ 引入组件并使用
+
+**main.js**
+
+```javascript
+import {createApp} from 'vue'
+import App from './App.vue'
+import VueUeditorWrap from 'vue-ueditor-wrap';
+
+createApp(App).use(VueUeditorWrap).mount('#app')
+```
+
+**App.vue**
+
+```html
+
+<template>
+    <div>
+        <vue-ueditor-wrap v-model="content"
+                          editor-id="editor"
+                          :config="editorConfig"
+                          :editorDependencies="['ueditor.config.js','ueditor.all.js']"
+                          style="height:500px;"/>
+    </div>
+</template>
+
+<script setup>
+    import {ref} from 'vue';
+
+    const content = ref('<p>Hello UEditorPlus</p>');
+    const editorConfig = {
+        // 后端服务地址，后端处理参考
+        // https://open-doc.modstart.com/ueditor-plus/backend.html
+        serverUrl: '/api/path/to/server',
+        UEDITOR_HOME_URL: '/static/UEditorPlus/',
+        UEDITOR_CORS_URL: '/static/UEditorPlus/',
+    }
+</script>
+```
+
+### react 使用
+
+① 安装插件支持
+
+```shell
+npm i --save react-ueditor-wrap
+# 或
+yarn add --save react-ueditor-wrap
+```
+
+② 解压 UEditorPlus 到静态资源目录
+
+复制 `dist-min` 到项目 `public/static/UEditorPlus/` 目录
+
+③ 引入组件并使用
+
+```jsx
+import RcUeditor from 'react-ueditor-wrap';
+
+function App() {
+    const hanldeChage = (value) => {
+        console.log('RcUeditor', value);
+    }
+    return (
+        <div className="App">
+            <div style={{margin: '0 auto', maxWidth: '800px'}}>
+                <RcUeditor
+                    value={'<p>Hello UEditorPlus</p>'}
+                    ueditorUrl={'/static/UEditorPlus/ueditor.all.js'}
+                    ueditorConfigUrl={'/static/UEditorPlus/ueditor.config.js'}
+                    editorConfig={{
+                        // 后端服务地址，后端处理参考
+                        // https://open-doc.modstart.com/ueditor-plus/backend.html
+                        initialFrameWidth: '100%',
+                        serverUrl: '/api/path/to/server',
+                        UEDITOR_HOME_URL: '/static/UEditorPlus/',
+                        UEDITOR_CORS_URL: '/static/UEditorPlus/',
+                    }}
+                    onChange={hanldeChage}/>
+            </div>
+        </div>
+    );
+}
+
+export default App;
+```
 
 ## 关于Bug反馈与维护
 
