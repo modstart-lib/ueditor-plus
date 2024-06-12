@@ -599,7 +599,15 @@
         // 允许进入编辑器的 div 标签自动变成 p 标签
         , allowDivTransToP: true
         // 默认产出的数据中的color自动从rgb格式变成16进制格式
-        , rgb2Hex: true
+        , rgb2Hex: true,
+
+        tipError: function(msg, param){
+            if( window && window.MS && window.MS.dialog ){
+                window.MS.dialog.tipError( msg );
+            }else{
+                alert( msg );
+            }
+        }
     };
 
     function getUEBasePath(docUrl, confUrl) {
