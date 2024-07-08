@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
     instants: {},
     I18N: {},
     _customizeUI: {},
-    version: "3.9.0",
+    version: "4.0.0-beta",
     constants: {
         STATEFUL: {
             DISABLED: -1,
@@ -34725,18 +34725,18 @@ UE.ui = baidu.editor.ui = {};
 
     var dialogIframeUrlMap = {
         anchor: "~/dialogs/anchor/anchor.html?2f10d082",
-        insertimage: "~/dialogs/image/image.html?4da72874",
+        insertimage: "~/dialogs/image/image.html?62e5392c",
         link: "~/dialogs/link/link.html?ccbfcf18",
         spechars: "~/dialogs/spechars/spechars.html?3bbeb696",
         searchreplace: "~/dialogs/searchreplace/searchreplace.html?2cb782d2",
-        insertvideo: "~/dialogs/video/video.html?aa46c3ba",
-        insertaudio: "~/dialogs/audio/audio.html?0742e32d",
+        insertvideo: "~/dialogs/video/video.html?1603eb78",
+        insertaudio: "~/dialogs/audio/audio.html?a2979235",
         help: "~/dialogs/help/help.html?05c0c8bf",
         preview: "~/dialogs/preview/preview.html?5d9a0847",
         emotion: "~/dialogs/emotion/emotion.html?a7bc0989",
-        wordimage: "~/dialogs/wordimage/wordimage.html?30a3bf2b",
+        wordimage: "~/dialogs/wordimage/wordimage.html?e6ca77bb",
         formula: "~/dialogs/formula/formula.html?9a5a1511",
-        attachment: "~/dialogs/attachment/attachment.html?2cf57519",
+        attachment: "~/dialogs/attachment/attachment.html?5cd272ea",
         insertframe: "~/dialogs/insertframe/insertframe.html?807119a5",
         edittip: "~/dialogs/table/edittip.html?fa0ea189",
         edittable: "~/dialogs/table/edittable.html?134e2f06",
