@@ -58,7 +58,7 @@
             // 'Authorization': 'Bearer xxx'
         },
         // 服务器返回参数统一转换方法，可以在这里统一处理返回参数
-        serverResponsePrepare: function( res ){
+        serverResponsePrepare: function (res) {
             // console.log('serverResponsePrepare', res);
             return res;
         },
@@ -517,17 +517,19 @@
         // 是否自动长高,默认true
         , autoHeightEnabled: true
 
-        // 是否可以拉伸长高,默认true(当开启时，自动长高失效)
+        // 是否可以拉伸长高，默认true(当开启时，自动长高失效)
         //,scaleEnabled:false
         //,minFrameWidth:800    //编辑器拖动时最小宽度,默认800
-        //,minFrameHeight:220  //编辑器拖动时最小高度,默认220
+
+        // 编辑器最小高度,默认220
+        , minFrameHeight: 220
 
         // 是否保持toolbar的位置不动,默认true
-        ,autoFloatEnabled:true
+        , autoFloatEnabled: true
         // 浮动时工具栏距离浏览器顶部的高度，用于某些具有固定头部的页面
-        ,topOffset:0
+        , topOffset: 0
         // 编辑器底部距离工具栏高度(如果参数大于等于编辑器高度，则设置无效)
-        ,toolbarTopOffset:0
+        , toolbarTopOffset: 0
 
         //设置远程图片是否抓取到本地保存
         , catchRemoteImageEnable: true //设置是否抓取远程图片
@@ -599,11 +601,11 @@
         // 默认产出的数据中的color自动从rgb格式变成16进制格式
         , rgb2Hex: true,
 
-        tipError: function(msg, param){
-            if( window && window.MS && window.MS.dialog ){
-                window.MS.dialog.tipError( msg );
-            }else{
-                alert( msg );
+        tipError: function (msg, param) {
+            if (window && window.MS && window.MS.dialog) {
+                window.MS.dialog.tipError(msg);
+            } else {
+                alert(msg);
             }
         }
     };
