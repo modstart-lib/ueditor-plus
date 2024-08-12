@@ -174,7 +174,7 @@ UE.plugins["catchremoteimage"] = function () {
                 if (/^(https?|ftp):/i.test(src) && !test(src, catcherLocalDomain)) {
                     catchElement('image', ci, src);
                     domUtils.setAttributes(ci, {
-                        class: "loadingclass",
+                        class: "uep-loading",
                         _src: src,
                         src: loadingIMG
                     })
