@@ -2,6 +2,11 @@
     UE.Editor.prototype.loadServerConfig = function () {
         var me = this;
         setTimeout(function () {
+
+            if(me.options.loadConfigFromServer===false){
+                return;
+            }
+
             try {
                 me.options.imageUrl &&
                 me.setOpt(
@@ -41,6 +46,8 @@
                         showErrorMsg(me.getLang("loadconfigHttpError"));
                     }
                 });
+
+
             } catch (e) {
                 showErrorMsg(me.getLang("loadconfigError"));
             }
