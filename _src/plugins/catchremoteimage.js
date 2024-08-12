@@ -144,6 +144,8 @@ UE.plugins["catchremoteimage"] = function () {
     }
 
     function catchRemoteImage() {
+        // console.log('catchRemoteImage',catchRemoteImageCatching);
+
         if (catchRemoteImageCatching) {
             return;
         }
@@ -166,7 +168,10 @@ UE.plugins["catchremoteimage"] = function () {
             };
 
         for (var i = 0, ci; (ci = imgs[i++]);) {
-            if (ci.getAttribute("data-word-image") || ci.getAttribute('data-catch-result')) {
+            if (ci.getAttribute("data-word-image")
+                || ci.getAttribute('data-catch-result')
+                || ci.getAttribute('data-formula-image')
+            ) {
                 continue;
             }
             if (ci.nodeName === "IMG") {
@@ -192,7 +197,7 @@ UE.plugins["catchremoteimage"] = function () {
                 }
             }
         }
-
+        catchRemoteImageCatching = false;
     };
 
     me.addListener("catchremoteimage", function () {
