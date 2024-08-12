@@ -10,7 +10,7 @@ window.UE = baidu.editor = {
     instants: {},
     I18N: {},
     _customizeUI: {},
-    version: "4.0.0-beta",
+    version: "4.0.0",
     constants: {
         STATEFUL: {
             DISABLED: -1,

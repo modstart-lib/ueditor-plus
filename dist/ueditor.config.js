@@ -53,6 +53,10 @@
 
         // 服务器统一请求接口路径
         serverUrl: "/ueditor-plus/_demo_server/handle.php",
+
+        // 从服务器获取配置
+        loadConfigFromServer: true,
+
         // 服务器统一请求头信息，会在所有请求中带上该信息
         serverHeaders: {
             // 'Authorization': 'Bearer xxx'

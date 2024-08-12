@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
     instants: {},
     I18N: {},
     _customizeUI: {},
-    version: "4.0.0-beta",
+    version: "4.0.0",
     constants: {
         STATEFUL: {
             DISABLED: -1,
@@ -8978,6 +8978,11 @@ UE.Editor.defaultOptions = function (editor) {
     UE.Editor.prototype.loadServerConfig = function () {
         var me = this;
         setTimeout(function () {
+
+            if(me.options.loadConfigFromServer===false){
+                return;
+            }
+
             try {
                 me.options.imageUrl &&
                 me.setOpt(
@@ -9017,6 +9022,8 @@ UE.Editor.defaultOptions = function (editor) {
                         showErrorMsg(me.getLang("loadconfigHttpError"));
                     }
                 });
+
+
             } catch (e) {
                 showErrorMsg(me.getLang("loadconfigError"));
             }
@@ -29673,6 +29680,8 @@ UE.plugins["catchremoteimage"] = function () {
     }
 
     function catchRemoteImage() {
+        // console.log('catchRemoteImage',catchRemoteImageCatching);
+
         if (catchRemoteImageCatching) {
             return;
         }
@@ -29695,7 +29704,10 @@ UE.plugins["catchremoteimage"] = function () {
             };
 
         for (var i = 0, ci; (ci = imgs[i++]);) {
-            if (ci.getAttribute("data-word-image") || ci.getAttribute('data-catch-result')) {
+            if (ci.getAttribute("data-word-image")
+                || ci.getAttribute('data-catch-result')
+                || ci.getAttribute('data-formula-image')
+            ) {
                 continue;
             }
             if (ci.nodeName === "IMG") {
@@ -29703,7 +29715,7 @@ UE.plugins["catchremoteimage"] = function () {
                 if (/^(https?|ftp):/i.test(src) && !test(src, catcherLocalDomain)) {
                     catchElement('image', ci, src);
                     domUtils.setAttributes(ci, {
-                        class: "loadingclass",
+                        class: "uep-loading",
                         _src: src,
                         src: loadingIMG
                     })
@@ -29721,7 +29733,7 @@ UE.plugins["catchremoteimage"] = function () {
                 }
             }
         }
-
+        catchRemoteImageCatching = false;
     };
 
     me.addListener("catchremoteimage", function () {
