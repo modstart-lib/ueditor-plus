@@ -30496,9 +30496,11 @@ UE.plugin.register("simpleupload", function () {
                         UE.dialog.removeLoadingPlaceholder(me, loadingId);
                         UE.dialog.tipError(me, resData.state);
                     }
+                    input.value = '';
                 }).catch(function (err) {
                     UE.dialog.removeLoadingPlaceholder(me, loadingId);
                     UE.dialog.tipError(me, err);
+                    input.value = '';
                 });
             };
             var file = input.files[0];
@@ -30512,11 +30514,11 @@ UE.plugin.register("simpleupload", function () {
                     maxWidthOrHeight: imageCompressBorder
                 }).then(function (compressedFile) {
                     if (me.options.debug) {
-                        console.log('SimpleUpload.CompressImage', (compressedFile.size / file.size * 100).toFixed(2) + '%');
+                        console.log('UEditorPlus.SimpleUpload.CompressImage', (compressedFile.size / file.size * 100).toFixed(2) + '%');
                     }
                     upload(compressedFile);
                 }).catch(function (err) {
-                    console.error('SimpleUpload.CompressImage.error', err);
+                    console.error('UEditorPlus.SimpleUpload.CompressImage.error', err);
                     upload(file);
                 });
             } else {
@@ -36360,7 +36362,7 @@ UE.ui = baidu.editor.ui = {};
         editor.options.editor = editor;
         utils.loadFile(document, {
             href:
-                editor.options.themePath + editor.options.theme + "/css/ueditor.css?98125a73",
+                editor.options.themePath + editor.options.theme + "/css/ueditor.css?69e258a4",
             tag: "link",
             type: "text/css",
             rel: "stylesheet"

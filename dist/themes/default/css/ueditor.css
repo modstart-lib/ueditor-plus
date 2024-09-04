@@ -1997,6 +1997,7 @@ div.edui-box {
     height: 100%;
     background-image: url('../images/wordpaste.png');
     background-position: 0 0;
+    cursor: pointer;
 }
 
 .edui-default .edui-pasteicon.edui-state-opened {
