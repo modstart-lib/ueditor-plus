@@ -4600,7 +4600,7 @@
             },
     
             beforeSendFile: function( file ) {
-                var opts = this.options.compress, image, deferred;
+                var opts = this.options.compress, image, me=this, deferred;
     
                 // console.log('image.beforeSendFile',opts, file)
     
@@ -4624,14 +4624,15 @@
                 opts = $.extend({}, opts );
                 deferred = Base.Deferred();
     
-                //console.log('image.beforeSendFile',opts, file.source.source);
+                me.owner.trigger( 'fileProcessStart', 'imageCompress', file);
     
                 imageCompression(file.source.source,{
                     maxSizeMB: opts.maxSize/1024/1024,
                     maxWidthOrHeight: opts.maxWidthOrHeight,
                 }).then(function (compressedBlob) {
+                    me.owner.trigger( 'fileProcessEnd', 'imageCompress', file);
                     if(opts.debug){
-                        console.log('webuploader.compress', (compressedBlob.size / file.size * 100).toFixed(2) + '%');
+                        console.log('webuploader.compress.output', (compressedBlob.size / file.size * 100).toFixed(2) + '%');
                     }
                     var oldSize = file.size;
                     file.source.source = compressedBlob;
@@ -4644,6 +4645,7 @@
                     deferred.resolve();
                 }).catch(function (error) {
                     console.warn('webuploader.compress.error',error);
+                    me.owner.trigger( 'fileProcessEnd', 'imageCompress', file);
                     data.processed = true;
                     file._widgetImageData = data;
                     deferred.resolve();
