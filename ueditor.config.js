@@ -184,6 +184,21 @@
             // }
         }
 
+        // 自定义上传功能
+        , uploadServiceEnable: true
+        // 自定义上传配置
+        , uploadService: {
+            upload: function(type, file, callback, option ) {
+                console.log('upload', type, file, callback, option);
+                setTimeout(function(){
+                    callback.success({
+                        "state": "SUCCESS",
+                        "url": "https://ms-assets.modstart.com/demo/modstart.jpg",
+                    })
+                },1000);
+            }
+        }
+
         // 插入图片自定义配置
         , imageConfig: {
             // 禁止本地上传

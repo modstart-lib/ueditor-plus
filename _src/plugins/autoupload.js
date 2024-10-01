@@ -102,14 +102,31 @@ UE.plugin.register("autoupload", function () {
         }
 
         var upload = function (file) {
-            const formData = new FormData();
+            if(me.getOpt('uploadServiceEnable')){
+                var service = me.getOpt('uploadService');
+                service.upload('image', file, {
+                    success: function( res ) {
+                        successHandler( res );
+                    },
+                    error: function( err ) {
+                        errorHandler(me.getLang("autoupload.loadError") + ' : ' + err);
+                    },
+                    progress: function( percent ) {
+
+                    }
+                }, {
+                    from: 'paste'
+                });
+                return;
+            }
+            var formData = new FormData();
             formData.append(fieldName, file, file.name);
             UE.api.requestAction(me, me.getOpt(filetype + "ActionName"), {
                 data: formData
             }).then(function (res) {
-                successHandler(res.data);
+                successHandler(me.getOpt('serverResponsePrepare')( res.data ));
             }).catch(function (err) {
-                errorHandler(me.getLang("autoupload.loadError"));
+                errorHandler(me.getLang("autoupload.loadError") + ' : ' + err);
             });
         };
 
@@ -165,9 +182,9 @@ UE.plugin.register("autoupload", function () {
     }
 
     function getPasteImage(e) {
-        const images = []
+        var images = []
         if (e.clipboardData && e.clipboardData.items) {
-            const items = e.clipboardData.items
+            var items = e.clipboardData.items
             for (let i = 0; i < items.length; i++) {
                 if (items[i].type.indexOf('image') !== -1) {
                     images.push(items[i])

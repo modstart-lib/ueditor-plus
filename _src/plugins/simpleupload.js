@@ -53,35 +53,59 @@ UE.plugin.register("simpleupload", function () {
                 return;
             }
 
+            var successHandler = function (res) {
+                const loader = me.document.getElementById(loadingId);
+                domUtils.removeClasses(loader, "uep-loading");
+                const link = me.options.imageUrlPrefix + res.url;
+                loader.setAttribute("src", link);
+                loader.setAttribute("_src", link);
+                loader.setAttribute("alt", res.original || "");
+                loader.removeAttribute("id");
+                me.fireEvent("contentchange");
+                // 触发上传图片事件
+                me.fireEvent("uploadsuccess", {
+                    res: res,
+                    type: 'image'
+                });
+            };
+
+            var errorHandler = function (err) {
+                UE.dialog.removeLoadingPlaceholder(me, loadingId);
+                UE.dialog.tipError(me, err);
+            };
+
             var upload = function (file) {
+                if(me.getOpt('uploadServiceEnable')){
+                    var service = me.getOpt('uploadService');
+                    service.upload('image', file, {
+                        success: function( res ) {
+                            successHandler( res );
+                        },
+                        error: function( err ) {
+                            errorHandler(me.getLang("simpleupload.loadError") + ' : ' + err);
+                        },
+                        progress: function( percent ) {
+
+                        }
+                    }, {
+                        from: 'upload'
+                    });
+                    return;
+                }
                 const formData = new FormData();
                 formData.append(me.getOpt('imageFieldName'), file, file.name);
                 UE.api.requestAction(me, me.getOpt("imageActionName"), {
                     data: formData
                 }).then(function (res) {
-                    var resData = me.getOpt('serverResponsePrepare')( res.data )
-                    if ('SUCCESS' === resData.state && resData.url) {
-                        const loader = me.document.getElementById(loadingId);
-                        domUtils.removeClasses(loader, "uep-loading");
-                        const link = me.options.imageUrlPrefix + resData.url;
-                        loader.setAttribute("src", link);
-                        loader.setAttribute("_src", link);
-                        loader.setAttribute("alt", resData.original || "");
-                        loader.removeAttribute("id");
-                        me.fireEvent("contentchange");
-                        // 触发上传图片事件
-                        me.fireEvent("uploadsuccess", {
-                            res: resData,
-                            type: 'image'
-                        });
+                    res = me.getOpt('serverResponsePrepare')( res.data )
+                    if ('SUCCESS' === res.state && res.url) {
+                        successHandler(res)
                     } else {
-                        UE.dialog.removeLoadingPlaceholder(me, loadingId);
-                        UE.dialog.tipError(me, resData.state);
+                        errorHandler(res.state);
                     }
                     input.value = '';
                 }).catch(function (err) {
-                    UE.dialog.removeLoadingPlaceholder(me, loadingId);
-                    UE.dialog.tipError(me, err);
+                    errorHandler(err)
                     input.value = '';
                 });
             };
