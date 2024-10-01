@@ -190,12 +190,22 @@
         , uploadService: {
             upload: function(type, file, callback, option ) {
                 console.log('upload', type, file, callback, option);
-                setTimeout(function(){
-                    callback.success({
-                        "state": "SUCCESS",
-                        "url": "https://ms-assets.modstart.com/demo/modstart.jpg",
-                    })
-                },1000);
+                var i = 0;
+                var call = function(){
+                    i++;
+                    if(i > 3){
+                        callback.success({
+                            "state": "SUCCESS",
+                            "url": "https://ms-assets.modstart.com/demo/modstart.jpg",
+                        })
+                        return;
+                    }
+                    setTimeout(function(){
+                        callback.progress(0.3 * i);
+                        call();
+                    },100);
+                }
+                call();
             }
         }
 

@@ -411,7 +411,7 @@
                 return;
             }
 
-            uploader = _this.uploader = WebUploader.create({
+            var uploaderOption = {
                 pick: {
                     id: '#filePickerReady',
                     label: lang.uploadSelectFile
@@ -433,7 +433,27 @@
                     maxWidthOrHeight: imageCompressBorder,
                     maxSize: imageMaxSize,
                 } : false
-            });
+            };
+            if(editor.getOpt('uploadServiceEnable')) {
+                var service = editor.getOpt('uploadService');
+                uploaderOption.customUpload = function (file, callback) {
+                    service.upload('image', file, {
+                        success: function( res ) {
+                            callback.onSuccess(file, {_raw:JSON.stringify(res)});
+                        },
+                        error: function( err ) {
+                            callback.onError(file, err);
+                        },
+                        progress: function( percent ) {
+                            callback.onProgress(file, percent);
+                        }
+                    }, {
+                        from: 'image'
+                    });
+                };
+            }
+
+            uploader = _this.uploader = WebUploader.create(uploaderOption);
             uploader.addButton({
                 id: '#filePickerBlock'
             });
