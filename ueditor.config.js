@@ -203,7 +203,7 @@
                     setTimeout(function(){
                         callback.progress(0.3 * i);
                         call();
-                    },100);
+                    },500);
                 }
                 call();
             }
