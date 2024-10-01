@@ -438,9 +438,8 @@
                 compress: false
             };
             if(editor.getOpt('uploadServiceEnable')) {
-                var service = editor.getOpt('uploadService');
                 uploaderOption.customUpload = function (file, callback) {
-                    service.upload('video', file, {
+                    editor.getOpt('uploadServiceUpload')('video', file, {
                         success: function( res ) {
                             callback.onSuccess(file, {_raw:JSON.stringify(res)});
                         },

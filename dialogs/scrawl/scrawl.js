@@ -654,9 +654,8 @@ function exec(scrawlObj) {
             };
 
             if(editor.getOpt('uploadServiceEnable')) {
-                var service = editor.getOpt('uploadService');
                 var file = utils.base64toBlob(base64, 'image/png');
-                service.upload('image', file, {
+                editor.getOpt('uploadServiceUpload')('image', file, {
                     success: function( res ) {
                         if (!scrawlObj.isCancelScrawl) {
                             successHandler(res);

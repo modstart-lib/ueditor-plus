@@ -385,9 +385,8 @@
             };
 
             if(editor.getOpt('uploadServiceEnable')) {
-                var service = editor.getOpt('uploadService');
                 uploaderOption.customUpload = function (file, callback) {
-                    service.upload('audio', file, {
+                    editor.getOpt('uploadServiceUpload')('audio', file, {
                         success: function( res ) {
                             callback.onSuccess(file, {_raw:JSON.stringify(res)});
                         },

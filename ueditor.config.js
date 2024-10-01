@@ -185,28 +185,30 @@
         }
 
         // 自定义上传功能
-        , uploadServiceEnable: true
-        // 自定义上传配置
-        , uploadService: {
-            upload: function(type, file, callback, option ) {
-                console.log('upload', type, file, callback, option);
-                var i = 0;
-                var call = function(){
-                    i++;
-                    if(i > 3){
-                        callback.success({
-                            "state": "SUCCESS",
-                            "url": "https://ms-assets.modstart.com/demo/modstart.jpg",
-                        })
-                        return;
-                    }
-                    setTimeout(function(){
-                        callback.progress(0.3 * i);
-                        call();
-                    },500);
-                }
-                call();
-            }
+        , uploadServiceEnable: false
+        // 自定义上传函数，需要在这个函数中实现自定义上传逻辑
+        // type 上传类型，image 图片，video 视频，audio 音频，attachment 附件
+        // file 文件对象
+        // callback 回调函数，需要在上传完成后调用 callback.success、callback.error、callback.progress
+        // option 上传配置，其他一些未来扩展配置
+        , uploadServiceUpload: function(type, file, callback, option ) {
+            console.log('uploadServiceUpload', type, file, callback, option);
+            // var i = 0;
+            // var call = function(){
+            //     i++;
+            //     if(i > 3){
+            //         callback.success({
+            //             "state": "SUCCESS",
+            //             "url": "https://ms-assets.modstart.com/demo/modstart.jpg",
+            //         })
+            //         return;
+            //     }
+            //     setTimeout(function(){
+            //         callback.progress(0.3 * i);
+            //         call();
+            //     },500);
+            // }
+            // call();
         }
 
         // 插入图片自定义配置

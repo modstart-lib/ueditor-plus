@@ -435,9 +435,8 @@
                 } : false
             };
             if(editor.getOpt('uploadServiceEnable')) {
-                var service = editor.getOpt('uploadService');
                 uploaderOption.customUpload = function (file, callback) {
-                    service.upload('image', file, {
+                    editor.getOpt('uploadServiceUpload')('image', file, {
                         success: function( res ) {
                             callback.onSuccess(file, {_raw:JSON.stringify(res)});
                         },

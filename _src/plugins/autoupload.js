@@ -103,8 +103,7 @@ UE.plugin.register("autoupload", function () {
 
         var upload = function (file) {
             if(me.getOpt('uploadServiceEnable')){
-                var service = me.getOpt('uploadService');
-                service.upload('image', file, {
+                me.getOpt('uploadServiceUpload')('image', file, {
                     success: function( res ) {
                         successHandler( res );
                     },
