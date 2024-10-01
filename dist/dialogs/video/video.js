@@ -424,7 +424,7 @@
                 return;
             }
 
-            uploader = _this.uploader = WebUploader.create({
+            var uploaderOption = {
                 pick: {
                     id: '#filePickerReady',
                     label: lang.uploadSelectFile
@@ -436,7 +436,26 @@
                 fileSingleSizeLimit: fileMaxSize,
                 headers: editor.getOpt('serverHeaders') || {},
                 compress: false
-            });
+            };
+            if(editor.getOpt('uploadServiceEnable')) {
+                uploaderOption.customUpload = function (file, callback) {
+                    editor.getOpt('uploadServiceUpload')('video', file, {
+                        success: function( res ) {
+                            callback.onSuccess(file, {_raw:JSON.stringify(res)});
+                        },
+                        error: function( err ) {
+                            callback.onError(file, err);
+                        },
+                        progress: function( percent ) {
+                            callback.onProgress(file, percent);
+                        }
+                    }, {
+                        from: 'video'
+                    });
+                };
+            }
+
+            uploader = _this.uploader = WebUploader.create(uploaderOption);
             uploader.addButton({
                 id: '#filePickerBlock'
             });

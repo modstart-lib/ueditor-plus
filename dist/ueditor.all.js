@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
     instants: {},
     I18N: {},
     _customizeUI: {},
-    version: "4.1.0-beta",
+    version: "4.1.0",
     constants: {
         STATEFUL: {
             DISABLED: -1,
@@ -1393,6 +1393,24 @@ var utils = (UE.utils = {
         } else {
             return new Function("return " + utils.trim(s || ""))();
         }
+    },
+    base64toBlob: function (base64Data, contentType) {
+        contentType = contentType || "";
+        var sliceSize = 1024;
+        var byteCharacters = atob(base64Data);
+        var bytesLength = byteCharacters.length;
+        var slicesCount = Math.ceil(bytesLength / sliceSize);
+        var byteArrays = new Array(slicesCount);
+        for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+            var begin = sliceIndex * sliceSize;
+            var end = Math.min(begin + sliceSize, bytesLength);
+            var bytes = new Array(end - begin);
+            for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+                bytes[i] = byteCharacters[offset].charCodeAt(0);
+            }
+            byteArrays[sliceIndex] = new Uint8Array(bytes);
+        }
+        return new Blob(byteArrays, { type: contentType });
     },
     json2str: (function () {
         if (window.JSON) {
@@ -29943,14 +29961,30 @@ UE.plugin.register("autoupload", function () {
         }
 
         var upload = function (file) {
-            const formData = new FormData();
+            if(me.getOpt('uploadServiceEnable')){
+                me.getOpt('uploadServiceUpload')('image', file, {
+                    success: function( res ) {
+                        successHandler( res );
+                    },
+                    error: function( err ) {
+                        errorHandler(me.getLang("autoupload.loadError") + ' : ' + err);
+                    },
+                    progress: function( percent ) {
+
+                    }
+                }, {
+                    from: 'paste'
+                });
+                return;
+            }
+            var formData = new FormData();
             formData.append(fieldName, file, file.name);
             UE.api.requestAction(me, me.getOpt(filetype + "ActionName"), {
                 data: formData
             }).then(function (res) {
-                successHandler(res.data);
+                successHandler(me.getOpt('serverResponsePrepare')( res.data ));
             }).catch(function (err) {
-                errorHandler(me.getLang("autoupload.loadError"));
+                errorHandler(me.getLang("autoupload.loadError") + ' : ' + err);
             });
         };
 
@@ -30006,12 +30040,16 @@ UE.plugin.register("autoupload", function () {
     }
 
     function getPasteImage(e) {
-        return e.clipboardData &&
-        e.clipboardData.items &&
-        e.clipboardData.items.length == 1 &&
-        /^image\//.test(e.clipboardData.items[0].type)
-            ? e.clipboardData.items
-            : null;
+        var images = []
+        if (e.clipboardData && e.clipboardData.items) {
+            var items = e.clipboardData.items
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    images.push(items[i])
+                }
+            }
+        }
+        return images;
     }
 
     function getDropImage(e) {
@@ -30045,7 +30083,7 @@ UE.plugin.register("autoupload", function () {
                         var hasImg = false,
                             items;
                         //获取粘贴板文件列表或者拖放文件列表
-                        items = e.type == "paste" ? getPasteImage(e) : getDropImage(e);
+                        items = e.type === "paste" ? getPasteImage(e) : getDropImage(e);
                         if (items) {
                             var len = items.length,
                                 file;
@@ -30471,35 +30509,58 @@ UE.plugin.register("simpleupload", function () {
                 return;
             }
 
+            var successHandler = function (res) {
+                const loader = me.document.getElementById(loadingId);
+                domUtils.removeClasses(loader, "uep-loading");
+                const link = me.options.imageUrlPrefix + res.url;
+                loader.setAttribute("src", link);
+                loader.setAttribute("_src", link);
+                loader.setAttribute("alt", res.original || "");
+                loader.removeAttribute("id");
+                me.fireEvent("contentchange");
+                // 触发上传图片事件
+                me.fireEvent("uploadsuccess", {
+                    res: res,
+                    type: 'image'
+                });
+            };
+
+            var errorHandler = function (err) {
+                UE.dialog.removeLoadingPlaceholder(me, loadingId);
+                UE.dialog.tipError(me, err);
+            };
+
             var upload = function (file) {
+                if(me.getOpt('uploadServiceEnable')){
+                    me.getOpt('uploadServiceUpload')('image', file, {
+                        success: function( res ) {
+                            successHandler( res );
+                        },
+                        error: function( err ) {
+                            errorHandler(me.getLang("simpleupload.loadError") + ' : ' + err);
+                        },
+                        progress: function( percent ) {
+
+                        }
+                    }, {
+                        from: 'upload'
+                    });
+                    return;
+                }
                 const formData = new FormData();
                 formData.append(me.getOpt('imageFieldName'), file, file.name);
                 UE.api.requestAction(me, me.getOpt("imageActionName"), {
                     data: formData
                 }).then(function (res) {
-                    var resData = me.getOpt('serverResponsePrepare')( res.data )
-                    if ('SUCCESS' === resData.state && resData.url) {
-                        const loader = me.document.getElementById(loadingId);
-                        domUtils.removeClasses(loader, "uep-loading");
-                        const link = me.options.imageUrlPrefix + resData.url;
-                        loader.setAttribute("src", link);
-                        loader.setAttribute("_src", link);
-                        loader.setAttribute("alt", resData.original || "");
-                        loader.removeAttribute("id");
-                        me.fireEvent("contentchange");
-                        // 触发上传图片事件
-                        me.fireEvent("uploadsuccess", {
-                            res: resData,
-                            type: 'image'
-                        });
+                    res = me.getOpt('serverResponsePrepare')( res.data )
+                    if ('SUCCESS' === res.state && res.url) {
+                        successHandler(res)
                     } else {
-                        UE.dialog.removeLoadingPlaceholder(me, loadingId);
-                        UE.dialog.tipError(me, resData.state);
+                        errorHandler(res.state);
                     }
                     input.value = '';
                 }).catch(function (err) {
-                    UE.dialog.removeLoadingPlaceholder(me, loadingId);
-                    UE.dialog.tipError(me, err);
+                    errorHandler(err)
                     input.value = '';
                 });
             };
@@ -34739,23 +34800,23 @@ UE.ui = baidu.editor.ui = {};
 
     var dialogIframeUrlMap = {
         anchor: "~/dialogs/anchor/anchor.html?2f10d082",
-        insertimage: "~/dialogs/image/image.html?6a849045",
+        insertimage: "~/dialogs/image/image.html?4bce17a0",
         link: "~/dialogs/link/link.html?ccbfcf18",
         spechars: "~/dialogs/spechars/spechars.html?3bbeb696",
         searchreplace: "~/dialogs/searchreplace/searchreplace.html?2cb782d2",
-        insertvideo: "~/dialogs/video/video.html?6622232f",
-        insertaudio: "~/dialogs/audio/audio.html?89740cff",
+        insertvideo: "~/dialogs/video/video.html?7fde01cd",
+        insertaudio: "~/dialogs/audio/audio.html?d264cea1",
         help: "~/dialogs/help/help.html?05c0c8bf",
         preview: "~/dialogs/preview/preview.html?5d9a0847",
         emotion: "~/dialogs/emotion/emotion.html?a7bc0989",
         wordimage: "~/dialogs/wordimage/wordimage.html?11da452e",
         formula: "~/dialogs/formula/formula.html?9a5a1511",
-        attachment: "~/dialogs/attachment/attachment.html?109af49f",
+        attachment: "~/dialogs/attachment/attachment.html?d632fa7c",
         insertframe: "~/dialogs/insertframe/insertframe.html?807119a5",
         edittip: "~/dialogs/table/edittip.html?fa0ea189",
         edittable: "~/dialogs/table/edittable.html?134e2f06",
         edittd: "~/dialogs/table/edittd.html?9fe1a06e",
-        scrawl: "~/dialogs/scrawl/scrawl.html?81bccab9",
+        scrawl: "~/dialogs/scrawl/scrawl.html?c8323e43",
         template: "~/dialogs/template/template.html?3c8090b7",
         background: "~/dialogs/background/background.html?c2bb8b05",
         contentimport: "~/dialogs/contentimport/contentimport.html?e298f77b",
