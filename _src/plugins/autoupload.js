@@ -165,12 +165,16 @@ UE.plugin.register("autoupload", function () {
     }
 
     function getPasteImage(e) {
-        return e.clipboardData &&
-        e.clipboardData.items &&
-        e.clipboardData.items.length == 1 &&
-        /^image\//.test(e.clipboardData.items[0].type)
-            ? e.clipboardData.items
-            : null;
+        const images = []
+        if (e.clipboardData && e.clipboardData.items) {
+            const items = e.clipboardData.items
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    images.push(items[i])
+                }
+            }
+        }
+        return images;
     }
 
     function getDropImage(e) {
@@ -204,7 +208,7 @@ UE.plugin.register("autoupload", function () {
                         var hasImg = false,
                             items;
                         //获取粘贴板文件列表或者拖放文件列表
-                        items = e.type == "paste" ? getPasteImage(e) : getDropImage(e);
+                        items = e.type === "paste" ? getPasteImage(e) : getDropImage(e);
                         if (items) {
                             var len = items.length,
                                 file;

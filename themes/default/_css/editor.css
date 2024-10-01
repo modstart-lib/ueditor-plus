@@ -15,7 +15,7 @@
 }
 
 .edui-default .edui-editor-toolbarbox {
-    position: relative !important;
+    position: relative;
     zoom: 1;
     /*-webkit-box-shadow:0 1px 4px rgba(204, 204, 204, 0.6);*/
     /*-moz-box-shadow:0 1px 4px rgba(204, 204, 204, 0.6);*/
