@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
     instants: {},
     I18N: {},
     _customizeUI: {},
-    version: "4.1.0",
+    version: "4.2.0-beta",
     constants: {
         STATEFUL: {
             DISABLED: -1,
@@ -19600,7 +19600,7 @@ UE.plugins["paste"] = function () {
     var txtContent, htmlContent, address;
 
     function getPureHtml(html) {
-        return html.replace(/<(\/?)([\w\-]+)([^>]*)>/gi, function (
+        var result = html.replace(/<(\/?)([\w\-]+)([^>]*)>/gi, function (
             a,
             b,
             tagName,
@@ -19633,9 +19633,12 @@ UE.plugins["paste"] = function () {
             ) {
                 return "";
             } else {
-                return "<" + b + tagName + " " + utils.trim(attrs) + ">";
+                attrs = utils.trim(attrs);
+                return "<" + b + tagName + (attrs? (" " + attrs): '') + ">";
             }
         });
+        result = result.replace(/<\/p >/g, '</p>');
+        return result;
     }
 
     function filter(div) {
