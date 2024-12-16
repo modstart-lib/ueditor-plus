@@ -14,12 +14,14 @@
     height: 30px;
     width: 13px;
     cursor: pointer;
+    display: inline-flex;
 }
 
 .edui-default .edui-toolbar .edui-combox-body .edui-arrow:before {
     content: "\e9f0";
     font-family: "edui-iconfont";
-    font-size: 8px;
+    font-size: 10px;
+    margin: auto;
 }
 
 .edui-default .edui-toolbar .edui-combox .edui-combox-body {
@@ -32,6 +34,7 @@
 
 .edui-default .edui-toolbar .edui-combox .edui-combox-body > div {
     vertical-align: top;
+    text-align: center;
 }
 
 .edui-default .edui-toolbar .edui-combox-body .edui-splitborder {

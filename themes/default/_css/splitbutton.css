@@ -10,7 +10,7 @@
 .edui-default .edui-toolbar .edui-menubutton-body .edui-arrow:before {
     content: "\e9f0";
     font-family: "edui-iconfont";
-    font-size: 8px;
+    font-size: 10px;
     vertical-align: middle;
 }
 
