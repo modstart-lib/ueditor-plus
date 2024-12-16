@@ -83,12 +83,15 @@ UE.plugins["formatmatch"] = function () {
         }
 
         me.undoManger && me.undoManger.save();
-        me.removeListener("mouseup", addList);
-        flag = 0;
+
+        // 新增：格式化默认使用连续格式模式，支持快速格式化
+        // me.removeListener("mouseup", addList);
+        // flag = 0;
     }
 
     me.commands["formatmatch"] = {
         execCommand: function (cmdName) {
+
             if (flag) {
                 flag = 0;
                 list = [];
