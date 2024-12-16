@@ -1,11 +1,12 @@
 <?php
+date_default_timezone_set('Asia/Shanghai');
 
 $config = [
     // 上传图片配置项
     "imageActionName" => "image",
     "imageFieldName" => "file",
     "imageMaxSize" => 1024 * 1024 * 10,
-    "imageAllowFiles" => ['.jpg', '.png', '.jpeg'],
+    "imageAllowFiles" => ['.jpg', '.png', '.jpeg', '.gif'],
     "imageCompressEnable" => true,
     "imageCompressBorder" => 5000,
     "imageInsertAlign" => "none",
@@ -92,7 +93,18 @@ switch ($action) {
         // 图片文件上传
         // print_r($_FILES);
         // output(['state' => '上传错误信息']);
-        sleep(2);
+        // move uploaded file
+        //$file = @$_FILES['file'];
+        //if (empty($file)) {
+        //    output(['state' => '上传错误信息']);
+        //}
+        //$ext = strtolower(strrchr($file['name'], '.'));
+        //if (!in_array($ext, $config['imageAllowFiles'])) {
+        //    output(['state' => '上传文件类型不允许']);
+        //}
+        //$name = date('YmdHis') . $ext;
+        //move_uploaded_file($file['tmp_name'], $name);
+        sleep(1);
         $name = isset($_POST['name']) ? $_POST['name'] : '';
         output([
             'state' => 'SUCCESS',

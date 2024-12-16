@@ -109,11 +109,12 @@ UE.plugin.register("simpleupload", function () {
                 });
             };
             var file = input.files[0];
+            var fileExt = UE.plus.fileExt(file.name);
             // console.log('file',file);
             var imageCompressEnable = me.getOpt('imageCompressEnable'),
                 imageMaxSize = me.getOpt('imageMaxSize'),
                 imageCompressBorder = me.getOpt('imageCompressBorder');
-            if (imageCompressEnable) {
+            if (imageCompressEnable && ['jpg', 'jpeg', 'png'].includes(fileExt)) {
                 UE.image.compress(file, {
                     maxSizeMB: imageMaxSize / 1024 / 1024,
                     maxWidthOrHeight: imageCompressBorder

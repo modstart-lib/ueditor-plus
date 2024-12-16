@@ -18,6 +18,7 @@ UE.plugin.register("autoupload", function () {
             errorHandler,
             successHandler,
             filetype = /image\/\w+/i.test(file.type) ? "image" : "file",
+            fileExt = UE.plus.fileExt(file.name),
             loadingId = "loading_" + (+new Date()).toString(36);
 
         fieldName = me.getOpt(filetype + "FieldName");
@@ -132,7 +133,7 @@ UE.plugin.register("autoupload", function () {
         var imageCompressEnable = me.getOpt('imageCompressEnable'),
             imageMaxSize = me.getOpt('imageMaxSize'),
             imageCompressBorder = me.getOpt('imageCompressBorder');
-        if ('image' === filetype && imageCompressEnable) {
+        if ('image' === filetype && imageCompressEnable && ['jpg', 'jpeg', 'png'].includes(fileExt)) {
             UE.image.compress(file, {
                 maxSizeMB: imageMaxSize / 1024 / 1024,
                 maxWidthOrHeight: imageCompressBorder

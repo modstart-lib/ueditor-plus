@@ -11,6 +11,18 @@ window.UE = baidu.editor = {
     I18N: {},
     _customizeUI: {},
     version: "4.2.0-beta",
+    plus: {
+        fileExt: function (filename) {
+            if (!filename) {
+                return '';
+            }
+            var pcs = filename.split('.');
+            if (pcs.length > 1) {
+                return pcs.pop().toLowerCase();
+            }
+            return '';
+        }
+    },
     constants: {
         STATEFUL: {
             DISABLED: -1,
