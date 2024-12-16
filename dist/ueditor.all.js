@@ -17,7 +17,19 @@ window.UE = baidu.editor = {
     instants: {},
     I18N: {},
     _customizeUI: {},
-    version: "4.2.0-beta",
+    version: "4.2.0",
+    plus: {
+        fileExt: function (filename) {
+            if (!filename) {
+                return '';
+            }
+            var pcs = filename.split('.');
+            if (pcs.length > 1) {
+                return pcs.pop().toLowerCase();
+            }
+            return '';
+        }
+    },
     constants: {
         STATEFUL: {
             DISABLED: -1,
@@ -15931,8 +15943,8 @@ UE.plugins["font"] = function () {
     me.setOpt({
         fontfamily: [
             {name: "default", val: "default"},
-            {name: "songti", val: "宋体,SimSun"},
-            {name: "yahei", val: "微软雅黑,Microsoft YaHei"},
+            {name: "songti", val: "SimSun"},
+            {name: "yahei", val: "'Microsoft YaHei'"},
             {name: "kaiti", val: "楷体,楷体_GB2312,SimKai"},
             {name: "heiti", val: "黑体,SimHei"},
             {name: "lishu", val: "隶书,SimLi"},
@@ -16043,6 +16055,13 @@ UE.plugins["font"] = function () {
                 }
             }
 
+            var father = span.parentElement;
+            try {
+                if(father.style.textIndent && span.style.fontSize !== father.style.fontSize){
+                    father.style.fontSize = span.style.fontSize
+                }
+            } catch (error) {
+            }
             mergeWithParent(span);
             if (browser.ie && browser.version > 8) {
                 //拷贝父亲们的特别的属性,这里只做背景颜色的处理
@@ -17075,7 +17094,18 @@ UE.commands["indent"] = {
             value = me.queryCommandState("indent")
                 ? "0em"
                 : me.options.indentValue || "2em";
-        me.execCommand("Paragraph", "p", {style: "text-indent:" + value});
+        // 首行缩进不准确
+        // https://gitee.com/modstart-lib/ueditor-plus/issues/IAW75Z
+        var pN = domUtils.filterNodeList(
+            this.selection.getStartElementPath(),
+            "p h1 h2 h3 h4 h5 h6"
+        )
+        try {
+            me.execCommand("Paragraph", "p", {style: "text-indent:" + value + ';font-size:' + pN.firstChild.style.fontSize});
+        } catch (error) {
+            me.execCommand("Paragraph", "p", {style: "text-indent:" + value});
+        }
+        // me.execCommand("Paragraph", "p", {style: "text-indent:" + value});
     },
     queryCommandState: function () {
         var pN = domUtils.filterNodeList(
@@ -29084,12 +29114,15 @@ UE.plugins["formatmatch"] = function () {
         }
 
         me.undoManger && me.undoManger.save();
-        me.removeListener("mouseup", addList);
-        flag = 0;
+
+        // 新增：格式化默认使用连续格式模式，支持快速格式化
+        // me.removeListener("mouseup", addList);
+        // flag = 0;
     }
 
     me.commands["formatmatch"] = {
         execCommand: function (cmdName) {
+
             if (flag) {
                 flag = 0;
                 list = [];
@@ -29880,6 +29913,7 @@ UE.plugin.register("autoupload", function () {
             errorHandler,
             successHandler,
             filetype = /image\/\w+/i.test(file.type) ? "image" : "file",
+            fileExt = UE.plus.fileExt(file.name),
             loadingId = "loading_" + (+new Date()).toString(36);
 
         fieldName = me.getOpt(filetype + "FieldName");
@@ -29994,7 +30028,7 @@ UE.plugin.register("autoupload", function () {
         var imageCompressEnable = me.getOpt('imageCompressEnable'),
             imageMaxSize = me.getOpt('imageMaxSize'),
             imageCompressBorder = me.getOpt('imageCompressBorder');
-        if ('image' === filetype && imageCompressEnable) {
+        if ('image' === filetype && imageCompressEnable && ['jpg', 'jpeg', 'png'].includes(fileExt)) {
             UE.image.compress(file, {
                 maxSizeMB: imageMaxSize / 1024 / 1024,
                 maxWidthOrHeight: imageCompressBorder
@@ -30568,11 +30602,12 @@ UE.plugin.register("simpleupload", function () {
                 });
             };
             var file = input.files[0];
+            var fileExt = UE.plus.fileExt(file.name);
             // console.log('file',file);
             var imageCompressEnable = me.getOpt('imageCompressEnable'),
                 imageMaxSize = me.getOpt('imageMaxSize'),
                 imageCompressBorder = me.getOpt('imageCompressBorder');
-            if (imageCompressEnable) {
+            if (imageCompressEnable && ['jpg', 'jpeg', 'png'].includes(fileExt)) {
                 UE.image.compress(file, {
                     maxSizeMB: imageMaxSize / 1024 / 1024,
                     maxWidthOrHeight: imageCompressBorder
@@ -34803,18 +34838,18 @@ UE.ui = baidu.editor.ui = {};
 
     var dialogIframeUrlMap = {
         anchor: "~/dialogs/anchor/anchor.html?2f10d082",
-        insertimage: "~/dialogs/image/image.html?4bce17a0",
+        insertimage: "~/dialogs/image/image.html?c97f781f",
         link: "~/dialogs/link/link.html?ccbfcf18",
         spechars: "~/dialogs/spechars/spechars.html?3bbeb696",
         searchreplace: "~/dialogs/searchreplace/searchreplace.html?2cb782d2",
-        insertvideo: "~/dialogs/video/video.html?7fde01cd",
-        insertaudio: "~/dialogs/audio/audio.html?d264cea1",
+        insertvideo: "~/dialogs/video/video.html?274637a8",
+        insertaudio: "~/dialogs/audio/audio.html?a8aea994",
         help: "~/dialogs/help/help.html?05c0c8bf",
         preview: "~/dialogs/preview/preview.html?5d9a0847",
         emotion: "~/dialogs/emotion/emotion.html?a7bc0989",
-        wordimage: "~/dialogs/wordimage/wordimage.html?11da452e",
+        wordimage: "~/dialogs/wordimage/wordimage.html?b4682ace",
         formula: "~/dialogs/formula/formula.html?9a5a1511",
-        attachment: "~/dialogs/attachment/attachment.html?d632fa7c",
+        attachment: "~/dialogs/attachment/attachment.html?7462f395",
         insertframe: "~/dialogs/insertframe/insertframe.html?807119a5",
         edittip: "~/dialogs/table/edittip.html?fa0ea189",
         edittable: "~/dialogs/table/edittable.html?134e2f06",
@@ -36426,7 +36461,7 @@ UE.ui = baidu.editor.ui = {};
         editor.options.editor = editor;
         utils.loadFile(document, {
             href:
-                editor.options.themePath + editor.options.theme + "/css/ueditor.css?69e258a4",
+                editor.options.themePath + editor.options.theme + "/css/ueditor.css?cac11a93",
             tag: "link",
             type: "text/css",
             rel: "stylesheet"
