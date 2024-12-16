@@ -263,6 +263,13 @@ UE.plugins["font"] = function () {
                 }
             }
 
+            var father = span.parentElement;
+            try {
+                if(father.style.textIndent && span.style.fontSize !== father.style.fontSize){
+                    father.style.fontSize = span.style.fontSize
+                }
+            } catch (error) {
+            }
             mergeWithParent(span);
             if (browser.ie && browser.version > 8) {
                 //拷贝父亲们的特别的属性,这里只做背景颜色的处理

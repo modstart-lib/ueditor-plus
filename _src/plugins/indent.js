@@ -20,7 +20,18 @@ UE.commands["indent"] = {
             value = me.queryCommandState("indent")
                 ? "0em"
                 : me.options.indentValue || "2em";
-        me.execCommand("Paragraph", "p", {style: "text-indent:" + value});
+        // 首行缩进不准确
+        // https://gitee.com/modstart-lib/ueditor-plus/issues/IAW75Z
+        var pN = domUtils.filterNodeList(
+            this.selection.getStartElementPath(),
+            "p h1 h2 h3 h4 h5 h6"
+        )
+        try {
+            me.execCommand("Paragraph", "p", {style: "text-indent:" + value + ';font-size:' + pN.firstChild.style.fontSize});
+        } catch (error) {
+            me.execCommand("Paragraph", "p", {style: "text-indent:" + value});
+        }
+        // me.execCommand("Paragraph", "p", {style: "text-indent:" + value});
     },
     queryCommandState: function () {
         var pN = domUtils.filterNodeList(
