@@ -1,8 +1,8 @@
 @font-face {
   font-family: "edui-iconfont"; /* Project id 2897874 */
-  src: url('iconfont.woff2?t=1701504467714') format('woff2'),
-       url('iconfont.woff?t=1701504467714') format('woff'),
-       url('iconfont.ttf?t=1701504467714') format('truetype');
+  src: url('iconfont.woff2?t=1734329103067') format('woff2'),
+       url('iconfont.woff?t=1734329103067') format('woff'),
+       url('iconfont.ttf?t=1734329103067') format('truetype');
 }
 
 .edui-iconfont {
@@ -11,6 +11,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.edui-icon-image:before {
+  content: "\e605";
 }
 
 .edui-icon-content-import:before {
@@ -165,11 +169,11 @@
   content: "\e901";
 }
 
-.edui-icon-24gl-paragraphMarginBottom:before {
+.edui-icon-paragraph-margin-bottom:before {
   content: "\eb09";
 }
 
-.edui-icon-24gl-paragraphMarginTop:before {
+.edui-icon-paragraph-margin-top:before {
   content: "\eb0a";
 }
 
@@ -277,7 +281,7 @@
   content: "\e637";
 }
 
-.edui-icon-text_quote:before {
+.edui-icon-text-quote:before {
   content: "\e6d8";
 }
 
@@ -313,7 +317,7 @@
   content: "\e638";
 }
 
-.edui-icon-AfterclassText-Outlined:before {
+.edui-icon-outline:before {
   content: "\e62d";
 }
 
@@ -379,10 +383,6 @@
 
 .edui-icon-underline:before {
   content: "\e63e";
-}
-
-.edui-icon-image:before {
-  content: "\e605";
 }
 
 .edui-icon-italic:before {
