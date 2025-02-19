@@ -608,7 +608,7 @@
             if (this._fullscreen) {
                 var vpRect = uiUtils.getViewportRect();
                 this.getDom().style.cssText =
-                    "border:0;position:absolute;left:0;top:var(--ueditor-top-offset," +
+                    "border:0;position:fixed;left:0;top:var(--ueditor-top-offset," +
                     (this.editor.options.topOffset || 0) +
                     "px);width:" +
                     vpRect.width +
