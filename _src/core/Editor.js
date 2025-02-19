@@ -754,6 +754,7 @@
                 shortcutkeys = this.shortcutkeys;
             me.addListener("keydown", function (type, e) {
                 var keyCode = e.keyCode || e.which;
+                // 快捷键
                 for (var i in shortcutkeys) {
                     var tmp = shortcutkeys[i].split(",");
                     for (var t = 0, ti; (ti = tmp[t++]);) {
@@ -773,6 +774,18 @@
                                 if (me.queryCommandState(i, param) != -1)
                                     me.execCommand(i, param);
                                 domUtils.preventDefault(e);
+                            }
+                        }
+                    }
+                }
+                // 其他一些特殊处理
+                var code = e.code
+                // 如视频之类的组建，不能删除
+                if(code){
+                    if(code==='Backspace'){
+                        if(e.target){
+                            if(e.target.tagName === 'VIDEO'){
+                                e.target.remove()
                             }
                         }
                     }

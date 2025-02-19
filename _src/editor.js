@@ -10,7 +10,7 @@ window.UE = baidu.editor = {
     instants: {},
     I18N: {},
     _customizeUI: {},
-    version: "4.2.0",
+    version: "4.3.0-beta",
     plus: {
         fileExt: function (filename) {
             if (!filename) {
