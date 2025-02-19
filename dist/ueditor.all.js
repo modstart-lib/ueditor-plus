@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
     instants: {},
     I18N: {},
     _customizeUI: {},
-    version: "4.2.0",
+    version: "4.3.0",
     plus: {
         fileExt: function (filename) {
             if (!filename) {
@@ -7975,6 +7975,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
                 shortcutkeys = this.shortcutkeys;
             me.addListener("keydown", function (type, e) {
                 var keyCode = e.keyCode || e.which;
+                // 快捷键
                 for (var i in shortcutkeys) {
                     var tmp = shortcutkeys[i].split(",");
                     for (var t = 0, ti; (ti = tmp[t++]);) {
@@ -7994,6 +7995,18 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
                                 if (me.queryCommandState(i, param) != -1)
                                     me.execCommand(i, param);
                                 domUtils.preventDefault(e);
+                            }
+                        }
+                    }
+                }
+                // 其他一些特殊处理
+                var code = e.code
+                // 如视频之类的组建，不能删除
+                if(code){
+                    if(code==='Backspace'){
+                        if(e.target){
+                            if(e.target.tagName === 'VIDEO'){
+                                e.target.remove()
                             }
                         }
                     }
@@ -25932,10 +25945,12 @@ UE.plugins["audio"] = function () {
         utils.each(tds, function (td) {
             td.removeAttribute("width");
         });
-        table.setAttribute(
-            "width",
-            getTableWidth(editor, true, getDefaultValue(editor, table))
-        );
+        // bugfix https://gitee.com/modstart-lib/ueditor-plus/issues/I8N5ON
+        // table.setAttribute(
+        //     "width",
+        //     getTableWidth(editor, true, getDefaultValue(editor, table))
+        // );
+        table.setAttribute("width", '100%');
         var tdsWidths = [];
         setTimeout(function () {
             utils.each(tds, function (td) {
@@ -36214,7 +36229,7 @@ UE.ui = baidu.editor.ui = {};
             if (this._fullscreen) {
                 var vpRect = uiUtils.getViewportRect();
                 this.getDom().style.cssText =
-                    "border:0;position:absolute;left:0;top:var(--ueditor-top-offset," +
+                    "border:0;position:fixed;left:0;top:var(--ueditor-top-offset," +
                     (this.editor.options.topOffset || 0) +
                     "px);width:" +
                     vpRect.width +
