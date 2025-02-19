@@ -1007,10 +1007,12 @@
         utils.each(tds, function (td) {
             td.removeAttribute("width");
         });
-        table.setAttribute(
-            "width",
-            getTableWidth(editor, true, getDefaultValue(editor, table))
-        );
+        // bugfix https://gitee.com/modstart-lib/ueditor-plus/issues/I8N5ON
+        // table.setAttribute(
+        //     "width",
+        //     getTableWidth(editor, true, getDefaultValue(editor, table))
+        // );
+        table.setAttribute("width", '100%');
         var tdsWidths = [];
         setTimeout(function () {
             utils.each(tds, function (td) {
