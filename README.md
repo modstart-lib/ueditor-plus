@@ -4,6 +4,10 @@
 
 ![UEditor Plus](https://ms-assets.modstart.com/demo/UEditorPlus_v2.1.0.jpeg)
 
+[![star](https://img.shields.io/github/stars/modstart-lib/ueditor-plus.svg)](https://github.com/modstart-lib/ueditor-plus)
+[![star](https://gitee.com/modstart-lib/ueditor-plus/badge/star.svg)](https://gitee.com/modstart-lib/ueditor-plus)
+[![star](https://gitcode.com/modstart-lib/ueditor-plus/star/badge.svg)](https://gitcode.com/modstart-lib/ueditor-plus)
+
 > `/dist/` 和 `/dist-min/` 目录分别为构建的非压缩和压缩版代码，可直接使用
 
 ## 功能亮点
