@@ -20,8 +20,12 @@
 @import "./font/iconfont";
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .flex {
@@ -86,50 +90,304 @@ select {
 
 .ub-html {
 
-  line-height: 1.5rem;
+  line-height: 2;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  overflow: hidden;
+  word-wrap: break-word;
+  font-size: 0.65rem;
 
-  * {
-    margin: 0;
-    padding: 0;
+  & > *:first-child {
+    margin-top: 0;
   }
 
-  a {
-    color: #09f;
-    text-decoration: none;
+  & > p:first-child {
+    margin-top: 0;
   }
 
-  a:hover,
-  a:focus {
-    color: #09f;
-    text-decoration: none;
-  }
-
-  blockquote {
-    padding: 0 0 0 15px;
-    margin: 0 0 18px;
-    border-left: 5px solid #EEE;
-  }
-
-  img + br {
-    display: block;
-    padding: 4px 0;
-    content: ' ';
+  & > p:last-child {
+    margin-bottom: 0;
   }
 
   p {
-    margin-bottom: 0.5em;
+    padding: 0;
+    line-height: 1.8;
+    word-spacing: .05rem;
+    margin: 0.5em 0;
   }
 
   img {
     max-width: 100%;
   }
 
+  iframe {
+    max-width: 100%;
+  }
+
+  p.video-player {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  video {
+    max-width: 100%;
+  }
+
+  a {
+    background: transparent;
+  }
+
+  hr {
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0;
+  }
+
+  code,
+  kbd,
   pre {
-    margin: .5em 0;
-    padding: .4em .6em;
-    border-radius: 8px;
-    background: #f8f8f8;
-    line-height: 1.5;
+    font-family: "Meiryo UI", "YaHei Consolas Hybrid", Consolas, "Malgun Gothic", "Segoe UI", "Trebuchet MS", Helvetica, monospace, monospace;
+    font-size: 1em;
+    white-space: pre;
+    word-spacing: normal;
+    word-wrap: normal;
+    tab-size: 4;
+    hyphens: none;
+    text-align: left;
+    line-height: 1.8em;
+    padding: 1em;
+  }
+
+  pre {
+
+  }
+
+  table {
+    border-spacing: 0;
+    max-width: 98%;
+    margin: 1em 0;
+    box-shadow: 0 0 0.1rem #CCC;
+    display: table;
+    text-align: left;
+    border: 0.05rem solid #ddd;
+    border-collapse: collapse;
+    overflow: auto;
+    word-break: keep-all;
+
+    tr {
+      background-color: #fff;
+      border-top: 0.05rem solid #ccc;
+
+      tbody {
+        border: 0;
+      }
+
+      th {
+        font-weight: bold;
+        background-color: #f0f0f0;
+        padding: 0.15rem 0.3rem;
+        border: 0.05rem solid #ddd;
+      }
+
+      td {
+        padding: 0.15rem 0.3rem;
+        border: 0.05rem solid #ddd;
+      }
+    }
+  }
+
+  > p {
+    svg, table, pre {
+      -webkit-box-shadow: 0 0 0.5rem #CCC;
+      -moz-box-shadow: 0 0 0.5rem #CCC;
+      box-shadow: 0 0 0.5rem #CCC;
+      margin: 1em auto;
+      display: block;
+    }
+
+    img {
+      //-webkit-box-shadow: 0 0 0.5rem #CCC;
+      //-moz-box-shadow: 0 0 0.5rem #CCC;
+      //box-shadow: 0 0 0.5rem #CCC;
+    }
+  }
+
+  td,
+  th {
+    padding: 0;
+  }
+
+  * {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  input {
+    font: 0.65rem/1.4 Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  }
+
+  a {
+    color: #4183c4;
+    text-decoration: none;
+  }
+
+  a:hover,
+  a:active {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 0;
+    margin: 0.75rem 0;
+    overflow: hidden;
+    background: transparent;
+    border: 0;
+    border-bottom: 0.05rem solid #ddd;
+  }
+
+  hr:before {
+    display: table;
+    content: "";
+  }
+
+  hr:after {
+    display: table;
+    clear: both;
+    content: "";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: bold;
+    margin: 1.2em 0 .6em 0;
+    text-align: start;
+  }
+
+  h1 {
+    font-size: 2em;
+    margin: 1em 0;
+  }
+
+  h2 {
+    font-size: 1.7em;
+    border-bottom: 1px solid #eee;
+    line-height: 2em;
+  }
+
+  h3 {
+    font-size: 1.5em
+  }
+
+  h4 {
+    font-size: 1.25em
+  }
+
+  h5 {
+    font-size: 1em
+  }
+
+  h6 {
+    font-size: .85em
+  }
+
+  blockquote {
+    display: block;
+    font-size: 1em;
+    overflow: auto;
+    overflow-scrolling: touch;
+    border-left: 3px solid rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.05);
+    color: #6a737d;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 1em;
+    padding-right: 0.5em;
+    margin-bottom: 1em;
+    margin-top: 1em;
+
+    p {
+      margin: 0.5em 0;
+    }
+  }
+
+  ul,
+  ol {
+    padding: 0.5em 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 1.4em;
+  }
+
+  ol {
+    li {
+      list-style: decimal;
+    }
+  }
+
+  ul {
+    li {
+      list-style: disc;
+    }
+  }
+
+  ol ol,
+  ul ol {
+    list-style-type: lower-roman;
+  }
+
+  ul ul ol,
+  ul ol ol,
+  ol ul ol,
+  ol ol ol {
+    list-style-type: lower-alpha;
+  }
+
+  dd {
+    margin-left: 0;
+  }
+
+  code {
+    color: #d63384;
+    word-wrap: break-word;
+    border-radius: 0.2em;
+    white-space: pre;
+    font-family: "Source Code Pro", monospace;
+    font-size: .9em;
+    padding: 0.1em 0.2em;
+
+    &.formula {
+      color: inherit;
+      background-color: inherit;
+      border: inherit;
+      font-size: inherit;
+    }
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 0.9em;
+
+    code {
+      color: inherit;
+      background: none;
+      border: none;
+    }
   }
 
 }
