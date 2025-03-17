@@ -69,6 +69,14 @@ $config = [
     "fileManagerListSize" => 20,
     "fileManagerAllowFiles" => ['.zip', '.pdf', '.doc'],
 
+    //
+    "toolbarShows" => [
+        "ai" => true,
+    ],
+    "shortcutMenuShows" => [
+        "ai" => true,
+    ],
+
 ];
 
 function output($data)

@@ -401,6 +401,7 @@
             }
         },
         _initToolbars: function () {
+            var me = this;
             var editor = this.editor;
             var toolbars = this.toolbars || [];
             if (toolbars[0]) {
@@ -430,12 +431,14 @@
                         if (ui) {
                             if (utils.isFunction(ui)) {
                                 toolbarItemUi = new baidu.editor.ui[toolbarItem](editor);
+                                toolbarItemUi._name = toolbarItem
                             } else {
                                 if (ui.id && ui.id !== editor.key) {
                                     continue;
                                 }
                                 var itemUI = ui.execFn.call(editor, editor, toolbarItem);
                                 if (itemUI) {
+                                    itemUI._name = toolbarItem;
                                     if (ui.index === undefined) {
                                         toolbarUi.add(itemUI);
                                         continue;
@@ -473,6 +476,25 @@
                 toolbarUi.add(obj.itemUI, obj.index);
             });
             this.toolbars = toolbarUis;
+            editor.addListener('serverConfigLoaded',function(){
+                me.refreshToolbars();
+            });
+            setTimeout(()=>{
+                this.refreshToolbars();
+            },0);
+        },
+        refreshToolbars: function () {
+            var toolbarShows = this.editor.options.toolbarShows;
+            for (var i = 0; i < this.toolbars.length; i++) {
+                for (var j = 0; j < this.toolbars[i].items.length; j++) {
+                    var item = this.toolbars[i].items[j];
+                    if(item._name){
+                        if(item._name in toolbarShows){
+                            item.uiShow(toolbarShows[item._name]);
+                        }
+                    }
+                }
+            }
         },
         getHtmlTpl: function () {
             return (

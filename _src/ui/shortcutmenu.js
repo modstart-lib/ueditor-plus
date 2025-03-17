@@ -94,9 +94,9 @@
                         continue;
                     }
                     var item = this.items[i].toLowerCase();
-
                     if (UI[item]) {
                         this.items[i] = new UI[item](this.editor);
+                        this.items[i]._name = item;
                         this.items[i].className += " edui-short-cut-sub-menu ";
                     }
                 }
@@ -128,6 +128,15 @@
                 offset = {},
                 el = this.getDom(),
                 fixedlayer = uiUtils.getFixedLayer();
+
+            var shortcutMenuShows = this.editor.options.shortcutMenuShows;
+            for(let item of this.items){
+                if(item._name){
+                    if(item._name in shortcutMenuShows) {
+                        item.uiShow(shortcutMenuShows[item._name]);
+                    }
+                }
+            }
 
             for (let item of this.items) {
                 if ('shouldUiShow' in item) {
