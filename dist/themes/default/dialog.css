@@ -389,7 +389,7 @@ select {
   -webkit-text-size-adjust: 100%;
   overflow: hidden;
   word-wrap: break-word;
-  font-size: 0.65rem;
+  font-size: 0.8125rem;
 }
 .ub-html > *:first-child {
   margin-top: 0;
