@@ -38,82 +38,80 @@ var isMultiLine = function (text) {
 var fetchStream = function (url, option, onStream, onFinish) {
     fetch(url, Object.assign({
         method: 'POST',
-    }, option))
-        .then(response => {
-            if (!response.ok) {
-                onFinish({code: -1, msg: `HTTP error! status: ${response.status}`})
-                return
-            }
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder('utf-8');
-            let buffer = '';
-            const textList = []
+    }, option)).then(response => {
+        if (!response.ok) {
+            onFinish({code: -1, msg: `HTTP error! status: ${response.status}`})
+            return
+        }
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder('utf-8');
+        let buffer = '';
+        const textList = []
 
-            function processChunk(chunk) {
-                buffer += decoder.decode(chunk, {stream: true});
-                // 分割事件流，每个事件以"data:"开头，以两个换行符结束
-                const lines = buffer.split('\n');
-                for (let line of lines) {
-                    line = line.trim();
-                    if (line.startsWith('data:')) {
-                        const jsonStr = line.replace('data:', '').trim();
-                        if (jsonStr === '[DONE]') {
-                            onFinish({code: 0, msg: 'ok', data: {text: textList.join('')}})
-                            return;
-                        }
-                        try {
-                            let text = null
-                            const data = JSON.parse(jsonStr);
-                            if (data.choices && data.choices.length > 0 && data.choices[0].delta) {
-                                text = data.choices[0].delta.content
-                            } else if (data.type) {
-                                // 兼容ModStart
-                                // {"type":"error","data":"xxx"}
-                                // {"type":"end","data":"xxx"}
-                                // {"type":"data","data":"xxx"}
-                                if (data.type === 'error') {
-                                    onFinish({code: -1, msg: data.data})
-                                    return;
-                                } else if (data.type === 'end') {
-                                    onFinish({code: 0, msg: 'ok', data: {text: textList.join('')}})
-                                    return;
-                                } else if (data.type === 'data') {
-                                    text = data.data
-                                }
-                            }
-                            if (text !== null) {
-                                textList.push(text)
-                                onStream({code: 0, msg: 'ok', data: {text: text}})
-                            } else {
-                                onFinish({code: -1, msg: 'No text found!'})
-                                console.log('data:', data)
-                            }
-                        } catch (e) {
-                            onFinish({code: -1, msg: 'JSON parse error!' + e})
-                        }
-                    }
-                }
-                buffer = lines.pop() || '';
-            }
-
-            function read() {
-                reader.read().then(({done, value}) => {
-                    if (done) {
-                        if (buffer) processChunk(new Uint8Array());
+        function processChunk(chunk) {
+            buffer += decoder.decode(chunk, {stream: true});
+            // 分割事件流，每个事件以"data:"开头，以两个换行符结束
+            const lines = buffer.split('\n');
+            for (let line of lines) {
+                line = line.trim();
+                if (line.startsWith('data:')) {
+                    const jsonStr = line.replace('data:', '').trim();
+                    if (jsonStr === '[DONE]') {
+                        onFinish({code: 0, msg: 'ok', data: {text: textList.join('')}})
                         return;
                     }
-                    processChunk(value);
-                    read();
-                }).catch(error => {
-                    onFinish({code: -1, msg: 'Stream error!' + error})
-                });
+                    try {
+                        let text = null
+                        const data = JSON.parse(jsonStr);
+                        if (data.choices && data.choices.length > 0 && data.choices[0].delta) {
+                            text = data.choices[0].delta.content
+                        } else if (data.type) {
+                            // 兼容ModStart
+                            // {"type":"error","data":"xxx"}
+                            // {"type":"end","data":"xxx"}
+                            // {"type":"data","data":"xxx"}
+                            if (data.type === 'error') {
+                                onFinish({code: -1, msg: data.data})
+                                return;
+                            } else if (data.type === 'end') {
+                                onFinish({code: 0, msg: 'ok', data: {text: textList.join('')}})
+                                return;
+                            } else if (data.type === 'data') {
+                                text = data.data
+                            }
+                        }
+                        if (text !== null) {
+                            textList.push(text)
+                            onStream({code: 0, msg: 'ok', data: {text: text}})
+                        } else {
+                            onFinish({code: -1, msg: 'No text found!'})
+                            console.log('data:', data)
+                        }
+                    } catch (e) {
+                        onFinish({code: -1, msg: 'JSON parse error!' + e})
+                    }
+                }
             }
+            buffer = lines.pop() || '';
+        }
 
-            read();
-        })
-        .catch(error => {
-            onFinish({code: -1, msg: 'Request error!' + error})
-        });
+        function read() {
+            reader.read().then(({done, value}) => {
+                if (done) {
+                    if (buffer) processChunk(new Uint8Array());
+                    return;
+                }
+                processChunk(value);
+                read();
+            }).catch(error => {
+                onFinish({code: -1, msg: 'Stream error!' + error})
+            });
+        }
+
+        read();
+    }).catch(error => {
+        onFinish({code: -1, msg: 'Request error!' + error})
+    });
 }
 
 var openAiCompletion = function (url, param, option) {

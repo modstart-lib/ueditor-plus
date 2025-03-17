@@ -34914,7 +34914,7 @@ UE.ui = baidu.editor.ui = {};
         wordimage: "~/dialogs/wordimage/wordimage.html?3b01ac24",
         formula: "~/dialogs/formula/formula.html?5b421783",
         attachment: "~/dialogs/attachment/attachment.html?7462f395",
-        insertframe: "~/dialogs/insertframe/insertframe.html?4c315cb2",
+        insertframe: "~/dialogs/insertframe/insertframe.html?6d76dec6",
         edittip: "~/dialogs/table/edittip.html?fa0ea189",
         edittable: "~/dialogs/table/edittable.html?134e2f06",
         edittd: "~/dialogs/table/edittd.html?9fe1a06e",
@@ -34922,7 +34922,7 @@ UE.ui = baidu.editor.ui = {};
         template: "~/dialogs/template/template.html?3c8090b7",
         background: "~/dialogs/background/background.html?c2bb8b05",
         contentimport: "~/dialogs/contentimport/contentimport.html?847a33a6",
-        ai: "~/dialogs/ai/ai.html?7d0648e6",
+        ai: "~/dialogs/ai/ai.html?53e83c67",
     };
     var dialogBtns = {
         noOk: ["searchreplace", "help", "spechars", "preview"],
