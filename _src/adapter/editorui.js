@@ -289,6 +289,7 @@
         template: "~/dialogs/template/template.html?{timestamp}",
         background: "~/dialogs/background/background.html?{timestamp}",
         contentimport: "~/dialogs/contentimport/contentimport.html?{timestamp}",
+        ai: "~/dialogs/ai/ai.html?{timestamp}",
     };
     var dialogBtns = {
         noOk: ["searchreplace", "help", "spechars", "preview"],
@@ -993,6 +994,42 @@
         editor.addListener("selectionchange", function () {
             ui.setDisabled(editor.queryCommandState("autotypeset") == -1);
         });
+        return ui;
+    };
+
+    /** AI智能 */
+    editorui['ai'] = function (editor, iframeUrl, title) {
+        iframeUrl = iframeUrl || (editor.options.dialogIframeUrlMap || {})['ai'] || dialogIframeUrlMap['ai'];
+        title = editor.options.labelMap['ai'] || editor.getLang("labelMap.ai") || "";
+
+        var dialog = new editorui.Dialog({
+            iframeUrl: editor.ui.mapUrl(iframeUrl),
+            editor: editor,
+            className: "edui-for-ai",
+            title: title,
+            holdScroll: true,
+            fullscreen: false,
+            closeDialog: editor.getLang("closeDialog")
+        });
+
+        editor.ui._dialogs["aiDialog"] = dialog;
+
+        var ui = new editorui.Button({
+            className: "edui-for-ai",
+            title: title,
+            onclick: function () {
+                if (editor.options.toolbarCallback) {
+                    if (true === editor.options.toolbarCallback('ai', editor)) {
+                        return;
+                    }
+                }
+                dialog.render();
+                dialog.open();
+            },
+            theme: editor.options.theme,
+            disabled: false
+        });
+        editorui.buttons['ai'] = ui;
         return ui;
     };
 

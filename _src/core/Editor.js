@@ -781,10 +781,10 @@
                 // 其他一些特殊处理
                 var code = e.code
                 // 如视频之类的组建，不能删除
-                if(code){
-                    if(code==='Backspace'){
-                        if(e.target){
-                            if(e.target.tagName === 'VIDEO'){
+                if (code) {
+                    if (code === 'Backspace') {
+                        if (e.target) {
+                            if (e.target.tagName === 'VIDEO') {
                                 e.target.remove()
                             }
                         }
@@ -1755,7 +1755,45 @@
             } else {
                 return "";
             }
-        }
+        },
+        tipError: function (msg, option) {
+            this.tip(msg, Object.assign({
+                type: 'error',
+            }, option));
+        },
+        tipSuccess: function (msg, option) {
+            this.tip(msg, Object.assign({
+                type: 'success',
+            }, option));
+        },
+        tip: function (msg, option) {
+            var exists = document.getElementById('EditorTipBox');
+            if (exists) {
+                document.body.removeChild(exists);
+            }
+            option = Object.assign({
+                type: 'success',
+                duration: 3000,
+            }, option)
+            var html = [
+                '<div class="editor-tip editor-tip-' + option.type + '" style="opacity:0;position: fixed; top: 10px; left: 50%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); background: #FFF; z-index: 9999; border-radius: 5px; font-size: 13px; line-height: 30px; padding: 0 10px;">',
+                option.type === 'error' ? '<i class="edui-iconfont" style="color:#d31919;margin-right:5px;font-size:16px;vertical-align:top;">&#xe6a7;</i>' : '',
+                option.type === 'success' ? '<i class="edui-iconfont" style="color:#19ba21;margin-right:5px;font-size:16px;vertical-align:top;">&#xe7fc;</i>' : '',
+                msg,
+                '</div>'
+            ].join('');
+            var tip = document.createElement('div');
+            tip.innerHTML = html;
+            tip.id = 'EditorTipBox';
+            document.body.appendChild(tip);
+            var tipBox = tip.querySelector('.editor-tip');
+            var tipBoxWidth = tipBox.offsetWidth;
+            tipBox.style.marginLeft = -tipBoxWidth / 2 + 'px';
+            tipBox.style.opacity = 1;
+            setTimeout(function () {
+                document.body.removeChild(tip);
+            }, option.duration);
+        },
     };
     utils.inherits(Editor, EventBase);
 })();

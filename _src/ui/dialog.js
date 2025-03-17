@@ -137,9 +137,11 @@
             // console.log('fitSize.dialog')
             var popBodyEl = this.getDom("body");
             var $foot = popBodyEl.querySelector('.edui-dialog-foot');
-            var heightWithoutBody = 70;
+            var headHeight = 30;
+            var footHeight = 50;
+            var heightWithoutBody = headHeight + footHeight;
             if (!$foot) {
-                heightWithoutBody = 30;
+                heightWithoutBody -= footHeight;
             }
             var size = this.mesureSize();
             var winSize = uiUtils.getViewportRect();

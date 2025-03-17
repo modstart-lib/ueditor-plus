@@ -143,6 +143,10 @@
     content: "\e6f1";
 }
 
+.edui-default .edui-for-ai .edui-icon:before {
+    content: "\e61c";
+}
+
 .edui-default .edui-for-map .edui-icon:before {
     content: "\e649";
 }
