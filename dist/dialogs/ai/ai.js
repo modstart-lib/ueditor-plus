@@ -203,7 +203,7 @@ var Ai = {
                 resultHeight: function () {
                     let height = 255
                     if (this.selectText) {
-                        height -= 30
+                        height -= 45
                     }
                     if (this.resultError) {
                         height -= 45
