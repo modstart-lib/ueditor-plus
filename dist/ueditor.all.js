@@ -9096,7 +9096,7 @@ UE.Editor.defaultOptions = function (editor) {
                             me.fireEvent("serverConfigLoaded");
                             me._serverConfigLoaded = true;
                         } catch (e) {
-                            showErrorMsg(me.getLang("loadconfigFormatError"));
+                            showErrorMsg(me.getLang("loadconfigFormatError")+':'+e);
                         }
                     },
                     onerror: function () {
@@ -34351,9 +34351,9 @@ UE.ui = baidu.editor.ui = {};
                         continue;
                     }
                     var item = this.items[i].toLowerCase();
-
                     if (UI[item]) {
                         this.items[i] = new UI[item](this.editor);
+                        this.items[i]._name = item;
                         this.items[i].className += " edui-short-cut-sub-menu ";
                     }
                 }
@@ -34385,6 +34385,15 @@ UE.ui = baidu.editor.ui = {};
                 offset = {},
                 el = this.getDom(),
                 fixedlayer = uiUtils.getFixedLayer();
+
+            var shortcutMenuShows = this.editor.options.shortcutMenuShows;
+            for(let item of this.items){
+                if(item._name){
+                    if(item._name in shortcutMenuShows) {
+                        item.uiShow(shortcutMenuShows[item._name]);
+                    }
+                }
+            }
 
             for (let item of this.items) {
                 if ('shouldUiShow' in item) {
@@ -34913,7 +34922,7 @@ UE.ui = baidu.editor.ui = {};
         template: "~/dialogs/template/template.html?3c8090b7",
         background: "~/dialogs/background/background.html?c2bb8b05",
         contentimport: "~/dialogs/contentimport/contentimport.html?847a33a6",
-        ai: "~/dialogs/ai/ai.html?4c2e9911",
+        ai: "~/dialogs/ai/ai.html?7d0648e6",
     };
     var dialogBtns = {
         noOk: ["searchreplace", "help", "spechars", "preview"],
@@ -36099,6 +36108,7 @@ UE.ui = baidu.editor.ui = {};
             }
         },
         _initToolbars: function () {
+            var me = this;
             var editor = this.editor;
             var toolbars = this.toolbars || [];
             if (toolbars[0]) {
@@ -36128,12 +36138,14 @@ UE.ui = baidu.editor.ui = {};
                         if (ui) {
                             if (utils.isFunction(ui)) {
                                 toolbarItemUi = new baidu.editor.ui[toolbarItem](editor);
+                                toolbarItemUi._name = toolbarItem
                             } else {
                                 if (ui.id && ui.id !== editor.key) {
                                     continue;
                                 }
                                 var itemUI = ui.execFn.call(editor, editor, toolbarItem);
                                 if (itemUI) {
+                                    itemUI._name = toolbarItem;
                                     if (ui.index === undefined) {
                                         toolbarUi.add(itemUI);
                                         continue;
@@ -36171,6 +36183,25 @@ UE.ui = baidu.editor.ui = {};
                 toolbarUi.add(obj.itemUI, obj.index);
             });
             this.toolbars = toolbarUis;
+            editor.addListener('serverConfigLoaded',function(){
+                me.refreshToolbars();
+            });
+            setTimeout(()=>{
+                this.refreshToolbars();
+            },0);
+        },
+        refreshToolbars: function () {
+            var toolbarShows = this.editor.options.toolbarShows;
+            for (var i = 0; i < this.toolbars.length; i++) {
+                for (var j = 0; j < this.toolbars[i].items.length; j++) {
+                    var item = this.toolbars[i].items[j];
+                    if(item._name){
+                        if(item._name in toolbarShows){
+                            item.uiShow(toolbarShows[item._name]);
+                        }
+                    }
+                }
+            }
         },
         getHtmlTpl: function () {
             return (

@@ -1,5 +1,4 @@
 var aiConfig = editor.getOpt('ai')
-console.log('aiConfig',aiConfig);
 
 var aiFunctions = [
     {
@@ -152,7 +151,10 @@ var drivers = {
     },
     'OpenAi': function (param) {
         openAiCompletion(aiConfig.driverConfig.url || 'https://api.openai.com/v1/engines/davinci/completions', param)
-    }
+    },
+    'DeepSeek': function (param) {
+        openAiCompletion(aiConfig.driverConfig.url || 'https://api.deepseek.com/chat/completions', param)
+    },
 }
 
 function getRequest(driver) {

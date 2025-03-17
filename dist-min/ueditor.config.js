@@ -165,6 +165,10 @@
                 "help",                // 帮助
             ]
         ]
+        // 动态选项配置，该值可以通过后端配置接口动态返回，动态控制toolbars的功能
+        , toolbarShows:{
+            // "ai": false,
+        }
 
         // 自定义工具栏按钮点击，返回 true 表示已经处理点击，会阻止默认事件
         , toolbarCallback: function (cmd, editor) {
@@ -513,6 +517,10 @@
             // "touppercase",    // 字母大写
             // "tolowercase"     // 字母小写
         ]
+        // 动态选项配置，该值可以通过后端配置接口动态返回，动态控制shortcutMenu的功能
+        ,shortcutMenuShows: {
+            // "ai": false,
+        }
 
         // 是否启用元素路径，默认是显示
         , elementPathEnabled: true
