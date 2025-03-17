@@ -997,7 +997,7 @@
         return ui;
     };
 
-    /** AI智能 */
+    /** AI智能助手 */
     editorui['ai'] = function (editor, iframeUrl, title) {
         iframeUrl = iframeUrl || (editor.options.dialogIframeUrlMap || {})['ai'] || dialogIframeUrlMap['ai'];
         title = editor.options.labelMap['ai'] || editor.getLang("labelMap.ai") || "";

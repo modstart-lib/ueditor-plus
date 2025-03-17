@@ -19,6 +19,9 @@
             position: relative;
             font-size: 13px;
         }
+        .wrapper .input::placeholder{
+            color:#999;
+        }
 
         .ai-operate {
             display: block;
@@ -59,13 +62,14 @@
                 {{ selectText }}
             </div>
         </div>
-        <div class="flex" style="margin-top:10px;">
+        <div class="flex" style="padding: 5px; border-radius: 30px; box-shadow: 0 0 10px #CCC;">
             <div class="flex-grow">
                 <input type="text" v-model="inputText"
-                       style="width:550px;border-color:transparent;font-size:14px;"
+                       class="input"
+                       style="width:540px;border-color:transparent;font-size:14px;"
                        placeholder="告诉 AI 下一步应该如何？比如：帮我翻译成英语"/>
             </div>
-            <div class="flex-shrink-0" style="width:34px;">
+            <div class="flex-shrink-0" style="width:32px;padding-right:5px;">
                 <a href="javascript:;" class="btn primary"
                    @click="doSubmit"
                    style="width:30px;text-align:center;padding:0;border-radius:50%;">
@@ -98,7 +102,7 @@
                 </div>
             </div>
             <div
-                style="margin-top:10px;background:rgba(0,0,0,0.05);padding:10px;border-radius:10px;overflow:auto;"
+                style="margin-top:10px;background:rgba(0,0,0,0.03);padding:10px;border-radius:10px;overflow:auto;"
                 :style="{height:resultHeight}"
             >
                 <div class="ub-html" v-html="resultHtml"></div>
