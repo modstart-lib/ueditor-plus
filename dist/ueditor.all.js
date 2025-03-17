@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
     instants: {},
     I18N: {},
     _customizeUI: {},
-    version: "4.3.0",
+    version: "4.4.0-beta",
     plus: {
         fileExt: function (filename) {
             if (!filename) {
@@ -28,7 +28,7 @@ window.UE = baidu.editor = {
                 return pcs.pop().toLowerCase();
             }
             return '';
-        }
+        },
     },
     constants: {
         STATEFUL: {
@@ -7484,7 +7484,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
                         me.options.lang +
                         "/" +
                         me.options.lang +
-                        ".js?7a537435",
+                        ".js?747ff3b6",
                     tag: "script",
                     type: "text/javascript",
                     defer: "defer"
@@ -8002,10 +8002,10 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
                 // 其他一些特殊处理
                 var code = e.code
                 // 如视频之类的组建，不能删除
-                if(code){
-                    if(code==='Backspace'){
-                        if(e.target){
-                            if(e.target.tagName === 'VIDEO'){
+                if (code) {
+                    if (code === 'Backspace') {
+                        if (e.target) {
+                            if (e.target.tagName === 'VIDEO') {
                                 e.target.remove()
                             }
                         }
@@ -8976,7 +8976,45 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
             } else {
                 return "";
             }
-        }
+        },
+        tipError: function (msg, option) {
+            this.tip(msg, Object.assign({
+                type: 'error',
+            }, option));
+        },
+        tipSuccess: function (msg, option) {
+            this.tip(msg, Object.assign({
+                type: 'success',
+            }, option));
+        },
+        tip: function (msg, option) {
+            var exists = document.getElementById('EditorTipBox');
+            if (exists) {
+                document.body.removeChild(exists);
+            }
+            option = Object.assign({
+                type: 'success',
+                duration: 3000,
+            }, option)
+            var html = [
+                '<div class="editor-tip editor-tip-' + option.type + '" style="opacity:0;position: fixed; top: 10px; left: 50%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); background: #FFF; z-index: 9999; border-radius: 5px; font-size: 13px; line-height: 30px; padding: 0 10px;">',
+                option.type === 'error' ? '<i class="edui-iconfont" style="color:#d31919;margin-right:5px;font-size:16px;vertical-align:top;">&#xe6a7;</i>' : '',
+                option.type === 'success' ? '<i class="edui-iconfont" style="color:#19ba21;margin-right:5px;font-size:16px;vertical-align:top;">&#xe7fc;</i>' : '',
+                msg,
+                '</div>'
+            ].join('');
+            var tip = document.createElement('div');
+            tip.innerHTML = html;
+            tip.id = 'EditorTipBox';
+            document.body.appendChild(tip);
+            var tipBox = tip.querySelector('.editor-tip');
+            var tipBoxWidth = tipBox.offsetWidth;
+            tipBox.style.marginLeft = -tipBoxWidth / 2 + 'px';
+            tipBox.style.opacity = 1;
+            setTimeout(function () {
+                document.body.removeChild(tip);
+            }, option.duration);
+        },
     };
     utils.inherits(Editor, EventBase);
 })();
@@ -33773,9 +33811,11 @@ UE.ui = baidu.editor.ui = {};
             // console.log('fitSize.dialog')
             var popBodyEl = this.getDom("body");
             var $foot = popBodyEl.querySelector('.edui-dialog-foot');
-            var heightWithoutBody = 70;
+            var headHeight = 30;
+            var footHeight = 50;
+            var heightWithoutBody = headHeight + footHeight;
             if (!$foot) {
-                heightWithoutBody = 30;
+                heightWithoutBody -= footHeight;
             }
             var size = this.mesureSize();
             var winSize = uiUtils.getViewportRect();
@@ -34852,27 +34892,28 @@ UE.ui = baidu.editor.ui = {};
     }
 
     var dialogIframeUrlMap = {
-        anchor: "~/dialogs/anchor/anchor.html?2f10d082",
+        anchor: "~/dialogs/anchor/anchor.html?1ab8be2f",
         insertimage: "~/dialogs/image/image.html?c97f781f",
-        link: "~/dialogs/link/link.html?ccbfcf18",
+        link: "~/dialogs/link/link.html?1bb3b607",
         spechars: "~/dialogs/spechars/spechars.html?3bbeb696",
-        searchreplace: "~/dialogs/searchreplace/searchreplace.html?2cb782d2",
-        insertvideo: "~/dialogs/video/video.html?274637a8",
-        insertaudio: "~/dialogs/audio/audio.html?a8aea994",
+        searchreplace: "~/dialogs/searchreplace/searchreplace.html?d6b90a32",
+        insertvideo: "~/dialogs/video/video.html?adfea564",
+        insertaudio: "~/dialogs/audio/audio.html?352b3a11",
         help: "~/dialogs/help/help.html?05c0c8bf",
         preview: "~/dialogs/preview/preview.html?5d9a0847",
         emotion: "~/dialogs/emotion/emotion.html?a7bc0989",
-        wordimage: "~/dialogs/wordimage/wordimage.html?b4682ace",
-        formula: "~/dialogs/formula/formula.html?9a5a1511",
+        wordimage: "~/dialogs/wordimage/wordimage.html?3b01ac24",
+        formula: "~/dialogs/formula/formula.html?5b421783",
         attachment: "~/dialogs/attachment/attachment.html?7462f395",
-        insertframe: "~/dialogs/insertframe/insertframe.html?807119a5",
+        insertframe: "~/dialogs/insertframe/insertframe.html?4c315cb2",
         edittip: "~/dialogs/table/edittip.html?fa0ea189",
         edittable: "~/dialogs/table/edittable.html?134e2f06",
         edittd: "~/dialogs/table/edittd.html?9fe1a06e",
         scrawl: "~/dialogs/scrawl/scrawl.html?c8323e43",
         template: "~/dialogs/template/template.html?3c8090b7",
         background: "~/dialogs/background/background.html?c2bb8b05",
-        contentimport: "~/dialogs/contentimport/contentimport.html?e298f77b",
+        contentimport: "~/dialogs/contentimport/contentimport.html?847a33a6",
+        ai: "~/dialogs/ai/ai.html?4c2e9911",
     };
     var dialogBtns = {
         noOk: ["searchreplace", "help", "spechars", "preview"],
@@ -35577,6 +35618,42 @@ UE.ui = baidu.editor.ui = {};
         editor.addListener("selectionchange", function () {
             ui.setDisabled(editor.queryCommandState("autotypeset") == -1);
         });
+        return ui;
+    };
+
+    /** AI智能 */
+    editorui['ai'] = function (editor, iframeUrl, title) {
+        iframeUrl = iframeUrl || (editor.options.dialogIframeUrlMap || {})['ai'] || dialogIframeUrlMap['ai'];
+        title = editor.options.labelMap['ai'] || editor.getLang("labelMap.ai") || "";
+
+        var dialog = new editorui.Dialog({
+            iframeUrl: editor.ui.mapUrl(iframeUrl),
+            editor: editor,
+            className: "edui-for-ai",
+            title: title,
+            holdScroll: true,
+            fullscreen: false,
+            closeDialog: editor.getLang("closeDialog")
+        });
+
+        editor.ui._dialogs["aiDialog"] = dialog;
+
+        var ui = new editorui.Button({
+            className: "edui-for-ai",
+            title: title,
+            onclick: function () {
+                if (editor.options.toolbarCallback) {
+                    if (true === editor.options.toolbarCallback('ai', editor)) {
+                        return;
+                    }
+                }
+                dialog.render();
+                dialog.open();
+            },
+            theme: editor.options.theme,
+            disabled: false
+        });
+        editorui.buttons['ai'] = ui;
         return ui;
     };
 
@@ -36476,7 +36553,7 @@ UE.ui = baidu.editor.ui = {};
         editor.options.editor = editor;
         utils.loadFile(document, {
             href:
-                editor.options.themePath + editor.options.theme + "/css/ueditor.css?cac11a93",
+                editor.options.themePath + editor.options.theme + "/css/ueditor.css?dfa5e8ae",
             tag: "link",
             type: "text/css",
             rel: "stylesheet"

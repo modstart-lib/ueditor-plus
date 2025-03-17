@@ -161,6 +161,7 @@
                 "searchreplace",       // 查询替换
                 "|",
                 "contentimport",
+                "ai",
                 "help",                // 帮助
             ]
         ]
@@ -191,7 +192,7 @@
         // file 文件对象
         // callback 回调函数，需要在上传完成后调用 callback.success、callback.error、callback.progress
         // option 上传配置，其他一些未来扩展配置
-        , uploadServiceUpload: function(type, file, callback, option ) {
+        , uploadServiceUpload: function (type, file, callback, option) {
             console.log('uploadServiceUpload', type, file, callback, option);
             // var i = 0;
             // var call = function(){
@@ -480,6 +481,7 @@
 
         //快捷菜单
         , shortcutMenu: [
+            "ai",
             // "fontfamily",   // 字体
             // "fontsize",     // 字号
             "bold",            // 加粗
@@ -616,6 +618,36 @@
 
         //allowLinkProtocol 允许的链接地址，有这些前缀的链接地址不会自动添加http
         //, allowLinkProtocols: ['http:', 'https:', '#', '/', 'ftp:', 'mailto:', 'tel:', 'git:', 'svn:']
+
+        // AI智能相关配置
+        , ai: {
+            // 大模型驱动 OpenAi ModStart
+            driver: 'OpenAi',
+            // 大模型对接配置
+            driverConfig: {
+                // 模型API地址
+                url: 'https://api.openai.com/v1/engines/davinci/completions',
+                // 大模型平台Key
+                key: '',
+                // 大模型平台模型
+                model: '',
+            },
+            // 自定义接入
+            // driverRequest: function (option) {
+            //     var texts = []
+            //     var mock = function () {
+            //         var text = '测试' + i
+            //         texts.push(text)
+            //         if (texts.length >= 10) {
+            //             option.onFinish({code: 0, msg: 'ok', data: {text: texts.join("")}})
+            //             return
+            //         }
+            //         option.onStream({code: 0, msg: 'ok', data: {text: text}})
+            //         setTimeout(mock, 50);
+            //     };
+            //     mock();
+            // }
+        }
 
         //默认过滤规则相关配置项目
         //,disabledTableInTable:true  //禁止表格嵌套
