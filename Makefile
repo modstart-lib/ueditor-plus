@@ -7,6 +7,7 @@ build:
 	grunt default --force; \
 	node ./scripts/postBuild.js; \
 	uglifyjs -o dist-min/ueditor.all.js dist/ueditor.all.js;
+	uglifyjs -o dist-min/dialogs/ai/ai.js dist/dialogs/ai/ai.js;
 
 build_for_modstart: build
 	rm -rfv     ../../vendor/modstart/modstart/asset/vendor/ueditor/; \

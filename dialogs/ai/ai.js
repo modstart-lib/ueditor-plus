@@ -1,35 +1,6 @@
 var aiConfig = editor.getOpt('ai')
 
-var aiFunctions = [
-    {
-        text: '<i class="edui-iconfont edui-icon-magic-wand"></i> 翻译',
-        prompt: "{selectText}\n\n请帮我翻译一下这段内容，并直接返回优化后的结果。\n注意：你应该先判断一下这句话是中文还是英文，如果是中文，请给我返回英文，如果是英文，请给我返回中文内容，只需要返回内容即可，不需要告知我是中文还是英文。",
-        enable: function (param) {
-            return !!param.selectText
-        }
-    },
-    {
-        text: '<i class="edui-iconfont edui-icon-magic-wand"></i> 续写',
-        prompt: "{selectText}\n\n请帮我续写一下这段内容，并直接返回续写后的结果。",
-        enable: function (param) {
-            return !!param.selectText
-        }
-    },
-    {
-        text: '<i class="edui-iconfont edui-icon-magic-wand"></i> 简化内容',
-        prompt: "{selectText}\n\n请帮我简化一下这段内容，并直接返回简化后的结果。",
-        enable: function (param) {
-            return !!param.selectText
-        }
-    },
-    {
-        text: '<i class="edui-iconfont edui-icon-magic-wand"></i> 丰富内容',
-        prompt: "{selectText}\n\n请帮我丰富一下这段内容，并直接返回丰富后的结果。",
-        enable: function (param) {
-            return !!param.selectText
-        }
-    }
-];
+var aiFunctions = editor.getOpt('aiFunctions');
 
 var isMultiLine = function (text) {
     return text.indexOf('\n') !== -1;
@@ -231,7 +202,11 @@ var Ai = {
                         return;
                     }
                     if (this.inputText) {
-                        this.promptText = this.inputText;
+                        if (this.selectText) {
+                            this.promptText = this.selectText + '\n\n' + this.inputText;
+                        } else {
+                            this.promptText = this.inputText;
+                        }
                     }
                     if (!this.promptText) {
                         editor.tipError('请输入内容');

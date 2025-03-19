@@ -633,8 +633,8 @@
             driver: 'OpenAi',
             // 大模型对接配置
             driverConfig: {
-                // 模型API地址
-                url: 'https://api.openai.com/v1/engines/davinci/completions',
+                // 模型API地址，留空使用默认
+                url: '',
                 // 大模型平台Key
                 key: '',
                 // 大模型平台模型
@@ -654,8 +654,38 @@
             //         setTimeout(mock, 50);
             //     };
             //     mock();
-            // }
+            // },
         }
+        , aiFunctions:[
+            {
+                text: '<i class="edui-iconfont edui-icon-translate"></i> 翻译',
+                prompt: "{selectText}\n\n请帮我翻译一下这段内容，并直接返回优化后的结果。\n注意：你应该先判断一下这句话是中文还是英文，如果是中文，请给我返回英文，如果是英文，请给我返回中文内容，只需要返回内容即可，不需要告知我是中文还是英文。",
+                enable: function (param) {
+                    return !!param.selectText
+                }
+            },
+            {
+                text: '<i class="edui-iconfont edui-icon-continue-write"></i> 续写',
+                prompt: "{selectText}\n\n请帮我续写一下这段内容，并直接返回续写后的结果。",
+                enable: function (param) {
+                    return !!param.selectText
+                }
+            },
+            {
+                text: '<i class="edui-iconfont edui-icon-text-shrink"></i> 简化内容',
+                prompt: "{selectText}\n\n请帮我简化一下这段内容，并直接返回简化后的结果。",
+                enable: function (param) {
+                    return !!param.selectText
+                }
+            },
+            {
+                text: '<i class="edui-iconfont edui-icon-text-extend"></i> 丰富内容',
+                prompt: "{selectText}\n\n请帮我丰富一下这段内容，并直接返回丰富后的结果。",
+                enable: function (param) {
+                    return !!param.selectText
+                }
+            }
+        ]
 
         //默认过滤规则相关配置项目
         //,disabledTableInTable:true  //禁止表格嵌套
