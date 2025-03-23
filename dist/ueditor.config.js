@@ -485,7 +485,7 @@
 
         //快捷菜单
         , shortcutMenu: [
-            "ai",
+            // "ai",           // AI智能
             // "fontfamily",   // 字体
             // "fontsize",     // 字号
             "bold",            // 加粗
