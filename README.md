@@ -202,10 +202,31 @@ export default App;
 - 众所周知 UEditor 使用的人数多，目前已经累积了N个Bug，开源不易需要大家共同维护
 - 对于在实际使用中遇到的问题，如果急需解决推荐使用 [悬赏Issue](https://gitee.com/modstart-lib/ueditor-plus/reward_issues/new)，这样让更多有能力的开发者有共同维护的动力
 
-## 使用交流
+## ✉️ 使用交流
 
-- QQ群：539492162
-- 使用问题或者改进建议，欢迎进群交流
+> 添加好友请备注 UEditorPlus
+
+<table width="100%">
+    <thead>
+        <tr>
+            <th width="50%">微信交流群</th>
+            <th>QQ交流群</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <img style="width:100%;" 
+                     src="https://modstart.com/contact/ContactWechatGroup" />
+            </td>
+            <td>
+                <img style="width:100%;"
+                     src="https://modstart.com/contact/ContactQQGroup" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+
 
 ## 二次开发
 
@@ -239,6 +260,9 @@ grunt default
 
 ## 好项目推荐
 
+- 开源数字人系统 [AigcPanel](https://aigcpanel.com)
+- 智能桌面助理 [FocusAny](https://focusany.com)
+- 安卓连接助手 [LinkAndroid](https://linkandroid.com)
 - 快速开发框架 [ModStart](https://modstart.com)
 - 企业内容建站系统 [ModStartCMS](https://modstart.com)
 - 现代化个人博客系统 [ModStartBlog](https://modstart.com)
