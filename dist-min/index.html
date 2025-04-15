@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, minimum-scale=0.5, maximum-scale=5, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <script src="./example.js"></script>
     <script type="text/javascript" charset="utf-8" src="ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="ueditor.all.js"></script>
     <script type="text/javascript" charset="utf-8" src="lang/zh-cn/zh-cn.js?58c38108"></script>
@@ -120,6 +121,26 @@
         var ue = UE.getEditor('editor',{
             // autoHeightEnabled: false,
             // retainOnlyLabelPasted: true,
+            ai:{
+                // 自定义接入
+                driverRequest: function (option) {
+                    var texts = []
+                    var i = 0;
+                    var mock = function () {
+                        var text = '测试' + (i++)
+                        texts.push(text)
+                        if (texts.length >= 10) {
+                            // 调用 onFinish 方法表示结束
+                            option.onFinish({code: 0, msg: 'ok', data: {text: texts.join("")}})
+                            return
+                        }
+                        // 调用 onStream 方法模拟流式返回
+                        option.onStream({code: 0, msg: 'ok', data: {text: text}})
+                        setTimeout(mock, 50);
+                    };
+                    mock();
+                },
+            }
         });
         ue.on('contentchange', function () {
             // console.log('contentchange', ue.getContent());
