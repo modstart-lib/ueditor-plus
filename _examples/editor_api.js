@@ -134,6 +134,6 @@
         baseURL = window.UEDITOR_HOME_URL + '_src/';
     }
     for (var i = 0, pi; pi = paths[i++];) {
-        document.write('<script src="' + baseURL + pi + '"></script>');
+        document.write('<script src="' + baseURL + pi + '?v20250415"></script>');
     }
 })();
