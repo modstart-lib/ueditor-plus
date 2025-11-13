@@ -53,6 +53,7 @@
                     style: "display:none"
                 }))
             );
+            editor.textareaAutoCreate = textarea;
         }
         if (textarea && !editor.textarea) {
             editor.textarea = textarea;
@@ -366,6 +367,9 @@
             textarea.id = me.key;
             container.innerHTML = "";
             domUtils.remove(container);
+            if(me.textareaAutoCreate && textarea===me.textareaAutoCreate){
+                me.textareaAutoCreate.remove();
+            }
             var key = me.key;
             //trace:2004
             for (var p in me) {
