@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
     instants: {},
     I18N: {},
     _customizeUI: {},
-    version: "4.4.0",
+    version: "4.5.0-beta",
     plus: {
         fileExt: function (filename) {
             if (!filename) {
@@ -7274,6 +7274,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
                     style: "display:none"
                 }))
             );
+            editor.textareaAutoCreate = textarea;
         }
         if (textarea && !editor.textarea) {
             editor.textarea = textarea;
@@ -7587,6 +7588,9 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
             textarea.id = me.key;
             container.innerHTML = "";
             domUtils.remove(container);
+            if(me.textareaAutoCreate && textarea===me.textareaAutoCreate){
+                me.textareaAutoCreate.remove();
+            }
             var key = me.key;
             //trace:2004
             for (var p in me) {
