@@ -143,12 +143,30 @@ UE.plugins["fiximgclick"] = (function () {
             },
             updateTargetElement: function () {
                 var me = this;
+                // 拿到图片的原始大小
+                var o_width = me.target.naturalWidth;
+                var o_height = me.target.naturalHeight;
+        
+                // 计算出原始图片比例
+                var o_scale = (o_width / o_height).toFixed(4);
+        
+                // 再拿到图片现在的大小，可能是变形的Ï
+                var width = parseInt(me.resizer.style.width);
+                var height = parseInt(me.resizer.style.height);
+        
+                // 判断改变的是宽度还是高度
+                if (rect[me.dragId][2] != 0) {
+                  height = width / o_scale;
+                } else if (rect[me.dragId][3] != 0) {
+                  width = height * o_scale;
+                }
+        
                 domUtils.setStyles(me.target, {
-                    width: me.resizer.style.width,
-                    height: me.resizer.style.height
+                  width: width + "px",
+                  height: height + "px",
                 });
-                me.target.width = parseInt(me.resizer.style.width);
-                me.target.height = parseInt(me.resizer.style.height);
+                me.target.width = width;
+                me.target.height = height;
                 me.attachTo(me.target);
             },
             updateContainerStyle: function (dir, offset) {
