@@ -84,6 +84,7 @@ UE.I18N['en'] = {
         'wordimage': 'WordImage',
         'formula': 'Formula',
         'lineheight': 'LineHeight',
+        'letterspacing': 'LetterSpacing',
         'edittip': 'EditTip',
         'customstyle': 'CustomStyle',
         'scrawl': 'Scrawl',

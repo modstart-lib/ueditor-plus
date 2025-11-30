@@ -406,3 +406,7 @@
 .edui-default .edui-for-simpleupload .edui-icon:before {
     content: "\edfc";
 }
+
+.edui-default .edui-for-letterspacing .edui-icon:before {
+    content: "\edfc";
+}

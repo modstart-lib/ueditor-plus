@@ -93,6 +93,7 @@
             'plugins/insertfile.js',
             'plugins/markdown-shortcut.js',
             'plugins/quick-operate.js',
+            'plugins/letterspacing.js',
 
             'ui/ui.js',
             'ui/uiutils.js',
