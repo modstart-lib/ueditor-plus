@@ -20,7 +20,7 @@ UE.plugins["letterspacing"] = function () {
       );
       if (pN) {
         var value = domUtils.getComputedStyle(pN, "letter-spacing");
-        return value == "normal" ? 0 : value.replace(/[^\d.]*/gi, "");
+        return value == "normal" ? '0' : value.replace(/[^\d.]*/gi, "");
       }
     },
   };
