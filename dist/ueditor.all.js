@@ -7485,7 +7485,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
                         me.options.lang +
                         "/" +
                         me.options.lang +
-                        ".js?58c38108",
+                        ".js?a761dd7e",
                     tag: "script",
                     type: "text/javascript",
                     defer: "defer"
@@ -22509,12 +22509,30 @@ UE.plugins["fiximgclick"] = (function () {
             },
             updateTargetElement: function () {
                 var me = this;
+                // 拿到图片的原始大小
+                var o_width = me.target.naturalWidth;
+                var o_height = me.target.naturalHeight;
+        
+                // 计算出原始图片比例
+                var o_scale = (o_width / o_height).toFixed(4);
+        
+                // 再拿到图片现在的大小，可能是变形的Ï
+                var width = parseInt(me.resizer.style.width);
+                var height = parseInt(me.resizer.style.height);
+        
+                // 判断改变的是宽度还是高度
+                if (rect[me.dragId][2] != 0) {
+                  height = width / o_scale;
+                } else if (rect[me.dragId][3] != 0) {
+                  width = height * o_scale;
+                }
+        
                 domUtils.setStyles(me.target, {
-                    width: me.resizer.style.width,
-                    height: me.resizer.style.height
+                  width: width + "px",
+                  height: height + "px",
                 });
-                me.target.width = parseInt(me.resizer.style.width);
-                me.target.height = parseInt(me.resizer.style.height);
+                me.target.width = width;
+                me.target.height = height;
                 me.attachTo(me.target);
             },
             updateContainerStyle: function (dir, offset) {
@@ -31083,6 +31101,36 @@ UE.plugins["quick-operate"] = function () {
 };
 
 
+// plugins/letterspacing.js
+UE.plugins["letterspacing"] = function () {
+  var me = this;
+  me.setOpt({
+    letterspacing: ["0", "0.25", "0.5", "1", "1.5", "2", "3", "4", "5"],
+  });
+
+  me.commands["letterspacing"] = {
+    execCommand: function (cmdName, value) {
+      this.execCommand("paragraph", "p", {
+        style: "letter-spacing:" + (value == "0" ? "normal" : value + "em"),
+      });
+      return true;
+    },
+    queryCommandValue: function () {
+      var pN = domUtils.filterNodeList(
+        this.selection.getStartElementPath(),
+        function (node) {
+          return domUtils.isBlockElm(node);
+        }
+      );
+      if (pN) {
+        var value = domUtils.getComputedStyle(pN, "letter-spacing");
+        return value == "normal" ? '0' : value.replace(/[^\d.]*/gi, "");
+      }
+    },
+  };
+};
+
+
 // ui/ui.js
 var baidu = baidu || {};
 baidu.editor = baidu.editor || {};
@@ -34918,15 +34966,15 @@ UE.ui = baidu.editor.ui = {};
         wordimage: "~/dialogs/wordimage/wordimage.html?6c25c600",
         formula: "~/dialogs/formula/formula.html?a3bc14af",
         attachment: "~/dialogs/attachment/attachment.html?8cf1bb27",
-        insertframe: "~/dialogs/insertframe/insertframe.html?9353d50c",
+        insertframe: "~/dialogs/insertframe/insertframe.html?9e457226",
         edittip: "~/dialogs/table/edittip.html?7f922949",
         edittable: "~/dialogs/table/edittable.html?c2a698ec",
         edittd: "~/dialogs/table/edittd.html?e110da33",
         scrawl: "~/dialogs/scrawl/scrawl.html?185f463e",
         template: "~/dialogs/template/template.html?4ec66ee4",
         background: "~/dialogs/background/background.html?63701ca2",
-        contentimport: "~/dialogs/contentimport/contentimport.html?96da835f",
-        ai: "~/dialogs/ai/ai.html?86145ec2",
+        contentimport: "~/dialogs/contentimport/contentimport.html?09b2b445",
+        ai: "~/dialogs/ai/ai.html?26b4f9ca",
     };
     var dialogBtns = {
         noOk: ["searchreplace", "help", "spechars", "preview"],
@@ -35705,6 +35753,45 @@ UE.ui = baidu.editor.ui = {};
         return ui;
     };
 
+    /* 字间距 */
+    editorui.letterspacing = function (editor) {
+        var val = editor.options.letterspacing || [];
+        if (!val.length) return;
+        for (var i = 0, ci, items = []; (ci = val[i++]); ) {
+            items.push({
+                //todo:写死了
+                label: ci,
+                value: ci,
+                theme: editor.options.theme,
+                onclick: function () {
+                    editor.execCommand("letterspacing", this.value);
+                },
+            });
+        }
+        var ui = new editorui.MenuButton({
+            editor: editor,
+            className: "edui-for-letterspacing",
+            title: editor.options.labelMap["letterspacing"] || editor.getLang("labelMap.letterspacing") || "",
+            items: items,
+            onbuttonclick: function () {
+                var value = editor.queryCommandValue("LetterSpacing") || this.value;
+                editor.execCommand("LetterSpacing", value);
+            },
+        });
+        editorui.buttons["letterspacing"] = ui;
+        editor.addListener("selectionchange", function () {
+            var state = editor.queryCommandState("LetterSpacing");
+            if (state == -1) {
+                ui.setDisabled(true);
+            } else {
+                ui.setDisabled(false);
+                var value = editor.queryCommandValue("LetterSpacing");
+                value && ui.setValue((value + "").replace(/cm/, ""));
+                ui.setChecked(state);
+            }
+        });
+        return ui;
+    };
 })();
 
 
@@ -36588,7 +36675,7 @@ UE.ui = baidu.editor.ui = {};
         editor.options.editor = editor;
         utils.loadFile(document, {
             href:
-                editor.options.themePath + editor.options.theme + "/css/ueditor.css?dfa5e8ae",
+                editor.options.themePath + editor.options.theme + "/css/ueditor.css?a8ae9c2c",
             tag: "link",
             type: "text/css",
             rel: "stylesheet"
