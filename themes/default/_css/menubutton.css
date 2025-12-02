@@ -68,6 +68,12 @@
     padding: 2px 5px;
 }
 
+.edui-default .edui-for-letterspacing .edui-listitem-label {
+    min-width: 53px;
+    _width: 53px;
+    padding: 2px 5px;
+}
+
 .edui-default .edui-for-customstyle .edui-listitem-label {
     min-width: 200px;
     _width: 200px;

@@ -95,6 +95,7 @@
                 "rowspacingtop",// 段前距
                 "rowspacingbottom",    // 段后距
                 "lineheight",          // 行间距
+                "letterspacing",       // 字间距
                 "|",
                 "customstyle",         // 自定义标题
                 "paragraph",           // 段落格式
