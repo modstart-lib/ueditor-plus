@@ -167,7 +167,7 @@
             ]
         ]
         // 动态选项配置，该值可以通过后端配置接口动态返回，动态控制toolbars的功能
-        , toolbarShows:{
+        , toolbarShows: {
             // "ai": false,
         }
 
@@ -519,7 +519,7 @@
             // "tolowercase"     // 字母小写
         ]
         // 动态选项配置，该值可以通过后端配置接口动态返回，动态控制shortcutMenu的功能
-        ,shortcutMenuShows: {
+        , shortcutMenuShows: {
             // "ai": false,
         }
 
@@ -593,7 +593,7 @@
             // 去掉空节点
             removeEmptyNode: false,
             // 可以去掉的标签
-            removeTagNames: {div: 1},
+            removeTagNames: { div: 1 },
             // 行首缩进
             indent: false,
             // 行首缩进的大小
@@ -630,7 +630,10 @@
 
         // AI智能相关配置
         , ai: {
-            // 大模型驱动 OpenAi ModStart
+            // 大模型驱动
+            // ModStart
+            // OpenAi、DeepSeek、Anthropic、Google、Baidu、Alibaba、Tencent、Huawei
+            // ByteDance、Zhipu、Moonshot、iFlytek、Volcengine
             driver: 'OpenAi',
             // 大模型对接配置
             driverConfig: {
@@ -659,34 +662,51 @@
             //     mock();
             // },
         }
-        , aiFunctions:[
+        , aiFunctions: [
             {
                 text: '<i class="edui-iconfont edui-icon-translate"></i> 翻译',
-                prompt: "{selectText}\n\n请帮我翻译一下这段内容，并直接返回优化后的结果。\n注意：你应该先判断一下这句话是中文还是英文，如果是中文，请给我返回英文，如果是英文，请给我返回中文内容，只需要返回内容即可，不需要告知我是中文还是英文。",
+                systemPrompt: "你是一个专业的翻译专家，擅长在中文和英文之间进行准确、自然的翻译。请将提供的文本翻译成目标语言，保持原文的含义、语气和上下文。只返回翻译后的内容，不要添加任何额外说明。",
+                prompt: '{selectText}',
                 enable: function (param) {
                     return !!param.selectText
                 }
             },
             {
                 text: '<i class="edui-iconfont edui-icon-continue-write"></i> 续写',
-                prompt: "{selectText}\n\n请帮我续写一下这段内容，并直接返回续写后的结果。",
+                systemPrompt: "你是一个优秀的内容创作者，能够根据用户选中的文本进行自然流畅的续写。请续写内容，使其与原有文本无缝衔接，并保持一致的风格和主题。只返回续写后的内容，不要添加任何额外说明。",
+                prompt: '{selectText}',
                 enable: function (param) {
                     return !!param.selectText
                 }
             },
             {
                 text: '<i class="edui-iconfont edui-icon-text-shrink"></i> 简化内容',
-                prompt: "{selectText}\n\n请帮我简化一下这段内容，并直接返回简化后的结果。",
+                systemPrompt: "你是一个内容简化专家，能够将复杂的内容用简单易懂的语言表达出来。请简化提供的文本，使其更易理解，同时保留核心信息。只返回简化后的内容，不要添加任何额外说明。",
+                prompt: '{selectText}',
                 enable: function (param) {
                     return !!param.selectText
                 }
             },
             {
                 text: '<i class="edui-iconfont edui-icon-text-extend"></i> 丰富内容',
-                prompt: "{selectText}\n\n请帮我丰富一下这段内容，并直接返回丰富后的结果。",
+                systemPrompt: "你是一个内容扩展专家，能够将简短的内容进行扩展，增加细节和描述，使其更加丰富。请扩展提供的文本，添加相关细节、例子或解释，以增强内容的深度和吸引力。只返回扩展后的内容，不要添加任何额外说明。",
+                prompt: '{selectText}',
                 enable: function (param) {
                     return !!param.selectText
                 }
+            },
+            {
+                text: '<i class="edui-iconfont edui-icon-robot"></i> 优化整篇内容',
+                systemPrompt: "你是一个专业的写作优化专家，能够提升文章的整体质量和可读性。请对提供的整篇文章进行润色和优化，包括语法、结构、逻辑和表达方式等方面。确保文章流畅、清晰且具有吸引力。可以适当增加一些Emoji表情提高文章可读性。只返回HTML内容，不要添加任何额外说明。",
+                prompt: '{html}',
+                enable: function (param) {
+                    return true;
+                },
+                param: {
+                    showInsert: false,
+                    showReplace: false,
+                    showReplaceAll: true,
+                },
             }
         ]
 

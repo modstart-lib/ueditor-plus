@@ -140,6 +140,9 @@ var openAiCompletion = function openAiCompletion(url, param, option) {
     option.body = {
       model: aiConfig.driverConfig.model,
       messages: [{
+        role: 'system',
+        content: param.systemPromptText
+      }, {
         role: 'user',
         content: param.promptText
       }],
@@ -158,15 +161,49 @@ var drivers = {
   'ModStart': function ModStart(param) {
     openAiCompletion(aiConfig.driverConfig.url, param, {
       body: {
+        systemPrompt: param.systemPromptText,
         prompt: param.promptText
       }
     });
   },
   'OpenAi': function OpenAi(param) {
-    openAiCompletion(aiConfig.driverConfig.url || 'https://api.openai.com/v1/engines/davinci/completions', param);
+    openAiCompletion(aiConfig.driverConfig.url || 'https://api.openai.com/v1/chat/completions', param);
   },
   'DeepSeek': function DeepSeek(param) {
-    openAiCompletion(aiConfig.driverConfig.url || 'https://api.deepseek.com/chat/completions', param);
+    openAiCompletion(aiConfig.driverConfig.url || 'https://api.deepseek.com/v1/chat/completions', param);
+  },
+  'Anthropic': function Anthropic(param) {
+    openAiCompletion(aiConfig.driverConfig.url || 'https://api.anthropic.com/v1/messages', param);
+  },
+  'Google': function Google(param) {
+    openAiCompletion(aiConfig.driverConfig.url || 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions', param);
+  },
+  'Baidu': function Baidu(param) {
+    openAiCompletion(aiConfig.driverConfig.url || 'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions', param);
+  },
+  'Alibaba': function Alibaba(param) {
+    openAiCompletion(aiConfig.driverConfig.url || 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', param);
+  },
+  'Tencent': function Tencent(param) {
+    openAiCompletion(aiConfig.driverConfig.url || 'https://hunyuan.tencentcloudapi.com/v1/chat/completions', param);
+  },
+  'Huawei': function Huawei(param) {
+    openAiCompletion(aiConfig.driverConfig.url || 'https://pangu.huaweicloud.com/v1/chat/completions', param);
+  },
+  'ByteDance': function ByteDance(param) {
+    openAiCompletion(aiConfig.driverConfig.url || 'https://ark.cn-beijing.volces.com/api/v3/chat/completions', param);
+  },
+  'Zhipu': function Zhipu(param) {
+    openAiCompletion(aiConfig.driverConfig.url || 'https://open.bigmodel.cn/api/paas/v4/chat/completions', param);
+  },
+  'Moonshot': function Moonshot(param) {
+    openAiCompletion(aiConfig.driverConfig.url || 'https://api.moonshot.cn/v1/chat/completions', param);
+  },
+  'iFlytek': function iFlytek(param) {
+    openAiCompletion(aiConfig.driverConfig.url || 'https://spark-api-open.xf-yun.com/v1/chat/completions', param);
+  },
+  'Volcengine': function Volcengine(param) {
+    openAiCompletion(aiConfig.driverConfig.url || 'https://ark.cn-beijing.volces.com/api/v3/chat/completions', param);
   }
 };
 function getRequest(driver) {
@@ -179,6 +216,11 @@ function getRequest(driver) {
   return null;
 }
 var converter = new window.showdown.Converter();
+var AiDefaultAiFunctionParam = {
+  showInsert: true,
+  showReplace: true,
+  showReplaceAll: false
+};
 var Ai = {
   runtime: {
     range: null
@@ -190,10 +232,15 @@ var Ai = {
         loading: false,
         selectText: '',
         inputText: '',
+        submitFunction: null,
+        systemPromptText: '',
         promptText: '',
         resultText: '',
         resultError: '',
-        functions: []
+        functions: [],
+        showInsert: AiDefaultAiFunctionParam.showInsert,
+        showReplace: AiDefaultAiFunctionParam.showReplace,
+        showReplaceAll: AiDefaultAiFunctionParam.showReplaceAll
       },
       mounted: function mounted() {
         Ai.runtime.range = editor.selection.getRange();
@@ -233,6 +280,8 @@ var Ai = {
               return null;
             }
             f.prompt = f.prompt.replace(/\{selectText\}/g, enableParam.selectText);
+            f.prompt = f.prompt.replace(/\{html\}/g, editor.getContent());
+            f.param = Object.assign({}, AiDefaultAiFunctionParam, f.param);
             return f;
           }).filter(function (f) {
             return !!f;
@@ -243,12 +292,9 @@ var Ai = {
           if (this.loading) {
             return;
           }
-          if (this.inputText) {
-            if (this.selectText) {
-              this.promptText = this.selectText + '\n\n' + this.inputText;
-            } else {
-              this.promptText = this.inputText;
-            }
+          if (!this.systemPromptText) {
+            editor.tipError('请输入系统提示语');
+            return;
           }
           if (!this.promptText) {
             editor.tipError('请输入内容');
@@ -263,6 +309,7 @@ var Ai = {
             return;
           }
           driverRequest({
+            systemPromptText: this.systemPromptText,
             promptText: this.promptText,
             onStream: function onStream(res) {
               if (res.code) {
@@ -282,7 +329,24 @@ var Ai = {
           });
         },
         doSubmitFunction: function doSubmitFunction(f) {
-          this.promptText = f.prompt;
+          this.submitFunction = f;
+          this.systemPromptText = f.systemPrompt || '';
+          this.promptText = f.prompt || '';
+          this.showInsert = f.param.showInsert;
+          this.showReplace = f.param.showReplace;
+          this.showReplaceAll = f.param.showReplaceAll;
+          this.doSubmit();
+        },
+        doSubmitDirect: function doSubmitDirect() {
+          this.submitFunction = null;
+          this.systemPromptText = this.inputText || '';
+          if (!this.systemPromptText) {
+            editor.tipError('请输入系统提示语');
+            return;
+          }
+          this.showInsert = AiDefaultAiFunctionParam.showInsert;
+          this.showReplace = AiDefaultAiFunctionParam.showReplace;
+          this.showReplaceAll = AiDefaultAiFunctionParam.showReplaceAll;
           this.doSubmit();
         },
         doInsert: function doInsert() {
@@ -310,6 +374,11 @@ var Ai = {
           } else {
             Ai.runtime.range.insertNode(document.createTextNode(this.resultText));
           }
+          dialog.close(true);
+        },
+        doReplaceAll: function doReplaceAll() {
+          editor.fireEvent('saveScene');
+          editor.setContent(this.resultText);
           dialog.close(true);
         }
       }
