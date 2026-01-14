@@ -11,7 +11,7 @@ var fetchStream = function (url, option, onStream, onFinish) {
         method: 'POST',
     }, option)).then(response => {
         if (!response.ok) {
-            onFinish({code: -1, msg: `HTTP error! status: ${response.status}`})
+            onFinish({ code: -1, msg: `HTTP error! status: ${response.status}` })
             return
         }
         const reader = response.body.getReader();
@@ -20,7 +20,7 @@ var fetchStream = function (url, option, onStream, onFinish) {
         const textList = []
 
         function processChunk(chunk) {
-            buffer += decoder.decode(chunk, {stream: true});
+            buffer += decoder.decode(chunk, { stream: true });
             // 分割事件流，每个事件以"data:"开头，以两个换行符结束
             const lines = buffer.split('\n');
             for (let line of lines) {
@@ -28,7 +28,7 @@ var fetchStream = function (url, option, onStream, onFinish) {
                 if (line.startsWith('data:')) {
                     const jsonStr = line.replace('data:', '').trim();
                     if (jsonStr === '[DONE]') {
-                        onFinish({code: 0, msg: 'ok', data: {text: textList.join('')}})
+                        onFinish({ code: 0, msg: 'ok', data: { text: textList.join('') } })
                         return;
                     }
                     try {
@@ -42,10 +42,10 @@ var fetchStream = function (url, option, onStream, onFinish) {
                             // {"type":"end","data":"xxx"}
                             // {"type":"data","data":"xxx"}
                             if (data.type === 'error') {
-                                onFinish({code: -1, msg: data.data})
+                                onFinish({ code: -1, msg: data.data })
                                 return;
                             } else if (data.type === 'end') {
-                                onFinish({code: 0, msg: 'ok', data: {text: textList.join('')}})
+                                onFinish({ code: 0, msg: 'ok', data: { text: textList.join('') } })
                                 return;
                             } else if (data.type === 'data') {
                                 text = data.data
@@ -53,13 +53,13 @@ var fetchStream = function (url, option, onStream, onFinish) {
                         }
                         if (text !== null) {
                             textList.push(text)
-                            onStream({code: 0, msg: 'ok', data: {text: text}})
+                            onStream({ code: 0, msg: 'ok', data: { text: text } })
                         } else {
-                            onFinish({code: -1, msg: 'No text found!'})
+                            onFinish({ code: -1, msg: 'No text found!' })
                             console.log('data:', data)
                         }
                     } catch (e) {
-                        onFinish({code: -1, msg: 'JSON parse error!' + e})
+                        onFinish({ code: -1, msg: 'JSON parse error!' + e })
                     }
                 }
             }
@@ -67,7 +67,7 @@ var fetchStream = function (url, option, onStream, onFinish) {
         }
 
         function read() {
-            reader.read().then(({done, value}) => {
+            reader.read().then(({ done, value }) => {
                 if (done) {
                     if (buffer) processChunk(new Uint8Array());
                     return;
@@ -75,13 +75,13 @@ var fetchStream = function (url, option, onStream, onFinish) {
                 processChunk(value);
                 read();
             }).catch(error => {
-                onFinish({code: -1, msg: 'Stream error!' + error})
+                onFinish({ code: -1, msg: 'Stream error!' + error })
             });
         }
 
         read();
     }).catch(error => {
-        onFinish({code: -1, msg: 'Request error!' + error})
+        onFinish({ code: -1, msg: 'Request error!' + error })
     });
 }
 
@@ -92,7 +92,10 @@ var openAiCompletion = function (url, param, option) {
     if (!option.body) {
         option.body = {
             model: aiConfig.driverConfig.model,
-            messages: [{role: 'user', content: param.promptText}],
+            messages: [
+                { role: 'system', content: param.systemPromptText },
+                { role: 'user', content: param.promptText },
+            ],
             stream: true,
         }
     }
@@ -114,15 +117,49 @@ var drivers = {
     'ModStart': function (param) {
         openAiCompletion(aiConfig.driverConfig.url, param, {
             body: {
+                systemPrompt: param.systemPromptText,
                 prompt: param.promptText
             }
         })
     },
     'OpenAi': function (param) {
-        openAiCompletion(aiConfig.driverConfig.url || 'https://api.openai.com/v1/engines/davinci/completions', param)
+        openAiCompletion(aiConfig.driverConfig.url || 'https://api.openai.com/v1/chat/completions', param)
     },
     'DeepSeek': function (param) {
-        openAiCompletion(aiConfig.driverConfig.url || 'https://api.deepseek.com/chat/completions', param)
+        openAiCompletion(aiConfig.driverConfig.url || 'https://api.deepseek.com/v1/chat/completions', param)
+    },
+    'Anthropic': function (param) {
+        openAiCompletion(aiConfig.driverConfig.url || 'https://api.anthropic.com/v1/messages', param)
+    },
+    'Google': function (param) {
+        openAiCompletion(aiConfig.driverConfig.url || 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions', param)
+    },
+    'Baidu': function (param) {
+        openAiCompletion(aiConfig.driverConfig.url || 'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions', param)
+    },
+    'Alibaba': function (param) {
+        openAiCompletion(aiConfig.driverConfig.url || 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', param)
+    },
+    'Tencent': function (param) {
+        openAiCompletion(aiConfig.driverConfig.url || 'https://hunyuan.tencentcloudapi.com/v1/chat/completions', param)
+    },
+    'Huawei': function (param) {
+        openAiCompletion(aiConfig.driverConfig.url || 'https://pangu.huaweicloud.com/v1/chat/completions', param)
+    },
+    'ByteDance': function (param) {
+        openAiCompletion(aiConfig.driverConfig.url || 'https://ark.cn-beijing.volces.com/api/v3/chat/completions', param)
+    },
+    'Zhipu': function (param) {
+        openAiCompletion(aiConfig.driverConfig.url || 'https://open.bigmodel.cn/api/paas/v4/chat/completions', param)
+    },
+    'Moonshot': function (param) {
+        openAiCompletion(aiConfig.driverConfig.url || 'https://api.moonshot.cn/v1/chat/completions', param)
+    },
+    'iFlytek': function (param) {
+        openAiCompletion(aiConfig.driverConfig.url || 'https://spark-api-open.xf-yun.com/v1/chat/completions', param)
+    },
+    'Volcengine': function (param) {
+        openAiCompletion(aiConfig.driverConfig.url || 'https://ark.cn-beijing.volces.com/api/v3/chat/completions', param)
     },
 }
 
@@ -138,6 +175,12 @@ function getRequest(driver) {
 
 var converter = new window.showdown.Converter();
 
+var AiDefaultAiFunctionParam = {
+    showInsert: true,
+    showReplace: true,
+    showReplaceAll: false,
+};
+
 var Ai = {
     runtime: {
         range: null,
@@ -149,10 +192,15 @@ var Ai = {
                 loading: false,
                 selectText: '',
                 inputText: '',
+                submitFunction: null,
+                systemPromptText: '',
                 promptText: '',
                 resultText: '',
                 resultError: '',
                 functions: [],
+                showInsert: AiDefaultAiFunctionParam.showInsert,
+                showReplace: AiDefaultAiFunctionParam.showReplace,
+                showReplaceAll: AiDefaultAiFunctionParam.showReplaceAll,
             },
             mounted: function () {
                 Ai.runtime.range = editor.selection.getRange();
@@ -192,6 +240,8 @@ var Ai = {
                             return null;
                         }
                         f.prompt = f.prompt.replace(/\{selectText\}/g, enableParam.selectText);
+                        f.prompt = f.prompt.replace(/\{html\}/g, editor.getContent());
+                        f.param = Object.assign({}, AiDefaultAiFunctionParam, f.param);
                         return f;
                     }).filter(function (f) {
                         return !!f;
@@ -201,12 +251,9 @@ var Ai = {
                     if (this.loading) {
                         return;
                     }
-                    if (this.inputText) {
-                        if (this.selectText) {
-                            this.promptText = this.selectText + '\n\n' + this.inputText;
-                        } else {
-                            this.promptText = this.inputText;
-                        }
+                    if (!this.systemPromptText) {
+                        editor.tipError('请输入系统提示语');
+                        return;
                     }
                     if (!this.promptText) {
                         editor.tipError('请输入内容');
@@ -221,6 +268,7 @@ var Ai = {
                         return;
                     }
                     driverRequest({
+                        systemPromptText: this.systemPromptText,
                         promptText: this.promptText,
                         onStream: (res) => {
                             if (res.code) {
@@ -240,7 +288,24 @@ var Ai = {
                     })
                 },
                 doSubmitFunction: function (f) {
-                    this.promptText = f.prompt;
+                    this.submitFunction = f;
+                    this.systemPromptText = f.systemPrompt || '';
+                    this.promptText = f.prompt || '';
+                    this.showInsert = f.param.showInsert;
+                    this.showReplace = f.param.showReplace;
+                    this.showReplaceAll = f.param.showReplaceAll;
+                    this.doSubmit()
+                },
+                doSubmitDirect: function () {
+                    this.submitFunction = null;
+                    this.systemPromptText = this.inputText || '';
+                    if (!this.systemPromptText) {
+                        editor.tipError('请输入系统提示语');
+                        return;
+                    }
+                    this.showInsert = AiDefaultAiFunctionParam.showInsert;
+                    this.showReplace = AiDefaultAiFunctionParam.showReplace;
+                    this.showReplaceAll = AiDefaultAiFunctionParam.showReplaceAll;
                     this.doSubmit()
                 },
                 doInsert: function () {
@@ -270,6 +335,11 @@ var Ai = {
                     }
                     dialog.close(true);
                 },
+                doReplaceAll: function () {
+                    editor.fireEvent('saveScene');
+                    editor.setContent(this.resultText);
+                    dialog.close(true);
+                }
             }
         });
     },
