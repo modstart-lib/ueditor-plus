@@ -296,10 +296,6 @@ var Ai = {
             editor.tipError('请输入系统提示语');
             return;
           }
-          if (!this.promptText) {
-            editor.tipError('请输入内容');
-            return;
-          }
           this.loading = true;
           this.resultError = '';
           this.resultText = '';

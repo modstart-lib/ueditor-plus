@@ -34974,7 +34974,7 @@ UE.ui = baidu.editor.ui = {};
         template: "~/dialogs/template/template.html?4ec66ee4",
         background: "~/dialogs/background/background.html?63701ca2",
         contentimport: "~/dialogs/contentimport/contentimport.html?09b2b445",
-        ai: "~/dialogs/ai/ai.html?c67ed655",
+        ai: "~/dialogs/ai/ai.html?24fdd735",
     };
     var dialogBtns = {
         noOk: ["searchreplace", "help", "spechars", "preview"],
