@@ -593,7 +593,7 @@
             // 去掉空节点
             removeEmptyNode: false,
             // 可以去掉的标签
-            removeTagNames: { div: 1 },
+            removeTagNames: {div: 1},
             // 行首缩进
             indent: false,
             // 行首缩进的大小
@@ -664,6 +664,7 @@
         }
         , aiFunctions: [
             {
+                name: 'translate',
                 text: '<i class="edui-iconfont edui-icon-translate"></i> 翻译',
                 systemPrompt: "你是一个专业的翻译专家，擅长在中文和英文之间进行准确、自然的翻译。请将提供的文本翻译成目标语言，保持原文的含义、语气和上下文。只返回翻译后的内容，不要添加任何额外说明。",
                 prompt: '{selectText}',
@@ -672,6 +673,7 @@
                 }
             },
             {
+                name: 'continueWrite',
                 text: '<i class="edui-iconfont edui-icon-continue-write"></i> 续写',
                 systemPrompt: "你是一个优秀的内容创作者，能够根据用户选中的文本进行自然流畅的续写。请续写内容，使其与原有文本无缝衔接，并保持一致的风格和主题。只返回续写后的内容，不要添加任何额外说明。",
                 prompt: '{selectText}',
@@ -680,6 +682,7 @@
                 }
             },
             {
+                name: 'summarize',
                 text: '<i class="edui-iconfont edui-icon-text-shrink"></i> 简化内容',
                 systemPrompt: "你是一个内容简化专家，能够将复杂的内容用简单易懂的语言表达出来。请简化提供的文本，使其更易理解，同时保留核心信息。只返回简化后的内容，不要添加任何额外说明。",
                 prompt: '{selectText}',
@@ -688,6 +691,7 @@
                 }
             },
             {
+                name: 'extend',
                 text: '<i class="edui-iconfont edui-icon-text-extend"></i> 丰富内容',
                 systemPrompt: "你是一个内容扩展专家，能够将简短的内容进行扩展，增加细节和描述，使其更加丰富。请扩展提供的文本，添加相关细节、例子或解释，以增强内容的深度和吸引力。只返回扩展后的内容，不要添加任何额外说明。",
                 prompt: '{selectText}',
@@ -696,8 +700,9 @@
                 }
             },
             {
+                name: 'optimizeWhole',
                 text: '<i class="edui-iconfont edui-icon-robot"></i> 优化整篇内容',
-                systemPrompt: "你是一个专业的写作优化专家，能够提升文章的整体质量和可读性。请对提供的整篇文章进行润色和优化，包括语法、结构、逻辑和表达方式等方面。确保文章流畅、清晰且具有吸引力。可以适当增加一些Emoji表情提高文章可读性。只返回HTML的body中的内容（不要包含html、body标签本身），不要添加任何额外说明。",
+                systemPrompt: "你是一个专业的写作优化专家，擅长提升文章的整体质量和可读性。请对提供的整篇文章进行润色和优化，包括但不限于：语法修正、结构调整、逻辑梳理、表达优化。确保文章流畅、清晰、有吸引力，同时保持原文的核心内容、意图和风格不变。可以适当添加Emoji表情来增强可读性，但不要过度使用。输出必须是有效的HTML内容（body部分），不要包含<html>或<body>标签本身，也不要添加任何额外的说明或注释。",
                 prompt: '{html}',
                 enable: function (param) {
                     return true;
