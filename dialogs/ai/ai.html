@@ -109,9 +109,7 @@
                 </div>
                 <div style="margin-top:10px;background:rgba(0,0,0,0.03);padding:10px;border-radius:10px;overflow:auto;"
                     :style="{height:resultHeight}">
-                    <div class="ub-html">
-                        {{resultHtml}}
-                    </div>
+                    <div class="ub-html" v-html="resultHtml"></div>
                 </div>
             </div>
             <div v-else style="border-top:1px solid #F2F2F2;margin-top:10px;padding-top:10px;">
