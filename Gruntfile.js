@@ -64,7 +64,7 @@ module.exports = function (grunt) {
                     }
                 },
                 src: Util.fetchScripts("_examples/editor_api.js", Util.jsBasePath),
-                dest: distDir + packageJson.name + ".all.js"
+                dest: distDir + "ueditor.all.js"
             },
             parse: {
                 options: {
@@ -76,7 +76,7 @@ module.exports = function (grunt) {
                     footer: "\n\n})();\n"
                 },
                 src: Util.fetchScripts("ueditor.parse.js", Util.parseBasePath),
-                dest: distDir + packageJson.name + ".parse.js"
+                dest: distDir + "ueditor.parse.js"
             },
             css: {
                 src: Util.fetchStyles(),
@@ -174,7 +174,7 @@ module.exports = function (grunt) {
                     },
                     {
                         from: "editor_api.js",
-                        to: packageJson.name + ".all.js"
+                        to: "ueditor.all.js"
                     }
                 ]
             },
