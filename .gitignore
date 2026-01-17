@@ -18,6 +18,9 @@ _deleted/
 *.doc
 *.docx
 *.xml
+/doc/
+/dist/
+/dist-min/
 
 
 

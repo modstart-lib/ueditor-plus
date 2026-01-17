@@ -436,6 +436,10 @@
                 for (var i in options.iframeCssUrlsAddition) {
                     additionCssHtml.push("<link rel='stylesheet' type='text/css' href='" + utils.unhtml(options.iframeCssUrlsAddition[i]) + "'/>")
                 }
+                var additionStylesHtml = [];
+                for (var i in options.iframeCssStylesAddition) {
+                    additionStylesHtml.push("<style type='text/css'>" + options.iframeCssStylesAddition[i] + "</style>")
+                }
                 var html =
                     (ie && browser.version < 9 ? "" : "<!DOCTYPE html>") +
                     "<html xmlns='http://www.w3.org/1999/xhtml' class='view' >" +
@@ -457,6 +461,7 @@
                         ? "<style>" + options.initialStyle + "</style>"
                         : "") +
                     additionCssHtml.join("") +
+                    additionStylesHtml.join("") +
                     "</head>" +
                     "<body class='view' ></body>" +
                     "<script type='text/javascript' " +

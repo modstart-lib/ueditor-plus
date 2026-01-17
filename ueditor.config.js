@@ -331,6 +331,8 @@
         //,iframeCssUrl: URL + '/themes/iframe.css' //给编辑区域的iframe引入一个css文件
         // 给编辑器引入更多样式文件
         //,iframeCssUrlsAddition: []
+        // 给编辑器引入更多内联样式
+        //,iframeCssStylesAddition: []
 
         // 首行缩进距离,默认是 2em
         , indentValue: '2em'

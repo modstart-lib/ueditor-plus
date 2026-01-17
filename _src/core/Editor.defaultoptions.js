@@ -8,6 +8,7 @@ UE.Editor.defaultOptions = function (editor) {
         autoClearinitialContent: false,
         iframeCssUrl: _url + "themes/iframe.css?{timestamp}",
         iframeCssUrlsAddition: [],
+        iframeCssStylesAddition: [],
         textarea: '',
         focus: false,
         focusInEnd: true,
