@@ -81,13 +81,19 @@ $config = [
 
 function output($data)
 {
-    header('Content-Type: application/json');
+    $callback = isset($_GET['callback']) ? $_GET['callback'] : null;
     $data['_all'] = [
         'POST' => $_POST,
         'FILES' => $_FILES,
         'GET' => $_GET,
     ];
-    echo json_encode($data);
+    if($callback){
+        header('Content-Type: application/javascript');
+        echo $callback . '(' . json_encode($data) . ');';
+    }else{
+        header('Content-Type: application/json');
+        echo json_encode($data);
+    }
     exit();
 }
 
