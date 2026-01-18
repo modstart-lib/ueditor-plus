@@ -21,7 +21,7 @@
 
 ## 相关链接
 
-- 在线演示：[https://open.modstart.com/ueditor-plus/examples/](https://open.modstart.com/ueditor-plus/examples/)
+- 在线演示：[https://open.modstart.com/ueditor-plus/_examples/](https://open.modstart.com/ueditor-plus/_examples/)
 - 使用文档： [https://open.modstart.com/ueditor-plus](https://open.modstart.com/ueditor-plus)
 
 ## 使用遇到问题
