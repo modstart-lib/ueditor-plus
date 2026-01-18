@@ -15,6 +15,8 @@ publish_to_open: build
 	export IS_MODSTART=1 && cd doc && npm run build && cd ..
 	cp -av doc/docs/.vuepress/dist ../open.demo.soft.host/public/ueditor-plus
 	cp -av _* ../open.demo.soft.host/public/ueditor-plus
+	rm -rfv ../open.demo.soft.host/public/ueditor-plus/_examples
+	cp -av _examples ../open.demo.soft.host/public/ueditor-plus/examples
 	cp -av dialogs ../open.demo.soft.host/public/ueditor-plus/dialogs
 	cp -av lang ../open.demo.soft.host/public/ueditor-plus/lang
 	cp -av scripts ../open.demo.soft.host/public/ueditor-plus/scripts
