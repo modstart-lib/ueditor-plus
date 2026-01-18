@@ -15,15 +15,15 @@ publish_to_open: build
 	export IS_MODSTART=1 && cd doc && npm run build && cd ..
 	cp -av doc/docs/.vuepress/dist ../open.demo.soft.host/public/ueditor-plus
 	cp -av _* ../open.demo.soft.host/public/ueditor-plus
-	rm -rfv ../open.demo.soft.host/public/ueditor-plus/_examples
-	cp -av _examples ../open.demo.soft.host/public/ueditor-plus/examples
 	cp -av dialogs ../open.demo.soft.host/public/ueditor-plus/dialogs
 	cp -av lang ../open.demo.soft.host/public/ueditor-plus/lang
 	cp -av scripts ../open.demo.soft.host/public/ueditor-plus/scripts
 	cp -av themes ../open.demo.soft.host/public/ueditor-plus/themes
+	cp -av plugins ../open.demo.soft.host/public/ueditor-plus/plugins
 	cp -av dist-min ../open.demo.soft.host/public/ueditor-plus/dist-min
 	cp -av third-party ../open.demo.soft.host/public/ueditor-plus/third-party
 	cp -av ueditor* ../open.demo.soft.host/public/ueditor-plus/
+	php build.php
 
 build_for_modstart: build
 	rm -rfv     ../../vendor/modstart/modstart/asset/vendor/ueditor/; \

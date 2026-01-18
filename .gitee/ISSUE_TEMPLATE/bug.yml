@@ -7,7 +7,7 @@ body:
       attributes:
           value: |
               感谢对项目的支持与关注。在提出问题之前，请确保你已查看相关开发或使用文档：
-              - https://open-doc.modstart.com/ueditor-plus
+              - https://open.modstart.com/ueditor-plus
     - type: textarea
       attributes:
           label: 如何复现

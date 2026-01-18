@@ -27,7 +27,7 @@ export default {
             content: '<p>Hello UEditorPlus</p>',
             editorConfig: {
                 // 后端服务地址，后端处理参考
-                // https://open-doc.modstart.com/ueditor-plus/backend.html
+                // https://open.modstart.com/ueditor-plus/backend.html
                 serverUrl: '/api/path/to/server',
                 UEDITOR_HOME_URL: '/static/UEditorPlus/',
                 UEDITOR_CORS_URL: '/static/UEditorPlus/',
