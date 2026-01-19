@@ -1,4 +1,4 @@
-name: Publish to npm
+name: Release and Publish
 
 on:
     push:
@@ -6,8 +6,10 @@ on:
             - "v*.*.*" # 仅当推送匹配 vX.X.X 的标签时触发
 
 jobs:
-    publish:
+    release:
         runs-on: ubuntu-latest
+        permissions:
+            contents: write  # Required for creating releases and uploading assets
 
         steps:
             - name: Checkout repository
@@ -23,6 +25,28 @@ jobs:
 
             - name: Build
               run: npm run build
+
+            - name: Create zip archives
+              run: |
+                  # Create dist.zip from dist directory
+                  zip -r dist.zip dist/
+                  # Create dist-min.zip from dist-min directory
+                  zip -r dist-min.zip dist-min/
+                  # List created files for verification
+                  ls -lh *.zip
+
+            - name: Create GitHub Release
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  # Extract tag name
+                  TAG_NAME=${GITHUB_REF#refs/tags/}
+                  # Create release
+                  gh release create "$TAG_NAME" \
+                    --title "Release $TAG_NAME" \
+                    --generate-notes \
+                    dist.zip \
+                    dist-min.zip
 
             - name: Authenticate to npm
               run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
