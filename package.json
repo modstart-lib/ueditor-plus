@@ -2,15 +2,15 @@
   "name": "ueditor-plus-main",
   "title": "UEditorPlus",
   "description": "基于 UEditor 的增强版富文本编辑器",
-  "version": "4.4.1",
-  "homepage": "http://ueditor.baidu.com/",
+  "version": "4.5.0",
+  "homepage": "http://open.modstart.com",
   "author": {
-    "name": "f-cube @ FEX",
-    "url": "http://fex.baidu.com"
+    "name": "Modstart",
+    "url": "http://open.modstart.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fex-team/ueditor.git"
+    "url": "https://github.com/modstart-lib/ueditor-plus.git"
   },
   "files": [
     "dist-min/**/*",
@@ -27,7 +27,7 @@
     "rich editor"
   ],
   "bugs": {
-    "url": "https://github.com/fex-team/ueditor/issues"
+    "url": "https://github.com/modstart-lib/ueditor-plus/issues"
   },
   "dependencies": {
     "grunt": "~0.4.1",
