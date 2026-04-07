@@ -2072,28 +2072,28 @@
     
         return Image;
     });
+    var __assign = (this && this.__assign) || function () {
+        __assign = Object.assign || function(t) {
+            for (var s, i = 1, n = arguments.length; i < n; i++) {
+                s = arguments[i];
+                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                    t[p] = s[p];
+            }
+            return t;
+        };
+        return __assign.apply(this, arguments);
+    };
     /**
      * Browser Image Compression
      * v2.0.2
      * by Donald <donaldcwl@gmail.com>
      * https://github.com/Donaldcwl/browser-image-compression
      */
-    define('lib/browser-image-compression',[], function () {
-    
-        var __assign = (this && this.__assign) || function () {
-            __assign = Object.assign || function (t) {
-                for (var s, i = 1, n = arguments.length; i < n; i++) {
-                    s = arguments[i];
-                    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                        t[p] = s[p];
-                }
-                return t;
-            };
-            return __assign.apply(this, arguments);
-        };
-    
+    define('lib/browser-image-compression',[
+        'base',
+        'lib/blob'
+    ], function (Base, Blob) {
         var _a;
-    
         function _mergeNamespaces(e, t) {
             return t.forEach((function (t) {
                 t && "string" != typeof t && !Array.isArray(t) && Object.keys(t).forEach((function (r) {
@@ -2108,68 +2108,65 @@
                 }));
             })), Object.freeze(e);
         }
-    
         function copyExifWithoutOrientation(e, t) {
             return new Promise((function (r, i) {
                 var o;
                 return getApp1Segment(e).then((function (e) {
                     try {
-                        return o = e, r(new window.Blob([t.slice(0, 2), o, t.slice(2)], {type: "image/jpeg"}));
-                    } catch (e) {
+                        return o = e, r(new Blob([t.slice(0, 2), o, t.slice(2)], { type: "image/jpeg" }));
+                    }
+                    catch (e) {
                         return i(e);
                     }
                 }), i);
             }));
         }
-    
-        var getApp1Segment = function (e) {
-            return new Promise((function (t, r) {
-                var i = new FileReader;
-                i.addEventListener("load", (function (_a) {
-                    var e = _a.target.result;
-                    var i = new DataView(e);
-                    var o = 0;
-                    if (65496 !== i.getUint16(o))
-                        return r("not a valid JPEG");
-                    for (o += 2; ;) {
-                        var a_1 = i.getUint16(o);
-                        if (65498 === a_1)
-                            break;
-                        var s_1 = i.getUint16(o + 2);
-                        if (65505 === a_1 && 1165519206 === i.getUint32(o + 4)) {
-                            var a_2 = o + 10;
-                            var f_1 = void 0;
-                            switch (i.getUint16(a_2)) {
-                                case 18761:
-                                    f_1 = !0;
-                                    break;
-                                case 19789:
-                                    f_1 = !1;
-                                    break;
-                                default:
-                                    return r("TIFF header contains invalid endian");
-                            }
-                            if (42 !== i.getUint16(a_2 + 2, f_1))
-                                return r("TIFF header contains invalid version");
-                            var l_1 = i.getUint32(a_2 + 4, f_1), c = a_2 + l_1 + 2 + 12 * i.getUint16(a_2 + l_1, f_1);
-                            for (var e_1 = a_2 + l_1 + 2; e_1 < c; e_1 += 12) {
-                                if (274 == i.getUint16(e_1, f_1)) {
-                                    if (3 !== i.getUint16(e_1 + 2, f_1))
-                                        return r("Orientation data type is invalid");
-                                    if (1 !== i.getUint32(e_1 + 4, f_1))
-                                        return r("Orientation data count is invalid");
-                                    i.setUint16(e_1 + 8, 1, f_1);
-                                    break;
-                                }
-                            }
-                            return t(e.slice(o, o + 2 + s_1));
+        var getApp1Segment = function (e) { return new Promise((function (t, r) {
+            var i = new FileReader;
+            i.addEventListener("load", (function (_a) {
+                var e = _a.target.result;
+                var i = new DataView(e);
+                var o = 0;
+                if (65496 !== i.getUint16(o))
+                    return r("not a valid JPEG");
+                for (o += 2;;) {
+                    var a_1 = i.getUint16(o);
+                    if (65498 === a_1)
+                        break;
+                    var s_1 = i.getUint16(o + 2);
+                    if (65505 === a_1 && 1165519206 === i.getUint32(o + 4)) {
+                        var a_2 = o + 10;
+                        var f_1 = void 0;
+                        switch (i.getUint16(a_2)) {
+                            case 18761:
+                                f_1 = !0;
+                                break;
+                            case 19789:
+                                f_1 = !1;
+                                break;
+                            default:
+                                return r("TIFF header contains invalid endian");
                         }
-                        o += 2 + s_1;
+                        if (42 !== i.getUint16(a_2 + 2, f_1))
+                            return r("TIFF header contains invalid version");
+                        var l_1 = i.getUint32(a_2 + 4, f_1), c = a_2 + l_1 + 2 + 12 * i.getUint16(a_2 + l_1, f_1);
+                        for (var e_1 = a_2 + l_1 + 2; e_1 < c; e_1 += 12) {
+                            if (274 == i.getUint16(e_1, f_1)) {
+                                if (3 !== i.getUint16(e_1 + 2, f_1))
+                                    return r("Orientation data type is invalid");
+                                if (1 !== i.getUint32(e_1 + 4, f_1))
+                                    return r("Orientation data count is invalid");
+                                i.setUint16(e_1 + 8, 1, f_1);
+                                break;
+                            }
+                        }
+                        return t(e.slice(o, o + 2 + s_1));
                     }
-                    return t(new window.Blob);
-                })), i.readAsArrayBuffer(e);
-            }));
-        };
+                    o += 2 + s_1;
+                }
+                return t(new Blob);
+            })), i.readAsArrayBuffer(e);
+        })); };
         var e = {};
         !function (e) {
             var t, r, UZIP = {};
@@ -2200,7 +2197,7 @@
                 t += 2;
                 var h = UZIP.bin.readUTF8(e, t, c);
                 if (t += c, t += u, a)
-                    r[h] = {size: o, csize: i};
+                    r[h] = { size: o, csize: i };
                 else {
                     var d = new Uint8Array(e.buffer, t);
                     if (0 == l)
@@ -2217,13 +2214,13 @@
             }, UZIP.inflate = function (e, t) {
                 return e[0], e[1], UZIP.inflateRaw(new Uint8Array(e.buffer, e.byteOffset + 2, e.length - 6), t);
             }, UZIP.deflate = function (e, t) {
-                null == t && (t = {level: 6});
+                null == t && (t = { level: 6 });
                 var r = 0, i = new Uint8Array(50 + Math.floor(1.1 * e.length));
                 i[r] = 120, i[r + 1] = 156, r += 2, r = UZIP.F.deflateRaw(e, i, r, t.level);
                 var o = UZIP.adler(e, 0, e.length);
                 return i[r + 0] = o >>> 24 & 255, i[r + 1] = o >>> 16 & 255, i[r + 2] = o >>> 8 & 255, i[r + 3] = o >>> 0 & 255, new Uint8Array(i.buffer, 0, r + 4);
             }, UZIP.deflateRaw = function (e, t) {
-                null == t && (t = {level: 6});
+                null == t && (t = { level: 6 });
                 var r = new Uint8Array(50 + Math.floor(1.1 * e.length)), i = UZIP.F.deflateRaw(e, r, i, t.level);
                 return new Uint8Array(r.buffer, 0, i);
             }, UZIP.encode = function (e, t) {
@@ -2231,7 +2228,7 @@
                 var r = 0, i = UZIP.bin.writeUint, o = UZIP.bin.writeUshort, a = {};
                 for (var s in e) {
                     var f = !UZIP._noNeed(s) && !t, l = e[s], c = UZIP.crc.crc(l, 0, l.length);
-                    a[s] = {cpr: f, usize: l.length, crc: c, file: f ? UZIP.deflateRaw(l) : l};
+                    a[s] = { cpr: f, usize: l.length, crc: c, file: f ? UZIP.deflateRaw(l) : l };
                 }
                 for (var s in a)
                     r += a[s].file.length + 30 + 46 + 2 * UZIP.bin.sizeUTF8(s);
@@ -2299,7 +2296,8 @@
                         o += "%" + UZIP.bin.pad(e[t + a].toString(16));
                     try {
                         i = decodeURIComponent(o);
-                    } catch (i) {
+                    }
+                    catch (i) {
                         return UZIP.bin.readASCII(e, t, r);
                     }
                     return i;
@@ -2337,8 +2335,7 @@
                     return r;
                 }
             }, UZIP.F = {}, UZIP.F.deflateRaw = function (e, t, r, i) {
-                var o = [[0, 0, 0, 0, 0], [4, 4, 8, 4, 0], [4, 5, 16, 8, 0], [4, 6, 16, 16, 0], [4, 10, 16, 32, 0], [8, 16, 32, 32, 0], [8, 16, 128, 128, 0], [8, 32, 128, 256, 0], [32, 128, 258, 1024, 1], [32, 258, 258, 4096, 1]][i],
-                    a = UZIP.F.U, s = UZIP.F._goodIndex;
+                var o = [[0, 0, 0, 0, 0], [4, 4, 8, 4, 0], [4, 5, 16, 8, 0], [4, 6, 16, 16, 0], [4, 10, 16, 32, 0], [8, 16, 32, 32, 0], [8, 16, 128, 128, 0], [8, 32, 128, 256, 0], [32, 128, 258, 1024, 1], [32, 258, 258, 4096, 1]][i], a = UZIP.F.U, s = UZIP.F._goodIndex;
                 UZIP.F._hash;
                 var f = UZIP.F._putsE, l = 0, c = r << 3, u = 0, h = e.length;
                 if (0 == i) {
@@ -2365,7 +2362,8 @@
                             a.lhst[257 + U]++;
                             var C = s(B, a.df0);
                             a.dhst[C]++, v += a.exb[U] + a.dxb[C], d[p] = _ << 23 | l - u, d[p + 1] = B << 16 | U << 8 | C, p += 2, u = l + _;
-                        } else
+                        }
+                        else
                             a.lhst[e[l]]++;
                         m++;
                     }
@@ -2405,9 +2403,7 @@
             }, UZIP.saved = 0, UZIP.F._writeBlock = function (e, t, r, i, o, a, s, f, l) {
                 var c, u, h, d, A, g, p, m, w, v = UZIP.F.U, b = UZIP.F._putsF, y = UZIP.F._putsE;
                 v.lhst[256]++, u = (c = UZIP.F.getTrees())[0], h = c[1], d = c[2], A = c[3], g = c[4], p = c[5], m = c[6], w = c[7];
-                var E = 32 + (0 == (l + 3 & 7) ? 0 : 8 - (l + 3 & 7)) + (s << 3),
-                    F = i + UZIP.F.contSize(v.fltree, v.lhst) + UZIP.F.contSize(v.fdtree, v.dhst),
-                    _ = i + UZIP.F.contSize(v.ltree, v.lhst) + UZIP.F.contSize(v.dtree, v.dhst);
+                var E = 32 + (0 == (l + 3 & 7) ? 0 : 8 - (l + 3 & 7)) + (s << 3), F = i + UZIP.F.contSize(v.fltree, v.lhst) + UZIP.F.contSize(v.fdtree, v.dhst), _ = i + UZIP.F.contSize(v.ltree, v.lhst) + UZIP.F.contSize(v.dtree, v.dhst);
                 _ += 14 + 3 * p + UZIP.F.contSize(v.itree, v.ihst) + (2 * v.ihst[16] + 3 * v.ihst[17] + 7 * v.ihst[18]);
                 for (var B = 0; B < 286; B++)
                     v.lhst[B] = 0;
@@ -2420,7 +2416,8 @@
                     for (; 0 != (7 & l);)
                         l++;
                     l = UZIP.F._copyExact(o, a, s, f, l);
-                } else {
+                }
+                else {
                     var C, I;
                     if (1 == U && (C = v.fltree, I = v.fdtree), 2 == U) {
                         UZIP.F.makeCodes(v.ltree, u), UZIP.F.revCodes(v.ltree, u), UZIP.F.makeCodes(v.dtree, h), UZIP.F.revCodes(v.dtree, h), UZIP.F.makeCodes(v.itree, d), UZIP.F.revCodes(v.itree, d), C = v.ltree, I = v.dtree, y(f, l, A - 257), y(f, l += 5, g - 1), y(f, l += 5, p - 4), l += 4;
@@ -2474,18 +2471,19 @@
                 for (var r = e.length; 2 != r && 0 == e[r - 1];)
                     r -= 2;
                 for (var i = 0; i < r; i += 2) {
-                    var o = e[i + 1], a = i + 3 < r ? e[i + 3] : -1, s = i + 5 < r ? e[i + 5] : -1,
-                        f = 0 == i ? -1 : e[i - 1];
+                    var o = e[i + 1], a = i + 3 < r ? e[i + 3] : -1, s = i + 5 < r ? e[i + 5] : -1, f = 0 == i ? -1 : e[i - 1];
                     if (0 == o && a == o && s == o) {
                         for (var l = i + 5; l + 2 < r && e[l + 2] == o;)
                             l += 2;
                         (c = Math.min(l + 1 - i >>> 1, 138)) < 11 ? t.push(17, c - 3) : t.push(18, c - 11), i += 2 * c - 2;
-                    } else if (o == f && a == o && s == o) {
+                    }
+                    else if (o == f && a == o && s == o) {
                         for (l = i + 5; l + 2 < r && e[l + 2] == o;)
                             l += 2;
                         var c = Math.min(l + 1 - i >>> 1, 6);
                         t.push(16, c - 3), i += 2 * c - 2;
-                    } else
+                    }
+                    else
                         t.push(o, 0);
                 }
                 return r >>> 1;
@@ -2494,7 +2492,7 @@
                 for (s = 0; s < a; s += 2)
                     t[s] = 0, t[s + 1] = 0;
                 for (s = 0; s < o; s++)
-                    0 != e[s] && i.push({lit: s, f: e[s]});
+                    0 != e[s] && i.push({ lit: s, f: e[s] });
                 var f = i.length, l = i.slice(0);
                 if (0 == f)
                     return 0;
@@ -2549,8 +2547,7 @@
                 var r = Uint8Array;
                 if (3 == e[0] && 0 == e[1])
                     return t || new r(0);
-                var i = UZIP.F, o = i._bitsF, a = i._bitsE, s = i._decodeTiny, f = i.makeCodes, l = i.codes2map,
-                    c = i._get17, u = i.U, h = null == t;
+                var i = UZIP.F, o = i._bitsF, a = i._bitsE, s = i._decodeTiny, f = i.makeCodes, l = i.codes2map, c = i._get17, u = i.U, h = null == t;
                 h && (t = new r(e.length >>> 2 << 3));
                 for (var d, A, g = 0, p = 0, m = 0, w = 0, v = 0, b = 0, y = 0, E = 0, F = 0; 0 == g;)
                     if (g = o(e, F, 1), p = o(e, F + 1, 2), F += 3, 0 != p) {
@@ -2569,7 +2566,7 @@
                             var I = i._copyOut(u.ttree, m, w, u.dtree);
                             y = (1 << I) - 1, f(u.ltree, C), l(u.ltree, C, d), f(u.dtree, I), l(u.dtree, I, A);
                         }
-                        for (; ;) {
+                        for (;;) {
                             var Q = d[c(e, F) & b];
                             F += 15 & Q;
                             var M = Q >>> 4;
@@ -2591,7 +2588,8 @@
                                 E = x;
                             }
                         }
-                    } else {
+                    }
+                    else {
                         0 != (7 & F) && (F += 8 - (7 & F));
                         var H = 4 + (F >>> 3), L = e[H - 4] | e[H - 3] << 8;
                         h && (t = UZIP.F._check(t, E + L)), t.set(new r(e.buffer, e.byteOffset + H, L), E), F = H + L << 3, E += L;
@@ -2696,12 +2694,10 @@
                     var r = t;
                     r = (4278255360 & (r = (4042322160 & (r = (3435973836 & (r = (2863311530 & r) >>> 1 | (1431655765 & r) << 1)) >>> 2 | (858993459 & r) << 2)) >>> 4 | (252645135 & r) << 4)) >>> 8 | (16711935 & r) << 8, e.rev15[t] = (r >>> 16 | r << 16) >>> 17;
                 }
-    
                 function pushV(e, t, r) {
                     for (; 0 != t--;)
                         e.push(0, r);
                 }
-    
                 for (t = 0; t < 32; t++)
                     e.ldef[t] = e.of0[t] << 3 | e.exb[t], e.ddef[t] = e.df0[t] << 4 | e.dxb[t];
                 pushV(e.fltree, 144, 8), pushV(e.fltree, 112, 9), pushV(e.fltree, 24, 7), pushV(e.fltree, 8, 8), UZIP.F.makeCodes(e.fltree, 9), UZIP.F.codes2map(e.fltree, 9, e.flmap), UZIP.F.revCodes(e.fltree, 9), pushV(e.fdtree, 32, 5), UZIP.F.makeCodes(e.fdtree, 5), UZIP.F.codes2map(e.fdtree, 5, e.fdmap), UZIP.F.revCodes(e.fdtree, 5), pushV(e.itree, 19, 0), pushV(e.ltree, 286, 0), pushV(e.dtree, 30, 0), pushV(e.ttree, 320, 0);
@@ -2713,7 +2709,7 @@
                 e = t;
             }
         });
-        var UZIP = _mergeNamespaces({__proto__: null, default: e}, [e]);
+        var UZIP = _mergeNamespaces({ __proto__: null, default: e }, [e]);
         var UPNG = function () {
             var e = {
                 nextZero: function (e, t) {
@@ -2721,15 +2717,11 @@
                         t++;
                     return t;
                 },
-                readUshort: function (e, t) {
-                    return e[t] << 8 | e[t + 1];
-                },
+                readUshort: function (e, t) { return e[t] << 8 | e[t + 1]; },
                 writeUshort: function (e, t, r) {
                     e[t] = r >> 8 & 255, e[t + 1] = 255 & r;
                 },
-                readUint: function (e, t) {
-                    return 16777216 * e[t] + (e[t + 1] << 16 | e[t + 2] << 8 | e[t + 3]);
-                },
+                readUint: function (e, t) { return 16777216 * e[t] + (e[t + 1] << 16 | e[t + 2] << 8 | e[t + 3]); },
                 writeUint: function (e, t, r) {
                     e[t] = r >> 24 & 255, e[t + 1] = r >> 16 & 255, e[t + 2] = r >> 8 & 255, e[t + 3] = 255 & r;
                 },
@@ -2749,25 +2741,22 @@
                         i.push(e[t + o_2]);
                     return i;
                 },
-                pad: function (e) {
-                    return e.length < 2 ? "0".concat(e) : e;
-                },
+                pad: function (e) { return e.length < 2 ? "0".concat(e) : e; },
                 readUTF8: function (t, r, i) {
                     var o, a = "";
                     for (var o_3 = 0; o_3 < i; o_3++)
                         a += "%".concat(e.pad(t[r + o_3].toString(16)));
                     try {
                         o = decodeURIComponent(a);
-                    } catch (o) {
+                    }
+                    catch (o) {
                         return e.readASCII(t, r, i);
                     }
                     return o;
                 }
             };
-    
             function decodeImage(t, r, i, o) {
-                var a = r * i, s = _getBPP(o), f = Math.ceil(r * s / 8), l = new Uint8Array(4 * a),
-                    c = new Uint32Array(l.buffer), u = o.ctype, h = o.depth, d = e.readUshort;
+                var a = r * i, s = _getBPP(o), f = Math.ceil(r * s / 8), l = new Uint8Array(4 * a), c = new Uint32Array(l.buffer), u = o.ctype, h = o.depth, d = e.readUshort;
                 if (6 == u) {
                     var e_2 = a << 2;
                     if (8 == h)
@@ -2776,7 +2765,8 @@
                     if (16 == h)
                         for (A = 0; A < e_2; A++)
                             l[A] = t[A << 1];
-                } else if (2 == u) {
+                }
+                else if (2 == u) {
                     var e_3 = o.tabs.tRNS;
                     if (null == e_3) {
                         if (8 == h)
@@ -2789,7 +2779,8 @@
                                 g = 6 * A;
                                 c[A] = 255 << 24 | t[g + 4] << 16 | t[g + 2] << 8 | t[g];
                             }
-                    } else {
+                    }
+                    else {
                         var p = e_3[0];
                         var r_1 = e_3[1], i_2 = e_3[2];
                         if (8 == h)
@@ -2804,7 +2795,8 @@
                                 c[A] = 255 << 24 | t[g + 4] << 16 | t[g + 2] << 8 | t[g], d(t, g) == p && d(t, g + 2) == r_1 && d(t, g + 4) == i_2 && (l[m + 3] = 0);
                             }
                     }
-                } else if (3 == u) {
+                }
+                else if (3 == u) {
                     var e_4 = o.tabs.PLTE, s_2 = o.tabs.tRNS, c_1 = s_2 ? s_2.length : 0;
                     if (1 == h)
                         for (var w = 0; w < i; w++) {
@@ -2833,7 +2825,8 @@
                             m = A << 2, y = 3 * (E = t[A]);
                             l[m] = e_4[y], l[m + 1] = e_4[y + 1], l[m + 2] = e_4[y + 2], l[m + 3] = E < c_1 ? s_2[E] : 255;
                         }
-                } else if (4 == u) {
+                }
+                else if (4 == u) {
                     if (8 == h)
                         for (A = 0; A < a; A++) {
                             m = A << 2;
@@ -2846,7 +2839,8 @@
                             m = A << 2, F = t[_ = A << 2];
                             l[m] = F, l[m + 1] = F, l[m + 2] = F, l[m + 3] = t[_ + 2];
                         }
-                } else if (0 == u)
+                }
+                else if (0 == u)
                     for (p = o.tabs.tRNS ? o.tabs.tRNS : -1, w = 0; w < i; w++) {
                         var e_5 = w * f, i_3 = w * r;
                         if (1 == h)
@@ -2877,15 +2871,12 @@
                     }
                 return l;
             }
-    
             function _decompress(e, r, i, o) {
                 var a = _getBPP(e), s = Math.ceil(i * a / 8), f = new Uint8Array((s + 1 + e.interlace) * o);
                 return r = e.tabs.CgBI ? t(r, f) : _inflate(r, f), 0 == e.interlace ? r = _filterZero(r, e, 0, i, o) : 1 == e.interlace && (r = function _readInterlace(e, t) {
-                    var r = t.width, i = t.height, o = _getBPP(t), a = o >> 3, s = Math.ceil(r * o / 8),
-                        f = new Uint8Array(i * s);
+                    var r = t.width, i = t.height, o = _getBPP(t), a = o >> 3, s = Math.ceil(r * o / 8), f = new Uint8Array(i * s);
                     var l = 0;
-                    var c = [0, 0, 4, 0, 2, 0, 1], u = [0, 4, 0, 2, 0, 1, 0], h = [8, 8, 8, 4, 4, 2, 2],
-                        d = [8, 8, 4, 4, 2, 2, 1];
+                    var c = [0, 0, 4, 0, 2, 0, 1], u = [0, 4, 0, 2, 0, 1, 0], h = [8, 8, 8, 4, 4, 2, 2], d = [8, 8, 4, 4, 2, 2, 1];
                     var A = 0;
                     for (; A < 7;) {
                         var p = h[A], m = d[A];
@@ -2922,13 +2913,11 @@
                     return f;
                 }(r, e)), r;
             }
-    
             function _inflate(e, r) {
                 return t(new Uint8Array(e.buffer, 2, e.length - 6), r);
             }
-    
             var t = function () {
-                var e = {H: {}};
+                var e = { H: {} };
                 return e.H.N = function (t, r) {
                     var i = Uint8Array;
                     var o, a, s = 0, f = 0, l = 0, c = 0, u = 0, h = 0, d = 0, A = 0, g = 0;
@@ -2952,7 +2941,7 @@
                                 var i_5 = p.V(F.v, l, c, F.D);
                                 d = (1 << i_5) - 1, b(F.C, r_4), y(F.C, r_4, o), b(F.D, i_5), y(F.D, i_5, a);
                             }
-                            for (; ;) {
+                            for (;;) {
                                 var e_7 = o[E(t, g) & h];
                                 g += 15 & e_7;
                                 var i_6 = e_7 >>> 4;
@@ -2976,7 +2965,8 @@
                                     }
                                 }
                             }
-                        } else {
+                        }
+                        else {
                             0 != (7 & g) && (g += 8 - (7 & g));
                             var o_5 = 4 + (g >>> 3), a_3 = t[o_5 - 4] | t[o_5 - 3] << 8;
                             _ && (r = e.H.W(r, A + a_3)), r.set(new i(t.buffer, t.byteOffset + o_5, a_3), A), g = o_5 + a_3 << 3, A += a_3;
@@ -3100,22 +3090,18 @@
                         var e_13 = r;
                         e_13 = (2863311530 & e_13) >>> 1 | (1431655765 & e_13) << 1, e_13 = (3435973836 & e_13) >>> 2 | (858993459 & e_13) << 2, e_13 = (4042322160 & e_13) >>> 4 | (252645135 & e_13) << 4, e_13 = (4278255360 & e_13) >>> 8 | (16711935 & e_13) << 8, t.r[r] = (e_13 >>> 16 | e_13 << 16) >>> 17;
                     }
-    
                     function n(e, t, r) {
                         for (; 0 != t--;)
                             e.push(0, r);
                     }
-    
                     for (r = 0; r < 32; r++)
                         t.q[r] = t.S[r] << 3 | t.T[r], t.c[r] = t.p[r] << 4 | t.z[r];
                     n(t._, 144, 8), n(t._, 112, 9), n(t._, 24, 7), n(t._, 8, 8), e.H.n(t._, 9), e.H.A(t._, 9, t.J), e.H.l(t._, 9), n(t.$, 32, 5), e.H.n(t.$, 5), e.H.A(t.$, 5, t.h), e.H.l(t.$, 5), n(t.Q, 19, 0), n(t.C, 286, 0), n(t.D, 30, 0), n(t.v, 320, 0);
                 }(), e.H.N;
             }();
-    
             function _getBPP(e) {
                 return [1, null, 3, 1, 2, null, 4][e.ctype] * e.depth;
             }
-    
             function _filterZero(e, t, r, i, o) {
                 var a = _getBPP(t);
                 var s = Math.ceil(i * a / 8);
@@ -3134,7 +3120,8 @@
                             e[f + u] = e[l + u];
                         for (; u < s; u++)
                             e[f + u] = e[l + u] + e[f + u - a];
-                    } else if (2 == c)
+                    }
+                    else if (2 == c)
                         for (; u < s; u++)
                             e[f + u] = e[l + u] + e[f + u - s];
                     else if (3 == c) {
@@ -3142,7 +3129,8 @@
                             e[f + u] = e[l + u] + (e[f + u - s] >>> 1);
                         for (; u < s; u++)
                             e[f + u] = e[l + u] + (e[f + u - s] + e[f + u - a] >>> 1);
-                    } else {
+                    }
+                    else {
                         for (; u < a; u++)
                             e[f + u] = e[l + u] + _paeth(0, e[f + u - s], 0);
                         for (; u < s; u++)
@@ -3150,16 +3138,13 @@
                     }
                 return e;
             }
-    
             function _paeth(e, t, r) {
                 var i = e + t - r, o = i - e, a = i - t, s = i - r;
                 return o * o <= a * a && o * o <= s * s ? e : a * a <= s * s ? t : r;
             }
-    
             function _IHDR(t, r, i) {
                 i.width = e.readUint(t, r), r += 4, i.height = e.readUint(t, r), r += 4, i.depth = t[r], r++, i.ctype = t[r], r++, i.compress = t[r], r++, i.filter = t[r], r++, i.interlace = t[r], r++;
             }
-    
             function _copyTile(e, t, r, i, o, a, s, f, l) {
                 var c = Math.min(t, o), u = Math.min(r, a);
                 var h = 0, d = 0;
@@ -3168,14 +3153,15 @@
                         if (s >= 0 && f >= 0 ? (h = r_8 * t + a_5 << 2, d = (f + r_8) * o + s + a_5 << 2) : (h = (-f + r_8) * t - s + a_5 << 2, d = r_8 * o + a_5 << 2), 0 == l)
                             i[d] = e[h], i[d + 1] = e[h + 1], i[d + 2] = e[h + 2], i[d + 3] = e[h + 3];
                         else if (1 == l) {
-                            var A = e[h + 3] * (1 / 255), g = e[h] * A, p = e[h + 1] * A, m = e[h + 2] * A,
-                                w = i[d + 3] * (1 / 255), v = i[d] * w, b = i[d + 1] * w, y = i[d + 2] * w;
+                            var A = e[h + 3] * (1 / 255), g = e[h] * A, p = e[h + 1] * A, m = e[h + 2] * A, w = i[d + 3] * (1 / 255), v = i[d] * w, b = i[d + 1] * w, y = i[d + 2] * w;
                             var t_5 = 1 - A, r_9 = A + w * t_5, o_7 = 0 == r_9 ? 0 : 1 / r_9;
                             i[d + 3] = 255 * r_9, i[d + 0] = (g + v * t_5) * o_7, i[d + 1] = (p + b * t_5) * o_7, i[d + 2] = (m + y * t_5) * o_7;
-                        } else if (2 == l) {
+                        }
+                        else if (2 == l) {
                             A = e[h + 3], g = e[h], p = e[h + 1], m = e[h + 2], w = i[d + 3], v = i[d], b = i[d + 1], y = i[d + 2];
                             A == w && g == v && p == b && m == y ? (i[d] = 0, i[d + 1] = 0, i[d + 2] = 0, i[d + 3] = 0) : (i[d] = g, i[d + 1] = p, i[d + 2] = m, i[d + 3] = A);
-                        } else if (3 == l) {
+                        }
+                        else if (3 == l) {
                             A = e[h + 3], g = e[h], p = e[h + 1], m = e[h + 2], w = i[d + 3], v = i[d], b = i[d + 1], y = i[d + 2];
                             if (A == w && g == v && p == b && m == y)
                                 continue;
@@ -3184,12 +3170,11 @@
                         }
                 return !0;
             }
-    
             return {
                 decode: function decode(r) {
                     var i = new Uint8Array(r);
                     var o = 8;
-                    var a = e, s = a.readUshort, f = a.readUint, l = {tabs: {}, frames: []}, c = new Uint8Array(i.length);
+                    var a = e, s = a.readUshort, f = a.readUint, l = { tabs: {}, frames: [] }, c = new Uint8Array(i.length);
                     var u, h = 0, d = 0;
                     var A = [137, 80, 78, 71, 13, 10, 26, 10];
                     for (var g = 0; g < 8; g++)
@@ -3209,17 +3194,20 @@
                             var f_4 = null;
                             try {
                                 f_4 = _inflate(s_5);
-                            } catch (e) {
+                            }
+                            catch (e) {
                                 f_4 = t(s_5);
                             }
                             l.tabs[r_10] = f_4;
-                        } else if ("CgBI" == r_10)
+                        }
+                        else if ("CgBI" == r_10)
                             l.tabs[r_10] = i.slice(o, o + 4);
                         else if ("IDAT" == r_10) {
                             for (g = 0; g < e_14; g++)
                                 c[h + g] = i[o + g];
                             h += e_14;
-                        } else if ("acTL" == r_10)
+                        }
+                        else if ("acTL" == r_10)
                             l.tabs[r_10] = {
                                 num_frames: f(i, o),
                                 num_plays: f(i, o + 4)
@@ -3227,22 +3215,25 @@
                         else if ("fcTL" == r_10) {
                             if (0 != d)
                                 (E = l.frames[l.frames.length - 1]).data = _decompress(l, u.slice(0, d), E.rect.width, E.rect.height), d = 0;
-                            var e_15 = {x: f(i, o + 12), y: f(i, o + 16), width: f(i, o + 4), height: f(i, o + 8)};
+                            var e_15 = { x: f(i, o + 12), y: f(i, o + 16), width: f(i, o + 4), height: f(i, o + 8) };
                             var t_6 = s(i, o + 22);
                             t_6 = s(i, o + 20) / (0 == t_6 ? 100 : t_6);
-                            var r_11 = {rect: e_15, delay: Math.round(1e3 * t_6), dispose: i[o + 24], blend: i[o + 25]};
+                            var r_11 = { rect: e_15, delay: Math.round(1e3 * t_6), dispose: i[o + 24], blend: i[o + 25] };
                             l.frames.push(r_11);
-                        } else if ("fdAT" == r_10) {
+                        }
+                        else if ("fdAT" == r_10) {
                             for (g = 0; g < e_14 - 4; g++)
                                 u[d + g] = i[o + g + 4];
                             d += e_14 - 4;
-                        } else if ("pHYs" == r_10)
+                        }
+                        else if ("pHYs" == r_10)
                             l.tabs[r_10] = [a.readUint(i, o), a.readUint(i, o + 4), i[o + 8]];
                         else if ("cHRM" == r_10) {
                             l.tabs[r_10] = [];
                             for (g = 0; g < 8; g++)
                                 l.tabs[r_10].push(a.readUint(i, o + 4 * g));
-                        } else if ("tEXt" == r_10 || "zTXt" == r_10) {
+                        }
+                        else if ("tEXt" == r_10 || "zTXt" == r_10) {
                             null == l.tabs[r_10] && (l.tabs[r_10] = {});
                             var m = a.nextZero(i, o), w = a.readASCII(i, o, m - o), v = o + e_14 - m - 1;
                             if ("tEXt" == r_10)
@@ -3252,7 +3243,8 @@
                                 y = a.readUTF8(b, 0, b.length);
                             }
                             l.tabs[r_10][w] = y;
-                        } else if ("iTXt" == r_10) {
+                        }
+                        else if ("iTXt" == r_10) {
                             null == l.tabs[r_10] && (l.tabs[r_10] = {});
                             m = 0, p = o;
                             m = a.nextZero(i, p);
@@ -3268,14 +3260,16 @@
                                 y = a.readUTF8(b, 0, b.length);
                             }
                             l.tabs[r_10][w] = y;
-                        } else if ("PLTE" == r_10)
+                        }
+                        else if ("PLTE" == r_10)
                             l.tabs[r_10] = a.readBytes(i, o, e_14);
                         else if ("hIST" == r_10) {
                             var e_16 = l.tabs.PLTE.length / 3;
                             l.tabs[r_10] = [];
                             for (g = 0; g < e_16; g++)
                                 l.tabs[r_10].push(s(i, o + 2 * g));
-                        } else if ("tRNS" == r_10)
+                        }
+                        else if ("tRNS" == r_10)
                             3 == l.ctype ? l.tabs[r_10] = a.readBytes(i, o, e_14) : 0 == l.ctype ? l.tabs[r_10] = s(i, o) : 2 == l.ctype && (l.tabs[r_10] = [s(i, o), s(i, o + 2), s(i, o + 4)]);
                         else if ("gAMA" == r_10)
                             l.tabs[r_10] = a.readUint(i, o) / 1e5;
@@ -3297,8 +3291,7 @@
                     null == e.frames[0].data && (e.frames[0].data = e.data);
                     var o = t * r * 4, a = new Uint8Array(o), s = new Uint8Array(o), f = new Uint8Array(o);
                     for (var c = 0; c < e.frames.length; c++) {
-                        var u = e.frames[c], h = u.rect.x, d = u.rect.y, A = u.rect.width, g = u.rect.height,
-                            p = decodeImage(u.data, A, g, e);
+                        var u = e.frames[c], h = u.rect.x, d = u.rect.y, A = u.rect.width, g = u.rect.height, p = decodeImage(u.data, A, g, e);
                         if (0 != c)
                             for (var l = 0; l < o; l++)
                                 f[l] = a[l];
@@ -3332,24 +3325,18 @@
                         e = i.table[255 & (e ^ t[r + a_6])] ^ e >>> 8;
                     return e;
                 },
-                crc: function (e, t, r) {
-                    return 4294967295 ^ i.update(4294967295, e, t, r);
-                }
+                crc: function (e, t, r) { return 4294967295 ^ i.update(4294967295, e, t, r); }
             };
-    
             function addErr(e, t, r, i) {
                 t[r] += e[0] * i >> 4, t[r + 1] += e[1] * i >> 4, t[r + 2] += e[2] * i >> 4, t[r + 3] += e[3] * i >> 4;
             }
-    
             function N(e) {
                 return Math.max(0, Math.min(255, e));
             }
-    
             function D(e, t) {
                 var r = e[0] - t[0], i = e[1] - t[1], o = e[2] - t[2], a = e[3] - t[3];
                 return r * r + i * i + o * o + a * a;
             }
-    
             function dither(e, t, r, i, o, a, s) {
                 null == s && (s = 1);
                 var f = i.length, l = [];
@@ -3364,8 +3351,7 @@
                         h != c && d < e_19 && (e_19 = d, u = h);
                     }
                 }
-                var A = new Uint32Array(o.buffer), g = new Int16Array(t * r * 4),
-                    p = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+                var A = new Uint32Array(o.buffer), g = new Int16Array(t * r * 4), p = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
                 for (c = 0; c < p.length; c++)
                     p[c] = 255 * ((p[c] + .5) / 16 - .5);
                 for (var o_8 = 0; o_8 < r; o_8++)
@@ -3388,7 +3374,6 @@
                         1 == s && (w != t - 1 && addErr(y, g, c + 4, 7), o_8 != r - 1 && (0 != w && addErr(y, g, c + 4 * t - 4, 3), addErr(y, g, c + 4 * t, 5), w != t - 1 && addErr(y, g, c + 4 * t + 4, 1))), a[c >> 2] = u, A[c >> 2] = i[u];
                     }
             }
-    
             function _main(e, r, o, a, s) {
                 null == s && (s = {});
                 var f = i.crc, l = t.writeUint, c = t.writeUshort, u = t.writeASCII;
@@ -3414,8 +3399,7 @@
                 if (null != s.pHYs && (l(b, h, 9), h += 4, u(b, h, "pHYs"), h += 4, l(b, h, s.pHYs[0]), h += 4, l(b, h, s.pHYs[1]), h += 4, b[h] = s.pHYs[2], h++, l(b, h, f(b, h - 13, 13)), h += 4), d && (l(b, h, 8), h += 4, u(b, h, "acTL"), h += 4, l(b, h, e.frames.length), h += 4, l(b, h, null != s.loop ? s.loop : 0), h += 4, l(b, h, f(b, h - 12, 12)), h += 4), 3 == e.ctype) {
                     l(b, h, 3 * (m = e.plte.length)), h += 4, u(b, h, "PLTE"), h += 4;
                     for (w = 0; w < m; w++) {
-                        var t_9 = 3 * w, r_13 = e.plte[w], i_8 = 255 & r_13, o_9 = r_13 >>> 8 & 255,
-                            a_7 = r_13 >>> 16 & 255;
+                        var t_9 = 3 * w, r_13 = e.plte[w], i_8 = 255 & r_13, o_9 = r_13 >>> 8 & 255, a_7 = r_13 >>> 16 & 255;
                         b[h + t_9 + 0] = i_8, b[h + t_9 + 1] = o_9, b[h + t_9 + 2] = a_7;
                     }
                     if (h += 3 * m, l(b, h, f(b, h - 3 * m - 4, 3 * m + 4)), h += 4, g) {
@@ -3436,7 +3420,6 @@
                 }
                 return l(b, h, 0), h += 4, u(b, h, "IEND"), h += 4, l(b, h, f(b, h - 4, 4)), h += 4, b.buffer;
             }
-    
             function compressPNG(e, t, r) {
                 for (var i_9 = 0; i_9 < e.frames.length; i_9++) {
                     var o_10 = e.frames[i_9];
@@ -3445,7 +3428,6 @@
                     o_10.cimg = _filterZero(o_10.img, a_8, o_10.bpp, o_10.bpl, s_6, t, r);
                 }
             }
-    
             function compress(t, r, i, o, a) {
                 var s = a[0], f = a[1], l = a[2], c = a[3], u = a[4], h = a[5];
                 var d = 6, A = 8, g = 255;
@@ -3482,21 +3464,21 @@
                                 width: m_1,
                                 height: w_1
                             }) : e(h_1, r, i, c, m_1, w_1, -g_1, -p_1, 0);
-                        } else
+                        }
+                        else
                             c = h_1.slice(0);
-                        f.push({rect: {x: g_1, y: p_1, width: m_1, height: w_1}, img: c, blend: v_1, dispose: 0});
+                        f.push({ rect: { x: g_1, y: p_1, width: m_1, height: w_1 }, img: c, blend: v_1, dispose: 0 });
                     }
                     if (o)
                         for (l = 0; l < f.length; l++) {
                             if (1 == (A = f[l]).blend)
                                 continue;
-                            var e_25 = A.rect, o_12 = f[l - 1].rect, s_8 = Math.min(e_25.x, o_12.x),
-                                c_3 = Math.min(e_25.y, o_12.y), u_1 = {
-                                    x: s_8,
-                                    y: c_3,
-                                    width: Math.max(e_25.x + e_25.width, o_12.x + o_12.width) - s_8,
-                                    height: Math.max(e_25.y + e_25.height, o_12.y + o_12.height) - c_3
-                                };
+                            var e_25 = A.rect, o_12 = f[l - 1].rect, s_8 = Math.min(e_25.x, o_12.x), c_3 = Math.min(e_25.y, o_12.y), u_1 = {
+                                x: s_8,
+                                y: c_3,
+                                width: Math.max(e_25.x + e_25.width, o_12.x + o_12.width) - s_8,
+                                height: Math.max(e_25.y + e_25.height, o_12.y + o_12.height) - c_3
+                            };
                             f[l - 1].dispose = 1, l - 1 != 0 && _updateFrame(t, r, i, f, l - 1, u_1, a), _updateFrame(t, r, i, f, l, u_1, a);
                         }
                     var h = 0;
@@ -3538,7 +3520,8 @@
                         var t_14 = new Uint8Array(r_16.abuf, i_10, e_28);
                         h && dither(B.img, B.rect.width, B.rect.height, E, t_14, _), B.img.set(t_14), i_10 += e_28;
                     }
-                } else
+                }
+                else
                     for (p = 0; p < b.length; p++) {
                         var B = b[p];
                         var e_29 = new Uint32Array(B.img.buffer);
@@ -3589,7 +3572,8 @@
                                     I[w + (Q >> 3)] |= o_13[e_32 + Q] << 7 - 1 * (7 & Q);
                         }
                         t_16 = I, d = 3, i_11 = 1;
-                    } else if (0 == v && 1 == b.length) {
+                    }
+                    else if (0 == v && 1 == b.length) {
                         I = new Uint8Array(U * e_31 * 3);
                         var o_14 = U * e_31;
                         for (w = 0; w < o_14; w++) {
@@ -3600,12 +3584,10 @@
                     }
                     B.img = t_16, B.bpl = r_17, B.bpp = i_11;
                 }
-                return {ctype: d, depth: A, plte: E, frames: b};
+                return { ctype: d, depth: A, plte: E, frames: b };
             }
-    
             function _updateFrame(t, r, i, o, a, s, f) {
-                var l = Uint8Array, c = Uint32Array, u = new l(t[a - 1]), h = new c(t[a - 1]),
-                    d = a + 1 < t.length ? new l(t[a + 1]) : null, A = new l(t[a]), g = new c(A.buffer);
+                var l = Uint8Array, c = Uint32Array, u = new l(t[a - 1]), h = new c(t[a - 1]), d = a + 1 < t.length ? new l(t[a + 1]) : null, A = new l(t[a]), g = new c(A.buffer);
                 var p = r, m = i, w = -1, v = -1;
                 for (var e_34 = 0; e_34 < s.height; e_34++)
                     for (var t_18 = 0; t_18 < s.width; t_18++) {
@@ -3621,15 +3603,13 @@
                 var b = o[a];
                 b.rect = s, b.blend = 1, b.img = new Uint8Array(s.width * s.height * 4), 0 == o[a - 1].dispose ? (e(u, r, i, b.img, s.width, s.height, -s.x, -s.y, 0), _prepareDiff(A, r, i, b.img, s)) : e(A, r, i, b.img, s.width, s.height, -s.x, -s.y, 0);
             }
-    
             function _prepareDiff(t, r, i, o, a) {
                 e(t, r, i, o, a.width, a.height, -a.x, -a.y, 2);
             }
-    
             function _filterZero(e, t, r, i, o, a, s) {
                 var f = [];
                 var l, c = [0, 1, 2, 3, 4];
-                -1 != a ? c = [a] : (t * i > 5e5 || 1 == r) && (c = [0]), s && (l = {level: 0});
+                -1 != a ? c = [a] : (t * i > 5e5 || 1 == r) && (c = [0]), s && (l = { level: 0 });
                 var u = UZIP;
                 for (var h = 0; h < c.length; h++) {
                     for (var a_11 = 0; a_11 < t; a_11++)
@@ -3641,7 +3621,6 @@
                     f[h].length < A && (d = h, A = f[h].length);
                 return f[d];
             }
-    
             function _filterLine(e, t, i, o, a, s) {
                 var f = i * o;
                 var l = f + i;
@@ -3656,7 +3635,8 @@
                         e[l + c] = t[f + c];
                     for (c = a; c < o; c++)
                         e[l + c] = t[f + c] - t[f + c - a] + 256 & 255;
-                } else if (0 == i) {
+                }
+                else if (0 == i) {
                     for (c = 0; c < a; c++)
                         e[l + c] = t[f + c];
                     if (2 == s)
@@ -3668,7 +3648,8 @@
                     if (4 == s)
                         for (c = a; c < o; c++)
                             e[l + c] = t[f + c] - r(t[f + c - a], 0, 0) + 256 & 255;
-                } else {
+                }
+                else {
                     if (2 == s)
                         for (c = 0; c < o; c++)
                             e[l + c] = t[f + c] + 256 - t[f + c - o] & 255;
@@ -3686,10 +3667,8 @@
                     }
                 }
             }
-    
             function quantize(e, t) {
-                var r = new Uint8Array(e), i = r.slice(0), o = new Uint32Array(i.buffer), a = getKDtree(i, t), s = a[0],
-                    f = a[1], l = r.length, c = new Uint8Array(l >> 2);
+                var r = new Uint8Array(e), i = r.slice(0), o = new Uint32Array(i.buffer), a = getKDtree(i, t), s = a[0], f = a[1], l = r.length, c = new Uint8Array(l >> 2);
                 var u;
                 if (r.length < 2e7)
                     for (var h = 0; h < l; h += 4) {
@@ -3697,19 +3676,16 @@
                     }
                 else
                     for (h = 0; h < l; h += 4) {
-                        var d = r[h] * (1 / 255), A = r[h + 1] * (1 / 255), g = r[h + 2] * (1 / 255),
-                            p = r[h + 3] * (1 / 255);
+                        var d = r[h] * (1 / 255), A = r[h + 1] * (1 / 255), g = r[h + 2] * (1 / 255), p = r[h + 3] * (1 / 255);
                         for (u = s; u.left;)
                             u = planeDst(u.est, d, A, g, p) <= 0 ? u.left : u.right;
                         c[h >> 2] = u.ind, o[h >> 2] = u.est.rgba;
                     }
-                return {abuf: i.buffer, inds: c, plte: f};
+                return { abuf: i.buffer, inds: c, plte: f };
             }
-    
             function getKDtree(e, t, r) {
                 null == r && (r = 1e-4);
-                var i = new Uint32Array(e.buffer),
-                    o = {i0: 0, i1: e.length, bst: null, est: null, tdst: 0, left: null, right: null};
+                var i = new Uint32Array(e.buffer), o = { i0: 0, i1: e.length, bst: null, est: null, tdst: 0, left: null, right: null };
                 o.bst = stats(e, o.i0, o.i1), o.est = estats(o.bst);
                 var a = [o];
                 for (; a.length < t;) {
@@ -3723,24 +3699,21 @@
                         f_8.est.L = 0;
                         continue;
                     }
-                    var c = {i0: f_8.i0, i1: l_5, bst: null, est: null, tdst: 0, left: null, right: null};
+                    var c = { i0: f_8.i0, i1: l_5, bst: null, est: null, tdst: 0, left: null, right: null };
                     c.bst = stats(e, c.i0, c.i1), c.est = estats(c.bst);
-                    var u = {i0: l_5, i1: f_8.i1, bst: null, est: null, tdst: 0, left: null, right: null};
-                    u.bst = {R: [], m: [], N: f_8.bst.N - c.bst.N};
+                    var u = { i0: l_5, i1: f_8.i1, bst: null, est: null, tdst: 0, left: null, right: null };
+                    u.bst = { R: [], m: [], N: f_8.bst.N - c.bst.N };
                     for (s = 0; s < 16; s++)
                         u.bst.R[s] = f_8.bst.R[s] - c.bst.R[s];
                     for (s = 0; s < 4; s++)
                         u.bst.m[s] = f_8.bst.m[s] - c.bst.m[s];
                     u.est = estats(u.bst), f_8.left = c, f_8.right = u, a[o_15] = c, a.push(u);
                 }
-                a.sort((function (e, t) {
-                    return t.bst.N - e.bst.N;
-                }));
+                a.sort((function (e, t) { return t.bst.N - e.bst.N; }));
                 for (s = 0; s < a.length; s++)
                     a[s].ind = s;
                 return [o, a];
             }
-    
             function getNearest(e, t, r, i, o) {
                 if (null == e.left)
                     return e.tdst = function dist(e, t, r, i, o) {
@@ -3756,12 +3729,10 @@
                 var c = getNearest(f, t, r, i, o);
                 return c.tdst < l.tdst ? c : l;
             }
-    
             function planeDst(e, t, r, i, o) {
                 var a = e.e;
                 return a[0] * t + a[1] * r + a[2] * i + a[3] * o - e.eMq;
             }
-    
             function splitPixels(e, t, r, i, o, a) {
                 for (i -= 4; r < i;) {
                     for (; vecDot(e, r, o) <= a;)
@@ -3777,16 +3748,13 @@
                     r -= 4;
                 return r + 4;
             }
-    
             function vecDot(e, t, r) {
                 return e[t] * r[0] + e[t + 1] * r[1] + e[t + 2] * r[2] + e[t + 3] * r[3];
             }
-    
             function stats(e, t, r) {
                 var i = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], o = [0, 0, 0, 0], a = r - t >> 2;
                 for (var a_12 = t; a_12 < r; a_12 += 4) {
-                    var t_20 = e[a_12] * (1 / 255), r_19 = e[a_12 + 1] * (1 / 255), s_11 = e[a_12 + 2] * (1 / 255),
-                        f_9 = e[a_12 + 3] * (1 / 255);
+                    var t_20 = e[a_12] * (1 / 255), r_19 = e[a_12 + 1] * (1 / 255), s_11 = e[a_12 + 2] * (1 / 255), f_9 = e[a_12 + 3] * (1 / 255);
                     o[0] += t_20, o[1] += r_19, o[2] += s_11, o[3] += f_9, i[0] += t_20 * t_20, i[1] += t_20 * r_19, i[2] += t_20 * s_11, i[3] += t_20 * f_9, i[5] += r_19 * r_19, i[6] += r_19 * s_11, i[7] += r_19 * f_9, i[10] += s_11 * s_11, i[11] += s_11 * f_9, i[15] += f_9 * f_9;
                 }
                 return i[4] = i[1], i[8] = i[2], i[9] = i[6], i[12] = i[3], i[13] = i[7], i[14] = i[11], {
@@ -3795,11 +3763,8 @@
                     N: a
                 };
             }
-    
             function estats(e) {
-                var t = e.R, r = e.m, i = e.N, a = r[0], s = r[1], f = r[2], l = r[3], c = 0 == i ? 0 : 1 / i,
-                    u = [t[0] - a * a * c, t[1] - a * s * c, t[2] - a * f * c, t[3] - a * l * c, t[4] - s * a * c, t[5] - s * s * c, t[6] - s * f * c, t[7] - s * l * c, t[8] - f * a * c, t[9] - f * s * c, t[10] - f * f * c, t[11] - f * l * c, t[12] - l * a * c, t[13] - l * s * c, t[14] - l * f * c, t[15] - l * l * c],
-                    h = u, d = o;
+                var t = e.R, r = e.m, i = e.N, a = r[0], s = r[1], f = r[2], l = r[3], c = 0 == i ? 0 : 1 / i, u = [t[0] - a * a * c, t[1] - a * s * c, t[2] - a * f * c, t[3] - a * l * c, t[4] - s * a * c, t[5] - s * s * c, t[6] - s * f * c, t[7] - s * l * c, t[8] - f * a * c, t[9] - f * s * c, t[10] - f * f * c, t[11] - f * l * c, t[12] - l * a * c, t[13] - l * s * c, t[14] - l * f * c, t[15] - l * l * c], h = u, d = o;
                 var A = [Math.random(), Math.random(), Math.random(), Math.random()], g = 0, p = 0;
                 if (0 != i)
                     for (var e_35 = 0; e_35 < 16 && (A = d.multVec(h, A), p = Math.sqrt(d.dot(A, A)), A = d.sml(1 / p, A), !(0 != e_35 && Math.abs(p - g) < 1e-9)); e_35++)
@@ -3815,27 +3780,20 @@
                     rgba: (Math.round(255 * m[3]) << 24 | Math.round(255 * m[2]) << 16 | Math.round(255 * m[1]) << 8 | Math.round(255 * m[0]) << 0) >>> 0
                 };
             }
-    
             var o = {
-                multVec: function (e, t) {
-                    return [e[0] * t[0] + e[1] * t[1] + e[2] * t[2] + e[3] * t[3], e[4] * t[0] + e[5] * t[1] + e[6] * t[2] + e[7] * t[3], e[8] * t[0] + e[9] * t[1] + e[10] * t[2] + e[11] * t[3], e[12] * t[0] + e[13] * t[1] + e[14] * t[2] + e[15] * t[3]];
-                },
-                dot: function (e, t) {
-                    return e[0] * t[0] + e[1] * t[1] + e[2] * t[2] + e[3] * t[3];
-                },
-                sml: function (e, t) {
-                    return [e * t[0], e * t[1], e * t[2], e * t[3]];
-                }
+                multVec: function (e, t) { return [e[0] * t[0] + e[1] * t[1] + e[2] * t[2] + e[3] * t[3], e[4] * t[0] + e[5] * t[1] + e[6] * t[2] + e[7] * t[3], e[8] * t[0] + e[9] * t[1] + e[10] * t[2] + e[11] * t[3], e[12] * t[0] + e[13] * t[1] + e[14] * t[2] + e[15] * t[3]]; },
+                dot: function (e, t) { return e[0] * t[0] + e[1] * t[1] + e[2] * t[2] + e[3] * t[3]; },
+                sml: function (e, t) { return [e * t[0], e * t[1], e * t[2], e * t[3]]; }
             };
             UPNG.encode = function encode(e, t, r, i, o, a, s) {
                 null == i && (i = 0), null == s && (s = !1);
                 var f = compress(e, t, r, i, [!1, !1, !1, 0, s, !1]);
                 return compressPNG(f, -1), _main(f, t, r, o, a);
             }, UPNG.encodeLL = function encodeLL(e, t, r, i, o, a, s, f) {
-                var l = {ctype: 0 + (1 == i ? 0 : 2) + (0 == o ? 0 : 4), depth: a, frames: []}, c = (i + o) * a, u = c * t;
+                var l = { ctype: 0 + (1 == i ? 0 : 2) + (0 == o ? 0 : 4), depth: a, frames: [] }, c = (i + o) * a, u = c * t;
                 for (var i_13 = 0; i_13 < e.length; i_13++)
                     l.frames.push({
-                        rect: {x: 0, y: 0, width: t, height: r},
+                        rect: { x: 0, y: 0, width: t, height: r },
                         img: new Uint8Array(e[i_13]),
                         blend: 0,
                         dispose: 1,
@@ -3847,23 +3805,17 @@
         }();
         var t = {
             toArrayBuffer: function (e, r) {
-                var i = e.width, o = e.height, a = i << 2, s = e.getContext("2d").getImageData(0, 0, i, o),
-                    f = new Uint32Array(s.data.buffer), l = (32 * i + 31) / 32 << 2, c = l * o, u = 122 + c,
-                    h = new ArrayBuffer(u), d = new DataView(h), A = 1 << 20;
+                var i = e.width, o = e.height, a = i << 2, s = e.getContext("2d").getImageData(0, 0, i, o), f = new Uint32Array(s.data.buffer), l = (32 * i + 31) / 32 << 2, c = l * o, u = 122 + c, h = new ArrayBuffer(u), d = new DataView(h), A = 1 << 20;
                 var g, p, m, w, v = A, b = 0, y = 0, E = 0;
-    
                 function set16(e) {
                     d.setUint16(y, e, !0), y += 2;
                 }
-    
                 function set32(e) {
                     d.setUint32(y, e, !0), y += 4;
                 }
-    
                 function seek(e) {
                     y += e;
                 }
-    
                 set16(19778), set32(u), seek(4), set32(122), set32(108), set32(i), set32(-o >>> 0), set16(1), set16(32), set32(3), set32(c), set32(2835), set32(2835), seek(8), set32(16711680), set32(65280), set32(255), set32(4278190080), set32(1466527264), function convert() {
                     for (; b < o && v > 0;) {
                         for (w = 122 + b * l, g = 0; g < a;)
@@ -3875,7 +3827,7 @@
             },
             toBlob: function (e, t) {
                 this.toArrayBuffer(e, (function (e) {
-                    t(new window.Blob([e], {type: "image/bmp"}));
+                    t(new Blob([e], { type: "image/bmp" }));
                 }));
             },
             _dly: 9
@@ -3895,49 +3847,31 @@
             _a[r.IOS] = 4096,
             _a[r.ETC] = 8192,
             _a);
-        var o = "undefined" != typeof window,
-            a = "undefined" != typeof WorkerGlobalScope && self instanceof WorkerGlobalScope,
-            s = o && window.cordova && window.cordova.require && window.cordova.require("cordova/modulemapper"),
-            CustomFile = (o || a) && (s && s.getOriginalSymbol(window, "File") || "undefined" != typeof File && File),
-            CustomFileReader = (o || a) && (s && s.getOriginalSymbol(window, "FileReader") || "undefined" != typeof FileReader && FileReader);
-    
+        var o = "undefined" != typeof window, a = "undefined" != typeof WorkerGlobalScope && self instanceof WorkerGlobalScope, s = o && window.cordova && window.cordova.require && window.cordova.require("cordova/modulemapper"), CustomFile = (o || a) && (s && s.getOriginalSymbol(window, "File") || "undefined" != typeof File && File), CustomFileReader = (o || a) && (s && s.getOriginalSymbol(window, "FileReader") || "undefined" != typeof FileReader && FileReader);
         function getFilefromDataUrl(e, t, r) {
-            if (r === void 0) {
-                r = Date.now();
-            }
+            if (r === void 0) { r = Date.now(); }
             return new Promise((function (i) {
                 var o = e.split(","), a = o[0].match(/:(.*?);/)[1], s = globalThis.atob(o[1]);
                 var f = s.length;
                 var l = new Uint8Array(f);
                 for (; f--;)
                     l[f] = s.charCodeAt(f);
-                var c = new window.Blob([l], {type: a});
+                var c = new Blob([l], { type: a });
                 c.name = t, c.lastModified = r, i(c);
             }));
         }
-    
         function getDataUrlFromFile(e) {
             return new Promise((function (t, r) {
                 var i = new CustomFileReader;
-                i.onload = function () {
-                    return t(i.result);
-                }, i.onerror = function (e) {
-                    return r(e);
-                }, i.readAsDataURL(e);
+                i.onload = function () { return t(i.result); }, i.onerror = function (e) { return r(e); }, i.readAsDataURL(e);
             }));
         }
-    
         function loadImage(e) {
             return new Promise((function (t, r) {
                 var i = new Image;
-                i.onload = function () {
-                    return t(i);
-                }, i.onerror = function (e) {
-                    return r(e);
-                }, i.src = e;
+                i.onload = function () { return t(i); }, i.onerror = function (e) { return r(e); }, i.src = e;
             }));
         }
-    
         function getBrowserName() {
             if (void 0 !== getBrowserName.cachedResult)
                 return getBrowserName.cachedResult;
@@ -3945,7 +3879,6 @@
             var t = navigator.userAgent;
             return /Chrom(e|ium)/i.test(t) ? e = r.CHROME : /iP(ad|od|hone)/i.test(t) && /WebKit/i.test(t) ? e = r.IOS : /Safari/i.test(t) ? e = r.DESKTOP_SAFARI : /Firefox/i.test(t) ? e = r.FIREFOX : (/MSIE/i.test(t) || !0 == !!document.documentMode) && (e = r.IE), getBrowserName.cachedResult = e, getBrowserName.cachedResult;
         }
-    
         function approximateBelowMaximumCanvasSizeOfBrowser(e, t) {
             var r = getBrowserName(), o = i[r];
             var a = e, s = t, f = a * s;
@@ -3954,40 +3887,35 @@
                 var e_36 = (o + a) / 2, t_21 = (o + s) / 2;
                 e_36 < t_21 ? (s = t_21, a = t_21 * l) : (s = e_36 * l, a = e_36), f = a * s;
             }
-            return {width: a, height: s};
+            return { width: a, height: s };
         }
-    
         function getNewCanvasAndCtx(e, t) {
             var r, i;
             try {
                 if (r = new OffscreenCanvas(e, t), i = r.getContext("2d"), null === i)
                     throw new Error("getContext of OffscreenCanvas returns null");
-            } catch (e) {
+            }
+            catch (e) {
                 r = document.createElement("canvas"), i = r.getContext("2d");
             }
             return r.width = e, r.height = t, [r, i];
         }
-    
         function drawImageInCanvas(e, t) {
-            var _a = approximateBelowMaximumCanvasSizeOfBrowser(e.width, e.height), r = _a.width, i = _a.height,
-                _b = getNewCanvasAndCtx(r, i), o = _b[0], a = _b[1];
+            var _a = approximateBelowMaximumCanvasSizeOfBrowser(e.width, e.height), r = _a.width, i = _a.height, _b = getNewCanvasAndCtx(r, i), o = _b[0], a = _b[1];
             return t && /jpe?g/.test(t) && (a.fillStyle = "white", a.fillRect(0, 0, o.width, o.height)), a.drawImage(e, 0, 0, o.width, o.height), o;
         }
-    
         function isIOS() {
             return void 0 !== isIOS.cachedResult || (isIOS.cachedResult = ["iPad Simulator", "iPhone Simulator", "iPod Simulator", "iPad", "iPhone", "iPod"].includes(navigator.platform) || navigator.userAgent.includes("Mac") && "undefined" != typeof document && "ontouchend" in document), isIOS.cachedResult;
         }
-    
         function drawFileInCanvas(e, t) {
-            if (t === void 0) {
-                t = {};
-            }
+            if (t === void 0) { t = {}; }
             return new Promise((function (i, o) {
                 var a, s;
                 var $Try_2_Post = function () {
                     try {
                         return s = drawImageInCanvas(a, t.fileType || e.type), i([a, s]);
-                    } catch (e) {
+                    }
+                    catch (e) {
                         return o(e);
                     }
                 }, $Try_2_Catch = function (t) {
@@ -3996,7 +3924,8 @@
                         var $Try_3_Catch = function (e) {
                             try {
                                 throw e;
-                            } catch (e) {
+                            }
+                            catch (e) {
                                 return o(e);
                             }
                         };
@@ -4009,22 +3938,27 @@
                                             return a = e, function () {
                                                 try {
                                                     return $Try_2_Post();
-                                                } catch (e) {
+                                                }
+                                                catch (e) {
                                                     return o(e);
                                                 }
                                             }();
-                                        } catch (e) {
+                                        }
+                                        catch (e) {
                                             return $Try_3_Catch(e);
                                         }
                                     }), $Try_3_Catch);
-                                } catch (e) {
+                                }
+                                catch (e) {
                                     return $Try_3_Catch(e);
                                 }
                             }), $Try_3_Catch);
-                        } catch (e) {
+                        }
+                        catch (e) {
                             $Try_3_Catch(e);
                         }
-                    } catch (e) {
+                    }
+                    catch (e) {
                         return o(e);
                     }
                 };
@@ -4034,34 +3968,32 @@
                     return createImageBitmap(e).then((function (e) {
                         try {
                             return a = e, $Try_2_Post();
-                        } catch (e) {
+                        }
+                        catch (e) {
                             return $Try_2_Catch();
                         }
                     }), $Try_2_Catch);
-                } catch (e) {
+                }
+                catch (e) {
                     $Try_2_Catch();
                 }
             }));
         }
-    
         function canvasToFile(e, r, i, o, a) {
-            if (a === void 0) {
-                a = 1;
-            }
+            if (a === void 0) { a = 1; }
             return new Promise((function (s, f) {
                 var l;
                 if ("image/png" === r) {
                     var c = void 0, u = void 0, h = void 0;
-                    return c = e.getContext("2d"), (u = c.getImageData(0, 0, e.width, e.height).data), h = UPNG.encode([u.buffer], e.width, e.height, 4096 * a), l = new window.Blob([h], {type: r}), l.name = i, l.lastModified = o, $If_4.call(this);
+                    return c = e.getContext("2d"), (u = c.getImageData(0, 0, e.width, e.height).data), h = UPNG.encode([u.buffer], e.width, e.height, 4096 * a), l = new Blob([h], { type: r }), l.name = i, l.lastModified = o, $If_4.call(this);
                 }
                 {
                     if ("image/bmp" === r)
-                        return new Promise((function (r) {
-                            return t.toBlob(e, r);
-                        })).then(function (e) {
+                        return new Promise((function (r) { return t.toBlob(e, r); })).then(function (e) {
                             try {
                                 return l = e, l.name = i, l.lastModified = o, $If_5.call(this);
-                            } catch (e) {
+                            }
+                            catch (e) {
                                 return f(e);
                             }
                         }.bind(this), f);
@@ -4073,7 +4005,8 @@
                             }).then(function (e) {
                                 try {
                                     return l = e, l.name = i, l.lastModified = o, $If_6.call(this);
-                                } catch (e) {
+                                }
+                                catch (e) {
                                     return f(e);
                                 }
                             }.bind(this), f);
@@ -4082,32 +4015,28 @@
                             return d = e.toDataURL(r, a), getFilefromDataUrl(d, i, o).then(function (e) {
                                 try {
                                     return l = e, $If_6.call(this);
-                                } catch (e) {
+                                }
+                                catch (e) {
                                     return f(e);
                                 }
                             }.bind(this), f);
                         }
-    
                         function $If_6() {
                             return $If_5.call(this);
                         }
                     }
-    
                     function $If_5() {
                         return $If_4.call(this);
                     }
                 }
-    
                 function $If_4() {
                     return s(l);
                 }
             }));
         }
-    
         function cleanupCanvasMemory(e) {
             e.width = 0, e.height = 0;
         }
-    
         function isAutoOrientationInBrowser() {
             return new Promise((function (e, t) {
                 var r, i, o, a, s;
@@ -4120,25 +4049,28 @@
                                         return a = r, cleanupCanvasMemory(o), drawFileInCanvas(a).then((function (r) {
                                             try {
                                                 return s = r[0], isAutoOrientationInBrowser.cachedResult = 1 === s.width && 2 === s.height, e(isAutoOrientationInBrowser.cachedResult);
-                                            } catch (e) {
+                                            }
+                                            catch (e) {
                                                 return t(e);
                                             }
                                         }), t);
-                                    } catch (e) {
+                                    }
+                                    catch (e) {
                                         return t(e);
                                     }
                                 }), t);
-                            } catch (e) {
+                            }
+                            catch (e) {
                                 return t(e);
                             }
                         }), t);
-                    } catch (e) {
+                    }
+                    catch (e) {
                         return t(e);
                     }
                 }), t));
             }));
         }
-    
         function getExifOrientation(e) {
             return new Promise((function (t, r) {
                 var i = new CustomFileReader;
@@ -4162,26 +4094,23 @@
                             for (var a_13 = 0; a_13 < i_14; a_13++)
                                 if (274 == r.getUint16(o + 12 * a_13, e_38))
                                     return t(r.getUint16(o + 12 * a_13 + 8, e_38));
-                        } else {
+                        }
+                        else {
                             if (65280 != (65280 & e_37))
                                 break;
                             o += r.getUint16(o, !1);
                         }
                     }
                     return t(-1);
-                }, i.onerror = function (e) {
-                    return r(e);
-                }, i.readAsArrayBuffer(e);
+                }, i.onerror = function (e) { return r(e); }, i.readAsArrayBuffer(e);
             }));
         }
-    
         function handleMaxWidthOrHeight(e, t) {
             var _a;
             var r = e.width, i = e.height, o = t.maxWidthOrHeight;
             var a, s = e;
             return isFinite(o) && (r > o || i > o) && (_a = getNewCanvasAndCtx(r, i), s = _a[0], a = _a[1], r > i ? (s.width = o, s.height = i / r * o) : (s.width = r / i * o, s.height = o), a.drawImage(e, 0, 0, s.width, s.height), cleanupCanvasMemory(e)), s;
         }
-    
         function followExifOrientation(e, t) {
             var r = e.width, i = e.height, _a = getNewCanvasAndCtx(r, i), o = _a[0], a = _a[1];
             switch (t > 4 && t < 9 ? (o.width = i, o.height = r) : (o.width = r, o.height = i), t) {
@@ -4208,29 +4137,21 @@
             }
             return a.drawImage(e, 0, 0, r, i), cleanupCanvasMemory(e), o;
         }
-    
         function compress(e, t, r) {
-            if (r === void 0) {
-                r = 0;
-            }
+            if (r === void 0) { r = 0; }
             return new Promise((function (i, o) {
                 var a, s, f, l, c, u, h, d, A, g, p, m, w, v, b, y, E, F, _, B;
-    
                 function incProgress(e) {
-                    if (e === void 0) {
-                        e = 5;
-                    }
+                    if (e === void 0) { e = 5; }
                     if (t.signal && t.signal.aborted)
                         throw t.signal.reason;
                     a += e, t.onProgress(Math.min(a, 100));
                 }
-    
                 function setProgress(e) {
                     if (t.signal && t.signal.aborted)
                         throw t.signal.reason;
                     a = Math.min(Math.max(e, a), 100), t.onProgress(a);
                 }
-    
                 return a = r, s = t.maxIteration || 10, f = 1024 * t.maxSizeMB * 1024, incProgress(), drawFileInCanvas(e, t).then(function (r) {
                     try {
                         return l = r[1], incProgress(), c = handleMaxWidthOrHeight(l, t), incProgress(), new Promise((function (r, i) {
@@ -4239,15 +4160,14 @@
                                 return getExifOrientation(e).then(function (e) {
                                     try {
                                         return o = e, $If_2.call(this);
-                                    } catch (e) {
+                                    }
+                                    catch (e) {
                                         return i(e);
                                     }
                                 }.bind(this), i);
-    
                             function $If_2() {
                                 return r(o);
                             }
-    
                             return $If_2.call(this);
                         })).then(function (r) {
                             try {
@@ -4259,7 +4179,6 @@
                                                     if (g = r, incProgress(), p = g.size > f, m = g.size > e.size, !p && !m)
                                                         return setProgress(100), i(g);
                                                     var a;
-    
                                                     function $Loop_3() {
                                                         var _a;
                                                         if (s-- && (b > f || b > w)) {
@@ -4267,14 +4186,14 @@
                                                             return t_23 = B ? .95 * _.width : _.width, r_20 = B ? .95 * _.height : _.height, _a = getNewCanvasAndCtx(t_23, r_20), E = _a[0], F = _a[1], F.drawImage(_, 0, 0, t_23, r_20), d *= "image/png" === A ? .85 : .95, canvasToFile(E, A, e.name, e.lastModified, d).then((function (e) {
                                                                 try {
                                                                     return y = e, cleanupCanvasMemory(_), _ = E, b = y.size, setProgress(Math.min(99, Math.floor((v - b) / (v - f) * 100))), $Loop_3;
-                                                                } catch (e) {
+                                                                }
+                                                                catch (e) {
                                                                     return o(e);
                                                                 }
                                                             }), o);
                                                         }
                                                         return [1];
                                                     }
-    
                                                     return w = e.size, v = g.size, b = v, _ = h, B = !t.alwaysKeepResolution && p, (a = function (e) {
                                                         for (; e;) {
                                                             if (e.then)
@@ -4284,45 +4203,48 @@
                                                                     if (e.length)
                                                                         return e.pop() ? $Loop_3_exit.call(this) : e;
                                                                     e = $Loop_3;
-                                                                } else
+                                                                }
+                                                                else
                                                                     e = e.call(this);
-                                                            } catch (e) {
+                                                            }
+                                                            catch (e) {
                                                                 return o(e);
                                                             }
                                                         }
                                                     }.bind(this))($Loop_3);
-    
                                                     function $Loop_3_exit() {
                                                         return cleanupCanvasMemory(_), cleanupCanvasMemory(E), cleanupCanvasMemory(c), cleanupCanvasMemory(h), cleanupCanvasMemory(l), setProgress(100), i(y);
                                                     }
                                                 }
-                                            } catch (u) {
+                                            }
+                                            catch (u) {
                                                 return o(u);
                                             }
                                         }.bind(this), o);
-                                    } catch (e) {
+                                    }
+                                    catch (e) {
                                         return o(e);
                                     }
                                 }.bind(this), o);
-                            } catch (e) {
+                            }
+                            catch (e) {
                                 return o(e);
                             }
                         }.bind(this), o);
-                    } catch (e) {
+                    }
+                    catch (e) {
                         return o(e);
                     }
                 }.bind(this), o);
             }));
         }
-    
         var f = "\nlet scriptImported = false\nself.addEventListener('message', async (e) => {\n  const { file, id, imageCompressionLibUrl, options } = e.data\n  options.onProgress = (progress) => self.postMessage({ progress, id })\n  try {\n    if (!scriptImported) {\n      // console.log('[worker] importScripts', imageCompressionLibUrl)\n      self.importScripts(imageCompressionLibUrl)\n      scriptImported = true\n    }\n    // console.log('[worker] self', self)\n    const compressedFile = await imageCompression(file, options)\n    self.postMessage({ file: compressedFile, id })\n  } catch (e) {\n    // console.error('[worker] error', e)\n    self.postMessage({ error: e.message + '\\n' + e.stack, id })\n  }\n})\n";
         var l;
-    
         function compressOnWebWorker(e, t) {
             return new Promise((function (r, i) {
                 l || (l = function createWorkerScriptURL(e) {
                     var t = [];
-                    return "function" == typeof e ? t.push("(".concat(e, ")()")) : t.push(e), URL.createObjectURL(new window.Blob(t));
+                    return "function" == typeof e ? t.push("(".concat(e, ")()")) : t.push(e), URL.createObjectURL(new Blob(t));
                 }(f));
                 var o = new Worker(l);
                 o.addEventListener("message", (function handler(e) {
@@ -4332,24 +4254,24 @@
                         if (e.data.error)
                             return i(new Error(e.data.error)), void o.terminate();
                         r(e.data.file), o.terminate();
-                    } else
+                    }
+                    else
                         t.onProgress(e.data.progress);
                 })), o.addEventListener("error", i), t.signal && t.signal.addEventListener("abort", (function () {
                     i(t.signal.reason), o.terminate();
                 })), o.postMessage({
                     file: e,
                     imageCompressionLibUrl: t.libURL,
-                    options: __assign(__assign({}, t), {onProgress: void 0, signal: void 0})
+                    options: __assign(__assign({}, t), { onProgress: void 0, signal: void 0 })
                 });
             }));
         }
-    
         function imageCompression(e, t) {
             return new Promise((function (r, i) {
                 var o, a, s, f, l, c;
                 if (o = __assign({}, t), s = 0, (f = o.onProgress), o.maxSizeMB = o.maxSizeMB || Number.POSITIVE_INFINITY, l = "boolean" != typeof o.useWebWorker || o.useWebWorker, delete o.useWebWorker, o.onProgress = function (e) {
                     s = e, "function" == typeof f && f(s);
-                }, !(e instanceof window.Blob || e instanceof CustomFile))
+                }, !(e instanceof Blob || e instanceof CustomFile))
                     return i(new Error("The file given is not an instance of Blob or File"));
                 if (!/^image/.test(e.type))
                     return i(new Error("The file given is not an image"));
@@ -4357,14 +4279,16 @@
                     return compress(e, o).then(function (e) {
                         try {
                             return a = e, $If_4.call(this);
-                        } catch (e) {
+                        }
+                        catch (e) {
                             return i(e);
                         }
                     }.bind(this), i);
                 var u = function () {
                     try {
                         return $If_4.call(this);
-                    } catch (e) {
+                    }
+                    catch (e) {
                         return i(e);
                     }
                 }.bind(this), $Try_1_Catch = function (t) {
@@ -4372,11 +4296,13 @@
                         return compress(e, o).then((function (e) {
                             try {
                                 return a = e, u();
-                            } catch (e) {
+                            }
+                            catch (e) {
                                 return i(e);
                             }
                         }), i);
-                    } catch (e) {
+                    }
+                    catch (e) {
                         return i(e);
                     }
                 };
@@ -4384,28 +4310,30 @@
                     return o.libURL = o.libURL || "https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js", compressOnWebWorker(e, o).then((function (e) {
                         try {
                             return a = e, u();
-                        } catch (e) {
+                        }
+                        catch (e) {
                             return $Try_1_Catch();
                         }
                     }), $Try_1_Catch);
-                } catch (e) {
+                }
+                catch (e) {
                     $Try_1_Catch();
                 }
-    
                 function $If_4() {
                     try {
                         a.name = e.name, a.lastModified = e.lastModified;
-                    } catch (e) {
+                    }
+                    catch (e) {
                     }
                     try {
                         o.preserveExif && "image/jpeg" === e.type && (!o.fileType || o.fileType && o.fileType === e.type) && (a = copyExifWithoutOrientation(e, a));
-                    } catch (e) {
+                    }
+                    catch (e) {
                     }
                     return r(a);
                 }
             }));
         }
-    
         return imageCompression.getDataUrlFromFile = getDataUrlFromFile, imageCompression.getFilefromDataUrl = getFilefromDataUrl, imageCompression.loadImage = loadImage, imageCompression.drawImageInCanvas = drawImageInCanvas, imageCompression.drawFileInCanvas = drawFileInCanvas, imageCompression.canvasToFile = canvasToFile, imageCompression.getExifOrientation = getExifOrientation, imageCompression.handleMaxWidthOrHeight = handleMaxWidthOrHeight, imageCompression.followExifOrientation = followExifOrientation, imageCompression.cleanupCanvasMemory = cleanupCanvasMemory, imageCompression.isAutoOrientationInBrowser = isAutoOrientationInBrowser, imageCompression.approximateBelowMaximumCanvasSizeOfBrowser = approximateBelowMaximumCanvasSizeOfBrowser, imageCompression.copyExifWithoutOrientation = copyExifWithoutOrientation, imageCompression.getBrowserName = getBrowserName, imageCompression.version = "2.0.2", imageCompression;
     });
     
@@ -4600,7 +4528,7 @@
             },
     
             beforeSendFile: function( file ) {
-                var opts = this.options.compress, image, me=this, deferred;
+                var opts = this.options.compress, image, deferred;
     
                 // console.log('image.beforeSendFile',opts, file)
     
@@ -4624,15 +4552,14 @@
                 opts = $.extend({}, opts );
                 deferred = Base.Deferred();
     
-                me.owner.trigger( 'fileProcessStart', 'imageCompress', file);
+                //console.log('image.beforeSendFile',opts, file.source.source);
     
                 imageCompression(file.source.source,{
                     maxSizeMB: opts.maxSize/1024/1024,
                     maxWidthOrHeight: opts.maxWidthOrHeight,
                 }).then(function (compressedBlob) {
-                    me.owner.trigger( 'fileProcessEnd', 'imageCompress', file);
                     if(opts.debug){
-                        console.log('webuploader.compress.output', (compressedBlob.size / file.size * 100).toFixed(2) + '%');
+                        console.log('webuploader.compress', (compressedBlob.size / file.size * 100).toFixed(2) + '%');
                     }
                     var oldSize = file.size;
                     file.source.source = compressedBlob;
@@ -4645,7 +4572,6 @@
                     deferred.resolve();
                 }).catch(function (error) {
                     console.warn('webuploader.compress.error',error);
-                    me.owner.trigger( 'fileProcessEnd', 'imageCompress', file);
                     data.processed = true;
                     file._widgetImageData = data;
                     deferred.resolve();

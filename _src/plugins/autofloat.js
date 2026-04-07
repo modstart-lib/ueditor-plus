@@ -44,6 +44,7 @@ UE.plugins["autofloat"] = function () {
         getPosition,
         flag = true; //ie7模式下需要偏移
     function setFloating() {
+        placeHolder.style.height = toolbarBox.offsetHeight + "px";
         var toobarBoxPos = domUtils.getXY(toolbarBox),
             origalFloat = domUtils.getComputedStyle(toolbarBox, "position"),
             origalLeft = domUtils.getComputedStyle(toolbarBox, "left");
