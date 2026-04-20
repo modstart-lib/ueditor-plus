@@ -2113,7 +2113,7 @@
                 var o;
                 return getApp1Segment(e).then((function (e) {
                     try {
-                        return o = e, r(new Blob([t.slice(0, 2), o, t.slice(2)], { type: "image/jpeg" }));
+                        return o = e, r(new window.Blob([t.slice(0, 2), o, t.slice(2)], { type: "image/jpeg" }));
                     }
                     catch (e) {
                         return i(e);
@@ -2164,7 +2164,7 @@
                     }
                     o += 2 + s_1;
                 }
-                return t(new Blob);
+                return t(new window.Blob);
             })), i.readAsArrayBuffer(e);
         })); };
         var e = {};
@@ -3827,7 +3827,7 @@
             },
             toBlob: function (e, t) {
                 this.toArrayBuffer(e, (function (e) {
-                    t(new Blob([e], { type: "image/bmp" }));
+                    t(new window.Blob([e], { type: "image/bmp" }));
                 }));
             },
             _dly: 9
@@ -3856,12 +3856,16 @@
                 var l = new Uint8Array(f);
                 for (; f--;)
                     l[f] = s.charCodeAt(f);
-                var c = new Blob([l], { type: a });
+                var c = new window.Blob([l], { type: a });
                 c.name = t, c.lastModified = r, i(c);
             }));
         }
         function getDataUrlFromFile(e) {
             return new Promise((function (t, r) {
+                // 参数类型检查：确保 e 是原生 Blob 或 File（排除 webuploader 内部 Blob 类污染）
+                if (!e || !(e instanceof window.Blob || e instanceof window.File)) {
+                    return r(new Error('getDataUrlFromFile: parameter is not a native Blob or File, got: ' + Object.prototype.toString.call(e)));
+                }
                 var i = new CustomFileReader;
                 i.onload = function () { return t(i.result); }, i.onerror = function (e) { return r(e); }, i.readAsDataURL(e);
             }));
@@ -3985,7 +3989,7 @@
                 var l;
                 if ("image/png" === r) {
                     var c = void 0, u = void 0, h = void 0;
-                    return c = e.getContext("2d"), (u = c.getImageData(0, 0, e.width, e.height).data), h = UPNG.encode([u.buffer], e.width, e.height, 4096 * a), l = new Blob([h], { type: r }), l.name = i, l.lastModified = o, $If_4.call(this);
+                    return c = e.getContext("2d"), (u = c.getImageData(0, 0, e.width, e.height).data), h = UPNG.encode([u.buffer], e.width, e.height, 4096 * a), l = new window.Blob([h], { type: r }), l.name = i, l.lastModified = o, $If_4.call(this);
                 }
                 {
                     if ("image/bmp" === r)
@@ -4244,7 +4248,7 @@
             return new Promise((function (r, i) {
                 l || (l = function createWorkerScriptURL(e) {
                     var t = [];
-                    return "function" == typeof e ? t.push("(".concat(e, ")()")) : t.push(e), URL.createObjectURL(new Blob(t));
+                    return "function" == typeof e ? t.push("(".concat(e, ")()")) : t.push(e), URL.createObjectURL(new window.Blob(t));
                 }(f));
                 var o = new Worker(l);
                 o.addEventListener("message", (function handler(e) {
@@ -4271,7 +4275,7 @@
                 var o, a, s, f, l, c;
                 if (o = __assign({}, t), s = 0, (f = o.onProgress), o.maxSizeMB = o.maxSizeMB || Number.POSITIVE_INFINITY, l = "boolean" != typeof o.useWebWorker || o.useWebWorker, delete o.useWebWorker, o.onProgress = function (e) {
                     s = e, "function" == typeof f && f(s);
-                }, !(e instanceof Blob || e instanceof CustomFile))
+                }, !(e instanceof window.Blob || e instanceof window.File))
                     return i(new Error("The file given is not an instance of Blob or File"));
                 if (!/^image/.test(e.type))
                     return i(new Error("The file given is not an image"));
