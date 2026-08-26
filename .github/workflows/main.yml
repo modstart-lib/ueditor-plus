@@ -1,0 +1,53 @@
+name: Snapshot Build
+
+on:
+    push:
+        branches:
+            - "master" # 每次推送到 master 分支时触发实时打包
+    workflow_dispatch: # 支持在 Actions 页面手动触发
+
+jobs:
+    snapshot:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write # Required for creating/updating releases
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: .nvmrc # 读取 .nvmrc 中的 node 14
+                  cache: npm
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Build dist and dist-min
+              run: npm run build
+
+            - name: Create zip archives
+              run: |
+                  # Create dist.zip from dist directory
+                  zip -rq dist.zip dist/
+                  # Create dist-min.zip from dist-min directory
+                  zip -rq dist-min.zip dist-min/
+                  # List created files for verification
+                  ls -lh *.zip
+
+            - name: Update snapshot release
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  # Delete the previous snapshot release (if any), so the latest build always wins
+                  gh release delete snapshot --yes --cleanup-tag >/dev/null 2>&1 || true
+                  # Create a fresh snapshot release pointing at the latest master commit
+                  gh release create snapshot \
+                    --title "Snapshot Build" \
+                    --notes "master 分支最新构建产物，每次推送自动更新。包含 dist.zip（完整版）与 dist-min.zip（压缩版）。" \
+                    dist.zip \
+                    dist-min.zip
+                  # Print the release download URL for verification
+                  gh release view snapshot --json url -q .url

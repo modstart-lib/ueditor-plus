@@ -3,10 +3,10 @@
   "title": "UEditorPlus",
   "description": "基于 UEditor 的增强版富文本编辑器",
   "version": "4.5.0",
-  "homepage": "http://open.modstart.com",
+  "homepage": "http://open.tecmz.com",
   "author": {
     "name": "Modstart",
-    "url": "http://open.modstart.com"
+    "url": "http://open.tecmz.com"
   },
   "repository": {
     "type": "git",
@@ -45,6 +45,7 @@
     "@babel/core": "^7.28.5",
     "@babel/preset-env": "^7.28.5",
     "grunt": "~0.4.1",
+    "grunt-cli": "^1.5.0",
     "uglify-js": "^3.17.4"
   }
 }

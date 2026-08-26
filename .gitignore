@@ -193,6 +193,7 @@ pip-log.txt
 .DS_Store
 /node_modules
 
-/.github/
+# GitHub Actions workflows need to be tracked, only ignore issue templates
+.github/ISSUE_TEMPLATE/
 /AGENTS.md
 /openspec/

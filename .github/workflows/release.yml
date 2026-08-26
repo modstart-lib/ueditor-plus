@@ -1,0 +1,57 @@
+name: Release
+
+on:
+    push:
+        tags:
+            - "v*.*.*" # 仅当推送匹配 vX.X.X 的标签时触发正式发布
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write # Required for creating releases and uploading assets
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: .nvmrc # 读取 .nvmrc 中的 node 14
+                  cache: npm
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Build dist and dist-min
+              run: npm run build
+
+            - name: Create zip archives
+              run: |
+                  # Create dist.zip from dist directory
+                  zip -rq dist.zip dist/
+                  # Create dist-min.zip from dist-min directory
+                  zip -rq dist-min.zip dist-min/
+                  # List created files for verification
+                  ls -lh *.zip
+
+            - name: Create GitHub Release
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  # Extract tag name
+                  TAG_NAME=${GITHUB_REF#refs/tags/}
+                  # Create release with zip assets attached
+                  gh release create "$TAG_NAME" \
+                    --title "Release $TAG_NAME" \
+                    --generate-notes \
+                    dist.zip \
+                    dist-min.zip
+
+            - name: Publish to npm
+              env:
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+              run: |
+                  echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+                  npm publish --access public

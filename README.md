@@ -21,8 +21,8 @@
 
 ## 相关链接
 
-- 在线演示：[https://open.modstart.com/ueditor-plus/_examples/](https://open.modstart.com/ueditor-plus/_examples/)
-- 使用文档： [https://open.modstart.com/ueditor-plus](https://open.modstart.com/ueditor-plus)
+- 在线演示：[https://open.tecmz.com/ueditor-plus/_examples/](https://open.tecmz.com/ueditor-plus/_examples/)
+- 使用文档： [https://open.tecmz.com/ueditor-plus](https://open.tecmz.com/ueditor-plus)
 
 ## 使用遇到问题
 
@@ -85,7 +85,7 @@ yarn add --save vue-ueditor-wrap@2.x
                 content: '<p>Hello UEditorPlus</p>',
                 editorConfig: {
                     // 后端服务地址，后端处理参考
-                    // https://open.modstart.com/ueditor-plus/backend.html
+                    // https://open.tecmz.com/ueditor-plus/backend.html
                     serverUrl: '/api/path/to/server',
                     UEDITOR_HOME_URL: '/static/UEditorPlus/',
                     UEDITOR_CORS_URL: '/static/UEditorPlus/',
@@ -142,7 +142,7 @@ createApp(App).use(VueUeditorWrap).mount('#app')
     const content = ref('<p>Hello UEditorPlus</p>');
     const editorConfig = {
         // 后端服务地址，后端处理参考
-        // https://open.modstart.com/ueditor-plus/backend.html
+        // https://open.tecmz.com/ueditor-plus/backend.html
         serverUrl: '/api/path/to/server',
         UEDITOR_HOME_URL: '/static/UEditorPlus/',
         UEDITOR_CORS_URL: '/static/UEditorPlus/',
@@ -182,7 +182,7 @@ function App() {
                     ueditorConfigUrl={'/static/UEditorPlus/ueditor.config.js'}
                     editorConfig={{
                         // 后端服务地址，后端处理参考
-                        // https://open.modstart.com/ueditor-plus/backend.html
+                        // https://open.tecmz.com/ueditor-plus/backend.html
                         initialFrameWidth: '100%',
                         serverUrl: '/api/path/to/server',
                         UEDITOR_HOME_URL: '/static/UEditorPlus/',
@@ -217,11 +217,11 @@ export default App;
         <tr>
             <td>
                 <img style="width:100%;" 
-                     src="https://modstart.com/contact/ContactWechatGroup" />
+                     src="https://open.tecmz.com/code_dynamic/wx" />
             </td>
             <td>
                 <img style="width:100%;"
-                     src="https://modstart.com/contact/ContactQQGroup" />
+                     src="https://open.tecmz.com/code_dynamic/qq" />
             </td>
         </tr>
     </tbody>
@@ -256,7 +256,7 @@ grunt default
 
 ## 更新日志
 
-- [https://open.modstart.com/ueditor-plus/change-log.html](https://open.modstart.com/ueditor-plus/change-log.html)
+- [https://open.tecmz.com/ueditor-plus/change-log.html](https://open.tecmz.com/ueditor-plus/change-log.html)
 
 ## 好项目推荐
 
